@@ -14,9 +14,9 @@ public class MainController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("")) {
+		if(str.equals("/Main/MainPage.do")) {
 			
-			request.getRequestDispatcher("").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 			
 		}
 		
