@@ -8,7 +8,6 @@
 	</head>
 	<body>
 		<script>
-			alert("Á¢¼Ó");
 			document.location.replace("<%=request.getContextPath()%>/Main/MainPage.do");
 		</script>
 	</body>
