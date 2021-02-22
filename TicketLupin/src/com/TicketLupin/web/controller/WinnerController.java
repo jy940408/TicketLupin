@@ -20,7 +20,7 @@ public class WinnerController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("")) {
+		if(str.equals("sdsdsd")) {
 			
 			request.getRequestDispatcher("").forward(request, response);
 			
