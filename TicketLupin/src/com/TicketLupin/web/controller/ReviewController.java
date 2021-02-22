@@ -1,18 +1,12 @@
 package com.TicketLupin.web.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ActorController")
-public class ActorController extends HttpServlet{
+@WebServlet("/MemberController")
+public class ReviewController extends HttpServlet{
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException ,java.io.IOException {
 		
 		request.setCharacterEncoding("UTF-8");
 		String uri = request.getRequestURI();
@@ -26,6 +20,6 @@ public class ActorController extends HttpServlet{
 			
 		}
 		
-	}
+	};
 	
 }
