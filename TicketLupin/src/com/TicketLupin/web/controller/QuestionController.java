@@ -3,7 +3,7 @@ package com.TicketLupin.web.controller;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-@WebServlet("/MemberController")
+@WebServlet("/QuestionController")
 public class QuestionController extends HttpServlet{
 
 	protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException ,java.io.IOException {
