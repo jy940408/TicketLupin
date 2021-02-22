@@ -1,0 +1,10 @@
+﻿$(function(){
+	$('.btn_alb').click(function(){
+		$('.posterlist_ul2').hide();
+		$('.posterlist_ul').show();
+	});
+	$('.btn_list').click(function(){
+		$('.posterlist_ul').hide();
+		$('.posterlist_ul2').show();
+	});
+});

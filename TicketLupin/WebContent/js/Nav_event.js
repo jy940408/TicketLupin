@@ -1,0 +1,26 @@
+﻿$(document).ready(function(){
+				
+	$("#main_nav_event").mouseover(function(){
+		$("#wrap_nav").hide();
+		$("#wrap_nav2").slideDown(500)
+	});
+	$(".wrap_nav").click(function(){
+		$(".wrap_nav").slideUp(500)
+	});
+	$("#main_nav_admin").mouseover(function(){
+		$("#wrap_nav2").hide();
+		$("#wrap_nav").slideDown(500)
+	});
+	$("#main_nav_home").mouseover(function(){
+		$(".wrap_nav").slideUp(500)
+	});
+	$("#main_nav_concert").mouseover(function(){
+		$(".wrap_nav").slideUp(500)
+	});
+	$("#main_nav_ranking").mouseover(function(){
+		$(".wrap_nav").slideUp(500)
+	});
+	$("#main_nav_news").mouseover(function(){
+		$(".wrap_nav").slideUp(500)
+	});
+});
