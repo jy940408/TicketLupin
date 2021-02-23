@@ -22,7 +22,7 @@ public class NewsController extends HttpServlet{
 		String uri = request.getRequestURI();
 		int len = request.getContextPath().length();
 		String str = uri.substring(len);
-		System.out.println("str"+str);
+		System.out.println("str"+str); 
 		
 		if(str.equals("/News/NewsList.do")) {
 			
