@@ -1,12 +1,17 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.TicketLupin.web.service.WinnerDao;
+import com.TicketLupin.web.service.WinnerVo;
+
 
 @WebServlet("/WinnerController")
 public class WinnerController extends HttpServlet{
@@ -22,6 +27,26 @@ public class WinnerController extends HttpServlet{
 		
 		if(str.equals("/Winner/WinnerList.do")) {
 			
+			String query_ = request.getParameter("q");
+			String page_ = request.getParameter("p");
+			
+			String query = "";
+			if(query_ != null && !query_.equals("")) {
+				query = query_;
+			}
+			
+			int page = 1;
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			WinnerDao wd = new WinnerDao();
+			
+			List<WinnerVo> list = wd.getWinnerList(query, page);
+			int count = wd.getWinnerListCount(query, page);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);
 			
 		}else if(str.equals("/Winner/WinnerDetail.do")) {

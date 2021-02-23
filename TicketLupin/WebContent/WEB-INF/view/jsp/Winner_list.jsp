@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -82,60 +84,57 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>10</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>9</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>8</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>7</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td class="td_"><a href="#">[경품증정]ex)공연 리뷰후기 참여자 경품이벤트</a></td>
-								<td>2021/01/29</td>
-							</tr>
+							<c:forEach var="l" items="${list}">
+								<tr>
+									<td>${l.iidx}</td>
+									<td class="td_"><a href="#">${l.ititle}</a></td>
+									<td>${l.iregdate}</td>
+								<tr>
+							</c:forEach>
 						</tbody>
 					</table>
-					<div class="paging">
-						<a href="#"> << </a>&nbsp;&nbsp;<a href="#"> < </a>&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; </span>&nbsp;<a href="#"> > </a>&nbsp;&nbsp;<a href="#"> >> </a>
+					
+<!--------------------------------------------------------------------------------------------------------------------->
+		
+		<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+		<c:set var="startNum" value="${page-(page-1)%5}"/>
+		<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+					
+					<div id="main_winner_page">
+						<div id="main_winner_page_set">
+							<a href="#">
+								<div class="main_winner_page_button main_winner_page_bn">
+									<div class="main_winner_page_button_llgg">&lt;&lt;</div>
+								</div>
+								<div class="main_winner_page_button main_winner_page_bn">
+									<div class="main_winner_page_button_lg">&lt;</div>
+								</div>
+							</a>
+							<a href="#">
+								<div class="main_winner_page_bn">
+									<div class="main_winner_page_button_page">1</div>
+									<div class="main_winner_page_button_page">2</div>
+									<div class="main_winner_page_button_page">3</div>
+									<div class="main_winner_page_button_page">4</div>
+									<div class="main_winner_page_button_page">5</div>
+									<div class="main_winner_page_button_page">6</div>
+									<div class="main_winner_page_button_page">7</div>
+									<div class="main_winner_page_button_page">8</div>
+									<div class="main_winner_page_button_page">9</div>
+									<div class="main_winner_page_button_page">10</div>
+								</div>
+							</a>
+							<a href="#">
+								<div class="main_winner_page_button main_winner_page_bn">
+									<div class="main_winner_page_button_lg">&gt;</div>
+								</div>
+								<div class="main_winner_page_button main_winner_page_bn">
+									<div class="main_winner_page_button_llgg">&gt;&gt;</div>
+								</div>
+							</a>
+						</div>
 					</div>
 					</div>
 				</div>
