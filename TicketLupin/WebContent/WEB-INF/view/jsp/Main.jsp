@@ -30,12 +30,12 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="n_home">홈</a>
-				<a href="#">공연</a>
-				<a href="#">랭킹</a>
-				<a href="#">티켓오픈소식</a>
-				<a href="#">이벤트</a>
-				<a href="#">마이 티켓</a>
+				<a href="#" id="main_nav_home">홈</a>
+				<a href="#" id="main_nav_concert">공연</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
+				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="#" id="main_nav_event">이벤트</a>
+				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">

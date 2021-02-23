@@ -20,9 +20,23 @@ public class WinnerController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("sdsdsd")) {
+		if(str.equals("/Winner/WinnerList.do")) {
 			
-			request.getRequestDispatcher("").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Winner/WinnerDetail.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Winner/WinnerWrite.do")) {
+			
+		}else if(str.equals("/Winner/WinnerWriteAction.do")) {
+			
+		}else if(str.equals("/Winner/WinnerModify.do")) {
+			
+		}else if(str.equals("/Winner/WinnerModifyAction.do")) {
+			
+		}else if(str.equals("/Winner/WinnerDeleteAction.do")) {
 			
 		}
 		
