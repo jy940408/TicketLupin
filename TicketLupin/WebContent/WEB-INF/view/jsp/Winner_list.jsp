@@ -23,7 +23,7 @@
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath()%>/Main/MainPage.do"><img src="../icon/lupinlogo.png" id="h_logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
@@ -59,7 +59,7 @@
 			<div id="nav_menu_sub_div" class="main_nav_event">
 				<ul id="nav_menu_sub2">
 					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				</ul>
 			</div>
@@ -72,8 +72,10 @@
 				<div class="cont">
 				<div class="box_customer">
 					<div class="wrap_input">
-						<input type="text" name="schText" class="inputTypefaq"  placeholder="이벤트 검색">
-						<button type="button" class="btn1">검색</button>
+						<form>
+							<input type="text" name="q" class="inputTypefaq"  placeholder="이벤트 검색">
+							<button type="submit" class="btn1">검색</button>
+						</form>
 					</div>
 					<table>
 						<thead>
@@ -104,36 +106,57 @@
 					
 					<div id="main_winner_page">
 						<div id="main_winner_page_set">
-							<a href="#">
+<!--------------------------------------------------------------------------------------------------------------------->
+							<a href="?p=1&q=">
 								<div class="main_winner_page_button main_winner_page_bn">
 									<div class="main_winner_page_button_llgg">&lt;&lt;</div>
 								</div>
-								<div class="main_winner_page_button main_winner_page_bn">
-									<div class="main_winner_page_button_lg">&lt;</div>
-								</div>
-							</a>
-							<a href="#">
-								<div class="main_winner_page_bn">
-									<div class="main_winner_page_button_page">1</div>
-									<div class="main_winner_page_button_page">2</div>
-									<div class="main_winner_page_button_page">3</div>
-									<div class="main_winner_page_button_page">4</div>
-									<div class="main_winner_page_button_page">5</div>
-									<div class="main_winner_page_button_page">6</div>
-									<div class="main_winner_page_button_page">7</div>
-									<div class="main_winner_page_button_page">8</div>
-									<div class="main_winner_page_button_page">9</div>
-									<div class="main_winner_page_button_page">10</div>
-								</div>
-							</a>
-							<a href="#">
-								<div class="main_winner_page_button main_winner_page_bn">
-									<div class="main_winner_page_button_lg">&gt;</div>
-								</div>
+							</a>						
+							<c:if test="${startNum>1}">
+								<a href="?p=${startNum-1}&q=">
+									<div class="main_winner_page_button main_winner_page_bn">
+										<div class="main_winner_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${startNum<=1}">
+								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_winner_page_button main_winner_page_bn">
+										<div class="main_winner_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+<!--------------------------------------------------------------------------------------------------------------------->
+							
+							<div class="main_winner_page_bn">
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(startNum+i) <= lastNum}">
+										<div class="main_winner_page_button_page">
+											<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&q=${param.q}" >${startNum+i}</a>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+							<c:if test="${startNum+4<lastNum}">
+								<a href="?p=${startNum+5}&q=">
+									<div class="main_winner_page_button main_winner_page_bn">
+										<div class="main_winner_page_button_lg">&gt;</div>
+									</div>
+							</c:if>
+							<c:if test="${startNum+4>=lastNum}">
+								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+									<div class="main_winner_page_button main_winner_page_bn">
+										<div class="main_winner_page_button_lg">&gt;</div>
+									</div>
+								</a>
+							</c:if>
 								<div class="main_winner_page_button main_winner_page_bn">
 									<div class="main_winner_page_button_llgg">&gt;&gt;</div>
 								</div>
 							</a>
+<!--------------------------------------------------------------------------------------------------------------------->
+
 						</div>
 					</div>
 					</div>
