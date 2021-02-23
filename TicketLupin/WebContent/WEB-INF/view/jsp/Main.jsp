@@ -42,7 +42,7 @@
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
@@ -88,7 +88,7 @@
 						<img src="../poster/musicalposter2.jpg" id="main_open_poster2">
 						<img src="../poster/musicalposter3.jpg" id="main_open_poster3">
 						<img src="../poster/musicalposter4.jpg" id="main_open_poster4">
-						<div id="main_comingsoon_time"></div>
+						<div id="main_comingsoon_time" style="font-size:25px;"></div>
 					</div>
 				</div>
 				<br>
