@@ -71,7 +71,7 @@
 		<section>
 			<article>
 				<div class="tit">
-					<span class="label">|&nbsp;&nbsp;댓글관리</span>
+					<span class="label">|&nbsp;&nbsp;문의관리</span>
 					<hr/>
 				</div>
 				<div class="wrap_search">
