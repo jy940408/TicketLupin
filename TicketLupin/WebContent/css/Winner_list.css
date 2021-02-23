@@ -168,6 +168,46 @@
 			.cont{
 				padding-bottom:100px;
 			}
+			
+			#main_winner_page{
+				max-width:1000px;
+				min-width:1000px;
+				margin:auto;
+				padding-top:50px;
+			}
+			#main_winner_page_set{
+				display:flex;
+				justify-content:center;
+				margin-bottom:100px;
+			}
+			#main_winner_page a{
+				text-decoration:none;
+			}
+			.main_winner_page_button{
+				display:inline-block;
+				width:34px;
+				height:24px;
+				border:1px solid rgba(0,0,0,0.3);
+				border-radius:10px;
+			}
+			.main_winner_page_button_llgg{
+				color:rgba(0,0,0,0.3);
+				line-height:24px;
+				text-align:center;
+			}
+			.main_winner_page_button_lg{
+				color:rgba(0,0,0,0.3);
+				line-height:24px;
+				text-align:center;
+			}
+			.main_winner_page_bn div{
+				display:inline-block;
+				line-height:26px;
+				margin:0 10px;
+			}
+			.main_winner_page_button_page{
+				color:black;
+			}
 	/*------------------------------------------------------------------------------------------------------------------------*/
 			
 			#f_last{

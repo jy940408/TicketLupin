@@ -1,12 +1,16 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.TicketLupin.web.service.NewsDao;
+import com.TicketLupin.web.service.NewsVo;
 
 @WebServlet("/NewsController")
 public class NewsController extends HttpServlet{
@@ -22,7 +26,33 @@ public class NewsController extends HttpServlet{
 		
 		if(str.equals("/News/NewsList.do")) {
 			
-			request.getRequestDispatcher("/WEB-INF/view/Ticketopen_list.jsp").forward(request, response);
+			String query_ = request.getParameter("q");
+			String page_ = request.getParameter("p");
+			String setting_ = request.getParameter("s");
+			
+			String query = "";
+			if(query_ != null && !query_.equals("")) {
+				query = query_;
+			}
+			String setting = "wregdate";
+			if(setting_ != null && !setting_.equals("")) {
+				setting = setting_;
+			}
+			int page = 1;
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			NewsDao wd = new NewsDao();
+			
+			List<NewsVo> list = wd.getNewsList(query, setting, page);
+			int count = wd.getNewsListCount(query, setting);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_list.jsp").forward(request, response);
+			
+			System.out.println(setting);
 			
 		}else if(str.equals("/News/NewsDetail.do")) {
 			

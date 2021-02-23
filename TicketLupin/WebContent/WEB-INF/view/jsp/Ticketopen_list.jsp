@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -22,11 +25,11 @@
 							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
-						<img src="musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
-					<button type="submit" id="h_search_button"><img src="search.png" id="h_search_img"></button>
+					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
 			</div>
 		</header>
@@ -81,56 +84,57 @@
 						</p>
 						<div class="slider">
 							
+							
 							<span class="slider_1">
 								<ul class="list_slider">
 									<li class="li">
 										<a href="#">
-											<img src="./poster/openposter1.jpg" class="posimg">
+											<img src="../poster/openposter1.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/openposter2.jpg" class="posimg">
+											<img src="../poster/openposter2.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/openposter3.jpg" class="posimg">
+											<img src="../poster/openposter3.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/openposter4.jpg" class="posimg">
+											<img src="../poster/openposter4.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/openposter5.jpg" class="posimg">
+											<img src="../poster/openposter5.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/musicalposter4.jpg" class="posimg">
+											<img src="../poster/musicalposter4.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/musicalposter9.jpg" class="posimg">
+											<img src="../poster/musicalposter9.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/openposter7.jpg" class="posimg">
+											<img src="../poster/openposter7.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/musicalposter6.jpg" class="posimg">
+											<img src="../poster/musicalposter6.jpg" class="posimg">
 										</a>
 									</li>
 									<li class="li">
 										<a href="#">
-											<img src="./poster/musicalposter10.jpg" class="posimg">
+											<img src="../poster/musicalposter10.jpg" class="posimg">
 										</a>
 									</li>
 								</ul>
@@ -160,110 +164,94 @@
 							<button type="button" class="btn2">검색</button>
 						</span>
 						<div class="menu">
-							<ul >
-								<li><a href="#">등록순</a> &nbsp;&nbsp; |</li>
-								<li>&nbsp;&nbsp;<a href="#">오픈일순</a> &nbsp;&nbsp; |</li>
-								<li>&nbsp;&nbsp;<a href="#">조회순</a> </li>
-							</ul>
+								<ul>
+									<li><a href="?q=&s=wregdate&p=">등록순</a> &nbsp;&nbsp; |</li>
+									<li>&nbsp;&nbsp;<a href="?q=&s=wopendate&p=">오픈일순</a> &nbsp;&nbsp; |</li>
+									<li>&nbsp;&nbsp;<a href="?q=&s=whit&p=">조회순</a> </li>
+								</ul>
 						</div>
 					</div>
 					<div class="openlist">
 						<table class="table1" width="100%">
+							<c:forEach var="l" items="${list}">
 							<tr>
 								<td width="20%">
 									<strong>티켓오픈일</strong><p/>
-									2021.02.09(화) 14:00
+									<fmt:formatDate value="${l.wopendate}" type="both" pattern="YYYY.MM.dd(E) HH:ss"/>
 								</td width="70%">
 								<td>
-									<span class="span1"><a href="#"> <캣츠> 40주년 내한공연 - 부산 (Musical CATS) 티켓 오픈 안내</a></span><p/>
-									<span class="span2">등록일 2021.02.02</span>
+									<span class="span1"><a href="#"> ${l.wtitle} </a></span><p/>
+									<span class="span2">등록일 ${l.wregdate}</span>
 								</td>
 								<td width="10%" >
-									<a href="#"><img src="./poster/openposter3.jpg" class="img"></a>
+									<a href="#"><img src="../poster/openposter3.jpg" class="img"></a>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<strong>티켓오픈일</strong><p/>
-									2021.02.04(목) 14:00
-								</td>
-								<td>
-									<span class="span1"><a href="#"> <캣츠> 40주년 내한공연 앙코르 2/4 (목) 2시 서울 마지막 오픈!</a></span><p/>
-									<span class="span2">등록일 2021.02.01</span>
-								</td>
-								<td>
-									<a href="#"><img src="./poster/openposter3.jpg" class="img"></a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>티켓오픈일</strong><p/>
-									2021.02.02(목) 14:00
-								</td>
-								<td>
-									<span class="span1"><a href="#"> <위키드> - 서울 (Musical Wicked) 설 연휴 티켓 오픈 안내</a></span><p/>
-									<span class="span2">등록일 2021.01.27</span>
-								</td>
-								<td>
-									<img src="./poster/musicalposter8.jpg" class="img">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>티켓오픈일</strong><p/>
-									2021.01.14(목) 16:00
-								</td>
-								<td>
-									<span class="span1"><a href="#"> <몬테크리스토> 10주년 기념 공연 2차 티켓 오픈 안내</a></span><p/>
-									<span class="span2">등록일 2021.01.20</span>
-								</td>
-								<td>
-									<a href="#"><img src="./poster/openposter6.jpg" class="img"></a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>티켓오픈일</strong><p/>
-									2021.01.07(목) 16:00
-								</td>
-								<td>
-									<span class="span1"><a href="#"> <나와 나타샤와 흰 당나귀> 일부 회차 좌석 추가 오픈 안내</a></span><p/>
-									<span class="span2">등록일 2021.01.05</span>
-								</td>
-								<td>
-									<img src="./poster/openposter7.jpg" class="img"></a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>취소</strong><p/>
-									2021.01.07(목) 16:00
-								</td>
-								<td>
-									<span class="span1"><a href="#"> [공연취소] <마지막 사건> 월드투어 - 대구 9월 6일(일) 조기 종연</a> </span><p/>
-									<span class="span2">등록일 2021.01.05</span>
-								</td>
-								<td>
-									<a href="#"><img src="./poster/openposter8.jpg" class="img"></a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>취소</strong><p/>
-									2021.01.07(목) 16:00
-								</td>
-								<td>
-									<span class="span1"><a href="#"> [공연취소] <그날들> 월드투어 - 전주 9월 6일(일) 조기 종연</a> </span><p/>
-									<span class="span2">등록일 2021.01.05</span>
-								</td>
-								<td>
-									<a href="#"><img src="./poster/openposter5.jpg" class="img"></a>
-								</td>
-							</tr>
+							</c:forEach>
 						</table>
-						<div class="paging">
-							<a href="#"> << </a>&nbsp;&nbsp;<a href="#"> < </a>&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; </span>&nbsp;<a href="#"> > </a>&nbsp;&nbsp;<a href="#"> >> </a>
+<!--------------------------------------------------------------------------------------------------------------------->
+		
+		<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+		<c:set var="startNum" value="${page-(page-1)%5}"/>
+		<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+					
+					<div id="main_news_page">
+						<div id="main_news_page_set">
+<!--------------------------------------------------------------------------------------------------------------------->
+							<a href="?p=1&q=">
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_button_llgg">&lt;&lt;</div>
+								</div>
+							</a>						
+							<c:if test="${startNum>1}">
+								<a href="?p=${startNum-1}&s=&q=">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${startNum<=1}">
+								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+<!--------------------------------------------------------------------------------------------------------------------->
+							
+							<div class="main_news_page_bn">
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(startNum+i) <= lastNum}">
+										<div class="main_news_page_button_page">
+											<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&s=${param.s}&q=${param.q}" >${startNum+i}</a>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+							<c:if test="${startNum+4<lastNum}">
+								<a href="?p=${startNum+5}&s=&q=">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+							</c:if>
+							<c:if test="${startNum+4>=lastNum}">
+								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+								</a>
+							</c:if>
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_news_llgg">&gt;&gt;</div>
+								</div>
+							</a>
+<!--------------------------------------------------------------------------------------------------------------------->
+
 						</div>
+					</div>
 					</div>
 				</div>
 			</article>

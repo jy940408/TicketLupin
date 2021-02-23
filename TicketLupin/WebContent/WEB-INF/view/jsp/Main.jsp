@@ -33,7 +33,7 @@
 				<a href="#" id="main_nav_home">홈</a>
 				<a href="#" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
