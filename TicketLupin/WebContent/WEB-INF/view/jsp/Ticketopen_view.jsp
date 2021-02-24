@@ -657,7 +657,7 @@
 						<br>- 네이버 포스트 : https://post.naver.com/emk_musical
 						<br>- 유튜브 : https://www.youtube.com/emkmusical
 					</div>
-					<button class="list_btn">
+					<button class="list_btn"  onclick="location.href='<%=request.getContextPath()%>/News/NewsList.do'">
 						목록으로
 					</button>
 				</div>

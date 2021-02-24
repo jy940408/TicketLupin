@@ -150,7 +150,7 @@
 					</div>
 				</div>
 				<div class="btn1">
-					<button type="button" class="write" id="Ticketopen_write">작성하기</button>
+					<button type="button" class="write" id="Ticketopen_write" onclick="location.href='<%=request.getContextPath()%>/News/NewsWrite.do'">작성하기</button>
 				</div>
 				<div class="subject">
 					<div class="box_select">

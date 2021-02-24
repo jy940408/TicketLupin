@@ -54,7 +54,6 @@ public class NewsController extends HttpServlet{
 			System.out.println(setting);
 			
 		}else if(str.equals("/News/NewsDetail.do")) {
-			System.out.println(":::testtesttest:::::");
 			
 			String widxS = (String)request.getParameter("widx");
 			
@@ -70,7 +69,7 @@ public class NewsController extends HttpServlet{
 			
 		}else if(str.equals("/News/NewsWrite.do")) {
 			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_write.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_write_admin.jsp").forward(request, response);
 			
 		}else if(str.equals("/News/NewsWriteAction.do")) {
 			

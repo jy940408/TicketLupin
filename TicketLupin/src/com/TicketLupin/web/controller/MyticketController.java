@@ -14,9 +14,9 @@ public class MyticketController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("")) {
-			
-			request.getRequestDispatcher("").forward(request, response);
+		if(str.equals("/Myticket/MyticketMain.do")) {
+			System.out.println("»Æ¿Œ");
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
 			
 		}
 		

@@ -90,7 +90,40 @@
 					<div id="main_myticket_ticketing">
 						<a href="#" class="main_myticket_title_set">최근 예매/취소</a>
 						<a href="#" class="main_myticket_more_set">더보기 ></a>
-						<div id="main_myticket_ticketing_list"></div>
+						<div id="main_myticket_ticketing_list">
+							<ul id="main_myticket_ticketing_list_ul">
+								<li>
+									<div class="main_myticket_ticketing_list_num">1</div>
+									<div class="main_myticket_ticketing_list_title"><a href="#">대충 뮤지컬 제목이라는 뜻</a></div>
+									<div class="main_myticket_ticketing_list_res">예매&nbsp;&nbsp;&nbsp;2021-02-24</div>
+									<div class="main_myticket_ticketing_list_date">공연 날짜&nbsp;&nbsp;&nbsp;2021-02-25</div>
+								</li>
+								<li>
+									<div class="main_myticket_ticketing_list_num">1</div>
+									<div class="main_myticket_ticketing_list_title"><a href="#">대충 뮤지컬 제목이라는 뜻</a></div>
+									<div class="main_myticket_ticketing_list_res">예매&nbsp;&nbsp;&nbsp;2021-02-24</div>
+									<div class="main_myticket_ticketing_list_date">공연 날짜&nbsp;&nbsp;&nbsp;2021-02-25</div>
+								</li>
+								<li>
+									<div class="main_myticket_ticketing_list_num">1</div>
+									<div class="main_myticket_ticketing_list_title"><a href="#">대충 뮤지컬 제목이라는 뜻</a></div>
+									<div class="main_myticket_ticketing_list_res">예매&nbsp;&nbsp;&nbsp;2021-02-24</div>
+									<div class="main_myticket_ticketing_list_date">공연 날짜&nbsp;&nbsp;&nbsp;2021-02-25</div>
+								</li>
+								<li>
+									<div class="main_myticket_ticketing_list_num">1</div>
+									<div class="main_myticket_ticketing_list_title"><a href="#">대충 뮤지컬 제목이라는 뜻</a></div>
+									<div class="main_myticket_ticketing_list_res">예매&nbsp;&nbsp;&nbsp;2021-02-24</div>
+									<div class="main_myticket_ticketing_list_date">공연 날짜&nbsp;&nbsp;&nbsp;2021-02-25</div>
+								</li>
+								<li>
+									<div class="main_myticket_ticketing_list_num">1</div>
+									<div class="main_myticket_ticketing_list_title"><a href="#">대충 뮤지컬 제목이라는 뜻</a></div>
+									<div class="main_myticket_ticketing_list_res">예매&nbsp;&nbsp;&nbsp;2021-02-24</div>
+									<div class="main_myticket_ticketing_list_date">공연 날짜&nbsp;&nbsp;&nbsp;2021-02-25</div>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div id="main_myticket_bottom">
 						<div id="main_myticket_event">
@@ -99,31 +132,43 @@
 								<a href="#" class="main_myticket_more_set">더보기 ></a>
 								<div id="main_myticket_event_list">
 									<ul class="main_myticket_sub_content_set">
+										
 										<li>
-											<div>10</div>
-											<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-											<div>2021.02.03</div>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
 										</li>
 										<li>
-											<div>9</div>
-											<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-											<div>2021.02.03</div>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
 										</li>
 										<li>
-											<div>8</div>
-											<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-											<div>2021.02.03</div>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
 										</li>
 										<li>
-											<div>7</div>
-											<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-											<div>2021.02.03</div>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
 										</li>
 										<li>
-											<div>6</div>
-											<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-											<div>2021.02.03</div>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
 										</li>
+										<li>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
+										</li>
+										<li>
+											<div class="main_myticket_sub_content_num">9</div>
+											<div class="main_myticket_sub_content_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+											<div class="main_myticket_sub_content_date">2021.02.03</div>
+										</li>
+										
 									</ul>
 								</div>
 							</div>
@@ -133,31 +178,43 @@
 							<a href="#" class="main_myticket_more_set">더보기 ></a>
 							<div id="main_myticket_question_list">
 								<ul class="main_myticket_sub_content_set">
+									
 									<li>
-										<div>10</div>
-										<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-										<div>2021.02.03</div>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
 									</li>
 									<li>
-										<div>9</div>
-										<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-										<div>2021.02.03</div>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
 									</li>
 									<li>
-										<div>8</div>
-										<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-										<div>2021.02.03</div>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
 									</li>
 									<li>
-										<div>7</div>
-										<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-										<div>2021.02.03</div>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
 									</li>
 									<li>
-										<div>6</div>
-										<div>[카카오 시청권] 카카오 계정으로 구매...</div>
-										<div>2021.02.03</div>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
 									</li>
+									<li>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
+									</li>
+									<li>
+										<div class="main_myticket_question_list_num">9</div>
+										<div class="main_myticket_question_list_title">[카카오 시청권] 카카오 계정으로 구매...</div>
+										<div class="main_myticket_question_list_date">2021.02.03</div>
+									</li>
+									
 								</ul>
 							</div>
 						</div>
@@ -165,6 +222,7 @@
 				</div>
 			</article>
 		</section>
+
 
 <!------------------------------------------------------------------------------------------------------------------------------------->
 
