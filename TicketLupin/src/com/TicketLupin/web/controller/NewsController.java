@@ -23,7 +23,6 @@ public class NewsController extends HttpServlet{
 		int len = request.getContextPath().length();
 		String str = uri.substring(len);
 		System.out.println("str"+str); 
-		
 		if(str.equals("/News/NewsList.do")) {
 			
 			String query_ = request.getParameter("q");
@@ -43,10 +42,10 @@ public class NewsController extends HttpServlet{
 				page = Integer.parseInt(page_);
 			}
 			
-			NewsDao wd = new NewsDao();
+			NewsDao nd = new NewsDao();
 			
-			List<NewsVo> list = wd.getNewsList(query, setting, page);
-			int count = wd.getNewsListCount(query, setting);
+			List<NewsVo> list = nd.getNewsList(query, setting, page);
+			int count = nd.getNewsListCount(query, setting);
 			
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
@@ -55,7 +54,18 @@ public class NewsController extends HttpServlet{
 			System.out.println(setting);
 			
 		}else if(str.equals("/News/NewsDetail.do")) {
+			System.out.println(":::testtesttest:::::");
 			
+			String widxS = (String)request.getParameter("widx");
+			
+			if(widxS != null && widxS.equals("")) {
+				widxS = "0";
+			}
+			int widx =  Integer.parseInt(widxS);
+			NewsDao nd = new NewsDao();
+			NewsVo newsvo = nd.getNewsDetail(widx);
+			
+			request.setAttribute("detail", newsvo);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_view.jsp").forward(request, response);
 			
 		}else if(str.equals("/News/NewsWrite.do")) {

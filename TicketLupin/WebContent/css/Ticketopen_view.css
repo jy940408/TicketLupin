@@ -1,11 +1,11 @@
-ï»¿@font-face{
-	font-family:"ë‚˜ëˆ”ìŠ¤í€˜ì–´ Regular";
+@font-face{
+	font-family:"³ª´®½ºÄù¾î Regular";
 	src:url("../font/NanumSquareR.ttf") format("truetype");
 	font-style:normal;
 	font-weight:normal;
 }
 body{
-	font-family:ë‚˜ëˆ”ìŠ¤í€˜ì–´ Regular;
+	font-family:³ª´®½ºÄù¾î Regular;
 	margin:0;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
@@ -77,8 +77,39 @@ body{
 	text-decoration:none;
 	color:black;
 	font-size:20px;
-	margin:45px;
+	margin:53px;
 	font-weight:bold;
+}
+
+#nav_menu_sub_div{
+	max-width:1000px;
+	min-width:1000px;
+	margin:auto;
+}
+
+#nav_menu_sub{
+	padding:-1 100px;
+	text-align:right;
+	margin:5px 0 10px 10px;
+}
+#nav_menu_sub2{
+	padding:0 100px 0 110px;
+	text-align:right;
+	margin:5px 0 10px 10px;
+}
+#nav_menu_sub a, #nav_menu_sub2 a{
+	text-decoration:none;
+	color:rgba(0,0,0,0.5);
+	font-size:16px;
+	font-weight:bold;
+}
+#nav_menu_sub li, #nav_menu_sub2 li{
+	color:black;
+	display:inline;
+	text-decoration:none;
+}
+#nav_bar_sub{
+	margin-top:10px;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
 .view{

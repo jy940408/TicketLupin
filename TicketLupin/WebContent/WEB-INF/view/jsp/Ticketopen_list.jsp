@@ -27,7 +27,7 @@
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath()%>/Main/MainPage.do"><img src="../icon/lupinlogo.png" id="h_logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
@@ -180,7 +180,7 @@
 									<fmt:formatDate value="${l.wopendate}" type="both" pattern="YYYY.MM.dd(E) HH:ss"/>
 								</td width="70%">
 								<td>
-									<span class="span1"><a href="#"> ${l.wtitle} </a></span><p/>
+									<span class="span1"><a href="<%=request.getContextPath()%>/News/NewsDetail.do?widx=${l.widx}"> ${l.wtitle} </a></span><p/>
 									<span class="span2">등록일 ${l.wregdate}</span>
 								</td>
 								<td width="10%" >

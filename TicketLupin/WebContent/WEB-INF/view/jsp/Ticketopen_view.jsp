@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,9 +21,9 @@
 							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
-						<img src="../icon/musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath()%>/Main/MainPage.do"><img src="../icon/lupinlogo.png" id="h_logo"></a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
@@ -29,23 +32,48 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="n_home">홈</a>
-				<a href="#">공연</a>
-				<a href="#">랭킹</a>
-				<a href="#">티켓</a>
-				<a href="#">오픈공지</a>
-				<a href="#">이벤트</a>
-				<a href="#">마이 티켓</a>
+				<a href="#" id="main_nav_home">홈</a>
+				<a href="#" id="main_nav_concert">공연</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
+				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="#" id="main_nav_event">이벤트</a>
+				<a href="#" id="main_nav_admin">관리자</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
+		
+		
+		<div class="wrap_nav" id="wrap_nav" style="display:none;">
+			<div id="nav_menu_sub_div" class="main_nav_all">
+				<ul id="nav_menu_sub">
+					<li><a href="#">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				</ul>
+			</div>
+			<hr id="nav_bar_sub"/>
+		</div>
+		<div class="wrap_nav"  id="wrap_nav2" style="display:none;">
+			<div id="nav_menu_sub_div" class="main_nav_event">
+				<ul id="nav_menu_sub2">
+					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				</ul>
+			</div>
+			<hr id="nav_bar_sub"/>
+		</div>
+		
+		
 		<section>
 			<div class="view">
 				<div class="view_top">
 					<img src="../poster/montecristo.jpg">
 					<div class="view_top_info">
 						<span>
-							뮤지컬 〈몬테크리스토〉 10주년 기념 공연 5차 티켓 오픈 안내
+							${detail.wtitle }
 						</span>
 						<input type="text" id="url" class="url_input" size="35" />
 						<button class="url_btn" onclick="urlClipCopy()">
@@ -56,13 +84,13 @@
 								등록일
 							</dt>
 							<dd class="dd1">
-								2021.01.13
+								<fmt:formatDate value="${detail.wregdate }" type="both" pattern="YYYY.MM.dd(E)"/>
 							</dd>
 							<dt class="dt2">
 								|&nbsp;&nbsp;&nbsp;조회
 							</dt>
 							<dd class="dd2">
-								1,564
+									${detail.whit }
 							</dd>
 						</dl>
 						<div class="modify">
@@ -81,10 +109,10 @@
 					</h3>
 					<div class="view_middle_info">
 						<span style="font-size:18px; display:block">
-							뮤지컬 〈몬테크리스토〉 10주년 기념 공연
+							${detail.wtitle }
 						</span>
 						<div style="font-size:15px; margin-top:10px; font-family:initial;">
-							티켓오픈 : 2021년 1월 21일 (목) 14:00
+							티켓오픈 : <fmt:formatDate value="${detail.wopendate}" type="both" pattern="YYYY년 MM월 dd일 (E) HH:ss"/>
 						</div>
 						<div class="view_middle_btn">
 							<button class="dib_btn">

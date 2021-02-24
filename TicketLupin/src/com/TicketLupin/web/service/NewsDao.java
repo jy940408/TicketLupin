@@ -52,9 +52,9 @@ public class NewsDao {
 				String wtitleposter = rs.getString("WTITLEPOSTER");
 				Date wopendate = rs.getDate("WOPENDATE");
 				
-				NewsVo wv = new NewsVo(widx, wtitle, wcontent, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
+				NewsVo nv = new NewsVo(widx, wtitle, wcontent, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
 				
-				list.add(wv);
+				list.add(nv);
 				}
 		
 		}catch (SQLException e) {
@@ -90,6 +90,45 @@ public class NewsDao {
 		}
 		
 		return count;
+	}
+	
+	public NewsVo getNewsDetail(int idx){
+		
+		NewsVo newsvo = new NewsVo();
+		
+		String sql = "SELECT * FROM NEWS WHERE WIDX = ?";
+		
+		try {
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int widx = rs.getInt("WIDX");
+			String wtitle = rs.getString("WTITLE");
+			String wcontent = rs.getString("WCONTENT");
+			int midx = rs.getInt("MIDX");
+			Date wregdate = rs.getDate("WREGDATE");
+			int whit = rs.getInt("WHIT");
+			String wimage = rs.getString("WIMAGE");
+			String wfiles = rs.getString("WFILES");
+			String wpub = rs.getString("WPUB");
+			int wgood = rs.getInt("WGOOD");
+			String wdelyn = rs.getString("WDELYN");
+			String wtitleposter = rs.getString("WTITLEPOSTER");
+			Date wopendate = rs.getDate("WOPENDATE");
+			
+			newsvo = new NewsVo(widx, wtitle, wcontent, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
+		
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return newsvo;
 	}		
 	
 }
