@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 로그인</title>
-        <link rel="stylesheet" href="./css/Login_FI_FP_Join__.css">
+        <link rel="stylesheet" href="../css/Login_FI_FP_Join__.css">
         
     </head>
     <body>

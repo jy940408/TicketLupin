@@ -14,9 +14,9 @@ public class MemberController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("")) {
+		if(str.equals("/Member/CheckLogin.do")) {
 			
-			request.getRequestDispatcher("").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Login.jsp").forward(request, response);
 			
 		}
 		
