@@ -5,23 +5,43 @@ import java.sql.DriverManager;
 
 public class DBconn {
 
-	Connection conn =null;
-	   //Á¢¼Ó Á¤º¸
-	   String coninfo ="jdbc:oracle:thin:@127.0.0.1:1521:xe";
-	   String idinfo ="TicketLupin";
-	   String pwdinfo ="1234";
-	   
-	   public Connection getConnection() {
-	      try {
-	         //µå¶óÀÌ¹ö¿¡¼­ OrcleDriver¸¦ Ã£´Â´Ù
-	         Class.forName("oracle.jdbc.driver.OracleDriver");
-	         //Á¢¼ÓÁ¤º¸¸¦ °¡Áö°í ¿¬°áÇÑ´Ù
-	         conn= DriverManager.getConnection(coninfo, idinfo, pwdinfo);
-	               
-	         } catch (Exception e) {
-	            e.printStackTrace();
-	         }
-	         return conn;
-	   }
 	
+	/*
+	Connection conn =null;
+   //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+   String coninfo ="jdbc:oracle:thin:@127.0.0.1:1521:xe";
+   String idinfo ="TicketLupin";
+   String pwdinfo ="1234";
+   
+   public Connection getConnection() {
+      try {
+         //ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ OrcleDriverï¿½ï¿½ Ã£ï¿½Â´ï¿½
+         Class.forName("oracle.jdbc.driver.OracleDriver");
+         //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
+         conn= DriverManager.getConnection(coninfo, idinfo, pwdinfo);
+               
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+         return conn;
+   }
+	*/
+	
+	Connection conn = null;
+	String coninfo = "jdbc:mysql://localhost:3306/TicketLupin";
+	String idinfo ="TicketLupin";
+	String pwdinfo ="1234";
+	
+	public Connection getConnection() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			System.out.println("after forName");
+			conn = DriverManager.getConnection(coninfo, "root", "s!1018810");
+			System.out.println("DBms connection success");
+			System.out.println("DB load success");
+		} catch (Exception e) {
+			System.out.println("DB load fail " + e.toString());
+		}
+		return conn;
+	}
 }
