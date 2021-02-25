@@ -35,7 +35,7 @@
 				<a href="#" id="main_nav_home">홈</a>
 				<a href="#" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<a href="#" id="main_nav_admin">관리자</a>
 			</nav>
@@ -59,7 +59,7 @@
 			<div id="nav_menu_sub_div" class="main_nav_event">
 				<ul id="nav_menu_sub2">
 					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				</ul>
 			</div>

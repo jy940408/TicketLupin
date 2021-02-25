@@ -6,7 +6,11 @@ public class NewsVo {
 
 	private int widx;
 	private String wtitle;
-	private String wcontent;
+	private String wbasicinfo;
+	private String wintroduce;
+	private String wdiscount;
+	private String wcompany;
+	private String wcategory;
 	private int midx;
 	private Date wregdate;
 	private int whit;
@@ -23,12 +27,17 @@ public class NewsVo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public NewsVo(int widx, String wtitle, String wcontent, int midx, Date wregdate, int whit, String wimage,
-			String wfiles, String wpub, int wgood, String wdelyn, String wtitleposter, Date wopendate) {
+	public NewsVo(int widx, String wtitle, String wbasicinfo, String wintroduce, String wdiscount, String wcompany,
+			String wcategory, int midx, Date wregdate, int whit, String wimage, String wfiles, String wpub, int wgood,
+			String wdelyn, String wtitleposter, Date wopendate) {
 		super();
 		this.widx = widx;
 		this.wtitle = wtitle;
-		this.wcontent = wcontent;
+		this.wbasicinfo = wbasicinfo;
+		this.wintroduce = wintroduce;
+		this.wdiscount = wdiscount;
+		this.wcompany = wcompany;
+		this.wcategory = wcategory;
 		this.midx = midx;
 		this.wregdate = wregdate;
 		this.whit = whit;
@@ -57,12 +66,44 @@ public class NewsVo {
 		this.wtitle = wtitle;
 	}
 
-	public String getWcontent() {
-		return wcontent;
+	public String getWbasicinfo() {
+		return wbasicinfo;
 	}
 
-	public void setWcontent(String wcontent) {
-		this.wcontent = wcontent;
+	public void setWbasicinfo(String wbasicinfo) {
+		this.wbasicinfo = wbasicinfo;
+	}
+
+	public String getWintroduce() {
+		return wintroduce;
+	}
+
+	public void setWintroduce(String wintroduce) {
+		this.wintroduce = wintroduce;
+	}
+
+	public String getWdiscount() {
+		return wdiscount;
+	}
+
+	public void setWdiscount(String wdiscount) {
+		this.wdiscount = wdiscount;
+	}
+
+	public String getWcompany() {
+		return wcompany;
+	}
+
+	public void setWcompany(String wcompany) {
+		this.wcompany = wcompany;
+	}
+
+	public String getWcategory() {
+		return wcategory;
+	}
+
+	public void setWcategory(String wcategory) {
+		this.wcategory = wcategory;
 	}
 
 	public int getMidx() {
@@ -147,16 +188,10 @@ public class NewsVo {
 
 	@Override
 	public String toString() {
-		return "NewsVo [widx=" + widx + ", wtitle=" + wtitle + ", wcontent=" + wcontent + ", midx=" + midx
-				+ ", wregdate=" + wregdate + ", whit=" + whit + ", wimage=" + wimage + ", wfiles=" + wfiles + ", wpub="
-				+ wpub + ", wgood=" + wgood + ", wdelyn=" + wdelyn + ", wtitleposter=" + wtitleposter + ", wopendate="
-				+ wopendate + "]";
+		return "NewsVo [widx=" + widx + ", wtitle=" + wtitle + ", wbasicinfo=" + wbasicinfo + ", wintroduce="
+				+ wintroduce + ", wdiscount=" + wdiscount + ", wcompany=" + wcompany + ", wcategory=" + wcategory
+				+ ", midx=" + midx + ", wregdate=" + wregdate + ", whit=" + whit + ", wimage=" + wimage + ", wfiles="
+				+ wfiles + ", wpub=" + wpub + ", wgood=" + wgood + ", wdelyn=" + wdelyn + ", wtitleposter="
+				+ wtitleposter + ", wopendate=" + wopendate + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
 }

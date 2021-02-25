@@ -51,18 +51,22 @@ public class NewsController extends HttpServlet{
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_list.jsp").forward(request, response);
 			
-			System.out.println(setting);
+			System.out.println("list " + list);
 			
 		}else if(str.equals("/News/NewsDetail.do")) {
 			
-			String widxS = (String)request.getParameter("widx");
+			String widx_ = (String)request.getParameter("widx");
 			
-			if(widxS != null && widxS.equals("")) {
-				widxS = "0";
+			int widx = 0;
+			if(widx_ != null && !widx_.equals("")) {
+				widx = Integer.parseInt(widx_);
 			}
-			int widx =  Integer.parseInt(widxS);
+			
 			NewsDao nd = new NewsDao();
 			NewsVo newsvo = nd.getNewsDetail(widx);
+			
+			System.out.println("detail widx: " + widx);
+			System.out.println("detail: " + newsvo);
 			
 			request.setAttribute("detail", newsvo);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_view.jsp").forward(request, response);

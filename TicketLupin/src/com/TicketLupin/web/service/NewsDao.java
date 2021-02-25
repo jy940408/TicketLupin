@@ -40,7 +40,11 @@ public class NewsDao {
 				
 				int widx = rs.getInt("WIDX");
 				String wtitle = rs.getString("WTITLE");
-				String wcontent = rs.getString("WCONTENT");
+				String wbasicinfo = rs.getString("WBASICINFO");
+				String wintroduce = rs.getString("WINTRODUCE");
+				String wdiscount = rs.getString("WDISCOUNT");
+				String wcompany = rs.getString("WCOMPANY");
+				String wcategory = rs.getString("WCATEGORY");
 				int midx = rs.getInt("MIDX");
 				Date wregdate = rs.getDate("WREGDATE");
 				int whit = rs.getInt("WHIT");
@@ -52,11 +56,12 @@ public class NewsDao {
 				String wtitleposter = rs.getString("WTITLEPOSTER");
 				Date wopendate = rs.getDate("WOPENDATE");
 				
-				NewsVo nv = new NewsVo(widx, wtitle, wcontent, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
+				NewsVo nv = new NewsVo(widx, wtitle, wbasicinfo, wintroduce, wdiscount, wcompany, wcategory, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
 				
 				list.add(nv);
-				}
+			}
 		
+			
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
@@ -110,7 +115,11 @@ public class NewsDao {
 			
 			int widx = rs.getInt("WIDX");
 			String wtitle = rs.getString("WTITLE");
-			String wcontent = rs.getString("WCONTENT");
+			String wbasicinfo = rs.getString("WBASICINFO");
+			String wintroduce = rs.getString("WINTRODUCE");
+			String wdiscount = rs.getString("WDISCOUNT");
+			String wcompany = rs.getString("WCOMPANY");
+			String wcategory = rs.getString("WCATEGORY");
 			int midx = rs.getInt("MIDX");
 			Date wregdate = rs.getDate("WREGDATE");
 			int whit = rs.getInt("WHIT");
@@ -122,12 +131,12 @@ public class NewsDao {
 			String wtitleposter = rs.getString("WTITLEPOSTER");
 			Date wopendate = rs.getDate("WOPENDATE");
 			
-			newsvo = new NewsVo(widx, wtitle, wcontent, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
+			newsvo = new NewsVo(widx, wtitle, wbasicinfo, wintroduce, wdiscount, wcompany, wcategory, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
-		
+		System.out.println("dao: " + newsvo);
 		return newsvo;
 	}		
 	

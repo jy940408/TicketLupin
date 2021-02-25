@@ -176,8 +176,22 @@
 							<c:forEach var="l" items="${list}">
 							<tr>
 								<td width="20%">
-									<strong>티켓오픈일</strong><p/>
-									<fmt:formatDate value="${l.wopendate}" type="both" pattern="YYYY.MM.dd(E) HH:ss"/>
+									<c:if test="${l.wcategory eq '티켓오픈일'}">
+										<strong>
+										${l.wcategory}
+										</strong><p/>
+										<fmt:formatDate value="${l.wopendate}" type="both" pattern="YYYY.MM.dd(E) HH:ss"/>
+									</c:if>
+									<c:if test="${l.wcategory eq '변경'}">
+										<strong>
+										${l.wcategory}
+										</strong><p/>
+									</c:if>
+									<c:if test="${l.wcategory eq '취소'}">
+										<strong>
+										${l.wcategory}
+										</strong><p/>
+									</c:if>
 								</td width="70%">
 								<td>
 									<span class="span1"><a href="<%=request.getContextPath()%>/News/NewsDetail.do?widx=${l.widx}"> ${l.wtitle} </a></span><p/>
