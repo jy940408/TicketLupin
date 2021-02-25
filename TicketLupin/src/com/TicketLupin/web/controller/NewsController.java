@@ -50,7 +50,7 @@ public class NewsController extends HttpServlet{
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_list.jsp").forward(request, response);
-			
+			System.out.println(request.getContextPath());
 			System.out.println("list " + list);
 			
 		}else if(str.equals("/News/NewsDetail.do")) {

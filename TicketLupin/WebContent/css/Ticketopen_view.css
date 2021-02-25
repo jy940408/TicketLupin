@@ -123,6 +123,10 @@ body{
 	border:1px solid #ebebeb;
 	padding:20px;
 }
+.view_top_poster{
+	width:130px;
+	height:184px;
+}
 .view_top_info{
 	position:absolute;
 	top:25px;
@@ -145,7 +149,7 @@ body{
 	left:280px;
 	top:7px;
 	width:28px;
-	height:28px;	
+	height:28px;
 }
 .url_btn:focus{
 	outline:none;

@@ -19,7 +19,7 @@ public class FrontController extends HttpServlet{
 		String projectname = request.getContextPath();
 		int jarinum = projectname.length();
 		String str = uri.substring(jarinum);
-		
+		System.out.println("get" + uri);
 		// /board/boardList.do
 		
 		String[] po = str.split("/");
@@ -97,6 +97,22 @@ public class FrontController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		//가상경로와 같은지 확인한다
+				String uri = request.getRequestURI();
+				String projectname = request.getContextPath();
+				int jarinum = projectname.length();
+				String str = uri.substring(jarinum);
+				System.out.println("post" + uri);
+				// /board/boardList.do
+				
+				String[] po = str.split("/");
+				String hc = po[1];
+		
+		if (hc.equals("Member")) {
+			MemberController memberc = new MemberController();
+			memberc.doPost(request, response);			
+		}
 		
 	}
 	

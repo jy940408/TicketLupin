@@ -51,7 +51,21 @@ public class WinnerController extends HttpServlet{
 			
 		}else if(str.equals("/Winner/WinnerDetail.do")) {
 			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);
+			String iidx_ = request.getParameter("iidx");
+			
+			int iidx = 0;
+			if(iidx_ != null && !iidx_.equals("")) {
+				iidx = Integer.parseInt(iidx_);
+			}
+			
+			WinnerDao wd = new WinnerDao();
+			WinnerVo winnervo = wd.getWinnerDetail(iidx);
+			
+			System.out.println(iidx);
+			System.out.println(winnervo);
+			
+			request.setAttribute("detail", winnervo);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_view.jsp").forward(request, response);
 			
 		}else if(str.equals("/Winner/WinnerWrite.do")) {
 			

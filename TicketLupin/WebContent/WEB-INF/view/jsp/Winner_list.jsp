@@ -89,7 +89,7 @@
 							<c:forEach var="l" items="${list}">
 								<tr>
 									<td>${l.iidx}</td>
-									<td class="td_"><a href="#">${l.ititle}</a></td>
+									<td class="td_"><a href="<%=request.getContextPath()%>/Winner/WinnerDetail.do?iidx=${l.iidx}">${l.ititle}</a></td>
 									<td>${l.iregdate}</td>
 								<tr>
 							</c:forEach>

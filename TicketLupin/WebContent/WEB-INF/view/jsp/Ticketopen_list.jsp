@@ -36,10 +36,10 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
+				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
 				<a href="#" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<a href="#" id="main_nav_admin">관리자</a>
 			</nav>
@@ -161,7 +161,7 @@
 						</select>
 						<input type="text" name="schtext" placeholder="티켓오픈소식 검색"></input>
 						<span>
-							<button type="button" class="btn2">검색</button>
+							<button type="button" class="btn2" action="<%=request.getContextPath()%>/News/NewsSearch.do">검색</button>
 						</span>
 						<div class="menu">
 								<ul>
@@ -198,7 +198,7 @@
 									<span class="span2">등록일 ${l.wregdate}</span>
 								</td>
 								<td width="10%" >
-									<a href="#"><img src="../poster/openposter3.jpg" class="img"></a>
+									<a href="#"><img src="<%=request.getContextPath()%>/poster/${l.wtitleposter}" class="img"></a>
 								</td>
 							</tr>
 							</c:forEach>

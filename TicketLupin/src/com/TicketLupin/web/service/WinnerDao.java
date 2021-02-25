@@ -89,4 +89,39 @@ public class WinnerDao {
 		return count;
 	}		
 	
+	public WinnerVo getWinnerDetail(int idx) {
+		
+		WinnerVo winnervo = new WinnerVo();
+		
+		String sql = "SELECT * FROM WINNER WHERE IIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int iidx = rs.getInt("IIDX");
+			String ititle = rs.getString("ITITLE");
+			String icontent = rs.getString("ICONTENT");
+			int midx = rs.getInt("MIDX");
+			Date iregdate = rs.getDate("IREGDATE");
+			int ihit = rs.getInt("IHIT");
+			String iimage = rs.getString("IIMAGE");
+			String ifiles = rs.getString("IFILES");
+			String ipub = rs.getString("IPUB");
+			int igood = rs.getInt("IGOOD");
+			String idelyn = rs.getString("IDELYN");
+			
+			winnervo = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn);
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return winnervo;
+	}
 }
