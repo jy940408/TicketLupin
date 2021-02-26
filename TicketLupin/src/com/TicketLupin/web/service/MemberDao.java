@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.TicketLupin.web.DBconn.DBconn;
 
-
+import util.DatabaseUtil;
 
 public class MemberDao {
 	
@@ -19,6 +19,37 @@ public class MemberDao {
 	public MemberDao() {
 		DBconn dbconn = new DBconn();
 		this.conn = dbconn.getConnection();
+	}
+	
+	
+	public int memberLogin(String mId, String mPwd) {
+		
+		String sql ="select count(*) as cnt from member where mid= ? and mpwd = ?;";
+		int value = 1;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mId);
+			pstmt.setString(2, mPwd);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				value = rs.getInt("cnt");
+			}	
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return value; 
+		
+	}
+	
+	public int getMember(String mid) {
+		
+		String sql ="";
+		int value =1;
+		
+		return value;
 	}
 	
 	public int insertMember(String mId, String mName, String mPwd, String mAddress, String mEmail, String mPhone) {
@@ -52,28 +83,7 @@ public class MemberDao {
 		return exec;
 	}
 	
-	public int memberLogin(String mId, String mPwd) {
-		
-		String sql ="select count(*) as cnt from member where mid= ? and mpwd = ?";
-		int value = 0;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mId);
-			pstmt.setString(2, mPwd);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				value = rs.getInt("cnt");
-			}	
-			
-		}catch(Exception e) {
-			System.out.println("해당하는 사람이 존재하지 않습니다.");
-			
-		}
-		
-		return value; 
-		
-	}
+	
 	
 	public ArrayList<MemberVo> getMemberList(){
 		
@@ -105,6 +115,7 @@ public class MemberDao {
 		String sql ="select memail from member where mId = ?";
 		
 		try {
+			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mId);
 			ResultSet rs = pstmt.executeQuery();
@@ -130,7 +141,7 @@ public class MemberDao {
 		String sql ="select memail from member where mId = ?";
 		
 		try {
-
+			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mId);
 			ResultSet rs = pstmt.executeQuery();
@@ -159,7 +170,7 @@ public class MemberDao {
 		String sql ="update member set mEmailChecked = true where mId=?";
 		
 		try {
-
+			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mId);
 			pstmt.executeUpdate();			
@@ -176,25 +187,7 @@ public class MemberDao {
 		
 	}
 	
-	public String getMname(String mid, String mpwd) {
-		
-		String sql ="select mname from member where mId= ? and mrPwd = ?";
-		String name= null;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mid);
-			pstmt.setString(2, mpwd);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				name = rs.getString("name");
-			}	
-		}catch(Exception e) {
-			System.out.println("존재하지 않습니다.");
-		}
-		
-		return  name;
-	}
+	
 	
 	
 	

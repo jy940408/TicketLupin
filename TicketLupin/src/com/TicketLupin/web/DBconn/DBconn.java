@@ -6,18 +6,18 @@ import java.sql.DriverManager;
 public class DBconn {
 
 	
-	/*
+	
 	Connection conn =null;
-   //���� ����
+   //占쏙옙占쏙옙 占쏙옙占쏙옙
    String coninfo ="jdbc:oracle:thin:@127.0.0.1:1521:xe";
    String idinfo ="TicketLupin";
    String pwdinfo ="1234";
    
    public Connection getConnection() {
       try {
-         //����̹����� OrcleDriver�� ã�´�
+         //占쏙옙占쏙옙譴占쏙옙占쏙옙占� OrcleDriver占쏙옙 찾占승댐옙
          Class.forName("oracle.jdbc.driver.OracleDriver");
-         //���������� ������ �����Ѵ�
+         //占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙
          conn= DriverManager.getConnection(coninfo, idinfo, pwdinfo);
                
          } catch (Exception e) {
@@ -25,7 +25,7 @@ public class DBconn {
          }
          return conn;
    }
-	*/
+	/*
 	
 	Connection conn = null;
 	String coninfo = "jdbc:mysql://localhost:3306/TicketLupin";
@@ -44,4 +44,6 @@ public class DBconn {
 		}
 		return conn;
 	}
+	
+	*/
 }

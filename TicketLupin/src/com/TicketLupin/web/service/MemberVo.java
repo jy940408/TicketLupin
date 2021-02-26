@@ -18,6 +18,7 @@ public class MemberVo {
 	private String msecessionyn;
 	private String mgrade;
 	private String memailchecked;
+	
 	private Boolean SHA256;
 	
 	public Boolean getSHA256() {
