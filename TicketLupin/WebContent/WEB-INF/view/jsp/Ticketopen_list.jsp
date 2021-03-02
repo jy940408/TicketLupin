@@ -20,7 +20,7 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="<%=request.getContextPath()%>/Member/CheckLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
@@ -87,56 +87,13 @@
 							
 							<span class="slider_1">
 								<ul class="list_slider">
+								<c:forEach var="l" items="${list}">
 									<li class="li">
 										<a href="#">
-											<img src="../poster/openposter1.jpg" class="posimg">
+											<img src="<%=request.getContextPath()%>/poster/${l.wtitleposter}" class="posimg">
 										</a>
 									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/openposter2.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/openposter3.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/openposter4.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/openposter5.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/musicalposter4.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/musicalposter9.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/openposter7.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/musicalposter6.jpg" class="posimg">
-										</a>
-									</li>
-									<li class="li">
-										<a href="#">
-											<img src="../poster/musicalposter10.jpg" class="posimg">
-										</a>
-									</li>
+								</c:forEach>
 								</ul>
 							</span>
 							<div class="slick_btns">
@@ -149,9 +106,16 @@
 						
 					</div>
 				</div>
+				<c:if test="${sessionScope.mgrade eq 'M'}">
 				<div class="btn1">
 					<button type="button" class="write" id="Ticketopen_write" onclick="location.href='<%=request.getContextPath()%>/News/NewsWrite.do'">작성하기</button>
 				</div>
+				</c:if>
+				<c:if test="${sessionScope.mgrade eq 'G'}">
+				</div>
+				</c:if>
+				<c:if test="${sessionScope.mgrade eq null}">
+				</c:if>
 				<div class="subject">
 					<div class="box_select">
 						<select name="searchType">
@@ -273,7 +237,7 @@
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">
-					<span class="f_bottom_ment"><img src="lupinlogo.png" id="f_logo"></span>
+					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
 					<span class="f_bottom_ment">
 						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
 						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>

@@ -39,6 +39,7 @@
 		<hr id="nav_bar_bottom">
 		<section>
 			<article>
+			<form method="post" action="<%=request.getContextPath()%>/News/NewsWriteAction.do" enctype="multipart/form-data">
 				<div class="open_notice">
 					<h2>
 						티켓 오픈 공지 작성
@@ -65,7 +66,7 @@
 							</th>
 							<td style="border:1px solid;">
 								<center>
-									<select class="category" style="border:0px; font-size:15px;">
+									<select class="category" name="category" style="border:0px; font-size:15px;">
 										<option>
 											티켓오픈일
 										</option>
@@ -85,7 +86,7 @@
 							</th>
 							<td style="border:1px solid;">
 								<center>
-									<input type="datetime-local" class="date">
+									<input type="datetime-local" class="date" name="date">
 								</center>
 							</td>
 							<th style="border:1px solid;">
@@ -100,28 +101,28 @@
 						<tr style="border:1px solid;">
 							<td	colspan="7">
 								<center>
-									<textarea class="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="기본 정보를 입력해주세요."></textarea>
+									<textarea class="content" name="binfo" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="기본 정보를 입력해주세요."></textarea>
 								</center>
 							</td>
 						</tr>
 						<tr style="border:1px solid;">
 							<td	colspan="7">
 								<center>
-									<textarea class="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="공연 소개를 입력해주세요."></textarea>
+									<textarea class="content" name="introduce" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="공연 소개를 입력해주세요."></textarea>
 								</center>
 							</td>
 						</tr>
 						<tr style="border:1px solid;">
 							<td	colspan="7">
 								<center>
-									<textarea class="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="할인 정보를 입력해주세요."></textarea>
+									<textarea class="content" name="discount" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="할인 정보를 입력해주세요."></textarea>
 								</center>
 							</td>
 						</tr>
 						<tr style="border:1px solid;">
 							<td	colspan="7">
 								<center>
-									<textarea class="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="기획사 정보를 입력해주세요."></textarea>
+									<textarea class="content" name="company" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="기획사 정보를 입력해주세요."></textarea>
 								</center>
 							</td>
 						</tr>
@@ -130,7 +131,7 @@
 								대표 사진
 							</th>
 							<td style="border:1px solid;">
-								<input type="file" class="file" style="border:0px; font-size:14px;">
+								<input type="file" class="file" name="mainposter" style="border:0px; font-size:14px;">
 							</td>
 							<th style="border:1px solid;">
 								본문 사진
@@ -139,12 +140,12 @@
 								<input type="file" class="file" style="border:0px; font-size:14px;">
 							</td>
 							<td align="center" style="font-weight:bold;">
-								공개여부&nbsp;<input type="checkbox" value="pub">
+								공개여부&nbsp;<input type="checkbox" value="Y" name="pub">
 							</td>
 						</tr>
 					</table>
 					<div class="reg">
-						<button class="reg_btn">
+						<button type="submit" class="reg_btn">
 							등록
 						</button>
 					</div>
@@ -154,6 +155,7 @@
 						</button>
 					</div>
 				</div>
+			</form>
 			</article>
 		</section>
 		<footer>

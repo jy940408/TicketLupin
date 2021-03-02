@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TicketLupin.web.DBconn.DBconn;
-
+import com.TicketLupin.web.service.NewsVo;
 public class NewsDao {
 
 	private	Connection conn;
@@ -140,4 +140,30 @@ public class NewsDao {
 		return newsvo;
 	}		
 	
+	public int insertNews(NewsVo nv) {
+		int result = 0;
+		//인덱스, 타이틀, 기본 정보, 멤버인덱스, 등록날짜, 조회수, 이미지, 첨부파일, 공개여부, 좋아요 수, 삭제여부, 오픈날짜, 타이틀포스터, 공연소개, 할인정보, 공연사 정보, 카테고리
+		String sql = "INSERT INTO NEWS VALUES('', ?, ?, 1, sysdate, 1, '123', '123', ?, 1, 'N', sysdate, ?, ?, ?, ?, ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, nv.getWtitle());
+			pstmt.setString(2, nv.getWbasicinfo());
+			pstmt.setString(3, nv.getWpub());
+			pstmt.setString(4, nv.getWtitleposter());
+			pstmt.setString(5, nv.getWintroduce());
+			pstmt.setString(6, nv.getWdiscount());
+			pstmt.setString(7, nv.getWcompany());
+			pstmt.setString(8, nv.getWcategory());
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(nv.getWtitle());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

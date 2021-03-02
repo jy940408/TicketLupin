@@ -23,8 +23,7 @@ public class NewsVo {
 	private Date wopendate;
 	
 	public NewsVo() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public NewsVo(int widx, String wtitle, String wbasicinfo, String wintroduce, String wdiscount, String wcompany,

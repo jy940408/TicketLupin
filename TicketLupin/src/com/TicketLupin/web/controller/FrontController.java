@@ -112,6 +112,9 @@ public class FrontController extends HttpServlet{
 		if (hc.equals("Member")) {
 			MemberController memberc = new MemberController();
 			memberc.doPost(request, response);			
+		}else if (hc.equals("News")) {			
+			NewsController newsc = new NewsController();
+			newsc.doPost(request, response);
 		}
 		
 	}

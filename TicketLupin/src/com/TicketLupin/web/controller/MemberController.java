@@ -83,18 +83,26 @@ public class MemberController extends HttpServlet{
 			System.out.println("mpwd:"+mpwd);
 			
 			MemberDao md = new MemberDao();
-			int value = md.memberLogin(mid, mpwd);
+			String value = md.memberLogin(mid, mpwd);
 			System.out.println("value:"+value);
 			
 			HttpSession session = request.getSession();
 			
-			if(value == 1 ) {
+			if(value.equals("M")) {
 				
 				session.setAttribute("mid", mid);
 				session.setAttribute("mpwd", mpwd);
+				session.setAttribute("mgrade", value);
 				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp");
 				dis.forward(request, response);
-				
+				System.out.println("로그인 성공 값 받기");
+			}else if(value.equals("G")){
+				session.setAttribute("mid", mid);
+				session.setAttribute("mpwd", mpwd);
+				session.setAttribute("mgrade", value);
+				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp");
+				dis.forward(request, response);
+				System.out.println("로그인 성공 값 받기");
 			}else {
 				response.sendRedirect(request.getContextPath()+"/Member/MemberLogin.do");
 			}

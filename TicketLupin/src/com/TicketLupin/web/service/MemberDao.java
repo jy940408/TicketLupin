@@ -1,10 +1,12 @@
 package com.TicketLupin.web.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.TicketLupin.web.DBconn.DBconn;
 
@@ -22,10 +24,10 @@ public class MemberDao {
 	}
 	
 	
-	public int memberLogin(String mId, String mPwd) {
+	public String memberLogin(String mId, String mPwd) {
 		
-		String sql ="select count(*) as cnt from member where mid= ? and mpwd = ?;";
-		int value = 1;
+		String sql = "SELECT MGRADE FROM MEMBER WHERE MID = ? AND MPWD = ?";
+		String value = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mId);
@@ -33,7 +35,7 @@ public class MemberDao {
 			ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
-				value = rs.getInt("cnt");
+				value = rs.getString("MGRADE");
 			}	
 			
 		}catch(Exception e) {
@@ -44,12 +46,45 @@ public class MemberDao {
 		
 	}
 	
-	public int getMember(String mid) {
+	public MemberVo getMember(String id) {
 		
-		String sql ="";
-		int value =1;
+		String sql ="SELECT * FROM MEMBER WHERE MID = ?";
+		MemberVo member = new MemberVo();
 		
-		return value;
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+
+			rs.next();
+				
+			int midx = rs.getInt("MIDX");
+			String mid = rs.getString("MID");
+			String mname = rs.getString("MNAME");
+			String mpwd = rs.getString("MPWD");
+			String mssn = rs.getString("MSSN");
+			String maddress = rs.getString("MADDRESS");
+			String memail = rs.getString("MEMAIL");
+			String mphone = rs.getString("MPHONE");
+			int maccount = rs.getInt("MACCOUNT");
+			Date msignindate = rs.getDate("MSIGNINDATE");
+			Date msecessiondate = rs.getDate("MSECESSIONDATE");
+			String msecessionyn = rs.getString("MSECESSIONYN");
+			String mgrade = rs.getString("MGRADE");
+			String memailchecked = rs.getString("MEMAILCHECKED");
+			
+			
+			member = new MemberVo(midx, mid, mname, mpwd, mssn, maddress, memail, mphone, maccount, msignindate, msecessiondate, msecessionyn, mgrade, memailchecked);
+			
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		
+		return member;
 	}
 	
 	public int insertMember(String mId, String mName, String mPwd, String mAddress, String mEmail, String mPhone) {
