@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>이벤트 상세</title>
-		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Winner_view.js"></script>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Winner_view.css">
+		<meta charset="UTF-8">
+		<title>티켓 오픈 공지 작성</title>
+		<link rel="stylesheet" href="../css/Winner_write_admin.css">
 	</head>
 	<body>
 		<header>
@@ -38,79 +36,81 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
-				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_myticket">마이 티켓</a>
+				<a href="#" id="n_home">홈</a>
+				<a href="#">공연</a>
+				<a href="#">랭킹</a>
+				<a href="#">티켓오픈소식</a>
+				<a href="#">이벤트</a>
+				<a href="#">마이 티켓</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
-		<div id="nav_menu_sub_event_div" class="main_nav_all">
-			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-			</ul>
-			<hr id="nav_bar_sub">
-		</div>
-		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
-			<ul id="nav_menu_sub_myticket" style="margin:0px;">
-				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-			</ul>
-			<hr id="nav_bar_sub">
-		</div>
-		
 		<section>
 			<article>
-				<div class="view">
-					<div class="view_top">
-						<div class="view_top_title">
-							<span class="view_top_span1">
-								${detail.ititle}
-							</span>
-							<input type="text" id="url" class="url_input" size="35" />
-							<button class="url_btn" onclick="urlClipCopy()">
-								<img src="../icon/url.png" class="url_btn_img">
+				<div class="open_notice">
+					<h2>
+						당첨자 발표 작성
+					</h2>
+					<form method="post" action="<%=request.getContextPath()%>/Winner/WinnerWriteAction.do" enctype="multipart/form-data">
+						<table class="open_notice_table" style="border:1px solid; border-collapse:collapse;">
+							<colgroup>
+								<col width="100px"/>
+								<col width="35px"/>
+								<col width="415px">
+								<col width="85px">
+								<col width="305px">
+								<col width="70px">
+								<col width="90px">
+							</colgroup>
+							<tr>
+								<th style="border:1px solid;">
+									제목
+								</th>
+								<td colspan="6" style="border:1px solid;">
+									<input type="text" name="title" class="title" maxlength="100" style="width:99%; border:0px; font-size:16px;">
+								</td>
+							</tr>
+							<tr>
+								<th style="border-bottom:1px solid;">
+									이벤트 기간
+								</th>
+								<td colspan="6" style="border:1px solid;">
+									<center>
+										<input type="datetime-local" class="date"> 에서&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="datetime-local" class="date"> 까지
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<td	colspan="7">
+									<center>
+										<textarea class="content" name="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th style="border:1px solid;">
+									본문 사진
+								</th>
+								<td colspan="5" style="border:1px solid;">
+									<input type="file" class="file" name="image" style="border:0px; font-size:14px;">
+								</td>
+								<td align="center" style="font-weight:bold;">
+									공개여부&nbsp;<input type="checkbox" value="pub" name="pub">
+								</td>
+							</tr>
+						</table>
+						<div class="reg">
+							<button type="submit" class="reg_btn">
+								등록
 							</button>
 						</div>
-						<div class="view_top_period">
-							<span class="view_top_span2">
-								기간 : 2020.07.15 ~ 2023.08.31
-							</span>
+						<div class="list">
+							<button class="list_btn">
+								목록으로
+							</button>
 						</div>
-					</div>
-					<div class="view_mid">
-						<center>
-							<img src="<%=request.getContextPath()%>/poster/${detail.iimage}">
-							<p/>
-							${detail.icontent}
-						</center>
-					</div>
-					<c:if test="${sessionScope.mgrade eq 'M'}">
-					<div class="modify">
-						<button class="remove_btn">
-							삭제하기
-						</button>
-						<button class="modify_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerModify.do'">
-							수정하기
-						</button>
-					</div>
-					</c:if>
-					<c:if test="${sessionScope.mgrade eq 'G'}">
-					</div>
-					</c:if>
-					<c:if test="${empty sessionScope.mgrade}">
-					</c:if>
-					<div class="list">
-						<button class="list_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerList.do'">
-							목록으로
-						</button>
-					</div>				
+					</form>
 				</div>
 			</article>
 		</section>

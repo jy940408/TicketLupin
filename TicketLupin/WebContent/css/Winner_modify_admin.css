@@ -81,105 +81,42 @@ body{
 	margin:53px;
 	font-weight:bold;
 }
-#nav_menu_sub_event_div{
-	max-width:1000px;
-	min-width:1000px;
-	margin:auto;
-}
-#nav_menu_sub_event{
-	padding:0px;
-	text-align:right;	
-	margin:5px 60px 10px 10px;
-	padding:0 100px;
-}
-#nav_menu_sub_event a{
-	text-decoration:none;
-	color:rgba(0,0,0,0.5);
-	font-size:16px;
-	font-weight:bold;
-}
-#nav_menu_sub_event li{
-	color:black;
-	display:inline;
-	text-decoration:none;
-}
-#nav_menu_sub_myticket_div{
-	max-width:1000px;
-	min-width:1000px;
-	margin:auto;
-}
-#nav_menu_sub_myticket{
-	padding:0px;
-	text-align:right;
-	margin:5px 40px 10px 10px;
-}
-#nav_menu_sub_myticket a{
-	text-decoration:none;
-	color:rgba(0,0,0,0.5);
-	font-size:16px;
-	font-weight:bold;
-}
-#nav_menu_sub_myticket li{
-	color:black;
-	display:inline;
-	text-decoration:none;
-}
-.main_nav_all ul{
-	margin:0px;
-}
 /*------------------------------------------------------------------------------------------------------------------------*/
 section{
 	max-width:1000px;
 	min-width:1000px;
 	margin:auto
 }
-.view_top{
-	border:1px solid #ebebeb;
-	margin-top:40px;
-	padding:20px;
+.open_notice{
+	margin-top:66px;
 }
-.view_top_span1{
-	font-size:20px;
-	padding:0px;
+.open_notice_table{
+	max-width:1000px;
+	min-width:1000px;
 }
-.url_input {
-	position:absolute;
-	left:-10000px;
-}
-.url_btn {
-	display: inline-block;
-	padding:1px;
-	border: 1px solid #d4d4d4;
-	background-color: #ffffff;
-	cursor: pointer;
-	float:right;	
-}
-.url_btn:focus{
+.title:focus{
 	outline:none;
 }
-.url_btn_img{
-	width:22px;
-	height:22px;
-	margin-top:1.5px;
+.category:focus{
+	outline:none;
 }
-.view_top_period{
-	margin-top:10px;
-}
-.view_top_span2{
-	display:block;
-	font-family:initial;
+.date{
+	border:0px;
 	font-size:15px;
-	color:#787878;
 }
-.view_mid{
-	border:1px solid #ebebeb;
-	border-top:0px;
-	padding:20px;
+.date:focus{
+	outline:none;
 }
-.modify{
+.content:focus{
+	outline:none;
+}
+.file:focus{
+	outline:none;
+}
+.reg{
 	margin-top:10px;
 }
-.remove_btn, .modify_btn{
+.reg_btn{
 	width:100px;
 	height:30px;
 	font-size:15px;
@@ -190,13 +127,7 @@ section{
 	background-color: #ffffff;
 	cursor:pointer;
 	position:relative;
-	left:792px;
-}
-.remove_btn, .modify_btn:focus{
-	outline:none;
-}
-.modify_btn{
-	margin-left:5px;
+	left:900px;
 }
 .list{
 	margin-top:10px;

@@ -41,11 +41,12 @@
 			}
 			#h_ads{
 				margin-left:50px;
+				float:right;
 			}
 			#h_logo{
 				position:relative;
 				top:10px;
-				height:80px;
+				height:70px;
 				margin:10px 0;
 			}
 			#h_search{
@@ -53,8 +54,8 @@
 				border-width:0px 0px 4px 0px;
 				background:transparent;
 				border-color:black;
-				font-size:25px;
-				width:250px;
+				font-size:20px;
+				width:200px;
 			}
 			#h_search_button{
 				background-color:transparent;

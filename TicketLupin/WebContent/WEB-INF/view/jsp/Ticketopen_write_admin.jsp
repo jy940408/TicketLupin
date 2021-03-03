@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,8 +13,14 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						<c:if test="${not empty sessionScope.mid}">
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<li><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
 							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
@@ -31,7 +38,7 @@
 				<a href="#" id="n_home">홈</a>
 				<a href="#">공연</a>
 				<a href="#">랭킹</a>
-				<a href="#">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do">티켓오픈소식</a>
 				<a href="#">이벤트</a>
 				<a href="#">마이 티켓</a>
 			</nav>

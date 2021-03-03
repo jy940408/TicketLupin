@@ -124,4 +124,27 @@ public class WinnerDao {
 		
 		return winnervo;
 	}
+	
+	public int insertWinner(WinnerVo wv) {
+		int result = 0;
+		//인덱스, 타이틀, 내용, 작성자인덱스, 작성일, 조회수, 이미지 첨부, 파일 첨부, 공개여부, 좋아요, 삭제여부
+		String sql = "INSERT INTO WINNER VALUES('', ?, ?, 1, SYSDATE, 1, ?, '123', ?, 1, 'N')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, wv.getItitle());
+			pstmt.setString(2, wv.getIcontent());
+			pstmt.setString(3, wv.getIimage());
+			pstmt.setString(4, wv.getIpub());
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(wv.getItitle());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

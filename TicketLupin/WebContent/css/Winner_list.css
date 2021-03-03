@@ -41,11 +41,12 @@
 			}
 			#h_ads{
 				margin-left:50px;
+				float:right;
 			}
 			#h_logo{
 				position:relative;
 				top:10px;
-				height:80px;
+				height:70px;
 				margin:10px 0;
 			}
 			#h_search{
@@ -53,8 +54,8 @@
 				border-width:0px 0px 4px 0px;
 				background:transparent;
 				border-color:black;
-				font-size:25px;
-				width:250px;
+				font-size:20px;
+				width:200px;
 			}
 			#h_search_button{
 				background-color:transparent;
@@ -124,6 +125,15 @@
 			.wrap_input{
 				float:right;
 				padding:50px 0 20px 0;
+			}
+			.write{
+				height:35px;
+				width:140px;
+				font-size:15px;
+				margin:50px 0 20px;
+				float:left;
+				background:none;
+				border: 1px solid #D5D5D5;
 			}
 			.inputTypefaq{
 				height:25px;

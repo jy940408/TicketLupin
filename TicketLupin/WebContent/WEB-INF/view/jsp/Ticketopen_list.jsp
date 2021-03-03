@@ -20,8 +20,14 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
+						<c:if test="${not empty sessionScope.mid}">
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
 							<li><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
 							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
@@ -63,7 +69,7 @@
 			<div id="nav_menu_sub_div" class="main_nav_event">
 				<ul id="nav_menu_sub2">
 					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				</ul>
 			</div>
@@ -114,7 +120,7 @@
 				<c:if test="${sessionScope.mgrade eq 'G'}">
 				</div>
 				</c:if>
-				<c:if test="${sessionScope.mgrade eq null}">
+				<c:if test="${empty sessionScope.mgrade}">
 				</c:if>
 				<div class="subject">
 					<div class="box_select">
