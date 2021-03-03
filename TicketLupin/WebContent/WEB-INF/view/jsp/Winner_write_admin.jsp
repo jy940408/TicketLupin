@@ -76,8 +76,8 @@
 								</th>
 								<td colspan="6" style="border:1px solid;">
 									<center>
-										<input type="datetime-local" class="date"> 에서&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<input type="datetime-local" class="date"> 까지
+										<input type="datetime-local" class="date" name="startdate"> 에서&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="datetime-local" class="date" name="enddate"> 까지
 									</center>
 								</td>
 							</tr>

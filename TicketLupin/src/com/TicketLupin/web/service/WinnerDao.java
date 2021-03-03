@@ -24,7 +24,7 @@ public class WinnerDao {
 		
 		List<WinnerVo> list = new ArrayList<WinnerVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM WINNER WHERE ITITLE LIKE ? ORDER BY IREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' ORDER BY IREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 		
@@ -49,8 +49,10 @@ public class WinnerDao {
 				String ipub = rs.getString("IPUB");
 				int igood = rs.getInt("IGOOD");
 				String idelyn = rs.getString("IDELYN");
+				Date iopendate = rs.getDate("IOPENDATE");
+				Date ienddate = rs.getDate("IENDDATE");
 				
-				WinnerVo wv = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn);
+				WinnerVo wv = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn, iopendate, ienddate);
 				
 				list.add(wv);
 				}
@@ -114,8 +116,10 @@ public class WinnerDao {
 			String ipub = rs.getString("IPUB");
 			int igood = rs.getInt("IGOOD");
 			String idelyn = rs.getString("IDELYN");
+			Date iopendate = rs.getDate("IOPENDATE");
+			Date ienddate = rs.getDate("IENDDATE");
 			
-			winnervo = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn);
+			winnervo = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn, iopendate, ienddate);
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -127,8 +131,8 @@ public class WinnerDao {
 	
 	public int insertWinner(WinnerVo wv) {
 		int result = 0;
-		//인덱스, 타이틀, 내용, 작성자인덱스, 작성일, 조회수, 이미지 첨부, 파일 첨부, 공개여부, 좋아요, 삭제여부
-		String sql = "INSERT INTO WINNER VALUES('', ?, ?, 1, SYSDATE, 1, ?, '123', ?, 1, 'N')";
+		//인덱스, 타이틀, 내용, 작성자인덱스, 작성일, 조회수, 이미지 첨부, 파일 첨부, 공개여부, 좋아요, 삭제여부, 시작 날짜, 끝 날짜
+		String sql = "INSERT INTO WINNER VALUES('', ?, ?, 1, SYSDATE, 1, ?, '123', ?, 1, 'N', ?, sysdate)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -137,14 +141,40 @@ public class WinnerDao {
 			pstmt.setString(2, wv.getIcontent());
 			pstmt.setString(3, wv.getIimage());
 			pstmt.setString(4, wv.getIpub());
-			
+			pstmt.setDate(5, wv.getIopendate());
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println(wv.getItitle());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return result;
+	}
+	
+	public int modifyWinner(WinnerVo wv) {
+		int result = 0;
+		
+		return result;
+		
+	}
+	
+	public int deleteWinner(int idx) {
+		int result = 0;
+		
+		String sql = "UPDATE WINNER SET IDELYN = 'Y' WHERE IIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+		
 	}
 }

@@ -1,6 +1,11 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.Enumeration;
 import java.util.List;
 
@@ -75,11 +80,37 @@ public class WinnerController extends HttpServlet{
 		}else if(str.equals("/Winner/WinnerWrite.do")) {
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_write_admin.jsp").forward(request, response);
 		}else if(str.equals("/Winner/WinnerModify.do")) {
+			
+			String iidx_ = request.getParameter("iidx");
+			
+			int iidx = 0;
+			if(iidx_ != null && !iidx_.equals("")) {
+				iidx = Integer.parseInt(iidx_);
+			}
+			
+			WinnerDao wd = new WinnerDao();
+			WinnerVo winnervo = wd.getWinnerDetail(iidx);
+			
+			System.out.println(iidx);
+			System.out.println(winnervo);
+			
+			request.setAttribute("detail", winnervo);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_modify_admin.jsp").forward(request, response);
-		}else if(str.equals("/Winner/WinnerModifyAction.do")) {
 			
 		}else if(str.equals("/Winner/WinnerDeleteAction.do")) {
 			
+			String iidx_ = request.getParameter("iidx");
+			System.out.println("삭제 iidx_ 확인: " + iidx_);
+			
+			int iidx = 0;
+			if(iidx_ != null && !iidx_.equals("")) {
+				iidx = Integer.parseInt(iidx_);
+			}
+			
+			WinnerDao wd = new WinnerDao();
+			wd.deleteWinner(iidx);
+			System.out.println("삭제 iidx 확인: " + iidx);
+			response.sendRedirect("../Winner/WinnerList.do");
 		}
 		
 	}
@@ -110,7 +141,26 @@ public class WinnerController extends HttpServlet{
 			String content = multi.getParameter("content"); //카테고리
 			String pub_ = multi.getParameter("pub"); //공개여부
 			String image = multi.getParameter("image");
+			String startdate_ = multi.getParameter("startdate");
+			String enddate_ = multi.getParameter("enddate");
 			
+			System.out.println(startdate_);
+			System.out.println(enddate_);
+//==============================================================================================================================//		    
+		   Date date = null;
+		   try {
+			   DateFormat formatter;
+			   
+			   formatter =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			   date = (Date)formatter.parse(startdate_);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   
+		   java.sql.Date sqlDate2 = new java.sql.Date(date.getTime());
+//==============================================================================================================================//
+		    
 			Enumeration files = multi.getFileNames();
 			String str_ = (String)files.nextElement();
 			
@@ -136,10 +186,15 @@ public class WinnerController extends HttpServlet{
 			wv.setIcontent(content);
 			wv.setIpub(pub);
 			wv.setIimage(originalFile);
-			
+			wv.setIopendate(sqlDate2);
 			WinnerDao wd = new WinnerDao();
 			wd.insertWinner(wv);
+			
 			response.sendRedirect("../Winner/WinnerList.do");
+			
+		}else if(str.equals("/Winner/WinnerModifyAction.do")) {
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);
+		}else if(str.equals("/Winner/WinnerModifyAction.do")) {
 			
 		}
 		

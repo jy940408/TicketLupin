@@ -67,7 +67,7 @@
 									제목
 								</th>
 								<td colspan="6" style="border:1px solid;">
-									<input type="text" name="title" class="title" maxlength="100" style="width:99%; border:0px; font-size:16px;" value="">
+									<input type="text" name="title" class="title" maxlength="100" style="width:99%; border:0px; font-size:16px;" value="${detail.ititle}">
 								</td>
 							</tr>
 							<tr>
@@ -84,7 +84,7 @@
 							<tr>
 								<td	colspan="7">
 									<center>
-										<textarea class="content" name="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+										<textarea class="content" name="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;">${detail.icontent}</textarea>
 									</center>
 								</td>
 							</tr>

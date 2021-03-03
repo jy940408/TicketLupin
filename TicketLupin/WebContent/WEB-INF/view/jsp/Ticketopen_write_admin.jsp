@@ -91,17 +91,9 @@
 							<th colspan="2" style="border:1px solid;">
 								오픈일정
 							</th>
-							<td style="border:1px solid;">
+							<td colspan="5" style="border:1px solid;">
 								<center>
-									<input type="datetime-local" class="date" name="date">
-								</center>
-							</td>
-							<th style="border:1px solid;">
-								공연기간
-							</th>
-							<td colspan="3" style="border:1px solid;">
-								<center>
-									<input type="datetime-local" class="date">
+									<input type="datetime-local" class="date" name="opendate">
 								</center>
 							</td>
 						</tr>

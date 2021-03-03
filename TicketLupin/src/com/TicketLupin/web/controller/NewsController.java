@@ -92,7 +92,18 @@ public class NewsController extends HttpServlet{
 		}else if(str.equals("/News/NewsModifyAction.do")) {
 			
 		}else if(str.equals("/News/NewsDeleteAction.do")) {
+			String widx_ = request.getParameter("widx");
+			System.out.println("삭제 widx_ 확인: " + widx_);
 			
+			int widx = 0;
+			if(widx_ != null && !widx_.equals("")) {
+				widx = Integer.parseInt(widx_);
+			}
+			
+			NewsDao nd = new NewsDao();
+			nd.deleteNews(widx);
+			System.out.println("삭제 widx 확인: " + widx);
+			response.sendRedirect("../News/NewsList.do");
 		}
 		
 	}
@@ -126,7 +137,7 @@ public class NewsController extends HttpServlet{
 			String discount = multi.getParameter("discount"); //할인정보
 			String company = multi.getParameter("company"); //기획사 정보
 			String pub_ = multi.getParameter("pub"); //공개여부
-			String poster = multi.getParameter("mainposter");
+			String opendate = multi.getParameter("opendate"); // 오픈 날짜
 			
 			Enumeration files = multi.getFileNames();
 			String str_ = (String)files.nextElement();
@@ -157,6 +168,7 @@ public class NewsController extends HttpServlet{
 			nv.setWcompany(company);
 			nv.setWpub(pub);
 			nv.setWtitleposter(originalFile);
+			
 			
 			NewsDao nd = new NewsDao();
 			nd.insertNews(nv);

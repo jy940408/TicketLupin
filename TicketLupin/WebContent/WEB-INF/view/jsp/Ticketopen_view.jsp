@@ -104,12 +104,18 @@
 							</dd>
 						</dl>
 						<div class="modify">
-							<button class="remove_btn">
-								제거하기
+							<c:if test ="${sessionScope.mgrade eq 'M'}">
+							<button class="remove_btn" onclick="location.href='<%=request.getContextPath()%>/News/NewsDeleteAction.do?widx=${detail.widx}'">
+								삭제하기
 							</button>
 							<button class="modify_btn">
 								수정하기
 							</button>
+							</c:if>
+							<c:if test ="${sessionScope.mgrade eq 'U'}">
+							</c:if>
+							<c:if test = "${empty sessionScope.mgrade}">
+							</c:if>
 						</div>
 					</div>
 				</div>

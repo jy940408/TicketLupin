@@ -24,7 +24,7 @@ public class NewsDao {
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WTITLE LIKE ? ORDER BY " + setting + " DESC) W) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WPUB = 'Y' AND WDELYN = 'N' ORDER BY " + setting + " DESC) W) WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 		
@@ -143,7 +143,7 @@ public class NewsDao {
 	public int insertNews(NewsVo nv) {
 		int result = 0;
 		//인덱스, 타이틀, 기본 정보, 멤버인덱스, 등록날짜, 조회수, 이미지, 첨부파일, 공개여부, 좋아요 수, 삭제여부, 오픈날짜, 타이틀포스터, 공연소개, 할인정보, 공연사 정보, 카테고리
-		String sql = "INSERT INTO NEWS VALUES('', ?, ?, 1, sysdate, 1, '123', '123', ?, 1, 'N', sysdate, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO NEWS VALUES('', ?, ?, 1, sysdate, 1, '123', '123', ?, 1, 'N', ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -151,11 +151,12 @@ public class NewsDao {
 			pstmt.setString(1, nv.getWtitle());
 			pstmt.setString(2, nv.getWbasicinfo());
 			pstmt.setString(3, nv.getWpub());
-			pstmt.setString(4, nv.getWtitleposter());
-			pstmt.setString(5, nv.getWintroduce());
-			pstmt.setString(6, nv.getWdiscount());
-			pstmt.setString(7, nv.getWcompany());
-			pstmt.setString(8, nv.getWcategory());
+			pstmt.setDate(4, nv.getWopendate());
+			pstmt.setString(5, nv.getWtitleposter());
+			pstmt.setString(6, nv.getWintroduce());
+			pstmt.setString(7, nv.getWdiscount());
+			pstmt.setString(8, nv.getWcompany());
+			pstmt.setString(9, nv.getWcategory());
 			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println(nv.getWtitle());
@@ -165,5 +166,25 @@ public class NewsDao {
 		}
 		
 		return result;
+	}
+	
+	public int deleteNews(int idx) {
+		int result = 0;
+		
+		String sql = "UPDATE NEWS SET WDELYN = 'Y' WHERE WIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+		
 	}
 }

@@ -15,16 +15,17 @@ public class WinnerVo {
 	private String ipub;
 	private int igood;
 	private String idelyn;
-	
-	
+	private Date iopendate;
+	private Date ienddate;
 	
 	public WinnerVo() {
-		
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public WinnerVo(int iidx, String ititle, String icontent, int midx, Date iregdate, int ihit, String iimage,
-			String ifiles, String ipub, int igood, String idelyn) {
-
+			String ifiles, String ipub, int igood, String idelyn, Date iopendate, Date ienddate) {
+		super();
 		this.iidx = iidx;
 		this.ititle = ititle;
 		this.icontent = icontent;
@@ -36,6 +37,8 @@ public class WinnerVo {
 		this.ipub = ipub;
 		this.igood = igood;
 		this.idelyn = idelyn;
+		this.iopendate = iopendate;
+		this.ienddate = ienddate;
 	}
 
 	public int getIidx() {
@@ -126,12 +129,32 @@ public class WinnerVo {
 		this.idelyn = idelyn;
 	}
 
+	public Date getIopendate() {
+		return iopendate;
+	}
+
+	public void setIopendate(Date iopendate) {
+		this.iopendate = iopendate;
+	}
+
+	public Date getIenddate() {
+		return ienddate;
+	}
+
+	public void setIenddate(Date ienddate) {
+		this.ienddate = ienddate;
+	}
+
 	@Override
 	public String toString() {
 		return "WinnerVo [iidx=" + iidx + ", ititle=" + ititle + ", icontent=" + icontent + ", midx=" + midx
 				+ ", iregdate=" + iregdate + ", ihit=" + ihit + ", iimage=" + iimage + ", ifiles=" + ifiles + ", ipub="
-				+ ipub + ", igood=" + igood + ", idelyn=" + idelyn + "]";
+				+ ipub + ", igood=" + igood + ", idelyn=" + idelyn + ", iopendate=" + iopendate + ", ienddate="
+				+ ienddate + "]";
 	}
+	
+	
+	
 	
 	
 }

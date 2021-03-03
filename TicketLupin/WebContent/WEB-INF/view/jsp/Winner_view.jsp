@@ -93,10 +93,10 @@
 					</div>
 					<c:if test="${sessionScope.mgrade eq 'M'}">
 					<div class="modify">
-						<button class="remove_btn">
+						<button class="remove_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerDeleteAction.do?iidx=${detail.iidx}'">
 							삭제하기
 						</button>
-						<button class="modify_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerModify.do'">
+						<button class="modify_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerModify.do?iidx=${detail.iidx}'">
 							수정하기
 						</button>
 					</div>
