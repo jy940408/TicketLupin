@@ -18,6 +18,7 @@ public class WinnerDao {
 	public WinnerDao() {
 		DBconn dbconn = new DBconn();
 		this.conn = dbconn.getConnection();
+		ResultSet rs;
 	}
 	
 	public List<WinnerVo> getWinnerList(String query, int page){
@@ -56,10 +57,10 @@ public class WinnerDao {
 				
 				list.add(wv);
 				}
-		
+
 		}catch (SQLException e) {
 				e.printStackTrace();
-		}
+		}	
 		
 		return list;
 	}		
@@ -132,17 +133,18 @@ public class WinnerDao {
 	public int insertWinner(WinnerVo wv) {
 		int result = 0;
 		//인덱스, 타이틀, 내용, 작성자인덱스, 작성일, 조회수, 이미지 첨부, 파일 첨부, 공개여부, 좋아요, 삭제여부, 시작 날짜, 끝 날짜
-		String sql = "INSERT INTO WINNER VALUES('', ?, ?, 1, SYSDATE, 1, ?, '123', ?, 1, 'N', ?, ?)";
+		String sql = "INSERT INTO WINNER VALUES('', ?, ?, ?, SYSDATE, 1, ?, '123', ?, 1, 'N', ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, wv.getItitle());
 			pstmt.setString(2, wv.getIcontent());
-			pstmt.setString(3, wv.getIimage());
-			pstmt.setString(4, wv.getIpub());
-			pstmt.setDate(5, wv.getIopendate());
-			pstmt.setDate(6, wv.getIenddate());
+			pstmt.setInt(3, wv.getMidx());
+			pstmt.setString(4, wv.getIimage());
+			pstmt.setString(5, wv.getIpub());
+			pstmt.setDate(6, wv.getIopendate());
+			pstmt.setDate(7, wv.getIenddate());
 			ResultSet rs = pstmt.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -194,5 +196,28 @@ public class WinnerDao {
 		
 		return result;
 		
+	}
+	
+	public int countWinnerView(int iidx) {
+		int result = 0;
+		WinnerVo wv = new WinnerVo();
+		
+		String sql = "UPDATE WINNER SET IHIT = IHIT + 1 WHERE IIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, iidx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(wv.getIhit());
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

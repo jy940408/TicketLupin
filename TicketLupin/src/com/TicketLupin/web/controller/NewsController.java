@@ -35,6 +35,8 @@ public class NewsController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str); 
 		
+//==============================================================================================================================//		
+		
 		if(str.equals("/News/NewsList.do")) {
 			
 			HttpSession session = request.getSession();
@@ -69,7 +71,9 @@ public class NewsController extends HttpServlet{
 			
 			System.out.println("list " + list);
 			System.out.println("member id " + mid);
-			
+		
+//==============================================================================================================================//
+
 		}else if(str.equals("/News/NewsDetail.do")) {
 			
 			String widx_ = (String)request.getParameter("widx");
@@ -81,12 +85,14 @@ public class NewsController extends HttpServlet{
 			
 			NewsDao nd = new NewsDao();
 			NewsVo newsvo = nd.getNewsDetail(widx);
-			
+			nd.countNewsView(widx);
 			System.out.println("detail widx: " + widx);
 			System.out.println("detail: " + newsvo);
 			
 			request.setAttribute("detail", newsvo);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_view.jsp").forward(request, response);
+
+//==============================================================================================================================//
 			
 		}else if(str.equals("/News/NewsWrite.do")) {
 			
@@ -191,7 +197,7 @@ public class NewsController extends HttpServlet{
 			
 			HttpSession session = request.getSession();
 			
-			String getid = (String)session.getAttribute("mid");
+			int midx = (int)session.getAttribute("midx");
 			
 			NewsVo nv = new NewsVo();
 			nv.setWtitle(title);
@@ -203,7 +209,7 @@ public class NewsController extends HttpServlet{
 			nv.setWpub(pub);
 			nv.setWtitleposter(originalFile);
 			nv.setWopendate(sqlOpenDate);
-			
+			nv.setMidx(midx);
 			NewsDao nd = new NewsDao();
 			nd.insertNews(nv);
 			response.sendRedirect("../News/NewsList.do");

@@ -14,9 +14,9 @@ public class ShowController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("")) {
+		if(str.equals("/Show/ShowList.do")) {
 			
-			request.getRequestDispatcher("").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
 			
 		}
 		

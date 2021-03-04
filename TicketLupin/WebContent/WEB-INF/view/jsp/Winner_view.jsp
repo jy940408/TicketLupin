@@ -9,6 +9,33 @@
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Winner_view.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Winner_view.css">
+		<script type="text/javascript">
+			function idconfirm(){
+				
+				if(${detail.midx} != ${sessionScope.midx}){
+					alert("권한이 없습니다");
+					return;
+				}
+				
+				alert("글을 수정합니다");
+				
+				location.href = "<%=request.getContextPath()%>/Winner/WinnerModify.do?iidx=${detail.iidx}"; 
+				return;
+			}
+			
+			function deleteConfirm(){
+
+				if(${detail.midx} != ${sessionScope.midx}){
+					alert("권한이 없습니다");
+					return;
+				}
+				
+				alert("글을 삭제합니다");
+				
+				location.href = "<%=request.getContextPath()%>/Winner/WinnerDeleteAction.do?iidx=${detail.iidx}"; 
+				return;
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -93,10 +120,10 @@
 					</div>
 					<c:if test="${sessionScope.mgrade eq 'M'}">
 					<div class="modify">
-						<button class="remove_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerDeleteAction.do?iidx=${detail.iidx}'">
+						<button class="remove_btn" onclick="deleteConfirm()">
 							삭제하기
 						</button>
-						<button class="modify_btn" onclick="location.href='<%=request.getContextPath()%>/Winner/WinnerModify.do?iidx=${detail.iidx}'">
+						<button class="modify_btn" onclick="idconfirm()">
 							수정하기
 						</button>
 					</div>

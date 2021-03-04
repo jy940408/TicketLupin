@@ -13,6 +13,33 @@
 		<title>티켓 오픈 상세</title>
 		<script src="<%=request.getContextPath() %>/js/Ticketopen_view.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Ticketopen_view.css">
+		<script type="text/javascript">
+			function modifyConfirm(){
+				
+				if(${detail.midx} != ${sessionScope.midx}){
+					alert("권한이 없습니다");
+					return;
+				}
+				
+				alert("글을 수정합니다");
+				
+				location.href = "<%=request.getContextPath()%>/News/NewsModify.do?widx=${detail.widx}"; 
+				return;
+			}
+			
+			function deleteConfirm(){
+
+				if(${detail.midx} != ${sessionScope.midx}){
+					alert("권한이 없습니다");
+					return;
+				}
+				
+				alert("글을 삭제합니다");
+				
+				location.href = "<%=request.getContextPath()%>/News/NewsDeleteAction.do?widx=${detail.widx}"; 
+				return;
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -105,10 +132,10 @@
 						</dl>
 						<div class="modify">
 							<c:if test ="${sessionScope.mgrade eq 'M'}">
-							<button class="remove_btn" onclick="location.href='<%=request.getContextPath()%>/News/NewsDeleteAction.do?widx=${detail.widx}'">
+							<button class="remove_btn" onclick="deleteConfirm()">
 								삭제하기
 							</button>
-							<button class="modify_btn" onclick="location.href='<%=request.getContextPath()%>/News/NewsModify.do?widx=${detail.widx}'">
+							<button class="modify_btn" onclick="modifyConfirm()">
 								수정하기
 							</button>
 							</c:if>

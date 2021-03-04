@@ -38,7 +38,7 @@
 		<div id="n_nav_div">
 			<nav id="main_nav">
 				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
+				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
 				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>

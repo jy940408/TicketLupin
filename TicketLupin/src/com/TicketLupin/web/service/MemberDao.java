@@ -24,10 +24,10 @@ public class MemberDao {
 	}
 	
 	
-	public String memberLogin(String mId, String mPwd) {
+	public ArrayList memberLogin(String mId, String mPwd) {
 		
-		String sql = "SELECT MGRADE FROM MEMBER WHERE MID = ? AND MPWD = ?";
-		String value = null;
+		String sql = "SELECT MGRADE, MIDX FROM MEMBER WHERE MID = ? AND MPWD = ?";
+		ArrayList value = new ArrayList();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mId);
@@ -35,7 +35,8 @@ public class MemberDao {
 			ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
-				value = rs.getString("MGRADE");
+				value.add(rs.getString("MGRADE"));
+				value.add(rs.getInt("MIDX"));
 			}	
 			
 		}catch(Exception e) {

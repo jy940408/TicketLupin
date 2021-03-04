@@ -7,6 +7,8 @@
 		<meta charset="UTF-8">
 		<title>티켓 오픈 공지 작성</title>
 		<link rel="stylesheet" href="../css/Winner_write_admin.css">
+		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Winner_write_admin.js"></script>
 	</head>
 	<body>
 		<header>
@@ -36,15 +38,33 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="n_home">홈</a>
-				<a href="#">공연</a>
-				<a href="#">랭킹</a>
-				<a href="#">티켓오픈소식</a>
-				<a href="#">이벤트</a>
-				<a href="#">마이 티켓</a>
+				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
+				<a href="#" id="main_nav_event">이벤트</a>
+				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
+		<div id="nav_menu_sub_event_div" class="main_nav_all">
+			<ul id="nav_menu_sub_event" style="margin:0px;">
+				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
+		</div>
+		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
+			<ul id="nav_menu_sub_myticket" style="margin:0px;">
+				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
+		</div>
+		
 		<section>
 			<article>
 				<div class="open_notice">

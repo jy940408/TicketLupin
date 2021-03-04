@@ -48,7 +48,8 @@ public class WinnerController extends HttpServlet{
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
-			
+			System.out.println(query);
+			System.out.println(page);
 			WinnerDao wd = new WinnerDao();
 			
 			List<WinnerVo> list = wd.getWinnerList(query, page);
@@ -70,15 +71,21 @@ public class WinnerController extends HttpServlet{
 			
 			WinnerDao wd = new WinnerDao();
 			WinnerVo winnervo = wd.getWinnerDetail(iidx);
+			wd.countWinnerView(iidx);
 			
-			System.out.println(iidx);
-			System.out.println(winnervo);
+			HttpSession session = request.getSession();
+			int midx = (Integer)session.getAttribute("midx");
+			
+			System.out.println("midx: " + midx);
+			System.out.println("winnervo: " + winnervo.getMidx());
+			
 			
 			request.setAttribute("detail", winnervo);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_view.jsp").forward(request, response);
 			
 		}else if(str.equals("/Winner/WinnerWrite.do")) {
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_write_admin.jsp").forward(request, response);
+		
 		}else if(str.equals("/Winner/WinnerModify.do")) {
 			
 			String iidx_ = request.getParameter("iidx");
@@ -192,8 +199,7 @@ public class WinnerController extends HttpServlet{
 			}
 			
 			HttpSession session = request.getSession();
-			
-			String getid = (String)session.getAttribute("mid");
+			int midx = (int)session.getAttribute("midx");
 			
 			WinnerVo wv = new WinnerVo();
 			wv.setItitle(title);
@@ -202,6 +208,7 @@ public class WinnerController extends HttpServlet{
 			wv.setIimage(originalFile);
 			wv.setIopendate(sqlStartDate);
 			wv.setIenddate(sqlEndDate);
+			wv.setMidx(midx);
 			WinnerDao wd = new WinnerDao();
 			wd.insertWinner(wv);
 			

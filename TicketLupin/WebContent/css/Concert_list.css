@@ -1,0 +1,289 @@
+﻿@font-face{
+				font-family:"나눔스퀘어 Regular";
+				src:url("../font/NanumSquareR.ttf") format("truetype");
+				font-style:normal;
+				font-weight:normal;
+			}
+			body{
+				font-family:나눔스퀘어 Regular;
+				margin:0;
+			}
+	/*------------------------------------------------------------------------------------------------------------------------*/
+			#h_title{
+				height:50px;
+				line-height:50px;
+			}
+			#h_title_inner{
+				position:relative;
+				max-width:1000px;
+				min-width:1000px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			#h_top_menu{
+				float:right;
+			}
+			#h_top_menu_ul{
+				margin:0;
+				margin-left:40px;
+				padding:0;
+				position:relative;
+				top:-10px;
+			}
+			#h_top_menu_ul li{
+				display:inline;
+			}
+			#h_top_menu_ul li a{
+				text-decoration:none;
+				color:black;
+				font-weight:bold;
+				font-size:13px;
+			}
+			#h_ads{
+				margin-left:50px;
+			}
+			#h_logo{
+				position:relative;
+				top:10px;
+				height:80px;
+				margin:10px 0;
+			}
+			#h_search{
+				border-style:solid;
+				border-width:0px 0px 4px 0px;
+				background:transparent;
+				border-color:black;
+				font-size:25px;
+				width:250px;
+			}
+			#h_search_button{
+				background-color:transparent;
+				border-color:transparent;
+			}
+			#h_search_img{
+				width:25px;
+			}
+	/*------------------------------------------------------------------------------------------------------------------------*/
+			#nav_bar_top{
+				margin-top:70px;
+			}
+			#main_nav{
+				margin-right:auto;
+				margin-left:auto;
+				max-width:1000px;
+				min-width:1000px;
+			}
+			#main_nav a{
+				text-decoration:none;
+				color:black;
+				font-size:20px;
+				margin:53px;
+				font-weight:bold;
+			}
+			#nav_menu_sub_event_div{
+				max-width:1000px;
+				min-width:1000px;
+				margin:auto;
+			}
+			#nav_menu_sub_event{
+				padding:0px;
+				text-align:right;	
+				margin:5px 60px 10px 10px;
+				padding:0 100px;
+			}
+			#nav_menu_sub_event a{
+				text-decoration:none;
+				color:rgba(0,0,0,0.5);
+				font-size:16px;
+				font-weight:bold;
+			}
+			#nav_menu_sub_event li{
+				color:black;
+				display:inline;
+				text-decoration:none;
+			}
+			#nav_menu_sub_myticket_div{
+				max-width:1000px;
+				min-width:1000px;
+				margin:auto;
+			}
+			#nav_menu_sub_myticket{
+				padding:0px;
+				text-align:right;
+				margin:5px 40px 10px 10px;
+			}
+			#nav_menu_sub_myticket a{
+				text-decoration:none;
+				color:rgba(0,0,0,0.5);
+				font-size:16px;
+				font-weight:bold;
+			}
+			#nav_menu_sub_myticket li{
+				color:black;
+				display:inline;
+				text-decoration:none;
+			}
+			.main_nav_all ul{
+				margin:0px;
+			}
+	/*------------------------------------------------------------------------------------------------------------------------*/
+			#main_concert_list_all{
+				width:1000px;
+				margin:auto;
+			}
+			#main_concert_list_search_all{
+				width:1000px;
+				height:400px;
+			}
+			#main_concert_list_search_top_all{
+				margin-bottom:24px;
+			}
+			.main_concert_list_search_top{
+				display:inline-block;
+			}
+			#main_concert_list_search_textbox input{
+				border:1px solid black;
+				border-radius:0;
+				background:transparent;
+				height:20px;
+				padding:0;
+				vertical-align:top;
+			}
+			#main_concert_list_search_textbox button{
+				border:1px solid black;
+				background:transparent;
+			}
+			#main_concert_list_search_manage_write{
+				float:right;
+			}
+			#main_concert_list_search_manage_write a{
+				text-decoration:none;
+				color:black;
+			}
+			#main_concert_list_search_manage_write a div{
+				border:1px solid black;
+				padding:1px;
+			}
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+			
+			#main_concert_list_search_tag{
+				width:998px;
+				border:1px solid rgba(0,0,0,0.5);
+			}
+			
+			#main_concert_list_search_tag ul li{
+				list-style:none;
+			}
+			#main_concert_list_search_tag ul{
+				list-style:none;
+				padding:0;
+			}
+			.main_concert_list_search_tag_sector{
+				display:inline-block;
+				vertical-align:top;
+				margin:20px 105px;
+			}
+			.main_concert_list_search_tag_sector div{
+				font-size:20px;
+				font-weight:bold;
+			}
+			
+			#main_concert_list_search_tag_checked{
+				height:10px;
+				width:938px;
+				padding:30px;
+				border:1px solid rgba(0,0,0,0.5);
+			}
+	/*-----------------------------------------------------------------------------------------------------------------------*/		
+			#main_concert_musical_list_order{
+				text-align:right;
+				margin:0 40px 0 0;
+			}
+			#main_concert_musical_list_order a{
+				text-decoration:none;
+				color:black;
+				display:inline-block;
+				font-weight:bold;
+			}
+			#main_concert_musical_list ul li{
+				display:inline-block;
+			}
+			#main_concert_musical_list ul li a{
+				text-decoration:none;
+				color:black;
+			}
+			.main_concert_musical_detail{
+				width:180px;
+				padding:24px 24px 21px;
+				border:1px solid rgba(0,0,0,0.2);
+				margin-bottom:30px;
+			}
+			.main_concert_musical_detail_poster{
+				width:178px;
+				height:248px;
+				border:1px solid rgba(0,0,0,0.2);
+			}
+			.main_concert_musical_detail_title{
+				font-size:16px;
+				font-weight:bold;
+				padding:13px 0 9px;
+			}
+			.main_concert_musical_detail_date{
+				font-size:14px;
+			}
+			.main_concert_musical_detail_place{
+				font-size:13px;
+			}
+			.main_concert_musical_detail_sold{
+				padding-top:8px;
+				font-size:12px;
+			}
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+			#f_last{
+				max-width:1000px;
+				min-width:1000px;
+				margin:auto
+			}
+			#f_logo{
+				height:20px;
+			}
+			.f_bottom_tagset{
+				font-size:15px;
+				font-weight:bold;
+				float:right;
+				text-decoration:none;
+				color:rgba(0,0,0,0.3);
+				line-height:24px;
+			}
+	/*------------------------------------------------------------------------------------------------------------------------*/
+			
+			.f_title_inner{
+				max-width:1000px;
+				min-width:1000px;
+				margin:auto;
+			}
+			#f_menu_contract{
+				padding:0;
+				margin:auto;
+			}
+			#f_menu_contract a{
+				text-decoration:none;
+				color:black;
+			}
+			#f_menu_contract li{
+				color:black;
+				font-size:13px;
+				display:inline;
+			}
+			#f_menu_produce{
+				padding:0;
+			}
+			#f_menu_produce a{
+				text-decoration:none;
+				color:black;
+			}
+			#f_menu_produce li{
+				color:black;
+				font-size:13px;
+				display:inline;
+			}

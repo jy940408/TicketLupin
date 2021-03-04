@@ -1,6 +1,7 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -83,23 +84,25 @@ public class MemberController extends HttpServlet{
 			System.out.println("mpwd:"+mpwd);
 			
 			MemberDao md = new MemberDao();
-			String value = md.memberLogin(mid, mpwd);
+			ArrayList value = md.memberLogin(mid, mpwd);
 			System.out.println("value:"+value);
 			
 			HttpSession session = request.getSession();
 			
-			if(value.equals("M")) {
+			if(value.get(0).equals("M")) {
 				
 				session.setAttribute("mid", mid);
 				session.setAttribute("mpwd", mpwd);
-				session.setAttribute("mgrade", value);
+				session.setAttribute("mgrade", value.get(0));
+				session.setAttribute("midx", value.get(1));
 				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp");
 				dis.forward(request, response);
 				System.out.println("로그인 성공 값 받기");
-			}else if(value.equals("G")){
+			}else if(value.get(0).equals("G")){
 				session.setAttribute("mid", mid);
 				session.setAttribute("mpwd", mpwd);
-				session.setAttribute("mgrade", value);
+				session.setAttribute("mgrade", value.get(0));
+				session.setAttribute("midx", value.get(1));
 				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp");
 				dis.forward(request, response);
 				System.out.println("로그인 성공 값 받기");

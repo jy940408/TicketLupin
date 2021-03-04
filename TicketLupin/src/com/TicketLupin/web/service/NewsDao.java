@@ -143,20 +143,21 @@ public class NewsDao {
 	public int insertNews(NewsVo nv) {
 		int result = 0;
 		//인덱스, 타이틀, 기본 정보, 멤버인덱스, 등록날짜, 조회수, 이미지, 첨부파일, 공개여부, 좋아요 수, 삭제여부, 오픈날짜, 타이틀포스터, 공연소개, 할인정보, 공연사 정보, 카테고리
-		String sql = "INSERT INTO NEWS VALUES('', ?, ?, 1, sysdate, 1, '123', '123', ?, 1, 'N', ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO NEWS VALUES('', ?, ?, ?, sysdate, 1, '123', '123', ?, 1, 'N', ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, nv.getWtitle());
 			pstmt.setString(2, nv.getWbasicinfo());
-			pstmt.setString(3, nv.getWpub());
-			pstmt.setDate(4, nv.getWopendate());
-			pstmt.setString(5, nv.getWtitleposter());
-			pstmt.setString(6, nv.getWintroduce());
-			pstmt.setString(7, nv.getWdiscount());
-			pstmt.setString(8, nv.getWcompany());
-			pstmt.setString(9, nv.getWcategory());
+			pstmt.setInt(3, nv.getMidx());
+			pstmt.setString(4, nv.getWpub());
+			pstmt.setDate(5, nv.getWopendate());
+			pstmt.setString(6, nv.getWtitleposter());
+			pstmt.setString(7, nv.getWintroduce());
+			pstmt.setString(8, nv.getWdiscount());
+			pstmt.setString(9, nv.getWcompany());
+			pstmt.setString(10, nv.getWcategory());
 			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println(nv.getWtitle());
@@ -207,6 +208,28 @@ public class NewsDao {
 			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println(nv.getWtitle());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	public int countNewsView(int widx) {
+		int result = 0;
+		NewsVo nv = new NewsVo();
+		
+		String sql = "UPDATE NEWS SET WHIT = WHIT + 1 WHERE WIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, widx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(nv.getWhit());
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
