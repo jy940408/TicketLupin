@@ -80,7 +80,7 @@
 						</div>
 						<div class="view_top_period">
 							<span class="view_top_span2">
-								기간 : 2020.07.15 ~ 2023.08.31
+								기간 : ${detail.iopendate} ~ ${detail.ienddate }
 							</span>
 						</div>
 					</div>

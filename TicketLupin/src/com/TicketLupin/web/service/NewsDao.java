@@ -187,4 +187,31 @@ public class NewsDao {
 		return result;
 		
 	}
+	public int modifyNews(NewsVo nv) {
+		int result = 0;
+		//인덱스, 타이틀, 기본 정보, 멤버인덱스, 등록날짜, 조회수, 이미지, 첨부파일, 공개여부, 좋아요 수, 삭제여부, 오픈날짜, 타이틀포스터, 공연소개, 할인정보, 공연사 정보, 카테고리
+		String sql = "UPDATE NEWS SET WTITLE = ?, WBASICINFO = ?, WTITLEPOSTER = ?, WPUB = ?, WOPENDATE = ?, WINTRODUCE = ?, WDISCOUNT = ?, WCOMPANY = ? WHERE WIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, nv.getWtitle());
+			pstmt.setString(2, nv.getWbasicinfo());
+			pstmt.setString(3, nv.getWtitleposter());
+			pstmt.setString(4, nv.getWpub());
+			pstmt.setDate(5, nv.getWopendate());
+			pstmt.setString(6, nv.getWintroduce());
+			pstmt.setString(7, nv.getWdiscount());
+			pstmt.setString(8, nv.getWcompany());
+			pstmt.setInt(9, nv.getWidx());
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(nv.getWtitle());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

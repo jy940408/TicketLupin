@@ -147,20 +147,34 @@ public class WinnerController extends HttpServlet{
 			System.out.println(startdate_);
 			System.out.println(enddate_);
 //==============================================================================================================================//		    
-		   Date date = null;
+		   Date startdate = null;
 		   try {
 			   DateFormat formatter;
 			   
 			   formatter =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-			   date = (Date)formatter.parse(startdate_);
+			   startdate = (Date)formatter.parse(startdate_);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		   
-		   java.sql.Date sqlDate2 = new java.sql.Date(date.getTime());
+		   java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());
 //==============================================================================================================================//
 		    
+		   Date enddate = null;
+		   try {
+			   DateFormat formatter;
+			   
+			   formatter =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			   enddate = (Date)formatter.parse(enddate_);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   
+		   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
+//==============================================================================================================================//
+		   
 			Enumeration files = multi.getFileNames();
 			String str_ = (String)files.nextElement();
 			
@@ -186,14 +200,102 @@ public class WinnerController extends HttpServlet{
 			wv.setIcontent(content);
 			wv.setIpub(pub);
 			wv.setIimage(originalFile);
-			wv.setIopendate(sqlDate2);
+			wv.setIopendate(sqlStartDate);
+			wv.setIenddate(sqlEndDate);
 			WinnerDao wd = new WinnerDao();
 			wd.insertWinner(wv);
 			
 			response.sendRedirect("../Winner/WinnerList.do");
 			
 		}else if(str.equals("/Winner/WinnerModifyAction.do")) {
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+			
+			String uploadPath = request.getSession().getServletContext().getRealPath("content");
+			int sizeLimit = 1024*1024*15;
+			String file = "";
+			String originalFile = "";
+			
+			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+			
+			String title = multi.getParameter("title"); //제목
+			String content = multi.getParameter("content"); //카테고리
+			String pub_ = multi.getParameter("pub"); //공개여부
+			String image = multi.getParameter("image");
+			String startdate_ = multi.getParameter("startdate");
+			String enddate_ = multi.getParameter("enddate");
+			String iidx_ = request.getParameter("iidx");
+			
+			int iidx = 0;
+			if(iidx_ != null && !iidx_.equals("")) {
+				iidx = Integer.parseInt(iidx_);
+			}
+			
+			System.out.println("수정: " + iidx);
+			System.out.println("시작날짜 수정: " + startdate_);
+			System.out.println("끝날짜 수정: " + enddate_);
+//==============================================================================================================================//		    
+		   Date startdate = null;
+		   try {
+			   DateFormat formatter;
+			   
+			   formatter =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			   startdate = (Date)formatter.parse(startdate_);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   
+		   java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());
+//==============================================================================================================================//
+		    
+		   Date enddate = null;
+		   try {
+			   DateFormat formatter;
+			   
+			   formatter =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			   enddate = (Date)formatter.parse(enddate_);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   
+		   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
+//==============================================================================================================================//
+		   
+			Enumeration files = multi.getFileNames();
+			String str_ = (String)files.nextElement();
+			
+			file = multi.getFilesystemName(str_);
+			originalFile = multi.getOriginalFileName(str_);
+			
+			System.out.println("file명: " + file);
+			System.out.println("originalFile명: " + originalFile);
+			
+			String pub = "Y";
+			if(pub_ != null) {
+				pub = "Y";
+			} else{
+				pub = "N";
+			}
+			
+			HttpSession session = request.getSession();
+			
+			String getid = (String)session.getAttribute("mid");
+			
+			WinnerVo wv = new WinnerVo();
+			wv.setItitle(title);
+			wv.setIcontent(content);
+			wv.setIpub(pub);
+			wv.setIimage(originalFile);
+			wv.setIopendate(sqlStartDate);
+			wv.setIenddate(sqlEndDate);
+			wv.setIidx(iidx);
+			WinnerDao wd = new WinnerDao();
+			wd.modifyWinner(wv);
+			
+			response.sendRedirect("../Winner/WinnerList.do");
 		}else if(str.equals("/Winner/WinnerModifyAction.do")) {
 			
 		}

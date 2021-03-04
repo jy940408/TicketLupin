@@ -83,7 +83,7 @@
 					<c:if test="${sessionScope.mgrade eq 'G'}">
 					</div>
 					</c:if>
-					<c:if test="${sessionScope.mgrade eq null}">
+					<c:if test="${empty sessionScope.mgrade}">
 					</c:if>
 					<div class="wrap_input">
 						<form>

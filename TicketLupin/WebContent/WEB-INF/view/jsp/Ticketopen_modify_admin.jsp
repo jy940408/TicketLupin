@@ -5,9 +5,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
 		<title>티켓 오픈 공지 작성</title>
-		<link rel="stylesheet" href="../css/Winner_write_admin.css">
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Ticketopen_write_admin.css">
 	</head>
 	<body>
 		<header>
@@ -40,7 +39,7 @@
 				<a href="#" id="n_home">홈</a>
 				<a href="#">공연</a>
 				<a href="#">랭킹</a>
-				<a href="#">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do">티켓오픈소식</a>
 				<a href="#">이벤트</a>
 				<a href="#">마이 티켓</a>
 			</nav>
@@ -48,71 +47,109 @@
 		<hr id="nav_bar_bottom">
 		<section>
 			<article>
+			<form method="post" action="<%=request.getContextPath()%>/News/NewsModifyAction.do?widx=${detail.widx}" enctype="multipart/form-data">
 				<div class="open_notice">
 					<h2>
-						당첨자 발표 수정
+						티켓 오픈 공지 수정
 					</h2>
-					<form method="post" action="<%=request.getContextPath()%>/Winner/WinnerModifyAction.do?iidx=${detail.iidx}" enctype="multipart/form-data">
-						<table class="open_notice_table" style="border:1px solid; border-collapse:collapse;">
-							<colgroup>
-								<col width="100px"/>
-								<col width="35px"/>
-								<col width="415px">
-								<col width="85px">
-								<col width="305px">
-								<col width="70px">
-								<col width="90px">
-							</colgroup>
-							<tr>
-								<th style="border:1px solid;">
-									제목
-								</th>
-								<td colspan="6" style="border:1px solid;">
-									<input type="text" name="title" class="title" maxlength="100" style="width:99%; border:0px; font-size:16px;" value="${detail.ititle}">
-								</td>
-							</tr>
-							<tr>
-								<th style="border-bottom:1px solid;">
-									이벤트 기간
-								</th>
-								<td colspan="6" style="border:1px solid;">
-									<center>
-										<input type="datetime-local" class="date" name="startdate" value="<fmt:formatDate value='${detail.iopendate}' type='both' pattern="yyyy-MM-dd'T'hh:mm"/>"> 에서&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<input type="datetime-local" class="date" name="enddate" value="<fmt:formatDate value='${detail.ienddate}' type='both' pattern="yyyy-MM-dd'T'hh:mm"/>"> 까지
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<td	colspan="7">
-									<center>
-										<textarea class="content" name="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;">${detail.icontent}</textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th style="border:1px solid;">
-									본문 사진
-								</th>
-								<td colspan="5" style="border:1px solid;">
-									<input type="file" class="file" name="image" style="border:0px; font-size:14px;">
-								</td>
-								<td align="center" style="font-weight:bold;">
-									공개여부&nbsp;<input type="checkbox" value="pub" name="pub">
-								</td>
-							</tr>
-						</table>
-						<div class="reg">
-							<button type="submit" class="reg_btn">
-								등록
-							</button>
-						</div>
-						<div class="list">
-							<button class="list_btn">
-								목록으로
-							</button>
-						</div>
-					</form>
+					<table class="open_notice_table" style="border:1px solid; border-collapse:collapse;">
+						<colgroup>
+							<col width="50px"/>
+							<col width="35px"/>
+							<col width="415px">
+							<col width="85px">
+							<col width="305px">
+							<col width="70px">
+							<col width="60px">
+						</colgroup>
+						<tr>
+							<th style="border:1px solid;">
+								제목
+							</th>
+							<td colspan="4" style="border:1px solid;">
+								<input type="text" name="title" class="title" maxlength="100" value="${detail.wtitle}" style="width:99%; border:0px; font-size:16px;">
+							</td>
+							<th style="border:1px solid;">
+								카테고리
+							</th>
+							<td style="border:1px solid;">
+								<center>
+									<select class="category" name="category" style="border:0px; font-size:15px;">
+										<option>
+											티켓오픈일
+										</option>
+										<option>
+											변경
+										</option>
+										<option>
+											삭제
+										</option>
+									</select>
+								</center>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2" style="border:1px solid;">
+								오픈일정
+							</th>
+							<td colspan="5" style="border:1px solid;">
+								<center>
+									<input type="datetime-local" class="date" name="opendate" value="<fmt:formatDate value='${detail.wopendate}' type='both' pattern="yyyy-MM-dd'T'hh:mm"/>">
+								</center>
+							</td>
+						</tr>
+						<tr style="border:1px solid;">
+							<td	colspan="7">
+								<center>
+									<textarea class="content" name="binfo" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;">${detail.wbasicinfo}</textarea>
+								</center>
+							</td>
+						</tr>
+						<tr style="border:1px solid;">
+							<td	colspan="7">
+								<center>
+									<textarea class="content" name="introduce" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;">${detail.wintroduce}</textarea>
+								</center>
+							</td>
+						</tr>
+						<tr style="border:1px solid;">
+							<td	colspan="7">
+								<center>
+									<textarea class="content" name="discount" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;">${detail.wdiscount}</textarea>
+								</center>
+							</td>
+						</tr>
+						<tr style="border:1px solid;">
+							<td	colspan="7">
+								<center>
+									<textarea class="content" name="company" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;">${detail.wdiscount}</textarea>
+								</center>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2" style="border:1px solid;">
+								대표 사진
+							</th>
+							<td colspan="4" style="border:1px solid;">
+								<input type="file" class="file" name="mainposter" style="border:0px; font-size:14px;">
+							</td>
+							<td align="center" style="font-weight:bold;">
+								공개여부&nbsp;<input type="checkbox" value="Y" name="pub">
+							</td>
+						</tr>
+					</table>
+					<div class="reg">
+						<button type="submit" class="reg_btn">
+							등록
+						</button>
+					</div>
+					<div class="list">
+						<button class="list_btn">
+							목록으로
+						</button>
+					</div>
 				</div>
+			</form>
 			</article>
 		</section>
 		<footer>

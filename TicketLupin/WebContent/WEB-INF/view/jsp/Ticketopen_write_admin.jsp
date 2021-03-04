@@ -129,14 +129,8 @@
 							<th colspan="2" style="border:1px solid;">
 								대표 사진
 							</th>
-							<td style="border:1px solid;">
+							<td colspan="4" style="border:1px solid;">
 								<input type="file" class="file" name="mainposter" style="border:0px; font-size:14px;">
-							</td>
-							<th style="border:1px solid;">
-								본문 사진
-							</th>
-							<td colspan="2" style="border:1px solid;">
-								<input type="file" class="file" style="border:0px; font-size:14px;">
 							</td>
 							<td align="center" style="font-weight:bold;">
 								공개여부&nbsp;<input type="checkbox" value="Y" name="pub">

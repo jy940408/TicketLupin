@@ -108,7 +108,7 @@
 							<button class="remove_btn" onclick="location.href='<%=request.getContextPath()%>/News/NewsDeleteAction.do?widx=${detail.widx}'">
 								삭제하기
 							</button>
-							<button class="modify_btn">
+							<button class="modify_btn" onclick="location.href='<%=request.getContextPath()%>/News/NewsModify.do?widx=${detail.widx}'">
 								수정하기
 							</button>
 							</c:if>
