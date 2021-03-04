@@ -75,14 +75,14 @@
 								제목
 							</th>
 							<td colspan="5" style="border:1px solid;">
-								<input type="text" class="title" maxlength="100" style="width:99%; border:0px; font-size:16px;">
+								<input type="text" class="title" name="title" maxlength="100" style="width:99%; border:0px; font-size:16px;">
 							</td>
 							<th style="border:1px solid;">
 								장르
 							</th>
 							<td colspan="3" style="border:1px solid;">
 								<center>
-									<select class="genre" style="border:0px; font-size:15px; text-align-last:center;">
+									<select class="genre" name="genre" style="border:0px; font-size:15px; text-align-last:center;">
 										<option>
 											오리지널/내한공연
 										</option>
@@ -105,7 +105,7 @@
 								관람등급
 							</th>
 							<td colspan="2" style="border:1px solid;">
-								<select class="rating" style="border:0px; font-size:15px; text-align-last:center;">
+								<select class="rating" name="rating" style="border:0px; font-size:15px; text-align-last:center;">
 									<option>
 										전체관람가
 									</option>
@@ -127,9 +127,9 @@
 							</th>
 							<td colspan="5" style="border:1px solid;">
 								<center>
-									<input type="date" class="date">
+									<input type="date" class="date" name="startdate">
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="date" class="date">
+									<input type="date" class="date" name="enddate">
 								</center>
 							</td>
 							<th style="border:1px solid;">
@@ -146,7 +146,7 @@
 							<td style="border:1px solid;">
 								<div class="map">
 									<center>
-										<a href="https://map.kakao.com/" onclick="window.open(this.href, '_blank', 'width=850px,height=800px,toolbars=no,scrollbars=no');return false;">
+										<a href="https://map.kakao.com/" name="place" onclick="window.open(this.href, '_blank', 'width=850px,height=800px,toolbars=no,scrollbars=no');return false;">
 											<img src="../img/map_btn.png" style="width:20px">
 										</a>
 									</center>

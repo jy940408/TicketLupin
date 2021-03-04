@@ -71,7 +71,7 @@
 								<button type="submit">검색</button>
 							</div>
 							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
-								<a href="#"><div>작성하기</div></a>
+								<a href="<%=request.getContextPath()%>/Show/ShowWrite.do"><div>작성하기</div></a>
 							</div>
 						</div>
 						<div id="main_concert_list_search_tag">

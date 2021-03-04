@@ -18,8 +18,12 @@ public class ShowController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
 			
+		}else if(str.equals("/Show/ShowWrite.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin.jsp").forward(request, response);
+			
 		}
 		
-	};
+	}
 	
 }
