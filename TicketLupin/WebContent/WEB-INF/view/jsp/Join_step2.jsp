@@ -1,176 +1,273 @@
+<%@page import="org.apache.tomcat.dbcp.dbcp2.Jdbc41Bridge"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <!DOCTYPE html>
-<html lnag="ko">
+<html lang="ko">
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입</title>
-        <link rel="stylesheet" href="./css/Login_FI_FP_Join__.css">
-        
+        <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
+        <script type="text/javascript">
+        	
+			function check(){
+				if (document.frm.MID.value == ""){
+					alert("아이디를 입력해주세요");
+				  	document.frm.MID.focus();
+				  	return;
+				}else if (document.frm.MPWD.value ==""){
+				  	alert("비밀번호를 입력해주세요");
+				  	document.frm.MPWD.focus();
+				  	return;
+			  	}else if (document.frm.MPWD.value != document.frm.mPwd2.value){
+				  	alert("비밀번호가 일치하지 않습니다.");
+				  	document.frm.mPwd2.focus();
+				  	return;
+			  	}else if (document.frm.MNAME.value ==""){
+				  	alert("이름을 입력해주세요");
+				  	document.frm.MNAME.focus();
+				  	return;
+			  	}
+			  
+			  	alert("전송");
+			  	document.frm.action ="<%=request.getContextPath()%>/Member/MemberJoinAction.do";
+			  	document.frm.method = "POST";
+			  	document.frm.submit(); 
+			  	return;
+			} 
+			
+			
+		</script>
     </head>
     <body>
         <!-- header -->
         <div id="header">
-            <a href="https://ticket.melon.com/main/index.htm" target="_blank" title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
+            <a href="<%=request.getContextPath()%>/Main/MainPage.do" title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
         </div>
 
-
-        <!-- wrapper -->
-        <div id="wrapper">
-
-            <!-- content-->
-            <div id="content">
-
-                <!-- ID -->
-                <div>
-                    <h3 class="join_title">
-                        <label for="id">아이디</label>
-                    </h3>
-                    <span class="box int_id">
-                        <input type="text" id="id" class="int" maxlength="20">
-               
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-
-                <!-- PW1 -->
-                <div>
-                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
-                    <span class="box int_pass">
-                        <input type="text" id="pswd1" class="int" maxlength="20">
-                        <span id="alertTxt">사용불가</span>
-                        <img src="m_icon_pass.png" id="pswd1_img1" class="pswdImg">
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-
-                <!-- PW2 -->
-                <div>
-                    <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
-                    <span class="box int_pass_check">
-                        <input type="text" id="pswd2" class="int" maxlength="20">
-                        <img src="m_icon_check_disable.png" id="pswd2_img1" class="pswdImg">
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-
-                <!-- NAME -->
-                <div>
-                    <h3 class="join_title"><label for="name">이름</label></h3>
-                    <span class="box int_name">
-                        <input type="text" id="name" class="int" maxlength="20">
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-
-                <!-- BIRTH -->
-                <div>
-                    <h3 class="join_title"><label for="yy">생년월일</label></h3>
-
-                    <div id="bir_wrap">
-                        <!-- BIRTH_YY -->
-                        <div id="bir_yy">
-                            <span class="box">
-                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
-                            </span>
-                        </div>
-
-                        <!-- BIRTH_MM -->
-                        <div id="bir_mm">
-                            <span class="box">
-                                <select id="mm" class="sel">
-                                    <option>월</option>
-                                    <option value="01">1</option>
-                                    <option value="02">2</option>
-                                    <option value="03">3</option>
-                                    <option value="04">4</option>
-                                    <option value="05">5</option>
-                                    <option value="06">6</option>
-                                    <option value="07">7</option>
-                                    <option value="08">8</option>
-                                    <option value="09">9</option>                                    
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </span>
-                        </div>
-
-                        <!-- BIRTH_DD -->
-                        <div id="bir_dd">
-                            <span class="box">
-                                <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
-                            </span>
-                        </div>
-
-                    </div>
-                    <span class="error_next_box"></span>    
-                </div>
-
-                <!-- GENDER -->
-                <div>
-                    <h3 class="join_title"><label for="gender">성별</label></h3>
-                    <span class="box gender_code">
-                        <select id="gender" class="sel">
-                            <option>성별</option>
-                            <option value="M">남자</option>
-                            <option value="F">여자</option>
-                        </select>                            
-                    </span>
-                    <span class="error_next_box">필수 정보입니다.</span>
-                </div>
+		<form name="frm" onsubmit="return checkValue()" action="/Member/MemberJoinAcion.do">
+	        <!-- wrapper -->
+	        <div id="wrapper">
+	
+	            <!-- content-->
+	            <div id="content">
+	
+	                <!-- ID -->
+	                <div>
+	                    <h3 class="join_title">
+	                        <label for="id">아이디</label>
+	                        <input type="button" value="아이디 중복 확인" onclick="idcheck();" id="checkIdbtn">
+	                        <input type="hidden" name="idDuplication" value="idUncheck" >
+	                    </h3>
+	                    <span class="box int_id">
+	                        <input type="text" id="id" class="int" maxlength="20" name="MID">
+	               			
+	                    </span>
+	                    <span class="error_next_box"></span>
+	                </div>
+		
+			<script>
+				function idcheck(){
+					 var id = document.frm.MID.value;
+					 if(id.length<1 || id==null){
+					  alert("ID를 입력하세요.");
+					  document.frm.MID.focus();
+					  return false;
+					 }
+					 
+					 window.open("<%=request.getContextPath() %>/Member/joinIdCheck.do", "idwin", "height = 200, width = 500");
+					}
 				
-				<!--adress-->
-				<div>
-					<h3 class="join_title"><label for="address">주소</label ></h3>
-					<button type="button" id="btninzung">
-						<span>검색</span>
-					</button>
-					<span class= "box int_adress">
-						<input type = "text" id = "adress" class="int" maxlength = "20">
-					</span>
-					<span class= "box int_adress1">
-						<input type = "text" id = "adress2" class="int" maxlength = "20">
-					</span>
-					<span class= "box int_adress2">
-						<input type = "text" id = "adress2" class="int" maxlength = "20">
-					</span>
 				
-				</div>
-
-                <!-- EMAIL -->
-                <div>
-                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
-                    <span class="box int_email">
-                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력">
-                    </span>
-                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
-                </div>
-
-                <!-- MOBILE -->
-                <div>
-                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
-                    <span class="box int_mobile">
-                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력">
-                    </span>
-                    <span class="error_next_box"></span>    
-                </div>
-
-
-                <!-- JOIN BTN-->
-                <div class="btn_area">
-                    <button type="button" id="btnJoin">
-                        <span>가입하기</span>
-                    </button>
-                </div>
-
-                
-
-            </div> 
-            <!-- content-->
-
-        </div> 
-        <!-- wrapper -->
+			</script>
+		
+		
+	                <!-- PW1 -->
+	                <div>
+	                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
+	                    <span class="box int_pass">
+	                        <input type="password" id="pswd1" class="int" maxlength="20"  name="MPWD">
+	                        <span id="alertTxt">사용불가</span>
+	                        <img src="../icon/m_icon_pass.png" id="pswd1_img1" class="pswdImg">
+	                    </span>
+	                    <span class="error_next_box"></span>
+	                </div>
+	
+	                <!-- PW2 -->
+	                <div>
+	                    <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
+	                    <span class="box int_pass_check">
+	                        <input type="password" id="pswd2" class="int" maxlength="20"  name="mPwd2">
+	                        <img src="../icon/m_icon_check_disable.png" id="pswd2_img1" class="pswdImg">
+	                    </span>
+	                    <span class="error_next_box"></span>
+	                </div>
+	
+	                <!-- NAME -->
+	                <div>
+	                    <h3 class="join_title"><label for="name">이름</label></h3>
+	                    <span class="box int_name">
+	                        <input type="text" id="name" class="int" maxlength="20"  name="MNAME">
+	                    </span>
+	                    <span class="error_next_box"></span>
+	                </div>
+	
+	                <!-- BIRTH -->
+	                <div>
+	                    <h3 class="join_title"><label for="yy">생년월일</label></h3>
+	
+	                    <div id="bir_wrap">
+	                        <!-- BIRTH_YY -->
+	                        <div id="bir_yy">
+	                            <span class="box">
+	                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+	                            </span>
+	                        </div>
+	
+	                        <!-- BIRTH_MM -->
+	                        <div id="bir_mm">
+	                            <span class="box">
+	                                <select id="mm" class="sel">
+	                                    <option>월</option>
+	                                    <option value="01">1</option>
+	                                    <option value="02">2</option>
+	                                    <option value="03">3</option>
+	                                    <option value="04">4</option>
+	                                    <option value="05">5</option>
+	                                    <option value="06">6</option>
+	                                    <option value="07">7</option>
+	                                    <option value="08">8</option>
+	                                    <option value="09">9</option>                                    
+	                                    <option value="10">10</option>
+	                                    <option value="11">11</option>
+	                                    <option value="12">12</option>
+	                                </select>
+	                            </span>
+	                        </div>
+	
+	                        <!-- BIRTH_DD -->
+	                        <div id="bir_dd">
+	                            <span class="box">
+	                                <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
+	                            </span>
+	                        </div>
+	
+	                    </div>
+	                    <span class="error_next_box"></span>    
+	                </div>
+	
+	                <!-- GENDER -->
+	                <div>
+	                    <h3 class="join_title"><label for="gender">성별</label></h3>
+	                    <span class="box gender_code">
+	                        <select id="gender" class="sel">
+	                            <option>성별</option>
+	                            <option value="M">남자</option>
+	                            <option value="F">여자</option>
+	                        </select>                            
+	                    </span>
+	                    <span class="error_next_box">필수 정보입니다.</span>
+	                </div>
+					
+					<!--adress-->
+					
+					<h3 class="join_title">
+						<label for="address">주소</label >
+					</h3>
+					
+					<input type="text" id="sample6_postcode" placeholder="우편번호" style="height:25px" >
+					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="height:25px"><br>
+					<input type="text" id="sample6_address" placeholder="주소" style="width:100%; height:25px" name="MADDRESS"><br>
+					<input type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:45%; height:25px" name="MADDRESS">
+					<input type="text" id="sample6_extraAddress" placeholder="참고항목" style="width:45%; height:25px">
+					
+					
+					<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+					<script>
+					    function sample6_execDaumPostcode() {
+					        new daum.Postcode({
+					            oncomplete: function(data) {
+					                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+					
+					                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					                var addr = ''; // 주소 변수
+					                var extraAddr = ''; // 참고항목 변수
+					
+					                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					                    addr = data.roadAddress;
+					                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+					                    addr = data.jibunAddress;
+					                }
+					
+					                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+					                if(data.userSelectedType === 'R'){
+					                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+					                        extraAddr += data.bname;
+					                    }
+					                    // 건물명이 있고, 공동주택일 경우 추가한다.
+					                    if(data.buildingName !== '' && data.apartment === 'Y'){
+					                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					                    }
+					                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					                    if(extraAddr !== ''){
+					                        extraAddr = ' (' + extraAddr + ')';
+					                    }
+					                    // 조합된 참고항목을 해당 필드에 넣는다.
+					                    document.getElementById("sample6_extraAddress").value = extraAddr;
+					                
+					                } else {
+					                    document.getElementById("sample6_extraAddress").value = '';
+					                }
+					
+					                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+					                document.getElementById("sample6_postcode").value = data.zonecode;
+					                document.getElementById("sample6_address").value = addr;
+					                // 커서를 상세주소 필드로 이동한다.
+					                document.getElementById("sample6_detailAddress").focus();
+					            }
+					        }).open();
+					    }
+					</script>
+					
+					
+					
+	                <!-- EMAIL -->
+	                <div>
+	                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
+	                    <span class="box int_email">
+	                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력" name="MEMAIL">
+	                    </span>
+	                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
+	                </div>
+	
+	                <!-- MOBILE -->
+	                <div>
+	                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
+	                    <span class="box int_mobile">
+	                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력"  name="MPHONE">
+	                    </span>
+	                    <span class="error_next_box"></span>    
+	                </div>
+	
+	
+	                <!-- JOIN BTN-->
+	                <div class="btn_area">
+	                    <button type="button" id="btnJoin" onclick="check();">
+	                        <span>가입하기</span>
+	                    </button>
+	                </div>
+	
+	                
+	
+	            </div> 
+	            <!-- content-->
+	
+	        </div> 
+	        <!-- wrapper -->
+        </form>
 		<script src="../js/Join_step2"></script>
     </body>
 </html>

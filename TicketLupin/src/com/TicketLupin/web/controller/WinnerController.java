@@ -151,6 +151,7 @@ public class WinnerController extends HttpServlet{
 			String startdate_ = multi.getParameter("startdate");
 			String enddate_ = multi.getParameter("enddate");
 			
+			System.out.println(image);
 			System.out.println(startdate_);
 			System.out.println(enddate_);
 //==============================================================================================================================//		    

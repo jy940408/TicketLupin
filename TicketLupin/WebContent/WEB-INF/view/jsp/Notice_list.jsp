@@ -1,12 +1,21 @@
+<%@page import="domain.PageMaker"%>
+<%@page import="com.TicketLupin.web.service.NoticeVo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.TicketLupin.web.service.NoticeDao"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	ArrayList<NoticeVo> alist = (ArrayList<NoticeVo>)request.getAttribute("alist"); 
+	PageMaker pm = (PageMaker)request.getAttribute("pm");
+%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>티켓 루팡</title>
-		<script type="text/javascript" src="<%=request.getContextPath() %>./js/jquery-3.5.1.min.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Notice_list.css">
+		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Notice_list.js"></script>
 	</head>
 	<body>
 		<header>
@@ -14,53 +23,59 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+							<%
+								if(session.getAttribute("mid") != null){
+									String mid = (String) session.getAttribute("mid");
+							%>
+							<li><%=mid %>님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<% 
+								} else{
+							%> 
+							<li class="login"><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<% } %>
+							<li><a href="<%=request.getContextPath()%>/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
-						<img src="musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads" style="float:right;">
 					</span>
-					<img src="lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath()%>/Main/MainPage.do">
+						<img src="../icon/lupinlogo.png" id="h_logo"">&nbsp;&nbsp;&nbsp;&nbsp;
+					</a>
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
-					<button type="submit" id="h_search_button"><img src="search.png" id="h_search_img"></button>
+					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
 			</div>
 		</header>
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
+				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_admin">마이티켓</a>
+				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
-		
-		<div class="wrap_nav" id="wrap_nav" style="display:none;">
-			<div id="nav_menu_sub_div">
-				<ul id="nav_menu_sub">
-					<li><a href="#">마이홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">마이찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_event_div" class="main_nav_all">
+			<ul id="nav_menu_sub_event" style="margin:0px;">
+				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
-		
-		<div class="wrap_nav"  id="wrap_nav2" style="display:none;">
-			<div id="nav_menu_sub_div" class="main_nav_event">
-				<ul id="nav_menu_sub2">
-					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
+			<ul id="nav_menu_sub_myticket" style="margin:0px;">
+				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
 		
 		
@@ -93,10 +108,22 @@
 								<option value="check"><a href="#">서비스 점검</a></option>
 								<option value="show"><a href="#">안내</a></option>
 							</select>
+							
+						
+					
 							<span class="btn">
-								<button type="button" class="btn1"><a href="#">작성하기</a></button>
+								<button type="button" class="btn1">
+									<a href="<%=request.getContextPath() %>/Notice/NoticeWrite.do">작성하기</a>
+								</button>
 							</span>
+				
+							<div></div>
+					
+							
 						</div>
+						
+						
+						
 						<table class="table2">
 							<tbody>
 								<tr>
@@ -105,79 +132,34 @@
 									<th width="45%">제목</th>
 									<th width="10%">등록일</th>
 								</tr>
+								
+							<% for(NoticeVo nv : alist){%>	
 								<tr>
-									<td>10</td>
-									<td>서비스 점검</td>
-									<td class="td_"><a href="#">[시스템작업]전산시스템 작업 안내</a></td>
-									<td>2020/01/29</td>
+									<td><%=nv.getNidx()%></td>
+									<td><%=nv.getNcategory() %></td>
+									<td class="td_">
+										<a href="<%=request.getContextPath()%>/Notice/NoticeView.do?nidx=<%=nv.getNidx()%>"><%=nv.getNtitle() %></a>
+									</td>
+									<td><%=nv.getNregdate() %></td>
 								</tr>
-								<tr>
-									<td>9</td>
-									<td>서비스 점검</td>
-									<td class="td_"><a href="#">[시스템작업]전산시스템 작업 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>8</td>
-									<td>안내</td>
-									<td class="td_"><a href="#">고객센터 주소변경 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td>안내</td>
-									<td class="td_"><a href="#">고객센터 주소변경 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>서비스 점검</td>
-									<td class="td_"><a href="#">[시스템작업]전산시스템 작업 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>안내</td>
-									<td class="td_"><a href="#">고객센터 주소변경 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>서비스 점검</td>
-									<td class="td_"><a href="#">[시스템작업]전산시스템 작업 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>안내</td>
-									<td class="td_"><a href="#">중단 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>안내</td>
-									<td class="td_"><a href="#">중단 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>안내</td>
-									<td class="td_"><a href="#">중단 안내</a></td>
-									<td>2020/01/29</td>
-								</tr>
+							<% } %>
 							</tbody>
 						</table>
-						<div class="paging">
-							<a href="#"> << </a>&nbsp;&nbsp;<a href="#"> < </a>&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; </span>&nbsp;<a href="#"> > </a>&nbsp;&nbsp;<a href="#"> >> </a>
-						</div>
+						
+		
+						
+					
+
+						
 					</div>
 				</div>
+				<div style="width:100%; height:150px;"></div>
 			</article>
 		</section>
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">
-					<span class="f_bottom_ment"><img src="lupinlogo.png" id="f_logo"></span>
+					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
 					<span class="f_bottom_ment">
 						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
 						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>

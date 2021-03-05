@@ -47,65 +47,48 @@ public class MemberDao {
 		
 	}
 	
-	public MemberVo getMember(String id) {
+	public String getMember(String mid, String mpwd) {
 		
-		String sql ="SELECT * FROM MEMBER WHERE MID = ?";
-		MemberVo member = new MemberVo();
+		String sql ="select mname from member where mid=? and mpwd=?";
+		String name = null;
 		
 		try {
-			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, mpwd);
+			rs = pstmt.executeQuery();
 			
-			pstmt.setString(1, id);
+			if (rs.next()) {
+				name = rs.getString("mname");
+			}
 			
-			ResultSet rs = pstmt.executeQuery();
-
-			rs.next();
-				
-			int midx = rs.getInt("MIDX");
-			String mid = rs.getString("MID");
-			String mname = rs.getString("MNAME");
-			String mpwd = rs.getString("MPWD");
-			String mssn = rs.getString("MSSN");
-			String maddress = rs.getString("MADDRESS");
-			String memail = rs.getString("MEMAIL");
-			String mphone = rs.getString("MPHONE");
-			int maccount = rs.getInt("MACCOUNT");
-			Date msignindate = rs.getDate("MSIGNINDATE");
-			Date msecessiondate = rs.getDate("MSECESSIONDATE");
-			String msecessionyn = rs.getString("MSECESSIONYN");
-			String mgrade = rs.getString("MGRADE");
-			String memailchecked = rs.getString("MEMAILCHECKED");
-			
-			
-			member = new MemberVo(midx, mid, mname, mpwd, mssn, maddress, memail, mphone, maccount, msignindate, msecessiondate, msecessionyn, mgrade, memailchecked);
-			
-		}catch (SQLException e) {
-				e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 		
-		
-		return member;
+		return name;
 	}
 	
-	public int insertMember(String mId, String mName, String mPwd, String mAddress, String mEmail, String mPhone) {
+	public int insertMember(String MID, String MNAME, String MPWD, String MADDRESS, String MEMAIL, String MPHONE) {
 		int exec = 0;
 		
 		try {
-			String sql = "insert into member(midx, mid, mname, mpwd, maddress, memail, mphone)"
-					+ "values(midx_seq.nextval,?,?,?,?,?,?)";
+			String sql = "insert into member(midx, MID, MNAME, MPWD,  MADDRESS, MEMAIL, MPHONE)"
+					+ "values('',?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, mId);
-				pstmt.setString(2, mName);
-				pstmt.setString(3, mPwd);
-				pstmt.setString(4, mAddress);
-				pstmt.setString(5, mEmail);
-				pstmt.setString(6, mPhone);
+				pstmt.setString(1, MID);
+				pstmt.setString(2, MNAME);
+				pstmt.setString(3, MPWD);
+				pstmt.setString(4, MADDRESS);
+				pstmt.setString(5, MEMAIL);
+				pstmt.setString(6, MPHONE);
 			exec = pstmt.executeUpdate();
 			
-			conn.commit();
+			//conn.commit();
+			
 		}catch(Exception e) {
 			e.printStackTrace();
+			
 		}finally {
 			
 			try {
@@ -120,26 +103,42 @@ public class MemberDao {
 	}
 	
 	
-	
-	public ArrayList<MemberVo> getMemberList(){
+	public String findId(String mname, String memail) throws SQLException{
 		
-		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();
+		String mid = null;
 		
-		String sql = "select * from member order by midx desc";
+		String sql = "select mid from member where mname=? and memail=?";
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
-				MemberVo mv = new MemberVo();
-				mv.setMidx(rs.getInt("midx"));
-				mv.setMname(rs.getString("mname"));
-				mv.setMid(rs.getString("mid"));
-			}
+			pstmt.setString(1, mname);
+			pstmt.setString(2, memail);
+			
+			rs = pstmt.executeQuery();
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return alist;
+		return mid;
+	}
+	
+	public String findPwd(String mid, String memail, String mname) {
+		String mpwd = null;
+		String sql = "select mpwd from member where mid=? and memail=? and mname=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, memail);
+			pstmt.setString(3, mname);
+			
+			rs = pstmt.executeQuery();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return mpwd;
 	}
 	
 	
@@ -151,7 +150,7 @@ public class MemberDao {
 		String sql ="select memail from member where mId = ?";
 		
 		try {
-			conn = DatabaseUtil.getConnection();
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mId);
 			ResultSet rs = pstmt.executeQuery();
@@ -168,7 +167,7 @@ public class MemberDao {
 			try{if(rs != null) conn.close();}catch (Exception e) {e.printStackTrace();}
 		}
 		
-		return null; //데이터베이스오류
+		return null; 
 	}
 	
 	
@@ -195,10 +194,9 @@ public class MemberDao {
 			try{if(rs != null) conn.close();}catch (Exception e) {e.printStackTrace();}
 		}
 		
-		return false; //데이터베이스오류
+		return false; 
 		
 	}
-	
 	
 	
 	public boolean setMemberEmailChecked(String mId) {
@@ -211,20 +209,42 @@ public class MemberDao {
 			pstmt.setString(1, mId);
 			pstmt.executeUpdate();			
 			return true;
+			
 		}catch(Exception e) {
 				e.printStackTrace();
+				
 		}finally {
 			try{if(conn != null) conn.close();}catch (Exception e) {e.printStackTrace();}
 			try{if(pstmt != null) conn.close();}catch (Exception e) {e.printStackTrace();}
 			try{if(rs != null) conn.close();}catch (Exception e) {e.printStackTrace();}
+			
 		}
 		
-		return false; //데이터베이스오류
+		return false; 
 		
 	}
 	
 	
-	
+	public ArrayList<MemberVo> getMemberList(){
+		
+		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();
+		
+		String sql = "select * from member order by midx desc";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVo mv = new MemberVo();
+				mv.setMidx(rs.getInt("midx"));
+				mv.setMname(rs.getString("mname"));
+				mv.setMid(rs.getString("mid"));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return alist;
+	}
 	
 	
 }

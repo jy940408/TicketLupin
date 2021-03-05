@@ -1,17 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.TicketLupin.web.service.MemberVo" %>
+<%@ page import="com.TicketLupin.web.service.MemberDao" %>
+<%@ page import="util.SHA256" %>
+<%@ page import="java.io.PrintWriter" %>
+<%
+/*
+	request.setCharacterEncoding("UTF-8");
+	String mname = null;
+	String memail = null;
+	if(request.getParameter("mname") != null){
+		mname = request.getParameter("mname");
+	}
+	if(request.getParameter("memail") != null){
+		memail = request.getParameter("memail");
+	}
+	if(mname == null || memail == null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('입력이 안 된 사항이 있습니다.');");
+		script.println("history.back();");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	
+	MemberDao md = new MemberDao();
+	
+	 int result = md.memberJoin(new MemberVo(mname, memail, SHA256.getSHA256(memail)));
+	
+	
+	if(result == -1){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('이미 존재하는 이름입니다.');");
+		script.println("history.back();");
+		script.println("</script>");
+		script.close();
+		return;
+	}else{
+		session.setAttribute("mname",mname);
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href = 'Join_step2.jsp");
+		script.println("</script>");
+		script.close();
+		return;
+	} 
+*/
+%>
 <!DOCTYPE html>
-<html lnag="ko">
+<html lang="ko">
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입 인증</title>
-        <link rel="stylesheet" href="./css/Login_FI_FP_Join__.css">
+        <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
         
     </head>
     <body>
         <!-- header -->
         <div id="header">
-            <a href="https://ticket.melon.com/main/index.htm" target="_blank" title="티켓루팡 회원가입 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
+            <a href="<%=request.getContextPath()%>/Main/MainPage.do" target="_blank" title="티켓루팡 회원가입 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
         </div>
 		
 		<!-- guide -->
@@ -62,7 +111,7 @@
 
                 <!-- JOIN BTN-->
                 <div class="btn_area">
-                    <button type="button" id="btnJoin">
+                    <button type="button" id="btnJoin" onclick="location.href='/WEB-INF/view/jsp/Login.jsp'" >
                         <span>가입하기</span>
                     </button>
                 </div>

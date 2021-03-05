@@ -67,8 +67,10 @@
 					<div id="main_concert_list_search_all">
 						<div id="main_concert_list_search_top_all">
 							<div id="main_concert_list_search_textbox" class="main_concert_list_search_top">
-								<input type="text" placeholder="검색어를 입력하세요">
+								<form action="<%request.getContextPath()%>/Show/ShowSearch.do">
+								<input type="text" name="q" placeholder="검색어를 입력하세요">
 								<button type="submit">검색</button>
+								</form>
 							</div>
 							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
 								<a href="<%=request.getContextPath()%>/Show/ShowWrite.do"><div>작성하기</div></a>
@@ -119,215 +121,30 @@
 					<div id="main_concert_musical_list_all">
 						<div id="main_concert_musical_list_order">
 							<a href="#"><div>인기순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-							<a href="#"><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-							<a href="#"><div>최신순</div></a>
+							<a href="?q=&s=sopendate&p="><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a href="?q=&s=sregdate&p="><div>최신순</div></a>
 						</div>
 						<div id="main_concert_musical_list">
 							<ul>
+								<c:forEach var="l" items="${list}">
 								<li><a href="#">
 									<div class="main_concert_musical_detail">
 										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
 										<div class="main_concert_musical_detail_title">
-											검은 사제들
+											${l.stitle }
 										</div>
 										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
+											${l.sopendate } - ${l.senddate}
 										</div>
 										<div class="main_concert_musical_detail_place">
-											LG아트센터
+											${l.sroadaddress}
 										</div>
 										<div class="main_concert_musical_detail_sold">
 											판매중
 										</div>
 									</div>
 								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											검은 사제들
-										</div>
-										<div class="main_concert_musical_detail_date">
-											2020.11.17 - 2021.03.28
-										</div>
-										<div class="main_concert_musical_detail_place">
-											LG아트센터
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매중
-										</div>
-									</div>
-								</a></li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>

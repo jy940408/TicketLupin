@@ -1,6 +1,7 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -39,21 +40,6 @@ public class MemberController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Join_step2.jsp").forward(request, response);
 			
-		}else if(str.equals("/Member/MemberJoinAction.do")) {
-			
-			
-			String mId = request.getParameter("mId");
-			String mPwd = request.getParameter("mPwd");
-			String mName = request.getParameter("mName");
-			String mAddress = request.getParameter("mAddress");
-			String mEmail = request.getParameter("mEmail");
-			String mPhone = request.getParameter("mPhone");
-		
-			MemberDao md = new MemberDao();
-			md.insertMember(mId, mPwd, mName, mAddress, mEmail, mPhone);
-			
-			response.sendRedirect(request.getContextPath()+"/");
-			
 		}else if(str.equals("/Member/MemberIdCheck.do")) {
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Find_ID_step1.jsp").forward(request, response);
@@ -61,6 +47,10 @@ public class MemberController extends HttpServlet{
 		}else if(str.equals("/Member/MemberPwdCheck.do")) {
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Find_pwd_step1.jsp").forward(request, response);
+			
+		}else if(str.equals("/Member/joinIdCheck.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/ID_Check.jsp").forward(request, response);
 			
 		}
 		
@@ -109,6 +99,38 @@ public class MemberController extends HttpServlet{
 			}else {
 				response.sendRedirect(request.getContextPath()+"/Member/MemberLogin.do");
 			}
+			
+		}else if(str.equals("/Member/MemberJoinAction.do")) {
+			
+			
+			String MID = request.getParameter("MID");
+			String MPWD = request.getParameter("MPWD");
+			String MNAME = request.getParameter("MNAME");
+			String MADDRESS = request.getParameter("MADDRESS");
+			String MEMAIL = request.getParameter("MEMAIL");
+			String MPHONE = request.getParameter("MPHONE");
+		
+			MemberDao md = new MemberDao();
+			md.insertMember(MID, MPWD, MNAME, MADDRESS, MEMAIL, MPHONE);
+			
+			response.sendRedirect(request.getContextPath()+"/");
+		
+		}else if(str.equals("/Member/findIdAction.do")) {
+			
+			String MNAME = request.getParameter("MNAME");
+			String MEMAIL = request.getParameter("MEMAIL");
+			
+			System.out.println("MNAME:"+MNAME);
+			System.out.println("MEMAIL:"+MEMAIL);
+			
+			MemberDao md = new MemberDao();
+			try {
+				md.findId(MNAME, MEMAIL);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
 			
 		}
 	}

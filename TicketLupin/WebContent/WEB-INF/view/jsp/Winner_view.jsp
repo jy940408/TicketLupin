@@ -113,7 +113,7 @@
 					</div>
 					<div class="view_mid">
 						<center>
-							<img src="<%=request.getContextPath()%>/poster/${detail.iimage}">
+							<img src="<%=request.getContextPath()%>/content/${detail.iimage}">
 							<p/>
 							${detail.icontent}
 						</center>
