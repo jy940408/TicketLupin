@@ -3,9 +3,6 @@ package com.TicketLupin.web.controller;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-import com.TicketLupin.web.service.ShowDao;
-import com.TicketLupin.web.service.ShowVo;
-
 @WebServlet("/ConcertViewController")
 public class ConcertViewController extends HttpServlet{
 
@@ -17,23 +14,9 @@ public class ConcertViewController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("/ConcertView/ConcertView.do")) {
+		if(str.equals("")) {
 			
-			String sidx_ = request.getParameter("sidx");
-			
-			int sidx = 0;
-			if(sidx_ != null && !sidx_.equals("")) {
-				sidx = Integer.parseInt(sidx_);
-			}
-			
-			ShowDao sd = new ShowDao();
-			ShowVo detail = sd.getShowDetail(sidx);
-			
-			request.setAttribute("detail", detail);
-			
-			System.out.println(detail);
-			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
+			request.getRequestDispatcher("").forward(request, response);
 			
 		}
 		

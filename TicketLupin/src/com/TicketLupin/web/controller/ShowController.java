@@ -76,6 +76,10 @@ public class ShowController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin.jsp").forward(request, response);
 			
+		}else if(str.equals("")) {
+			
+			
+			
 		}
 		
 	}
@@ -99,7 +103,7 @@ public class ShowController extends HttpServlet{
 			int sizeLimit = 1024*1024*15;
 			String file = "";
 			String originalFile = "";
-			
+			System.out.println(uploadPath);
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
 			String title = multi.getParameter("title");
@@ -148,7 +152,7 @@ public class ShowController extends HttpServlet{
 				}
 			   
 			   java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());
-			   System.out.println("º¯È¯ ¿Ï·á ½ÃÀÛ³¯Â¥: " + sqlStartDate);
+			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½Û³ï¿½Â¥: " + sqlStartDate);
 //==============================================================================================================================//
 			Date enddate = null;
 			   try {
@@ -162,7 +166,7 @@ public class ShowController extends HttpServlet{
 				}
 			   
 			   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
-			   System.out.println("º¯È¯ ¿Ï·á ³¡³¯Â¥: " + sqlEndDate);
+			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½Â¥: " + sqlEndDate);
 //==============================================================================================================================//
 			
 			   Date ticketingdate = null;
@@ -177,7 +181,7 @@ public class ShowController extends HttpServlet{
 				}
 			   
 			   java.sql.Date sqlTicketingDate = new java.sql.Date(ticketingdate.getTime());
-			   System.out.println("º¯È¯ ¿Ï·á Æ¼ÄÏ¿ÀÇÂ³¯Â¥: " + sqlTicketingDate);
+			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ Æ¼ï¿½Ï¿ï¿½ï¿½Â³ï¿½Â¥: " + sqlTicketingDate);
 //==============================================================================================================================//
 			   
 			Enumeration files = multi.getFileNames();
@@ -186,8 +190,8 @@ public class ShowController extends HttpServlet{
 			file = multi.getFilesystemName(str_);
 			originalFile = multi.getOriginalFileName(str_);
 							
-			System.out.println("file¸í: " + file);
-			System.out.println("originalFile¸í: " + originalFile);
+			System.out.println("fileï¿½ï¿½: " + file);
+			System.out.println("originalFileï¿½ï¿½: " + originalFile);
 //==============================================================================================================================//
 			
 			HttpSession session = request.getSession();

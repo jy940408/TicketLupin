@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 	<head>
+	<script type="text/javascript">
+
+</script>
 		<title>티켓 루팡</title>
 		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Concert_view.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Concert_view.js"></script>
+
 	</head>
 	<body onload="build();">
 		<header>
@@ -14,10 +22,16 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+						<c:if test="${not empty sessionScope.mid}">
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<li class="login"><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+							<li><a href="<%=request.getContextPath()%>/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -30,10 +44,10 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
+				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
@@ -42,7 +56,7 @@
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
@@ -62,11 +76,11 @@
 					<div id="main_concert_product">
 						<div id="main_concert_cont">
 							<div id="main_concert_cont_poster_div">
-								<img src="../poster/musicalposter1.jpg" id="main_concert_cont_poster">
+								<img src="<%=request.getContextPath()%>/poster/${detail.simage}" id="main_concert_cont_poster">
 							</div>
 							<div id="main_concert_cont_text_div">
 								<div id="main_concert_cont_text_dibs">
-									<p id="main_concert_process_title">연극 안나라수마나라</p>
+									<p id="main_concert_process_title">${detail.stitle}</p>
 									<div id="main_concert_process_dibs">
 										<a href="#"><div>✓찜하기 목록 담기</div></a>
 									</div>
@@ -74,17 +88,17 @@
 								<div id="main_concert_process_info">
 									<dl id="main_concert_process_info_left" class="main_concert_process_info_all">
 										<dt>공연기간<dt>
-										<dd>2020.10.21-2021.02.28</dd>
+										<dd><fmt:formatDate value="${detail.sopendate}" type="both" pattern="YYYY.MM.dd"/>-<fmt:formatDate value="${detail.senddate}" type="both" pattern="YYYY.MM.dd"/></dd>
 										<dt>관람시간</dt>
 										<dd>90분</dd>
 										<dt>장르</dt>
-										<dd>연극</dd>
+										<dd>${detail.sgenre }</dd>
 									</dl>
 									<dl id="main_concert_process_info_right" class="main_concert_process_info_all">
 										<dt>공연장<dt>
-										<dd>대학로 업스테이지</dd>
+										<dd>${detail.sdetailaddress }</dd>
 										<dt>관람등급</dt>
-										<dd>11세 이상</dd>
+										<dd>${detail.srating }</dd>
 										<dt>할인혜택</dt>
 										<dd>무이자</dd>
 									</dl>
@@ -143,9 +157,10 @@
 						</ul>
 					</div>
 				</div>
+				<!---------------------------------상세페이지--------------------------------------->
 				<div id="main_concert_detail_content_all">
 					<div id="main_concert_detail_content_div">
-						<div id="main_concert_detail_playtime">
+						<div id="main_concert_detail_playtime">  
 							<p>공연시간</p>
 							<div>
 								월, 화, 목, 금 오후 5시/토, 일 오후 3시<br>
@@ -244,6 +259,7 @@
 						</div>
 					</div>
 				</div>
+				<!---------------------------------기대평--------------------------------------->
 				<div id="main_concert_expect_all" style="display:none;">
 					<div id="main_concert_expect_div">
 						<div id="main_concert_expect_notice">
@@ -263,16 +279,18 @@
 						</div>
 					</div>
 					<div id="main_concert_expect_content">
+						<form action="<%=request.getContextPath()%>/Review/ExpectWriteAction.do" method="post">
 						<div id="main_concert_expect_content_write_div">
 							<img src="../icon/person.png" class="main_concert_expect_content_write_all">
 							<div class="main_concert_expect_content_write_all">
-								<textarea placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>
+								<textarea name="content" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>
 							</div>
 							<button type="submit" id="main_concert_expect_content_write_button">등록</button>
 						</div>
+						</form>
 						<div id="main_concert_expect_content_number_all">
 							<div id="main_concert_expect_content_number_order">
-								<div id="main_concert_expect_content_number">총 3개</div>
+								<div id="main_concert_expect_content_number">총 ${ecount}개</div>
 								<div id="main_concert_expect_content_list_order">
 									<ul>
 										<li><a href="#">최신순</a></li>&nbsp;&nbsp;|&nbsp;
@@ -284,25 +302,26 @@
 						<div id="main_concert_expect_content_list">
 							<ul>
 								<hr id="main_concert_expect_content_list_bar_first">
+								<c:forEach var="bb" items="${elist}">
 								<li>
 									<div id="main_concert_expect_content_list_id_set" class="main_concert_expect_content_list_set_all">
 										<img src="../icon/person.png" class="main_concert_expect_content_list_id_all">
 										<div id="main_concert_expect_content_list_id" class="main_concert_expect_content_list_id_all">
-											oooday4u
+											${bb.midx}
 										</div>
 									</div>
 									<div id="main_concert_expect_content_list_content_set" class="main_concert_expect_content_list_set_all">
 										<div id="main_concert_expect_content_list_content_main" class="main_concert_expect_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
+											${bb.xcontent}
 										</div>
 										<br>
 										<div id="main_concert_expect_content_list_content_date" class="main_concert_expect_content_list_content_all">
-											2020.02.08
+											${bb.xregdate}
 										</div>
 										<br>
 										<div id="main_concert_expect_content_list_content_good" class="main_concert_expect_content_list_content_all">
 											<ul>
-												<li>👍30</li>
+												<li>👍${bb.xgood}</li>
 												<li>👎20</li>
 												<li>신고</li>
 											</ul>
@@ -310,140 +329,66 @@
 									</div>
 									<hr class="main_concert_expect_content_list_bar_bottom">
 								</li>
-								<li>
-									<div id="main_concert_expect_content_list_id_set" class="main_concert_expect_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_expect_content_list_id_all">
-										<div id="main_concert_expect_content_list_id" class="main_concert_expect_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_expect_content_list_content_set" class="main_concert_expect_content_list_set_all">
-										<div id="main_concert_expect_content_list_content_main" class="main_concert_expect_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_date" class="main_concert_expect_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_good" class="main_concert_expect_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_expect_content_list_bar_bottom">
-								</li>
-								<li>
-									<div id="main_concert_expect_content_list_id_set" class="main_concert_expect_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_expect_content_list_id_all">
-										<div id="main_concert_expect_content_list_id" class="main_concert_expect_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_expect_content_list_content_set" class="main_concert_expect_content_list_set_all">
-										<div id="main_concert_expect_content_list_content_main" class="main_concert_expect_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_date" class="main_concert_expect_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_good" class="main_concert_expect_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_expect_content_list_bar_bottom">
-								</li>
-								<li>
-									<div id="main_concert_expect_content_list_id_set" class="main_concert_expect_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_expect_content_list_id_all">
-										<div id="main_concert_expect_content_list_id" class="main_concert_expect_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_expect_content_list_content_set" class="main_concert_expect_content_list_set_all">
-										<div id="main_concert_expect_content_list_content_main" class="main_concert_expect_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_date" class="main_concert_expect_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_good" class="main_concert_expect_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_expect_content_list_bar_bottom">
-								</li>
-								<li>
-									<div id="main_concert_expect_content_list_id_set" class="main_concert_expect_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_expect_content_list_id_all">
-										<div id="main_concert_expect_content_list_id" class="main_concert_expect_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_expect_content_list_content_set" class="main_concert_expect_content_list_set_all">
-										<div id="main_concert_expect_content_list_content_main" class="main_concert_expect_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_date" class="main_concert_expect_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_good" class="main_concert_expect_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_expect_content_list_bar_bottom">
-								</li>
+								</c:forEach>
 							</ul>
+				
+					<c:set var="page" value="${(param.ep == null)?1:param.ep}"/>
+					<c:set var="startNum" value="${page-(page-1)%5}"/>
+					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(ecount/10),'.')}"/>
 							<div id="main_page_button_set">
+								<a href="?ep=1&q=">
 								<div class="main_page_button main_page_bn">
-									<a href="#"><div class="main_page_button_llgg">&lt;&lt;</div></a>
+								<div class="main_page_button_llgg">&lt;&lt;</div>
 								</div>
-								<div class="main_page_button main_page_bn">
-									<a href="#"><div class="main_page_button_lg">&lt;</div></a>
+							</a>
+							<c:if test= "${startNum>1}">
+								<a href= "?ep=${startNum-1}&q=">
+									<div class="main_page_button main_page_bn">
+										<div class="main_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test= "${startNum<=1}">
+								<a href= "#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_page_button main_page_bn">
+										<div class="main_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+								
+								<div class="main_page_bn">
+									<c:forEach var="i" begin="0" end= "4">
+										<c:if test ="${(startNum+i) <= lastNum}">
+											<div class="main_page_button_page">
+												<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?ep=${startNum+i}&q=${param.q}" >${startNum+i}</a>
+											</div>
+										</c:if>
+									</c:forEach>
 								</div>
-								<ul class="main_page_bn">
-									<li class="main_page_button_page"><a href="#">1</a></li>
-									<li class="main_page_button_page"><a href="#">2</a></li>
-									<li class="main_page_button_page"><a href="#">3</a></li>
-									<li class="main_page_button_page"><a href="#">4</a></li>
-									<li class="main_page_button_page"><a href="#">5</a></li>
-									<li class="main_page_button_page"><a href="#">6</a></li>
-									<li class="main_page_button_page"><a href="#">7</a></li>
-									<li class="main_page_button_page"><a href="#">8</a></li>
-									<li class="main_page_button_page"><a href="#">9</a></li>
-									<li class="main_page_button_page"><a href="#">10</a></li>
-								</ul>
+								<c:if test="${startNum+4<lastNum}">
+									<a href="?ep=${startNum+5}&q=">
+										<div class="main_page_button main_event_page_bn">
+											<div class="main_page_button_lg">&gt;</div>
+										</div>	
+									</a>
+								</c:if>
+								<c:if test="${startNum+4>=lastNum}">
+									<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+										<div class="main_page_button main_event_page_bn">
+											<div class="main_page_button_lg">&gt;</div>
+										</div>
+									</a>	
+								</c:if>
+										
 								<div class="main_page_button main_event_page_bn">
-									<a href="#"><div class="main_page_button_lg">&gt;</div></a>
-								</div>
-								<div class="main_page_button main_event_page_bn">
-									<a href="#"><div class="main_page_button_llgg">&gt;&gt;</div></a>
+									<a href="?ep${lastNum}&q="><div class="main_page_button_llgg">&gt;&gt;</div></a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+					
+					<!---------------------------------리뷰평--------------------------------------->
 				<div id="main_concert_review_all" style="display:none;">
 					<div id="main_concert_review_div">
 						<div id="main_concert_review_notice">
@@ -460,16 +405,18 @@
 						</div>
 					</div>
 					<div id="main_concert_review_content">
+						<form action="<%=request.getContextPath()%>/Review/ReviewWriteAction.do" method="post">
 						<div id="main_concert_review_content_write_div">
-							<img src="../icon/person.png" class="main_concert_review_content_write_all">
+								<img src="../icon/person.png" class="main_concert_review_content_write_all">
 							<div class="main_concert_review_content_write_all">
-								<textarea placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>
+								<textarea name="content"  placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>	
 							</div>
-							<button type="submit" id="main_concert_review_content_write_button">등록</button>
+							<button type="submit" id="main_concert_review_content_write_button" value="submit">등록</button>
 						</div>
+						</form>
 						<div id="main_concert_review_content_number_all">
 							<div id="main_concert_review_content_number_order">
-								<div id="main_concert_review_content_number">총 3개</div>
+								<div id="main_concert_review_content_number">총 ${count}개</div>
 								<div id="main_concert_review_content_list_order">
 									<ul>
 										<li><a href="#">최신순</a></li>&nbsp;&nbsp;|&nbsp;
@@ -481,25 +428,26 @@
 						<div id="main_concert_review_content_list">
 							<ul>
 								<hr id="main_concert_review_content_list_bar_first">
+								<c:forEach var="aa" items="${list}">
 								<li>
 									<div id="main_concert_review_content_list_id_set" class="main_concert_review_content_list_set_all">
 										<img src="../icon/person.png" class="main_concert_review_content_list_id_all">
 										<div id="main_concert_review_content_list_id" class="main_concert_review_content_list_id_all">
-											oooday4u
+											${aa.midx}
 										</div>
 									</div>
 									<div id="main_concert_review_content_list_content_set" class="main_concert_review_content_list_set_all">
 										<div id="main_concert_review_content_list_content_main" class="main_concert_review_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
+											${aa.vcontent}
 										</div>
 										<br>
 										<div id="main_concert_review_content_list_content_date" class="main_concert_review_content_list_content_all">
-											2020.02.08
+											${aa.vregdate}
 										</div>
 										<br>
 										<div id="main_concert_review_content_list_content_good" class="main_concert_review_content_list_content_all">
 											<ul>
-												<li>👍30</li>
+												<li>👍${aa.vgood}</li>
 												<li>👎20</li>
 												<li>신고</li>
 											</ul>
@@ -507,140 +455,70 @@
 									</div>
 									<hr class="main_concert_review_content_list_bar_bottom">
 								</li>
-								<li>
-									<div id="main_concert_review_content_list_id_set" class="main_concert_review_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_review_content_list_id_all">
-										<div id="main_concert_review_content_list_id" class="main_concert_review_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_review_content_list_content_set" class="main_concert_review_content_list_set_all">
-										<div id="main_concert_review_content_list_content_main" class="main_concert_review_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_date" class="main_concert_review_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_good" class="main_concert_review_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_review_content_list_bar_bottom">
-								</li>
-								<li>
-									<div id="main_concert_review_content_list_id_set" class="main_concert_review_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_review_content_list_id_all">
-										<div id="main_concert_review_content_list_id" class="main_concert_review_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_review_content_list_content_set" class="main_concert_review_content_list_set_all">
-										<div id="main_concert_review_content_list_content_main" class="main_concert_review_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_date" class="main_concert_review_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_good" class="main_concert_review_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_review_content_list_bar_bottom">
-								</li>
-								<li>
-									<div id="main_concert_review_content_list_id_set" class="main_concert_review_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_review_content_list_id_all">
-										<div id="main_concert_review_content_list_id" class="main_concert_review_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_review_content_list_content_set" class="main_concert_review_content_list_set_all">
-										<div id="main_concert_review_content_list_content_main" class="main_concert_review_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_date" class="main_concert_review_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_good" class="main_concert_review_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_review_content_list_bar_bottom">
-								</li>
-								<li>
-									<div id="main_concert_review_content_list_id_set" class="main_concert_review_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_review_content_list_id_all">
-										<div id="main_concert_review_content_list_id" class="main_concert_review_content_list_id_all">
-											oooday4u
-										</div>
-									</div>
-									<div id="main_concert_review_content_list_content_set" class="main_concert_review_content_list_set_all">
-										<div id="main_concert_review_content_list_content_main" class="main_concert_review_content_list_content_all">
-											넘모넘모 기대돼용♡♡♡♡♡♡
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_date" class="main_concert_review_content_list_content_all">
-											2020.02.08
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_good" class="main_concert_review_content_list_content_all">
-											<ul>
-												<li>👍30</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_review_content_list_bar_bottom">
-								</li>
-							</ul>
-							<div id="main_page_button_set">
-								<div class="main_page_button main_page_bn">
-									<a href="#"><div class="main_page_button_llgg">&lt;&lt;</div></a>
-								</div>
-								<div class="main_page_button main_page_bn">
-									<a href="#"><div class="main_page_button_lg">&lt;</div></a>
-								</div>
-								<ul class="main_page_bn">
-									<li class="main_page_button_page"><a href="#">1</a></li>
-									<li class="main_page_button_page"><a href="#">2</a></li>
-									<li class="main_page_button_page"><a href="#">3</a></li>
-									<li class="main_page_button_page"><a href="#">4</a></li>
-									<li class="main_page_button_page"><a href="#">5</a></li>
-									<li class="main_page_button_page"><a href="#">6</a></li>
-									<li class="main_page_button_page"><a href="#">7</a></li>
-									<li class="main_page_button_page"><a href="#">8</a></li>
-									<li class="main_page_button_page"><a href="#">9</a></li>
-									<li class="main_page_button_page"><a href="#">10</a></li>
+								</c:forEach>
 								</ul>
-								<div class="main_page_button main_event_page_bn">
-									<a href="#"><div class="main_page_button_lg">&gt;</div></a>
+			
+					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+					<c:set var="startNum" value="${page-(page-1)%5}"/>
+					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
+						
+							<div id="main_page_button_set">
+							
+								<a href="?p=1&q=">
+								<div class="main_page_button main_page_bn">
+								<div class="main_page_button_llgg">&lt;&lt;</div>
 								</div>
+							</a>
+							<c:if test= "${startNum>1}">
+								<a href= "?p=${startNum-1}&q=">
+									<div class="main_page_button main_page_bn">
+										<div class="main_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test= "${startNum<=1}">
+								<a href= "#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_page_button main_page_bn">
+										<div class="main_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+								
+								<div class="main_page_bn">
+									<c:forEach var="i" begin="0" end= "4">
+										<c:if test ="${(startNum+i) <= lastNum}">
+											<div class="main_page_button_page">
+												<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&q=${param.q}" >${startNum+i}</a>
+											</div>
+										</c:if>
+									</c:forEach>
+								</div>
+								<c:if test="${startNum+4<lastNum}">
+									<a href="?p=${startNum+5}&q=">
+										<div class="main_page_button main_event_page_bn">
+											<div class="main_page_button_lg">&gt;</div>
+										</div>	
+									</a>
+								</c:if>
+								<c:if test="${startNum+4>=lastNum}">
+									<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+										<div class="main_page_button main_event_page_bn">
+											<div class="main_page_button_lg">&gt;</div>
+										</div>
+									</a>	
+								</c:if>
+										
 								<div class="main_page_button main_event_page_bn">
-									<a href="#"><div class="main_page_button_llgg">&gt;&gt;</div></a>
+									<a href="?p${lastNum}&q="><div class="main_page_button_llgg">&gt;&gt;</div></a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+					
+				
+				
+					<!---------------------------------QNA--------------------------------------->
 				<div id="main_concert_question_all" style="display:none;">
 					<div id="main_concert_question_div">
 						<div id="main_concert_question_notice">
@@ -653,16 +531,18 @@
 						</div>
 					</div>
 					<div id="main_concert_question_content">
+						<form action="<%=request.getContextPath()%>/Review/CquestionWriteAction.do" method="post">
 						<div id="main_concert_question_content_write_div">
 							<div class="main_concert_question_content_write_all">
-								<textarea placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다
+								<textarea name="content" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다
 * 게시판에 고객님의 연락처, 주소 등의 개인정보가 포함된 글을 올리실 경우에는 타인에게 해당 정보가 노출될 수 있으니 게재를 삼가하여 주시기 바랍니다."></textarea>
 							</div>
 							<button type="submit" id="main_concert_question_content_write_button">등록</button>
 						</div>
+						</form>
 						<div id="main_concert_question_content_number_all">
 							<div id="main_concert_question_content_number_order">
-								<div id="main_concert_question_content_number">총 3개</div>
+								<div id="main_concert_question_content_number">총 ${cqcount}개</div>
 								<div id="main_concert_question_content_list_order">
 									<ul>
 										<li><a href="#">최신순</a></li>&nbsp;&nbsp;|&nbsp;
@@ -674,24 +554,25 @@
 						<div id="main_concert_question_content_list">
 							<ul>
 								<hr id="main_concert_question_content_list_bar_first">
+								<c:forEach var="aa" items="${cqlist}">
 								<li>
 									<div>
 										<div class="main_concert_question_content_list_id_div">
 											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
 											<div class="main_concert_question_content_list_id">
-												oooday4u
+												${aa.midx}
 											</div>
 										</div>
 										<div class="main_concert_question_content_list_text_div">
 											<div class="main_concert_question_content_list_text">
-												넘모넘모기대돼용♡♡♡♡
+												${aa.cqcontent}
 											</div>
 											<div class="main_concert_question_content_list_date">
-												2020.02.08
+												${aa.cqregdate}
 											</div>
 											<div class="main_concert_question_content_list_content_good">
 												<ul>
-													<li>👍30</li>
+													<li>👍${aa.cqgood}</li>
 													<li>👎20</li>
 													<li>신고</li>
 												</ul>
@@ -709,176 +590,65 @@
 									</div>
 									<hr class="main_concert_question_content_list_bar_bottom">
 								</li>
-								<li>
-									<div>
-										<div class="main_concert_question_content_list_id_div">
-											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
-											<div class="main_concert_question_content_list_id">
-												oooday4u
-											</div>
-										</div>
-										<div class="main_concert_question_content_list_text_div">
-											<div class="main_concert_question_content_list_text">
-												넘모넘모기대돼용♡♡♡♡
-											</div>
-											<div class="main_concert_question_content_list_date">
-												2020.02.08
-											</div>
-											<div class="main_concert_question_content_list_content_good">
-												<ul>
-													<li>👍30</li>
-													<li>👎20</li>
-													<li>신고</li>
-												</ul>
-											</div>
-											<a href="javascript:void(0);" onclick="showAnswerTab('main_concert_question_content_list_answer_2');" class="main_concert_question_content_list_more">답변 보기</a>
-											<div class="main_concert_question_content_list_answer_all" id="main_concert_question_content_list_answer_2" style="display:none;">
-												<div class="main_concert_question_content_list_answer">
-													대충 여기 답변 올라오는 곳이라는 뜻
-												</div>
-												<div class="main_concert_question_content_list_answer_date">
-													2020.02.08
-												</div>
-											</div>
-										</div>
-									</div>
-									<hr class="main_concert_question_content_list_bar_bottom">
-								</li>
-								<li>
-									<div>
-										<div class="main_concert_question_content_list_id_div">
-											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
-											<div class="main_concert_question_content_list_id">
-												oooday4u
-											</div>
-										</div>
-										<div class="main_concert_question_content_list_text_div">
-											<div class="main_concert_question_content_list_text">
-												넘모넘모기대돼용♡♡♡♡
-											</div>
-											<div class="main_concert_question_content_list_date">
-												2020.02.08
-											</div>
-											<div class="main_concert_question_content_list_content_good">
-												<ul>
-													<li>👍30</li>
-													<li>👎20</li>
-													<li>신고</li>
-												</ul>
-											</div>
-											<a href="javascript:void(0);" onclick="showAnswerTab('main_concert_question_content_list_answer_3');" class="main_concert_question_content_list_more">답변 보기</a>
-											<div class="main_concert_question_content_list_answer_all" id="main_concert_question_content_list_answer_3" style="display:none;">
-												<div class="main_concert_question_content_list_answer">
-													대충 여기 답변 올라오는 곳이라는 뜻
-												</div>
-												<div class="main_concert_question_content_list_answer_date">
-													2020.02.08
-												</div>
-											</div>
-										</div>
-									</div>
-									<hr class="main_concert_question_content_list_bar_bottom">
-								</li>
-								<li>
-									<div>
-										<div class="main_concert_question_content_list_id_div">
-											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
-											<div class="main_concert_question_content_list_id">
-												oooday4u
-											</div>
-										</div>
-										<div class="main_concert_question_content_list_text_div">
-											<div class="main_concert_question_content_list_text">
-												넘모넘모기대돼용♡♡♡♡
-											</div>
-											<div class="main_concert_question_content_list_date">
-												2020.02.08
-											</div>
-											<div class="main_concert_question_content_list_content_good">
-												<ul>
-													<li>👍30</li>
-													<li>👎20</li>
-													<li>신고</li>
-												</ul>
-											</div>
-											<a href="javascript:void(0);" onclick="showAnswerTab('main_concert_question_content_list_answer_4');" class="main_concert_question_content_list_more">답변 보기</a>
-											<div class="main_concert_question_content_list_answer_all" id="main_concert_question_content_list_answer_4" style="display:none;">
-												<div class="main_concert_question_content_list_answer">
-													대충 여기 답변 올라오는 곳이라는 뜻
-												</div>
-												<div class="main_concert_question_content_list_answer_date">
-													2020.02.08
-												</div>
-											</div>
-										</div>
-									</div>
-									<hr class="main_concert_question_content_list_bar_bottom">
-								</li>
-								<li>
-									<div>
-										<div class="main_concert_question_content_list_id_div">
-											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
-											<div class="main_concert_question_content_list_id">
-												oooday4u
-											</div>
-										</div>
-										<div class="main_concert_question_content_list_text_div">
-											<div class="main_concert_question_content_list_text">
-												넘모넘모기대돼용♡♡♡♡
-											</div>
-											<div class="main_concert_question_content_list_date">
-												2020.02.08
-											</div>
-											<div class="main_concert_question_content_list_content_good">
-												<ul>
-													<li>👍30</li>
-													<li>👎20</li>
-													<li>신고</li>
-												</ul>
-											</div>
-											<a href="javascript:void(0);" onclick="showAnswerTab('main_concert_question_content_list_answer_5');" class="main_concert_question_content_list_more">답변 보기</a>
-											<div class="main_concert_question_content_list_answer_all" id="main_concert_question_content_list_answer_5" style="display:none;">
-												<div class="main_concert_question_content_list_answer">
-													대충 여기 답변 올라오는 곳이라는 뜻
-												</div>
-												<div class="main_concert_question_content_list_answer_date">
-													2020.02.08
-												</div>
-											</div>
-										</div>
-									</div>
-									<hr class="main_concert_question_content_list_bar_bottom">
-								</li>
+								</c:forEach>
 							</ul>
+					<c:set var="page" value="${(param.cqp == null)?1:param.cqp}"/>
+					<c:set var="startNum" value="${page-(page-1)%5}"/>
+					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(cqcount/10),'.')}"/>
 							<div id="main_page_button_set">
+								<a href="?cqp=1&q=">
 								<div class="main_page_button main_page_bn">
-									<a href="#"><div class="main_page_button_llgg">&lt;&lt;</div></a>
+								<div class="main_page_button_llgg">&lt;&lt;</div>
 								</div>
-								<div class="main_page_button main_page_bn">
-									<a href="#"><div class="main_page_button_lg">&lt;</div></a>
+							</a>
+							<c:if test= "${startNum>1}">
+								<a href= "?cqp=${startNum-1}&q=">
+									<div class="main_page_button main_page_bn">
+										<div class="main_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test= "${startNum<=1}">
+								<a href= "#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_page_button main_page_bn">
+										<div class="main_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+								
+								<div class="main_page_bn">
+									<c:forEach var="i" begin="0" end= "4">
+										<c:if test ="${(startNum+i) <= lastNum}">
+											<div class="main_page_button_page">
+												<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?cqp=${startNum+i}&q=${param.q}" >${startNum+i}</a>
+											</div>
+										</c:if>
+									</c:forEach>
 								</div>
-								<ul class="main_page_bn">
-									<li class="main_page_button_page"><a href="#">1</a></li>
-									<li class="main_page_button_page"><a href="#">2</a></li>
-									<li class="main_page_button_page"><a href="#">3</a></li>
-									<li class="main_page_button_page"><a href="#">4</a></li>
-									<li class="main_page_button_page"><a href="#">5</a></li>
-									<li class="main_page_button_page"><a href="#">6</a></li>
-									<li class="main_page_button_page"><a href="#">7</a></li>
-									<li class="main_page_button_page"><a href="#">8</a></li>
-									<li class="main_page_button_page"><a href="#">9</a></li>
-									<li class="main_page_button_page"><a href="#">10</a></li>
-								</ul>
+								<c:if test="${startNum+4<lastNum}">
+									<a href="?cqp=${startNum+5}&q=">
+										<div class="main_page_button main_event_page_bn">
+											<div class="main_page_button_lg">&gt;</div>
+										</div>	
+									</a>
+								</c:if>
+								<c:if test="${startNum+4>=lastNum}">
+									<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+										<div class="main_page_button main_event_page_bn"> 
+											<div class="main_page_button_lg">&gt;</div>
+										</div>
+									</a>	
+								</c:if>
+										
 								<div class="main_page_button main_event_page_bn">
-									<a href="#"><div class="main_page_button_lg">&gt;</div></a>
-								</div>
-								<div class="main_page_button main_event_page_bn">
-									<a href="#"><div class="main_page_button_llgg">&gt;&gt;</div></a>
+									<a href="?cqp${lastNum}&q="><div class="main_page_button_llgg">&gt;&gt;</div></a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+					
+					<!---------------------------------공연장위치--------------------------------------->
 				<div id="main_concert_place_all" style="display:none;">
 					<div id="main_concert_place_div">
 						<img src="../image/seoyeonmain.jpg" class="main_concert_place_set">
@@ -892,6 +662,7 @@
 						</div>
 					</div>
 				</div>
+					<!---------------------------------예매안내-------------------------------------->
 				<div id="main_concert_info_all" style="display:none;">
 					<div>티켓 수령 방법 안내</div>
 					<div>

@@ -147,7 +147,7 @@
 						<div id="main_concert_musical_list">
 							<ul>
 								<c:forEach var="l" items="${list}">
-								<li><a href="#">
+								<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">
 									<div class="main_concert_musical_detail">
 										<img src="<%=request.getContextPath() %>/poster/${l.simage }" class="main_concert_musical_detail_poster">
 										<div class="main_concert_musical_detail_title">

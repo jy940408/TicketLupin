@@ -21,9 +21,9 @@ public class ShowDao {
 	
 	public int insertShow(ShowVo sv) {
 		int result = 0;
-		//Å¸ÀÌÆ², Àå¸£, ÀÛ¼º³¯Â¥, ³»¿ë, ÀÌ¹ÌÁö, »èÁ¦¿©ºÎ, ¿ÀÇÂ³¯Â¥, ¸¶Áö¸· ³¯Â¥, µî±Þ, È¸Â÷, ¿ìÆí¹øÈ£, µµ·Î¸íÁÖ¼Ò, Áö¹øÁÖ¼Ò, »ó¼¼ÁÖ¼Ò, Âü°íÇ×¸ñ
-		String sql = "INSERT INTO SHOW(STITLE, SGENRE, SREGDATE, SCONTENT, SIMAGE, SDELYN, SOPENDATE, SENDDATE, SRATING, SROUND, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, MIDX, STICKETINGDATE)"
-				+ "VALUES(?, ?, sysdate, ?, ?, 'N', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		//Å¸ï¿½ï¿½Æ², ï¿½å¸£, ï¿½Û¼ï¿½ï¿½ï¿½Â¥, ï¿½ï¿½ï¿½ï¿½, ï¿½Ì¹ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Â³ï¿½Â¥, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥, ï¿½ï¿½ï¿½, È¸ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½È£, ï¿½ï¿½ï¿½Î¸ï¿½ï¿½Ö¼ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½, ï¿½ï¿½ï¿½Ö¼ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½
+		String sql = "INSERT INTO SHOW(SIDX, STITLE, SGENRE, SREGDATE, SCONTENT, SIMAGE, SDELYN, SOPENDATE, SENDDATE, SRATING, SROUND, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, MIDX, STICKETINGDATE)"
+				+ "VALUES(SHOW_SEQUENCE.NEXTVAL, ?, ?, sysdate, ?, ?, 'N', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -44,7 +44,7 @@ public class ShowDao {
 			pstmt.setInt(14, sv.getMidx());
 			pstmt.setDate(15, sv.getSticketingdate());
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("ShowDAO Å×½ºÆ®: " + sv.getStitle());
+			System.out.println("ShowDAO ï¿½×½ï¿½Æ®: " + sv.getStitle());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,4 +131,49 @@ public class ShowDao {
 		
 		return count;
 	}
+
+	public ShowVo getShowDetail(int idx) {
+		ShowVo sv = null;
+		
+		String sql = "SELECT * FROM SHOW WHERE SIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int sidx = rs.getInt("SIDX");
+			String stitle = rs.getString("STITLE");
+			String sgenre = rs.getString("SGENRE");
+			Date sregdate = rs.getDate("SREGDATE");
+			String scontent = rs.getString("SCONTENT");
+			String simage = rs.getString("SIMAGE");
+			int spay = rs.getInt("SPAY");
+			String sdelyn = rs.getString("SDELYN");
+			int cidx = rs.getInt("CIDX");
+			Date sticketingdate = rs.getDate("STICKETINGDATE");
+			int midx = rs.getInt("MIDX");
+			String sextraaddress = rs.getString("SEXTRAADDRESS");
+			Date sopendate = rs.getDate("SOPENDATE");
+			Date senddate = rs.getDate("SENDDATE");
+			String srating = rs.getString("SRATING");
+			String sround = rs.getString("SROUND");
+			int spostcode = rs.getInt("SPOSTCODE");
+			String sroadaddress = rs.getString("SROADADDRESS");
+			String sjibunaddress = rs.getString("SJIBUNADDRESS");
+			String sdetailaddress = rs.getString("SDETAILADDRESS");
+			
+			sv = new ShowVo(sidx, stitle, sgenre, sregdate, scontent, simage, spay, sdelyn, cidx, sopendate, senddate, srating, sround, spostcode, sroadaddress, sjibunaddress, sdetailaddress, sextraaddress, midx, sticketingdate);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sv;
+	}
+
 }
