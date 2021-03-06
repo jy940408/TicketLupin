@@ -18,10 +18,16 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+						<c:if test="${not empty sessionScope.mid}">
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<li class="login"><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+							<li><a href="<%=request.getContextPath()%>/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -34,10 +40,10 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
+				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
@@ -46,7 +52,7 @@
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
@@ -67,14 +73,24 @@
 					<div id="main_concert_list_search_all">
 						<div id="main_concert_list_search_top_all">
 							<div id="main_concert_list_search_textbox" class="main_concert_list_search_top">
-								<form action="<%request.getContextPath()%>/Show/ShowSearch.do">
+								<form action="#">
 								<input type="text" name="q" placeholder="검색어를 입력하세요">
 								<button type="submit">검색</button>
 								</form>
 							</div>
+							<c:if test="${sessionScope.mgrade eq 'M'}">
 							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
 								<a href="<%=request.getContextPath()%>/Show/ShowWrite.do"><div>작성하기</div></a>
 							</div>
+							</c:if>
+							<c:if test="${sessionScope.mgrade eq 'G'}">
+							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
+							</div>
+							</c:if>
+							<c:if test="${empty sessionScope.mgrade}">
+							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
+							</div>
+							</c:if>
 						</div>
 						<div id="main_concert_list_search_tag">
 							<div id="main_concert_list_search_tag_genre" class="main_concert_list_search_tag_sector">
@@ -120,18 +136,29 @@
 					</div>
 					<div id="main_concert_musical_list_all">
 						<div id="main_concert_musical_list_order">
-							<a href="#"><div>인기순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a href="?q=&s=shit&=p="><div>인기순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 							<a href="?q=&s=sopendate&p="><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 							<a href="?q=&s=sregdate&p="><div>최신순</div></a>
 						</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+					<c:set var="now_" value="<%=new java.util.Date()%>" />
+					<fmt:formatDate value="${now_}" pattern="YYYY.MM.dd(E) HH:ss" var="now"/>
+<!------------------------------------------------------------------------------------------------------------------------>
 						<div id="main_concert_musical_list">
 							<ul>
 								<c:forEach var="l" items="${list}">
 								<li><a href="#">
 									<div class="main_concert_musical_detail">
-										<img src="../poster/musicalposter1.jpg" class="main_concert_musical_detail_poster">
+										<img src="<%=request.getContextPath() %>/poster/${l.simage }" class="main_concert_musical_detail_poster">
 										<div class="main_concert_musical_detail_title">
-											${l.stitle }
+											<c:choose>
+												<c:when test="${fn:length(l.stitle) gt 20}">
+													<c:out value="${fn:substring(l.stitle, 0, 19)}"/>...
+												</c:when>
+												<c:otherwise>
+													<c:out value="${l.stitle}"/>
+												</c:otherwise>
+											</c:choose>
 										</div>
 										<div class="main_concert_musical_detail_date">
 											${l.sopendate } - ${l.senddate}
@@ -140,7 +167,7 @@
 											${l.sroadaddress}
 										</div>
 										<div class="main_concert_musical_detail_sold">
-											판매중
+											판매 중${now}
 										</div>
 									</div>
 								</a></li>
@@ -149,6 +176,70 @@
 						</div>
 					</div>
 				</div>
+				
+<!--------------------------------------------------------------------------------------------------------------------->
+		
+			<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+			<c:set var="startNum" value="${page-(page-1)%5}"/>
+			<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/12),'.')}"/>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+					
+					<div id="main_news_page">
+						<div id="main_news_page_set">
+<!--------------------------------------------------------------------------------------------------------------------->
+							<a href="?p=1&q=">
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_button_llgg">&lt;&lt;</div>
+								</div>
+							</a>						
+							<c:if test="${startNum>1}">
+								<a href="?p=${startNum-1}&s=&q=">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${startNum<=1}">
+								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+<!--------------------------------------------------------------------------------------------------------------------->
+							
+							<div class="main_news_page_bn">
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(startNum+i) <= lastNum}">
+										<div class="main_news_page_button_page">
+											<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&s=${param.s}&q=${param.q}" >${startNum+i}</a>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+							<c:if test="${startNum+4<lastNum}">
+								<a href="?p=${startNum+5}&s=&q=">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+							</c:if>
+							<c:if test="${startNum+4>=lastNum}">
+								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+								</a>
+							</c:if>
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_news_llgg">&gt;&gt;</div>
+								</div>
+							</a>
+<!--------------------------------------------------------------------------------------------------------------------->
+
+						</div>
+					</div>
 			</article>
 		</section>
 <!------------------------------------------------------------------------------------------------------------------------>

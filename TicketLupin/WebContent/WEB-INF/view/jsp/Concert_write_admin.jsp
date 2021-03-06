@@ -124,7 +124,7 @@
 							</tr>
 							<tr>
 								<th colspan="3" style="border:1px solid;">
-									예매가능 날짜
+									공연 기간
 								</th>
 								<td colspan="9" style="border:1px solid;">
 									<center>
@@ -140,6 +140,16 @@
 									<div id="platanusBox">
 										<input id="platanusTime" class="round" name="platanusTime" onclick="javascript:fn_timePicker(this);" style="border:0px; width:100px; font-size:15px; text-align:center;">
 									</div>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									예매 오픈 날짜
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<center>
+										<input type="datetime-local" class="date" name="ticketingdate">
+									</center>
 								</td>
 							</tr>
 							<tr>

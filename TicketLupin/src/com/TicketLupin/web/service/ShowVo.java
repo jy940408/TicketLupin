@@ -23,6 +23,7 @@ public class ShowVo {
 	private String sdetailaddress;
 	private String sextraaddress;
 	private int midx;
+	private Date sticketingdate;
 	
 	public ShowVo() {
 		
@@ -30,7 +31,7 @@ public class ShowVo {
 
 	public ShowVo(int sidx, String stitle, String sgenre, Date sregdate, String scontent, String simage, int spay,
 			String sdelyn, int cidx, Date sopendate, Date senddate, String srating, String sround, int spostcode,
-			String sroadaddress, String sjibunaddress, String sdetailaddress, String sextraaddress, int midx) {
+			String sroadaddress, String sjibunaddress, String sdetailaddress, String sextraaddress, int midx, Date sticketingdate) {
 		super();
 		this.sidx = sidx;
 		this.stitle = stitle;
@@ -51,6 +52,7 @@ public class ShowVo {
 		this.sdetailaddress = sdetailaddress;
 		this.sextraaddress = sextraaddress;
 		this.midx = midx;
+		this.sticketingdate = sticketingdate;
 	}
 
 	public int getSidx() {
@@ -202,6 +204,12 @@ public class ShowVo {
 	public void setMidx(int midx) {
 		this.midx = midx;
 	}
+	public Date getSticketingdate() {
+		return sticketingdate;
+	}
+	public void setSticketingdate(Date sticketingdate) {
+		this.sticketingdate = sticketingdate;
+	}
 
 	@Override
 	public String toString() {
@@ -209,7 +217,8 @@ public class ShowVo {
 				+ ", scontent=" + scontent + ", simage=" + simage + ", spay=" + spay + ", sdelyn=" + sdelyn + ", cidx="
 				+ cidx + ", sopendate=" + sopendate + ", senddate=" + senddate + ", srating=" + srating + ", sround="
 				+ sround + ", spostcode=" + spostcode + ", sroadaddress=" + sroadaddress + ", sjibunaddress="
-				+ sjibunaddress + ", sdetailaddress=" + sdetailaddress + ", sextraaddress=" + sextraaddress + ",midx=" + midx + "]";
+				+ sjibunaddress + ", sdetailaddress=" + sdetailaddress + ", sextraaddress=" + sextraaddress + ",midx="
+				+ midx + ",sticketingdate=" + sticketingdate + "]";
 	}
 	
 	

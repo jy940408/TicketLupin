@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowVo;
 import com.oreilly.servlet.MultipartRequest;
@@ -32,28 +34,42 @@ public class ShowController extends HttpServlet{
 		
 		if(str.equals("/Show/ShowList.do")) {
 			
-			String query_ = request.getParameter("q");
-			String setting_ = request.getParameter("f");
-			String page_ = request.getParameter("p");
+			HttpSession session = request.getSession();
 			
-			String query = null;
-			if(query_ != null && query_.equals("")) {
+			String query_ = request.getParameter("q");
+			String setting_ = request.getParameter("s");
+			String page_ = request.getParameter("p");
+			String mid = (String)session.getAttribute("mid");
+			
+			String query = "";
+			if(query_ != null && !query_.equals("")) {
 				query = query_;
 			}
 			
-			String setting = "";
-			if(query_ != null && query_.equals("")) {
-				query = query_;
+			String setting = "sregdate";
+			if(setting_ != null && !setting_.equals("")) {
+				setting = setting_;
 			}
 			
 			int page = 1;
-			if(page_ != null && page_.equals("")) {
-				page = Integer.parseInt(query_);
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			String array = "DESC";
+			if(setting.equals("sopendate")) {
+				array = "ASC";
 			}
 			
 			ShowDao sd = new ShowDao();
-			sd.getShowList(query, setting, page);
+			List<ShowVo> list = sd.getShowList(query, setting, array, page);
+			int count = sd.getShowListCount(query, setting);
 			
+			System.out.println("setting: " + setting);
+			System.out.println("array: " + array);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
 			
 		}else if(str.equals("/Show/ShowWrite.do")) {
@@ -91,6 +107,7 @@ public class ShowController extends HttpServlet{
 			String genre = multi.getParameter("genre");
 			String startdate_ = multi.getParameter("startdate");
 			String enddate_ = multi.getParameter("enddate");
+			String ticketingdate_ = multi.getParameter("ticketingdate");
 			String rating = multi.getParameter("rating");
 			String round = multi.getParameter("platanusTime");
 			String image = multi.getParameter("image");
@@ -147,6 +164,22 @@ public class ShowController extends HttpServlet{
 			   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
 			   System.out.println("변환 완료 끝날짜: " + sqlEndDate);
 //==============================================================================================================================//
+			
+			   Date ticketingdate = null;
+			   try {
+				   DateFormat formatter;
+				   
+				   formatter =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+				   ticketingdate = (Date)formatter.parse(ticketingdate_);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			   
+			   java.sql.Date sqlTicketingDate = new java.sql.Date(ticketingdate.getTime());
+			   System.out.println("변환 완료 티켓오픈날짜: " + sqlTicketingDate);
+//==============================================================================================================================//
+			   
 			Enumeration files = multi.getFileNames();
 			String str_ = (String)files.nextElement();
 							
@@ -179,10 +212,11 @@ public class ShowController extends HttpServlet{
 			sv.setSdetailaddress(detailAddress);
 			sv.setSextraaddress(extraAddress);
 			sv.setMidx(midx);
+			sv.setSticketingdate(sqlTicketingDate);
 			sd.insertShow(sv);
 			
 			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
+			response.sendRedirect("../Show/ShowList.do");
 			
 		}
 		

@@ -71,7 +71,7 @@ public class NewsController extends HttpServlet{
 			
 			System.out.println("list " + list);
 			System.out.println("member id " + mid);
-		
+			System.out.println(setting);
 //==============================================================================================================================//
 
 		}else if(str.equals("/News/NewsDetail.do")) {
