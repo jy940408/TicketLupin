@@ -25,6 +25,11 @@ public class EventController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_list.jsp").forward(request, response);
 			
+		}else if(str.equals("/Event/EventWrite.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_write_admin.jsp").forward(request, response);
+			
+			
 		}
 		
 	}

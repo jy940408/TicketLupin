@@ -143,24 +143,21 @@ public class EventDao {
 	public int insetEvent(EventVo ev) {
 		int result = 0;
 		//인덱스,타이틀,콘텐츠,회원인덱스, 작성일, 조회수, 이미지, 파일, 공개,좋아요, 삭제, 이벤트 시작날짜, 이벤트 끝 날
-		String sql = "INSERT INTO NEWS VALUES(EVENT_SEQUENCE.NEXTVAL, ?, ?, ?, sysdate, 1, ?, '123', ?, 1, 'N', ?, ?)";
+		String sql = "INSERT INTO EVENT VALUES(EVENT_SEQUENCE.NEXTVAL, ?, ?, ?, sysdate, 1, ?, '123', ?, 1, 'N', ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, ev.getWtitle());
-			pstmt.setString(2, ev.getWbasicinfo());
+			pstmt.setString(1, ev.getEtitle());
+			pstmt.setString(2, ev.getEcontent());
 			pstmt.setInt(3, ev.getMidx());
-			pstmt.setString(4, nv.getWpub());
-			pstmt.setDate(5, nv.getWopendate());
-			pstmt.setString(6, nv.getWtitleposter());
-			pstmt.setString(7, nv.getWintroduce());
-			pstmt.setString(8, nv.getWdiscount());
-			pstmt.setString(9, nv.getWcompany());
-			pstmt.setString(10, nv.getWcategory());
+			pstmt.setString(4, ev.getEimage());
+			pstmt.setString(5, ev.getEpub());
+			pstmt.setDate(6, ev.getEopendate());
+			pstmt.setDate(7, ev.getEenddate());
 			
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println(nv.getWtitle());
+			System.out.println(ev.getEtitle());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

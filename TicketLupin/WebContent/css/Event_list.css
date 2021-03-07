@@ -41,11 +41,12 @@ body{
 }
 #h_ads{
 	margin-left:50px;
+	float:right;
 }
 #h_logo{
 	position:relative;
 	top:10px;
-	height:80px;
+	height:70px;
 	margin:10px 0;
 }
 #h_search{
@@ -53,8 +54,8 @@ body{
 	border-width:0px 0px 4px 0px;
 	background:transparent;
 	border-color:black;
-	font-size:25px;
-	width:250px;
+	font-size:20px;
+	width:200px;
 }
 #h_search_button{
 	background-color:transparent;
@@ -63,7 +64,6 @@ body{
 #h_search_img{
 	width:25px;
 }
-
 /*------------------------------------------------------------------------------------------------------------------------*/
 #nav_bar_top{
 	margin-top:70px;
@@ -86,7 +86,6 @@ body{
 	min-width:1000px;
 	margin:auto;
 }
-
 #nav_menu_sub_event{
 	padding:0px;
 	text-align:right;	
@@ -180,6 +179,15 @@ body{
 	line-height:50px;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
+
+.write{
+	height:35px;
+	width:140px;
+	font-size:15px;
+	background:none;
+	border: 1px solid #D5D5D5;
+	vertical-align:top;
+}
 
 #main_search_set{
 	max-width:1000px;
