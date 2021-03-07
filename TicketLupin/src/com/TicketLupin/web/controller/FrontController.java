@@ -14,7 +14,7 @@ public class FrontController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		//°¡»ó°æ·Î¿Í °°ÀºÁö È®ÀÎÇÑ´Ù
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½
 		String uri = request.getRequestURI();
 		String projectname = request.getContextPath();
 		int jarinum = projectname.length();
@@ -98,7 +98,7 @@ public class FrontController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		//°¡»ó°æ·Î¿Í °°ÀºÁö È®ÀÎÇÑ´Ù
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½
 				String uri = request.getRequestURI();
 				String projectname = request.getContextPath();
 				int jarinum = projectname.length();
@@ -124,6 +124,9 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Notice")) {			
 			NoticeController noticec = new NoticeController();
 			noticec.doPost(request, response);					
+		}else if (hc.equals("Event")) {			
+			EventController eventc = new EventController();
+			eventc.doPost(request, response);			
 		}
 		
 	}
