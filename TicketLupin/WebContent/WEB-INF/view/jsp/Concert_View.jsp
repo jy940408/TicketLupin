@@ -82,7 +82,12 @@
 								<div id="main_concert_cont_text_dibs">
 									<p id="main_concert_process_title">${detail.stitle}</p>
 									<div id="main_concert_process_dibs">
-										<a href="<%=request.getContextPath()%>/Dibs/DibsAction.do?sidx=${detail.sidx}"><div>✓찜하기 목록 담기</div></a>
+										<c:if test="${didx eq 0}">
+											<a href="<%=request.getContextPath()%>/Dibs/DibsAction.do?sidx=${detail.sidx}"><div>✓찜하기 목록 담기</div></a>
+										</c:if>
+										<c:if test="${didx eq 1}">
+											<a href="<%=request.getContextPath()%>/Dibs/DibsDeleteAction.do?sidx=${detail.sidx}"><div>✓찜하기 취소</div></a>
+										</c:if>
 									</div>
 								</div>
 								<div id="main_concert_process_info">

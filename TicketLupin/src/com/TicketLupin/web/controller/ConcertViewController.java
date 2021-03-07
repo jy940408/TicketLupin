@@ -2,7 +2,9 @@ package com.TicketLupin.web.controller;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 
+import com.TicketLupin.web.service.DibsDao;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowVo;
 
@@ -19,6 +21,10 @@ public class ConcertViewController extends HttpServlet{
 		
 		if(str.equals("/ConcertView/ConcertView.do")) {
 			
+			
+			HttpSession session = request.getSession();
+			
+			int midx = (Integer)session.getAttribute("midx");
 			String sidx_ = request.getParameter("sidx");
 			
 			int sidx = 0;
@@ -29,9 +35,15 @@ public class ConcertViewController extends HttpServlet{
 			ShowDao sd = new ShowDao();
 			ShowVo detail = sd.getShowDetail(sidx);
 			
-			request.setAttribute("detail", detail);
+			DibsDao dd = new DibsDao();
+			int didx = dd.getDibsCheck(sidx, midx);
 			
-			System.out.println(detail);
+			request.setAttribute("detail", detail);
+			request.setAttribute("didx", didx);
+			
+			System.out.println("공연 디테일 테스트: " + detail);
+			System.out.println("didx 테스트: " + didx);
+			System.out.println("midx 세션 값: " + midx);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			

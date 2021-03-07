@@ -37,6 +37,26 @@ public class DibsController extends HttpServlet{
 			
 			response.sendRedirect("../ConcertView/ConcertView.do?sidx=" + sidx);
 			
+		}else if(str.equals("/Dibs/DibsDeleteAction.do")) {
+			
+			HttpSession session = request.getSession();
+			int midx = (Integer)session.getAttribute("midx");
+			
+			String sidx_ = request.getParameter("sidx");
+			
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+			System.out.println("midx_: " + midx);
+			System.out.println("받아오는 값: " + sidx);
+			
+			DibsDao dd = new DibsDao();
+			dd.deleteDibs(sidx, midx);
+			
+			response.sendRedirect("../ConcertView/ConcertView.do?sidx=" + sidx);
+			
 		}
 		
 	};
