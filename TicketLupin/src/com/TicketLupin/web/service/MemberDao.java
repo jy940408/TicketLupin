@@ -239,6 +239,8 @@ public class MemberDao {
 				mv.setMidx(rs.getInt("midx"));
 				mv.setMname(rs.getString("mname"));
 				mv.setMid(rs.getString("mid"));
+				mv.setMsignindate(rs.getDate("MSIGNINDATE"));
+				alist.add(mv);
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();

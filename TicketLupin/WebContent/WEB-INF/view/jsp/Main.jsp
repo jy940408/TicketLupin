@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -42,7 +43,14 @@
 				<a href="#" id="main_nav_ranking">랭킹</a>
 				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_myticket">마이 티켓</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
@@ -56,14 +64,24 @@
 		</div>
 		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
-				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="<%=request.getContextPath()%>/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="<%=request.getContextPath()%>/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="<%=request.getContextPath()%>/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
-		
 		
 		<section>
 			<article>
@@ -71,16 +89,9 @@
 					<div id="main_poster_div">
 						<div class="main_poster_content">
 							<ul>
-								<li><a href="#"><img src="../poster/musicalposter1.jpg" id="main_poster_slider_poster1"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter2.jpg" id="main_poster_slider_poster2"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter3.jpg" id="main_poster_slider_poster3"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter4.jpg" id="main_poster_slider_poster4"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter5.jpg" id="main_poster_slider_poster5"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter6.jpg" id="main_poster_slider_poster6"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter7.jpg" id="main_poster_slider_poster7"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter8.jpg" id="main_poster_slider_poster8"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter9.jpg" id="main_poster_slider_poster9"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter10.jpg" id="main_poster_slider_poster10"></a></li>
+								<c:forEach var="sl" items="${showList}">
+									<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${sl.sidx}"><img src="<%=request.getContextPath()%>/poster/${sl.simage}" id="main_poster_slider_poster1"></a></li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>
@@ -89,12 +100,13 @@
 				
 				<div id="main_comingsoon_div">
 					<span id="main_comingsoon_ment">잠시 후, 오픈 예정!</span>
-					<a href="#" id="main_comingsoon_more">더보기 ></a><br>
+					<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_comingsoon_more">더보기 ></a><br>
 					<div id="main_comingsoon">
-						<img src="../poster/musicalposter1.jpg" id="main_open_poster1">
-						<img src="../poster/musicalposter2.jpg" id="main_open_poster2">
-						<img src="../poster/musicalposter3.jpg" id="main_open_poster3">
-						<img src="../poster/musicalposter4.jpg" id="main_open_poster4">
+						<c:forEach var="sl" items="${showList}" begin="0" end="3">
+						<a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${sl.sidx}">
+							<img src="<%=request.getContextPath()%>/poster/${sl.simage}" id="main_open_poster1">
+						</a>
+						</c:forEach>
 						<div id="main_comingsoon_time" style="font-size:25px;"></div>
 					</div>
 				</div>
@@ -107,32 +119,27 @@
 				<div id="main_notice_set">
 					<div id="main_opennews" class="main_open_ranking">
 						<span id="main_opennews_ment">티켓 오픈 소식</span>
-						<a href="#" id="main_opennews_more">더보기></a>
+						<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_opennews_more">더보기></a>
 						<div class="main_notice_class" id="main_opennews_set">
-							<div id="main_opennews1">
-								<span class="main_notice_title">뮤지컬 〈위키드〉－서울（Musical Wicked）설 연휴...</span><br>
-								<span class="main_notice_date">[오픈]21.01.26(목) 20:00</span>
-							</div>
+							<c:forEach var="nl" items="${newsList}" begin="0" end="4" varStatus="status">
+							<c:if test="${!status.last}">
+							<a href="<%=request.getContextPath()%>/News/NewsDetail.do?widx=${nl.widx}" id="main_notice_atag">
+								<div id="main_opennews1">
+									<span class="main_notice_title">${nl.wtitle}</span><br>
+									<span class="main_notice_date">[오픈]&nbsp;<fmt:formatDate value="${nl.wopendate}" type="both" pattern="YY.MM.dd(E) HH:ss"/></span>
+								</div>
+							</a>
 							<hr class="main_opennews_bar">
-							<div id="main_opennews2">
-								<span class="main_notice_title">티켓 오픈 소식 테스트용 공지</span><br>
-								<span class="main_notice_date">[오픈]21.01.26(목) 20:00</span>
-							</div>
-							<hr class="main_opennews_bar">
-							<div id="main_opennews3">
-								<span class="main_notice_title">티켓 오픈 소식 테스트용 공지</span><br>
-								<span class="main_notice_date">[오픈]21.01.26(목) 20:00</span>
-							</div>
-							<hr class="main_opennews_bar">
-							<div id="main_opennews4">
-								<span class="main_notice_title">티켓 오픈 소식 테스트용 공지</span><br>
-								<span class="main_notice_date">[오픈]21.01.26(목) 20:00</span>
-							</div>
-							<hr class="main_opennews_bar">
-							<div id="main_opennews5">
-								<span class="main_notice_title">티켓 오픈 소식 테스트용 공지</span><br>
-								<span class="main_notice_date">[오픈]21.01.26(목) 20:00</span>
-							</div>
+							</c:if>
+							<c:if test="${status.last}">
+							<a href="<%=request.getContextPath()%>/News/NewsDetail.do?widx=${nl.widx}" id="main_notice_atag">
+								<div id="main_opennews1">
+									<span class="main_notice_title">${nl.wtitle}</span><br>
+									<span class="main_notice_date">[오픈]&nbsp;<fmt:formatDate value="${nl.wopendate}" type="both" pattern="YY.MM.dd(E) HH:ss"/></span>
+								</div>
+							</a>
+							</c:if>
+							</c:forEach>
 						</div>
 					</div>
 					<div id="main_ranking" class="main_open_ranking">
@@ -174,6 +181,7 @@
 				<br>
 				<div id="main_pick">
 					<div id="main_pick_ment">티켓루팡 PICK!</div>
+					
 					<div class="main_pick_class" id="main_pick1">
 						<img src="../poster/musicalposter1.jpg" id="main_pick_poster1">
 						<div class="main_pick_name">검은 사제들</div><br>

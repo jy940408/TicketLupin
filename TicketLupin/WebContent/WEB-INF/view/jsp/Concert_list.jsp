@@ -45,13 +45,20 @@
 				<a href="#" id="main_nav_ranking">랭킹</a>
 				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_myticket">마이 티켓</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
@@ -59,10 +66,21 @@
 		</div>
 		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
-				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="#">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -151,14 +169,7 @@
 									<div class="main_concert_musical_detail">
 										<img src="<%=request.getContextPath() %>/poster/${l.simage }" class="main_concert_musical_detail_poster">
 										<div class="main_concert_musical_detail_title">
-											<c:choose>
-												<c:when test="${fn:length(l.stitle) gt 20}">
-													<c:out value="${fn:substring(l.stitle, 0, 19)}"/>...
-												</c:when>
-												<c:otherwise>
-													<c:out value="${l.stitle}"/>
-												</c:otherwise>
-											</c:choose>
+											${l.stitle}
 										</div>
 										<div class="main_concert_musical_detail_date">
 											${l.sopendate } - ${l.senddate}

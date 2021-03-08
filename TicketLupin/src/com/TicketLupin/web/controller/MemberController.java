@@ -85,16 +85,14 @@ public class MemberController extends HttpServlet{
 				session.setAttribute("mpwd", mpwd);
 				session.setAttribute("mgrade", value.get(0));
 				session.setAttribute("midx", value.get(1));
-				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp");
-				dis.forward(request, response);
+				response.sendRedirect("../Main/MainPage.do");
 				System.out.println("로그인 성공 값 받기");
 			}else if(value.get(0).equals("G")){
 				session.setAttribute("mid", mid);
 				session.setAttribute("mpwd", mpwd);
 				session.setAttribute("mgrade", value.get(0));
 				session.setAttribute("midx", value.get(1));
-				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp");
-				dis.forward(request, response);
+				response.sendRedirect("../Main/MainPage.do");
 				System.out.println("로그인 성공 값 받기");
 			}else {
 				response.sendRedirect(request.getContextPath()+"/Member/MemberLogin.do");

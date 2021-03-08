@@ -1,7 +1,15 @@
 package com.TicketLupin.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+
+import com.TicketLupin.web.service.NewsDao;
+import com.TicketLupin.web.service.NewsVo;
+import com.TicketLupin.web.service.ShowDao;
+import com.TicketLupin.web.service.ShowVo;
 
 @WebServlet("/MainController")
 public class MainController extends HttpServlet{
@@ -16,6 +24,20 @@ public class MainController extends HttpServlet{
 		
 		if(str.equals("/Main/MainPage.do")) {
 			
+			String query = "";
+			String ssetting = "sregdate";
+			String nsetting = "wregdate";
+			int page = 1;
+			String array = "ASC";
+			
+			ShowDao sd = new ShowDao();
+			ArrayList<ShowVo> showList = sd.getShowList(query, ssetting, array, page);
+					
+			NewsDao nd = new NewsDao();
+			List<NewsVo> newsList = nd.getNewsList(query, nsetting, page);
+			
+			request.setAttribute("showList", showList);
+			request.setAttribute("newsList", newsList);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 			
 		}

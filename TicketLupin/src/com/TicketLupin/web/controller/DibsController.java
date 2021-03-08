@@ -1,10 +1,13 @@
 package com.TicketLupin.web.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.DibsDao;
+import com.TicketLupin.web.service.DibsListVo;
 
 @WebServlet("/DibsController")
 public class DibsController extends HttpServlet{
@@ -20,7 +23,10 @@ public class DibsController extends HttpServlet{
 		if(str.equals("/Dibs/DibsAction.do")) {
 			
 			HttpSession session = request.getSession();
-			int midx = (Integer)session.getAttribute("midx");
+			int midx = 0;
+			if(session.getAttribute("midx") != null) {
+				midx = (int) session.getAttribute("midx");
+			}
 			
 			String sidx_ = request.getParameter("sidx");
 			
@@ -30,7 +36,7 @@ public class DibsController extends HttpServlet{
 			}
 			
 			System.out.println("midx_: " + midx);
-			System.out.println("받아오는 값: " + sidx);
+			System.out.println("諛쏆븘�삤�뒗 媛�: " + sidx);
 			
 			DibsDao dd = new DibsDao();
 			dd.insertDibs(sidx, midx);
@@ -40,9 +46,13 @@ public class DibsController extends HttpServlet{
 		}else if(str.equals("/Dibs/DibsDeleteAction.do")) {
 			
 			HttpSession session = request.getSession();
-			int midx = (Integer)session.getAttribute("midx");
 			
 			String sidx_ = request.getParameter("sidx");
+			
+			int midx = 0;
+			if(session.getAttribute("midx") != null) {
+				midx = (int) session.getAttribute("midx");
+			}
 			
 			int sidx = 0;
 			if(sidx_ != null && !sidx_.equals("")) {
@@ -50,12 +60,42 @@ public class DibsController extends HttpServlet{
 			}
 			
 			System.out.println("midx_: " + midx);
-			System.out.println("받아오는 값: " + sidx);
+			System.out.println("諛쏆븘�삤�뒗 媛�: " + sidx);
 			
 			DibsDao dd = new DibsDao();
 			dd.deleteDibs(sidx, midx);
 			
 			response.sendRedirect("../ConcertView/ConcertView.do?sidx=" + sidx);
+			
+		}else if(str.equals("/Dibs/MyDibs.do")) {
+			
+			HttpSession session = request.getSession();
+			
+			String page_ = request.getParameter("page");
+			
+			int midx = 0;
+			if(session.getAttribute("midx") != null) {
+				midx = (int) session.getAttribute("midx");
+			}
+			
+			int page = 1;
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			System.out.println("midx: " + midx);
+			
+			DibsDao dd = new DibsDao();
+			ArrayList<DibsListVo> list = dd.getDibsList(midx, page);
+			int count = dd.getDibsListCount(midx);
+			
+			System.out.println(count);
+			System.out.println(list);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_dibs_list.jsp").forward(request, response);
 			
 		}
 		

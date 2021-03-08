@@ -21,10 +21,12 @@ public class ConcertViewController extends HttpServlet{
 		
 		if(str.equals("/ConcertView/ConcertView.do")) {
 			
-			
 			HttpSession session = request.getSession();
+			int midx = 0;
+			if(session.getAttribute("midx") != null) {
+				midx = (int) session.getAttribute("midx");
+			}
 			
-			int midx = (Integer)session.getAttribute("midx");
 			String sidx_ = request.getParameter("sidx");
 			
 			int sidx = 0;
@@ -41,9 +43,9 @@ public class ConcertViewController extends HttpServlet{
 			request.setAttribute("detail", detail);
 			request.setAttribute("didx", didx);
 			
-			System.out.println("공연 디테일 테스트: " + detail);
-			System.out.println("didx 테스트: " + didx);
-			System.out.println("midx 세션 값: " + midx);
+			System.out.println("怨듭뿰 �뵒�뀒�씪 �뀒�뒪�듃: " + detail);
+			System.out.println("didx �뀒�뒪�듃: " + didx);
+			System.out.println("midx �꽭�뀡 媛�: " + midx);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			

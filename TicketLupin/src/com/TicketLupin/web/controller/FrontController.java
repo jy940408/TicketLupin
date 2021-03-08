@@ -79,7 +79,7 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Main")) {
 			MainController mainc = new MainController();
 			mainc.doGet(request, response);
-		}else if (hc.equals("Manager")) {
+		}else if (hc.equals("Admin")) {
 			ManagerController managerc = new ManagerController();
 			managerc.doGet(request, response);
 		}else if (hc.equals("Myticket")) {
