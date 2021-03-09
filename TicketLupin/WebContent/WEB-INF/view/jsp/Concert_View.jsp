@@ -147,7 +147,7 @@
 								</div>
 							</div>
 							<div id="main_concert_process_choice_button_div">
-								<a href="<%=request.getContextPath()%>/"><div id="main_concert_process_choice_button">예매하기</div></a>
+								<a href="<%=request.getContextPath()%>/Reservation/ReservationStep1.do"><div id="main_concert_process_choice_button">예매하기</div></a>
 							</div>
 						</div>
 					</div>

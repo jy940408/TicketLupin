@@ -4,8 +4,8 @@
 <html>
 <head>
     
-    <link rel="stylesheet" type="text/css" href="./css/pay_step1_1.css">
-    <link rel="stylesheet" type="text/css" href="./css/pay_step1_2.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pay_step1_1.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pay_step1_2.css">
 
   
 </head>
@@ -57,7 +57,7 @@
         <!-- 좌석영역-->
         <div class="wrap_seat">
             <div class="btn_extension"><a href="#" class="btn_plus" id="btn_map_p">확대</a><a href="#" class="btn_minus" id="btn_map_m">축소</a></div>
-			  <iframe src="pay_step1_seat.html" style="width:100%; height:90%"></iframe>
+			  <iframe src="/WEB-INF/view/jsp/pay_step1_seat.jsp" style="width:100%; height:90%"></iframe>
 			<div class="wrap_seat_box">
 				<div class="seat_box "><!-- on class 컨트롤 -->
 					<!-- <div class="seat_btn" id="txtSelectSeatInfo" onclick="$(this).parent().toggleClass('open');return false;">좌석을 선택해 주세요.</div> -->
@@ -72,11 +72,11 @@
     <!--// 좌석선택  영역-->
     <!--티켓 정보 영역-->
     <div class="wrap_ticket_info">
-        	<h2 class="logo_onestop"><a href="#none"><img src="./icon/lupinlogo.png" style="width:116px; height:22px;" alt="티켓루팡 로고"></a></h2>
+        	<h2 class="logo_onestop"><a href="#none"><img src="../icon/lupinlogo.png" style="width:116px; height:22px;" alt="티켓루팡 로고"></a></h2>
         <div class="box_info box_map">
 			<div class="minimap_scroller" id="minimap_scroller">
 				<div class="map_seat">
-				<iframe src="./image/pay_step1_seat.svg" style="width:245px; height:180px;"></iframe>
+				<iframe src="../image/pay_step1_seat.svg" style="width:245px; height:180px;"></iframe>
 				</div>
 			</div>
 			<div>

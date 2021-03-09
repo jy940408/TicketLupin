@@ -5,7 +5,7 @@
 	<head>
 		<title>
 		</title>
-		<link rel="stylesheet" href="./css/pay_step1_seat.css">
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/pay_step1_seat.css">
 	</head>
 	<body>
 		<div id="container">

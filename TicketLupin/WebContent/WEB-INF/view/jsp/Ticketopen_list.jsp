@@ -220,7 +220,7 @@
 								<c:forEach var="i" begin="0" end="4">
 									<c:if test="${(startNum+i) <= lastNum}">
 										<div class="main_news_page_button_page">
-											<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&s=${param.s}&q=${param.q}" >${startNum+i}</a>
+											<a style="color: ${(page==(startNum+i))?'red':'black'}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&s=${param.s}&q=${param.q}" >${startNum+i}</a>
 										</div>
 									</c:if>
 								</c:forEach>

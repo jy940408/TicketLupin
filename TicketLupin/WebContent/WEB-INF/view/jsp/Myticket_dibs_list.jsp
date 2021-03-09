@@ -123,7 +123,7 @@
 									<td class="td_"><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">${l.stitle}</a></td>
 									<td>${l.sopendate} ~ <br>${l.senddate}</td>
 									<td>
-										<button type="submit" value="cancel" class="td_button">삭제</button>
+										<button type="button" value="cancel" class="td_button">삭제</button>
 									</td>
 								</tr>
 								</c:forEach>

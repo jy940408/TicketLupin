@@ -20,9 +20,9 @@ public class ReservationController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("")) {
+		if(str.equals("/Reservation/ReservationStep1.do")) {
 			
-			request.getRequestDispatcher("").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1.jsp").forward(request, response);
 			
 		}
 		

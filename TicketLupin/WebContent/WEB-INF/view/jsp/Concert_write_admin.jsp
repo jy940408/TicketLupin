@@ -16,6 +16,70 @@
 		<!-- core CSS -->
 		<link rel="stylesheet" href="../css/jquery.timepicker.css">
 		<link rel="stylesheet" href="../css/Concert_write_admin.css">
+		
+		<script type="text/javascript">
+			
+		
+			function submitShow(){
+				
+				var title = document.frm.title;
+				var startdate = document.frm.startdate;
+				var enddate = document.frm.enddate;
+				var ticketingdate = document.frm.ticketingdate;
+				var postcode = document.frm.postcode;
+				var roadAddress = document.frm.roadAddress;
+				var detailAddress = document.frm.detailAddress;
+				var extraAddress = document.frm.extraAddress;
+				var content = document.frm.content;
+				
+				if(title.value == ""){
+					alert("제목을 입력해주세요!");
+					document.frm.title.focus();
+					return;
+				}else if(startdate.value == ""){
+					alert("공연시작일을 입력해주세요!");
+					document.frm.startdate.focus();
+					return;
+				}else if(enddate.value == ""){
+					alert("공연종료일을 입력해주세요!");
+					enddate.focus();
+					return;
+				}else if(ticketingdate.value == ""){
+					alert("예매오픈일을 입력해주세요!");
+					ticketingdate.focus();
+					return;
+				}else if(postcode.value == ""){
+					alert("우편번호를 입력해주세요!");
+					postcode.focus();
+					return;
+				}else if(roadAddress.value == ""){
+					alert("도로명주소를 입력해주세요!");
+					roadAddress.focus();
+					return;
+				}else if(detailAddress.value == ""){
+					alert("상세주소를 입력해주세요!");
+					detailAddress.focus();
+					return;
+				}else if(extraAddress.value == ""){
+					alert("주소참고항목을 입력해주세요!");
+					extraAddress.focus();
+					return;
+				}else if(content.value == ""){
+					alert("내용을 입력해주세요!");
+					content.focus();
+					return;
+				}
+				
+				alert("공연을 등록합니다!");
+				
+				document.frm.action = "<%=request.getContextPath()%>/Show/ShowWriteStep1Action.do";
+			 	document.frm.method = "post";
+			 	document.frm.enctype = "multipart/form-data";
+			 	document.frm.submit(); 
+				return;
+				
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -78,7 +142,7 @@
 					<h2>
 						공연 작성
 					</h2>
-					<form action="<%=request.getContextPath() %>/Show/ShowWriteStep1Action.do" method="post" enctype="multipart/form-data">
+					<form name="frm">
 						<table class="open_notice_table" style="border:1px solid; border-collapse:collapse;">
 							<colgroup>
 								<col width="50px">
@@ -102,7 +166,7 @@
 									제목
 								</th>
 								<td colspan="8" style="border:1px solid;">
-									<input type="text" class="title" name="title" maxlength="100" style="width:99%; border:0px; font-size:16px;">
+									<input type="text" class="title" name="title" id="title" maxlength="100" style="width:99%; border:0px; font-size:16px;">
 								</td>
 								<th style="border:1px solid;">
 									장르
@@ -257,15 +321,16 @@
 									제목 사진
 								</th>
 								<td colspan="12" style="border:1px solid;">
-									<input type="file" class="file" name="image" style="border:0px; font-size:14px;">
+									<input type="file" class="file" name="image" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 						</table>
 						<div class="reg">
-							<button class="reg_btn" type="submit">
+							<button class="reg_btn" type="button" onclick="submitShow()">
 								다음
 							</button>
 						</div>
+						
 						<div class="list">
 							<button class="list_btn">
 								목록으로

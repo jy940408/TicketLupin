@@ -29,7 +29,7 @@
 			 	 document.frm.method = "post";
 			 	 document.frm.submit(); 
 				 return;
-			} 
+			}
         </script>
     </head>
     <body>
