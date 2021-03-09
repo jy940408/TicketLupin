@@ -347,8 +347,7 @@ public class ShowController extends HttpServlet{
 			
 			int j = 0;
 			while(j != datelength+8) {
-				System.out.println("여기까지는 나오나?");
-				System.out.println("sidx 확인: " + sidx);
+				
 				ShowRoundVo srv = new ShowRoundVo();
 				
 				srv.setSidx(sidx);
@@ -360,7 +359,6 @@ public class ShowController extends HttpServlet{
 				
 				System.out.println(srv);
 				srv = srd.insertShowRound(srv);
-				System.out.println("Round 컨트롤러 들어오는거 확인");
 				
 				j = j+5;
 				

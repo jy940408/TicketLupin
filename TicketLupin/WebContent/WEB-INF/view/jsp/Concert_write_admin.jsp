@@ -132,6 +132,7 @@
 									관람등급
 								</th>
 								<td colspan="1" style="border:1px solid;">
+									<center>
 									<select class="rating" name="rating" style="border:0px; font-size:15px; text-align-last:center;">
 										<option>
 											전체관람가
@@ -146,13 +147,14 @@
 											청소년 관람불가
 										</option>
 									</select>
+									</center>
 								</td>
 							</tr>
 							<tr>
-								<th colspan="3" style="border:1px solid;">
+								<th colspan="2" style="border:1px solid;">
 									공연 기간
 								</th>
-								<td colspan="9" style="border:1px solid;">
+								<td colspan="10" style="border:1px solid;">
 									<center>
 										<input type="date" class="date" name="startdate">
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -160,19 +162,9 @@
 									</center>
 								</td>
 								<th colspan="1" style="border:1px solid;">
-									공연회차
+									예매 오픈
 								</th>
 								<td colspan="1" style="border:1px solid;">
-									<div id="platanusBox">
-										<input id="platanusTime" class="round" name="platanusTime" onclick="javascript:fn_timePicker(this);" style="border:0px; width:100px; font-size:15px; text-align:center;">
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									예매 오픈 날짜
-								</th>
-								<td colspan="11" style="border:1px solid;">
 									<center>
 										<input type="datetime-local" class="date" name="ticketingdate">
 									</center>
