@@ -98,7 +98,7 @@
 							</div>
 							<c:if test="${sessionScope.mgrade eq 'M'}">
 							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
-								<a href="<%=request.getContextPath()%>/Show/ShowWrite.do"><div>작성하기</div></a>
+								<a href="<%=request.getContextPath()%>/Show/ShowWriteStep1.do"><div>작성하기</div></a>
 							</div>
 							</c:if>
 							<c:if test="${sessionScope.mgrade eq 'G'}">

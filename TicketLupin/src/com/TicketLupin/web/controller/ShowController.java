@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ShowDao;
+import com.TicketLupin.web.service.ShowRoundDao;
+import com.TicketLupin.web.service.ShowRoundVo;
 import com.TicketLupin.web.service.ShowVo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -72,13 +76,52 @@ public class ShowController extends HttpServlet{
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
 			
-		}else if(str.equals("/Show/ShowWrite.do")) {
+		}else if(str.equals("/Show/ShowWriteStep1.do")) {
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin.jsp").forward(request, response);
 			
-		}else if(str.equals("")) {
+		}else if(str.equals("/Show/ShowWriteStep2.do")) {
 			
+			ShowDao sd = new ShowDao();
+			ShowVo sv = sd.getRecentShowDetail();
 			
+			int sidx = sv.getSidx();
+			Date sopendate_ = sv.getSopendate();
+			Date senddate_ = sv.getSenddate();
+			
+			System.out.println("시작날짜: " + sopendate_);
+			System.out.println("끝날짜: " + senddate_);
+
+			Calendar sopendate1 = Calendar.getInstance();
+			Calendar senddate1 = Calendar.getInstance();
+
+			SimpleDateFormat dateFormat;
+	        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        
+			//Calendar 타입으로 변경 add()메소드로 1일씩 추가해 주기위해 변경
+			sopendate1.setTime(sopendate_);
+			senddate1.setTime(senddate_);
+
+			ArrayList datelist = new ArrayList();
+			
+			//시작날짜와 끝 날짜를 비교해, 시작날짜가 작거나 같은 경우 출력			
+			while(sopendate1.compareTo(senddate1) != 1){	
+				//출력
+				System.out.println(dateFormat.format(sopendate1.getTime()));
+				datelist.add(dateFormat.format(sopendate1.getTime()));
+				//시작날짜 + 1 일
+				sopendate1.add(Calendar.DATE, 1);
+			}
+
+			int datelength = datelist.size();
+			
+			System.out.println("목록 확인: " + datelist);
+			
+			request.setAttribute("sidx", sidx);
+			request.setAttribute("datelist", datelist);
+			request.setAttribute("datelength", datelength);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_round_admin.jsp").forward(request, response);
 			
 		}
 		
@@ -93,7 +136,7 @@ public class ShowController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 		
-		if(str.equals("/Show/ShowWriteAction.do")) {
+		if(str.equals("/Show/ShowWriteStep1Action.do")) {
 			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
@@ -220,8 +263,111 @@ public class ShowController extends HttpServlet{
 			sd.insertShow(sv);
 			
 			
-			response.sendRedirect("../Show/ShowList.do");
+			response.sendRedirect(request.getContextPath()+"/Show/ShowWriteStep2.do");
 			
+		}else if(str.equals("/Show/ShowWriteStep2Action.do")) {
+			
+			String sidx_ = request.getParameter("sidx");
+			
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			System.out.println("회차 sidx 확인: " + sidx);
+//==============================================================================================================================//			
+			
+			ShowDao sd = new ShowDao();
+			ShowVo sv = sd.getShowDetail(sidx);
+			
+			Date sopendate_ = sv.getSopendate();
+			Date senddate_ = sv.getSenddate();
+			
+			System.out.println("시작날짜  설정: " + sopendate_);
+			System.out.println("끝날짜 설정: " + senddate_);
+
+			Calendar sopendate1 = Calendar.getInstance();
+			Calendar senddate1 = Calendar.getInstance();
+
+			SimpleDateFormat dateFormat;
+	        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        
+			//Calendar 타입으로 변경 add()메소드로 1일씩 추가해 주기위해 변경
+			sopendate1.setTime(sopendate_);
+			senddate1.setTime(senddate_);
+
+			ArrayList datelist = new ArrayList();
+			
+			//시작날짜와 끝 날짜를 비교해, 시작날짜가 작거나 같은 경우 출력			
+			while(sopendate1.compareTo(senddate1) != 1){	
+				//출력
+				System.out.println(dateFormat.format(sopendate1.getTime()));
+				datelist.add(dateFormat.format(sopendate1.getTime()));
+				//시작날짜 + 1 일
+				sopendate1.add(Calendar.DATE, 1);
+			}
+
+//==============================================================================================================================//
+			
+			int datelength = datelist.size();
+			
+			System.out.println("길이: " + datelength);
+			
+			ArrayList roundlist =  new ArrayList();
+			
+			String showdate = null;
+			String round1 = null;
+			String round2 = null;
+			String round3 = null;
+			String round4 = null;
+			
+			int i = 1;
+			while(i != datelength+1) {
+				
+				showdate = request.getParameter("showdate" + i);
+				round1 = request.getParameter("date" + i + "_1");
+				round2 = request.getParameter("date" + i + "_2");
+				round3 = request.getParameter("date" + i + "_3");
+				round4 = request.getParameter("date" + i + "_4");
+				
+				
+			   System.out.println(showdate);
+				
+			   roundlist.add(showdate);
+			   roundlist.add(round1);
+			   roundlist.add(round2);
+			   roundlist.add(round3);
+			   roundlist.add(round4);
+				
+			   i++;
+			
+			}
+			
+			ShowRoundDao srd = new ShowRoundDao();
+			
+			
+			int j = 0;
+			while(j != datelength+8) {
+				System.out.println("여기까지는 나오나?");
+				System.out.println("sidx 확인: " + sidx);
+				ShowRoundVo srv = new ShowRoundVo();
+				
+				srv.setSidx(sidx);
+				srv.setSrdate(roundlist.get(j).toString());
+				srv.setSrround1(roundlist.get(j+1).toString());
+				srv.setSrround2(roundlist.get(j+2).toString());
+				srv.setSrround3(roundlist.get(j+3).toString());
+				srv.setSrround4(roundlist.get(j+4).toString());
+				
+				System.out.println(srv);
+				srv = srd.insertShowRound(srv);
+				System.out.println("Round 컨트롤러 들어오는거 확인");
+				
+				j = j+5;
+				
+			}
+			
+			System.out.println(roundlist);
+			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");
 		}
 		
 		

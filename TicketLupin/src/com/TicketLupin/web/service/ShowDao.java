@@ -21,7 +21,7 @@ public class ShowDao {
 	
 	public int insertShow(ShowVo sv) {
 		int result = 0;
-		//Ÿ��Ʋ, �帣, �ۼ���¥, ����, �̹���, ��������, ���³�¥, ������ ��¥, ���, ȸ��, �����ȣ, ���θ��ּ�, �����ּ�, ���ּ�, �����׸�
+		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
 		String sql = "INSERT INTO SHOW(SIDX, STITLE, SGENRE, SREGDATE, SCONTENT, SIMAGE, SDELYN, SOPENDATE, SENDDATE, SRATING, SROUND, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, MIDX, STICKETINGDATE)"
 				+ "VALUES(SHOW_SEQUENCE.NEXTVAL, ?, ?, sysdate, ?, ?, 'N', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -44,7 +44,7 @@ public class ShowDao {
 			pstmt.setInt(14, sv.getMidx());
 			pstmt.setDate(15, sv.getSticketingdate());
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("ShowDAO �׽�Ʈ: " + sv.getStitle());
+			System.out.println("ShowDAO 占쌓쏙옙트: " + sv.getStitle());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,4 +176,48 @@ public class ShowDao {
 		return sv;
 	}
 
+	
+	public ShowVo getRecentShowDetail() {
+		
+		ShowVo sv = null;
+		
+		String sql = "SELECT * FROM SHOW WHERE SIDX = (SELECT MAX(SIDX) FROM SHOW)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int sidx = rs.getInt("SIDX");
+			String stitle = rs.getString("STITLE");
+			String sgenre = rs.getString("SGENRE");
+			Date sregdate = rs.getDate("SREGDATE");
+			String scontent = rs.getString("SCONTENT");
+			String simage = rs.getString("SIMAGE");
+			int spay = rs.getInt("SPAY");
+			String sdelyn = rs.getString("SDELYN");
+			int cidx = rs.getInt("CIDX");
+			Date sticketingdate = rs.getDate("STICKETINGDATE");
+			int midx = rs.getInt("MIDX");
+			String sextraaddress = rs.getString("SEXTRAADDRESS");
+			Date sopendate = rs.getDate("SOPENDATE");
+			Date senddate = rs.getDate("SENDDATE");
+			String srating = rs.getString("SRATING");
+			String sround = rs.getString("SROUND");
+			int spostcode = rs.getInt("SPOSTCODE");
+			String sroadaddress = rs.getString("SROADADDRESS");
+			String sjibunaddress = rs.getString("SJIBUNADDRESS");
+			String sdetailaddress = rs.getString("SDETAILADDRESS");
+			
+			sv = new ShowVo(sidx, stitle, sgenre, sregdate, scontent, simage, spay, sdelyn, cidx, sopendate, senddate, srating, sround, spostcode, sroadaddress, sjibunaddress, sdetailaddress, sextraaddress, midx, sticketingdate);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sv;
+		
+	}
+	
 }

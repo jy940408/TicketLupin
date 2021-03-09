@@ -78,7 +78,7 @@
 					<h2>
 						공연 작성
 					</h2>
-					<form action="<%=request.getContextPath() %>/Show/ShowWriteAction.do" method="post" enctype="multipart/form-data">
+					<form action="<%=request.getContextPath() %>/Show/ShowWriteStep1Action.do" method="post" enctype="multipart/form-data">
 						<table class="open_notice_table" style="border:1px solid; border-collapse:collapse;">
 							<colgroup>
 								<col width="50px">
@@ -271,7 +271,7 @@
 						</table>
 						<div class="reg">
 							<button class="reg_btn" type="submit">
-								등록
+								다음
 							</button>
 						</div>
 						<div class="list">
