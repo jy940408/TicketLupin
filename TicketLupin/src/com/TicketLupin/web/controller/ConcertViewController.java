@@ -2,6 +2,8 @@ package com.TicketLupin.web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,15 +53,20 @@ public class ConcertViewController extends HttpServlet{
 			System.out.println("midx: " + midx);
 			
 //==============================================================================================================================//	
-
+			
+			String color = null; //달력에서 색상 표시할 때 쓸 String
+			
 			Calendar cal = Calendar.getInstance();
-			System.out.println("이게 뭐지? " + cal); // 현재 시각
+			System.out.println("현재시각: " + cal); // 현재 시각
+			
+			System.out.println("현재시각: " + cal); // 현재 시각
 			
 			String strYear = request.getParameter("year");
 			String strMonth = request.getParameter("month");
 			
 			int year = cal.get(Calendar.YEAR); //현재 년도
 			int month = cal.get(Calendar.MONTH); //현재 월, 0부터 시작, 즉 0이 1월
+			cal.add(month, 2);
 			int date = cal.get(Calendar.DATE); //현재 일, 이건 또 1부터 시작, 뭔짓거리야 이게 헷갈리게...
 			System.out.println("year: " + year);
 			System.out.println("month: " + month);
@@ -67,15 +74,21 @@ public class ConcertViewController extends HttpServlet{
 			
 			if(strYear != null) {
 				year = Integer.parseInt(strYear);
+				System.out.println("strYear 먹은 year: " + year);
+			}
+			if(strMonth != null) {
 				month = Integer.parseInt(strMonth);
+				System.out.println("strMonth 먹은 month: " + month);
 			}
 			
-			cal.set(year, month, 1); //날짜 설정하기, 앞서 설정한 현재 년, 현재 월, 1일을 차례로 세팅
+			cal.set(year, month, 1); //날짜 설정하기, 앞서 설정한 현재 년도, 현재 월, 1일을 차례로 세팅
 			
 			int startDay = cal.getMinimum(Calendar.DATE); //현재 달의 첫 날
-			int endDay = cal.getMaximum(Calendar.DAY_OF_MONTH); // 현재 달의 마지막 날
+			int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH); // 현재 달의 마지막 날
 			int start = cal.get(Calendar.DAY_OF_WEEK); //현재 요일을 출력, 1일로 설정을 해놨기 때문에 월요일이 출력됨, 일요일부터 1,2,3... 순서
-			int newLine = 0; //이건 뭐지...?
+			int newLine = 0;
+			System.out.println("Calendar.DATE " + Calendar.DATE);
+			System.out.println("Calendar.DAY_OF_MONTH: " + Calendar.DAY_OF_MONTH);
 			System.out.println("startDay: " + startDay);
 			System.out.println("endDay: " + endDay);
 			System.out.println("start: " + start);
@@ -85,7 +98,8 @@ public class ConcertViewController extends HttpServlet{
 			int intToday = Integer.parseInt(sdf.format(todayCal.getTime())); // 오늘 날짜의 형식을 yyyyMMdd형식으로 바꾸고 이를 int형으로 변환
 			System.out.println("todayCal: " + todayCal);
 			System.out.println("intToday: " + intToday);
-			
+				
+			request.setAttribute("color", color);
 			request.setAttribute("year", year);
 			request.setAttribute("month", month);
 			request.setAttribute("date", date);
@@ -95,9 +109,7 @@ public class ConcertViewController extends HttpServlet{
 			request.setAttribute("intToday", intToday);
 			
 			
-//==============================================================================================================================//	
-			
-			
+//==============================================================================================================================//
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			
