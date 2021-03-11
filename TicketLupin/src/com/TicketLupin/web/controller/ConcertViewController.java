@@ -1,6 +1,7 @@
 package com.TicketLupin.web.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.DibsDao;
 import com.TicketLupin.web.service.ShowDao;
+import com.TicketLupin.web.service.ShowRoundDao;
+import com.TicketLupin.web.service.ShowRoundVo;
 import com.TicketLupin.web.service.ShowVo;
 
 @WebServlet("/ConcertViewController")
@@ -63,10 +66,10 @@ public class ConcertViewController extends HttpServlet{
 			
 			String strYear = request.getParameter("year");
 			String strMonth = request.getParameter("month");
+			String strDate = request.getParameter("date");
 			
 			int year = cal.get(Calendar.YEAR); //현재 년도
 			int month = cal.get(Calendar.MONTH); //현재 월, 0부터 시작, 즉 0이 1월
-			cal.add(month, 2);
 			int date = cal.get(Calendar.DATE); //현재 일, 이건 또 1부터 시작, 뭔짓거리야 이게 헷갈리게...
 			System.out.println("year: " + year);
 			System.out.println("month: " + month);
@@ -79,6 +82,10 @@ public class ConcertViewController extends HttpServlet{
 			if(strMonth != null) {
 				month = Integer.parseInt(strMonth);
 				System.out.println("strMonth 먹은 month: " + month);
+			}
+			if(strDate != null) {
+				date = Integer.parseInt(strDate);
+				System.out.println("strDate 먹은 date: " + date);
 			}
 			
 			cal.set(year, month, 1); //날짜 설정하기, 앞서 설정한 현재 년도, 현재 월, 1일을 차례로 세팅
@@ -111,6 +118,27 @@ public class ConcertViewController extends HttpServlet{
 			
 //==============================================================================================================================//
 			
+			String month_ = Integer.toString(month+1);
+			if((int)(Math.log10(month)+1) == 1) {
+				month_ = "0" + month_;
+			}
+			
+			String date_ = Integer.toString(date);
+			if((int)(Math.log10(date)+1) == 1) {
+				date_ = "0" + date_;
+			}
+			
+			String comDate = year + "-" + (month_) + "-" + date_;
+			System.out.println("comDate: " + comDate);
+			System.out.println("date_ 0 더하기: " + date_);
+			ShowRoundDao srd = new ShowRoundDao();
+			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx, comDate);
+			
+			System.out.println(srv);
+			
+			
+			
+//==============================================================================================================================//	
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			
 		}

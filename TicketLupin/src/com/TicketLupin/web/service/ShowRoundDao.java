@@ -44,4 +44,39 @@ public class ShowRoundDao {
 		return result;
 	}
 	
+	public ArrayList<ShowRoundVo> getShowRoundList(int idx, String date) {
+		
+		ArrayList<ShowRoundVo> result = new ArrayList<>();
+		
+		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 FROM SHOWROUND WHERE SRDATE = '" + date + "' AND SIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("ShowRoundDao 들어오는 것 확인");
+			
+			while(rs.next()) {
+				int sridx = rs.getInt("SRIDX");
+				int sidx = rs.getInt("SIDX");
+				String srdate = rs.getString("SRDATE");
+				String srround1 = rs.getString("SRROUND1");
+				String srround2 = rs.getString("SRROUND2");
+				String srround3 = rs.getString("SRROUND3");
+				String srround4 = rs.getString("SRROUND4");
+				
+				ShowRoundVo srv = new ShowRoundVo(sridx, sidx, srdate, srround1, srround2, srround3, srround4);
+				
+				result.add(srv);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
 }

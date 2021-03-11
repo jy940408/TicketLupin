@@ -164,7 +164,7 @@
 															<input type="hidden" value="${color = 'black'}">
 														</c:otherwise>
 													</c:choose>
-													<td><a href="#" style="text-decoration:none; color:black;">${i}</a></td>
+													<td><a href="?sidx=${detail.sidx}&month=${month}&year=${year}&date=${i}" style="text-decoration:none; color:black;">${i}</a></td>
 													<input type="hidden" value="${newLine = newLine + 1}">
 													<c:if test="${newLine eq 7}">
 														</tr>
