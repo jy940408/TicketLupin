@@ -1,5 +1,6 @@
 package com.TicketLupin.web.controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
@@ -35,11 +36,10 @@ public class DibsController extends HttpServlet{
 				sidx = Integer.parseInt(sidx_);
 			}
 			
-			System.out.println("midx_: " + midx);
-			System.out.println("諛쏆븘�삤�뒗 媛�: " + sidx);
-			
 			DibsDao dd = new DibsDao();
 			dd.insertDibs(sidx, midx);
+			int value = dd.getDibsCheck(sidx, midx);
+			
 			
 			response.sendRedirect("../ConcertView/ConcertView.do?sidx=" + sidx);
 			

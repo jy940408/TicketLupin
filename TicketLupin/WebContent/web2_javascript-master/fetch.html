@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>fetch.html test</title>
+	</head>
+	<body>
+		<article>
+		
+		</article>
+		<input type="button" value="fetch" onclick="
+			fetch('css').then(function(response){
+				response.text().then(function(text){
+					alert(text);
+				})
+			})
+		">
+		<input type="button" value="fetch" onclick="
+			fetch('html').then(function(response){
+				response.text().then(function(text){
+					alert(text);
+					document.querySelector('article').innerHTML = text;
+				})
+			})
+		">
+		<br>
+		fetch('html') 이라는 코드에 의해서 서버에 html이라는 파일을 요청하고,<br>
+		최종적으로 응답이 끝나면 alert(text)가 실행됨<br>
+		서버가 응답해준 데이터가 text라는 변수에 담겨있음!
+		<p/>
+	
+	</body>
+</html>

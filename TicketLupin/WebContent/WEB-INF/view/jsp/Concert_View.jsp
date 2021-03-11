@@ -7,9 +7,47 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<script type="text/javascript">
-
-</script>
+	<script type="text/javascript"></script>
+	<script>
+		function insertDibs(){
+			
+			alert("보내기 시작");
+		
+			$.ajax({
+				type:"get",
+				url:"<%=request.getContextPath()%>/Dibs/DibsAction.do",
+				data:{"sidx": '${detail.sidx}'},
+				dataType:"json",
+				success: function(data){
+					alert("test 성공");
+					alert(data.value);
+					console.log("${detail.sidx} 보내기 성공");
+					console.log("${didx} 현재 didx 값");
+				}
+			});
+			
+		}
+		
+		function deleteDibs(){
+			
+			alert("삭제 시작");
+			
+			$.ajax({
+				type:"get",
+				url:"<%=request.getContextPath()%>/Dibs/DibsDeleteAction.do",
+				data:{"sidx": "${detail.sidx}"},
+			//	dataType : "json",
+				success: function(){
+					alert("test 성공");
+					alert(data.value);
+					console.log("${detail.sidx} 삭제 성공");
+					console.log("${didx} 현재 didx 값");
+				}
+			});
+			
+		}
+	
+	</script>
 		<title>티켓 루팡</title>
 		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Concert_view.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
@@ -83,10 +121,10 @@
 									<p id="main_concert_process_title">${detail.stitle}</p>
 									<div id="main_concert_process_dibs">
 										<c:if test="${didx eq 0}">
-											<a href="<%=request.getContextPath()%>/Dibs/DibsAction.do?sidx=${detail.sidx}"><div>✓찜하기 목록 담기</div></a>
+											<a onclick="insertDibs()"><div>✓찜하기 목록 담기</div></a>
 										</c:if>
 										<c:if test="${didx eq 1}">
-											<a href="<%=request.getContextPath()%>/Dibs/DibsDeleteAction.do?sidx=${detail.sidx}"><div>✓찜하기 취소</div></a>
+											<a onclick="deleteDibs()"><div>✓찜하기 취소</div></a>
 										</c:if>
 									</div>
 								</div>
