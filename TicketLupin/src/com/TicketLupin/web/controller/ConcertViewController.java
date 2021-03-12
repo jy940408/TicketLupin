@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
 import com.TicketLupin.web.service.DibsDao;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRoundDao;
@@ -140,6 +142,106 @@ public class ConcertViewController extends HttpServlet{
 			
 //==============================================================================================================================//	
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
+			
+		}else if(str.equals("/ConcertView/ConcertViewDateAJAX.do")) {
+			
+			HttpSession session = request.getSession();
+			int midx = 0;
+			if(session.getAttribute("midx") != null) {
+				midx = (int) session.getAttribute("midx");
+			}
+			
+			String sidx_ = request.getParameter("sidx");
+			
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+//==============================================================================================================================//	
+			
+			String color = null; //달력에서 색상 표시할 때 쓸 String
+			
+			Calendar cal = Calendar.getInstance();
+			System.out.println("현재시각: " + cal); // 현재 시각
+			
+			System.out.println("현재시각: " + cal); // 현재 시각
+			
+			String strYear = request.getParameter("year");
+			String strMonth = request.getParameter("month");
+			String strDate = request.getParameter("date");
+			
+			int year = cal.get(Calendar.YEAR); //현재 년도
+			int month = cal.get(Calendar.MONTH); //현재 월, 0부터 시작, 즉 0이 1월
+			int date = cal.get(Calendar.DATE); //현재 일, 이건 또 1부터 시작, 뭔짓거리야 이게 헷갈리게...
+			System.out.println("year: " + year);
+			System.out.println("month: " + month);
+			System.out.println("date: " + date);
+			
+			if(strYear != null) {
+				year = Integer.parseInt(strYear);
+				System.out.println("strYear 먹은 year: " + year);
+			}
+			if(strMonth != null) {
+				month = Integer.parseInt(strMonth);
+				System.out.println("strMonth 먹은 month: " + month);
+			}
+			if(strDate != null) {
+				date = Integer.parseInt(strDate);
+				System.out.println("strDate 먹은 date: " + date);
+			}
+			
+			cal.set(year, month, 1); //날짜 설정하기, 앞서 설정한 현재 년도, 현재 월, 1일을 차례로 세팅
+			
+			int startDay = cal.getMinimum(Calendar.DATE); //현재 달의 첫 날
+			int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH); // 현재 달의 마지막 날
+			int start = cal.get(Calendar.DAY_OF_WEEK); //현재 요일을 출력, 1일로 설정을 해놨기 때문에 월요일이 출력됨, 일요일부터 1,2,3... 순서
+			int newLine = 0;
+			System.out.println("Calendar.DATE " + Calendar.DATE);
+			System.out.println("Calendar.DAY_OF_MONTH: " + Calendar.DAY_OF_MONTH);
+			System.out.println("startDay: " + startDay);
+			System.out.println("endDay: " + endDay);
+			System.out.println("start: " + start);
+			
+			Calendar todayCal = Calendar.getInstance(); // 오늘
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			int intToday = Integer.parseInt(sdf.format(todayCal.getTime())); // 오늘 날짜의 형식을 yyyyMMdd형식으로 바꾸고 이를 int형으로 변환
+			System.out.println("todayCal: " + todayCal);
+			System.out.println("intToday: " + intToday);
+			
+//==============================================================================================================================//
+			
+			String month_ = Integer.toString(month+1);
+			if((int)(Math.log10(month)+1) == 1) {
+				month_ = "0" + month_;
+			}
+			
+			String date_ = Integer.toString(date);
+			if((int)(Math.log10(date)+1) == 1) {
+				date_ = "0" + date_;
+			}
+			
+			String comDate = year + "-" + (month_) + "-" + date_;
+			System.out.println("comDate: " + comDate);
+			System.out.println("date_ 0 더하기: " + date_);
+			ShowRoundDao srd = new ShowRoundDao();
+			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx, comDate);
+			
+			System.out.println(srv);
+			
+//==============================================================================================================================//	
+			JSONObject obj = new JSONObject();
+			obj.put("color", color);
+			obj.put("year", year);
+			obj.put("month", month);
+			obj.put("date", date);
+			obj.put("startDay", startDay);
+			obj.put("endDay", endDay);
+			obj.put("start", start);
+			obj.put("intToday", intToday);
+			
+			response.setContentType("application/x-json; charset=UTF-8");
+			response.getWriter().print(obj); //{"result":1}
 			
 		}
 		

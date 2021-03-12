@@ -48,6 +48,58 @@
 			});
 			
 		}
+		
+//-------------------------------------------------------------------------------------------------------------------------------------//
+		
+		function selectPrevMonth(){
+			
+			var sidx = $("#sidx").val();
+			var year = $("#year").val();
+			var month = $("#month").val();
+			
+			var preMonth = month-1;
+			var preYear = year-1;
+			var postMonth = month+1;
+			var postYear = year+1;
+			
+			alert("들어가기 전 month: " + month);
+			alert("preMonth 테스트: " + preMonth);
+			
+			var dateMonth;
+			var yearCheckMonth;
+			var innerHTMLMonth;
+			if(preMonth == 0){
+				dateMonth = {"sidx": sidx, "year": preYear, "month": 11};
+				yearCheckMonth = 12;
+			}else{
+				dateMonth = {"sidx": sidx, "year": year, "month": preMonth};
+				yearCheckMonth = month;
+			}
+			
+			alert("dateMonth 테스트: " + dateMonth);
+			
+			$.ajax({
+				type:"get",
+				url: "${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
+				data: dateMonth,
+				success: function(data){
+					alert(data.year);
+					alert(dateMonth);
+					alert("들어간 뒤 month: " + data.month);
+					alert("들어간 뒤 yearCheckMonth: " + yearCheckMonth);
+					
+					if(month == 0){
+						$("#preMonth").html("<a onclick='selectPrevMonth()' style='text-decoration:none; color:black;'>12월</a>");
+					}else{
+						$("#preMonth").html("<a onclick='selectPrevMonth()' style='text-decoration:none; color:black;'>" + yearCheckMonth + "월</a>");
+					}
+					
+					$("#month").val(data.month);
+					alert("값 변했는지 확인" + $("#month").val());
+				}
+			});
+			
+		}
 	
 	</script>
 		<title>티켓 루팡</title>
@@ -57,6 +109,11 @@
 
 	</head>
 	<body onload="build();">
+		
+		<input type="hidden" name="sidx" id="sidx" value="${detail.sidx}">
+		<input type="hidden" name="year" id="year" value="${year}">
+		<input type="hidden" name="month" id="month" value="${month}">
+		
 		<header>
 			<div id="h_title">
 				<div id="h_title_inner">
@@ -162,19 +219,19 @@
 												<tr>
 													<c:choose>
 														<c:when test="${month eq '0' }">
-															<td colspan="2" align="center"><a href="?sidx=${detail.sidx}&month=11&year=${year-1}" style="text-decoration:none; color:black;">12월</a></td>
+															<td colspan="2" align="center" id="preMonth"><a onclick="selectPrevMonth()" style="text-decoration:none; color:black;">12월</a></td>
 														</c:when>
 														<c:otherwise>
-															<td colspan="2" align="center"><a href="?sidx=${detail.sidx}&month=${month-1}&year=${year}" style="text-decoration:none; color:black;">${month}월</a></td>
+															<td colspan="2" align="center" id="preMonth"><a onclick="selectPrevMonth()" style="text-decoration:none; color:black;">${month}월</a></td>
 														</c:otherwise>
 													</c:choose>
-													<td colspan="3" align="center"><a href="?sidx=${detail.sidx}&month=${month}&year=${year}" style="text-decoration:none; color:black;">${year}년 ${month+1}월</a></td>
+													<td colspan="3" align="center" id="nowMonth"><a href="?sidx=${detail.sidx}&month=${month}&year=${year}" style="text-decoration:none; color:black;">${year}년 ${month+1}월</a></td>
 													<c:choose>
 														<c:when test="${month eq '11' }">
-															<td colspan="2" align="center"><a href="?sidx=${detail.sidx}&month=0&year=${year+1}" style="text-decoration:none; color:black;">1월</a></td>
+															<td colspan="2" align="center" id="postMonth"><a href="?sidx=${detail.sidx}&month=0&year=${year+1}" style="text-decoration:none; color:black;">1월</a></td>
 														</c:when>
 														<c:otherwise>
-															<td colspan="2" align="center"><a href="?sidx=${detail.sidx}&month=${month+1}&year=${year}" style="text-decoration:none; color:black;">${month+2}월</a></td>
+															<td colspan="2" align="center" id="postMonth"><a href="?sidx=${detail.sidx}&month=${month+1}&year=${year}" style="text-decoration:none; color:black;">${month+2}월</a></td>
 														</c:otherwise>
 													</c:choose>
 												</tr>
