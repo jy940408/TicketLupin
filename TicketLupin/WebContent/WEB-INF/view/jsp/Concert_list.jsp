@@ -11,6 +11,21 @@
 		<link rel="stylesheet" href="../css/Concert_list.css">
 		<script type="text/javascript" src="../js/jquery-3.5.1.min.js"></script>
 		<script src="../js/Concert_list.js"></script>
+		<script>
+		
+		function orderList(){
+			
+			$.ajax({
+				
+				type:"get",
+				url:"${pageContext.request.contextPath}/Show/ShowList.do",
+				data:
+				
+			});
+			
+		}
+		
+		</script>
 	</head>
 	<body>
 		<header>

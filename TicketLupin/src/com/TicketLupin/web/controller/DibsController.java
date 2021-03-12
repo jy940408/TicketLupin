@@ -1,11 +1,12 @@
 package com.TicketLupin.web.controller;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
 
 import com.TicketLupin.web.service.DibsDao;
 import com.TicketLupin.web.service.DibsListVo;
@@ -40,8 +41,12 @@ public class DibsController extends HttpServlet{
 			dd.insertDibs(sidx, midx);
 			int value = dd.getDibsCheck(sidx, midx);
 			
-			
-			response.sendRedirect("../ConcertView/ConcertView.do?sidx=" + sidx);
+			JSONObject obj = new JSONObject();
+			obj.put("result", value);
+			obj.put("test","testDatea");
+
+			response.setContentType("application/x-json; charset=UTF-8");
+			response.getWriter().print(obj); //{"result":1}
 			
 		}else if(str.equals("/Dibs/DibsDeleteAction.do")) {
 			
@@ -64,8 +69,13 @@ public class DibsController extends HttpServlet{
 			
 			DibsDao dd = new DibsDao();
 			dd.deleteDibs(sidx, midx);
+			int value = dd.getDibsCheck(sidx, midx);
 			
-			response.sendRedirect("../ConcertView/ConcertView.do?sidx=" + sidx);
+			JSONObject obj = new JSONObject();
+			obj.put("result", value);
+			
+			response.setContentType("application/x-json; charset=UTF-8");
+			response.getWriter().print(obj);
 			
 		}else if(str.equals("/Dibs/MyDibs.do")) {
 			

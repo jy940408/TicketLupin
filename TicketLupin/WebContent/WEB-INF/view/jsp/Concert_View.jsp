@@ -15,14 +15,15 @@
 		
 			$.ajax({
 				type:"get",
-				url:"<%=request.getContextPath()%>/Dibs/DibsAction.do",
+				url:"${pageContext.request.contextPath}/Dibs/DibsAction.do",
 				data:{"sidx": '${detail.sidx}'},
-				dataType:"json",
 				success: function(data){
-					alert("test 성공");
-					alert(data.value);
-					console.log("${detail.sidx} 보내기 성공");
-					console.log("${didx} 현재 didx 값");
+					alert(data.result);
+					if(data.result == 1){
+						$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
+					}else if(data.result == 0){
+						$("#main_concert_process_dibs").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
+					}
 				}
 			});
 			
@@ -36,12 +37,13 @@
 				type:"get",
 				url:"<%=request.getContextPath()%>/Dibs/DibsDeleteAction.do",
 				data:{"sidx": "${detail.sidx}"},
-			//	dataType : "json",
-				success: function(){
-					alert("test 성공");
-					alert(data.value);
-					console.log("${detail.sidx} 삭제 성공");
-					console.log("${didx} 현재 didx 값");
+				success: function(data){
+					alert(data.result);
+					if(data.result == 1){
+						$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
+					}else if(data.result == 0){
+						$("#main_concert_process_dibs").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
+					}
 				}
 			});
 			
