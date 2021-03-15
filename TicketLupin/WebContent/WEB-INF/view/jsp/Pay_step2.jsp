@@ -367,7 +367,7 @@
 							</a>
 						</span>
 						<span class="button btNext">
-							<a href="#" class="btnOne">다음</a>
+							<a href="${pageContext.request.contextPath}/Reservation/ReservationStep3.do" class="btnOne">다음</a>
 						</span>
 					</div>
 				</div>

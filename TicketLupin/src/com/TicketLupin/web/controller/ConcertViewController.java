@@ -134,15 +134,18 @@ public class ConcertViewController extends HttpServlet{
 			System.out.println("comDate: " + comDate);
 			System.out.println("date_ 0 더하기: " + date_);
 			ShowRoundDao srd = new ShowRoundDao();
-			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx, comDate);
+			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx);
+			
+			request.setAttribute("srv", srv);
 			
 			System.out.println(srv);
 			
-			
-			
 //==============================================================================================================================//	
+			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			
+//==============================================================================================================================//				
+
 		}else if(str.equals("/ConcertView/ConcertViewDateAJAX.do")) {
 			
 			HttpSession session = request.getSession();
@@ -152,7 +155,7 @@ public class ConcertViewController extends HttpServlet{
 			}
 			
 			String sidx_ = request.getParameter("sidx");
-			
+			System.out.println("sidx_ 들어와 안들어와: " + sidx_);
 			int sidx = 0;
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
@@ -191,24 +194,6 @@ public class ConcertViewController extends HttpServlet{
 				System.out.println("strDate 먹은 date: " + date);
 			}
 			
-			cal.set(year, month, 1); //날짜 설정하기, 앞서 설정한 현재 년도, 현재 월, 1일을 차례로 세팅
-			
-			int startDay = cal.getMinimum(Calendar.DATE); //현재 달의 첫 날
-			int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH); // 현재 달의 마지막 날
-			int start = cal.get(Calendar.DAY_OF_WEEK); //현재 요일을 출력, 1일로 설정을 해놨기 때문에 월요일이 출력됨, 일요일부터 1,2,3... 순서
-			int newLine = 0;
-			System.out.println("Calendar.DATE " + Calendar.DATE);
-			System.out.println("Calendar.DAY_OF_MONTH: " + Calendar.DAY_OF_MONTH);
-			System.out.println("startDay: " + startDay);
-			System.out.println("endDay: " + endDay);
-			System.out.println("start: " + start);
-			
-			Calendar todayCal = Calendar.getInstance(); // 오늘
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			int intToday = Integer.parseInt(sdf.format(todayCal.getTime())); // 오늘 날짜의 형식을 yyyyMMdd형식으로 바꾸고 이를 int형으로 변환
-			System.out.println("todayCal: " + todayCal);
-			System.out.println("intToday: " + intToday);
-			
 //==============================================================================================================================//
 			
 			String month_ = Integer.toString(month+1);
@@ -225,20 +210,22 @@ public class ConcertViewController extends HttpServlet{
 			System.out.println("comDate: " + comDate);
 			System.out.println("date_ 0 더하기: " + date_);
 			ShowRoundDao srd = new ShowRoundDao();
-			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx, comDate);
+			ShowRoundVo srv = srd.getShowRoundDetail(sidx, comDate);
 			
-			System.out.println(srv);
-			
+			System.out.println("sidx 확인 중: " + sidx);
+			System.out.println("comDate 확인 중: " + comDate);
+			System.out.println("리스트 나오는지 확인 중: " + srv);
+			System.out.println("리스트 내용 확인: " + srv);
 //==============================================================================================================================//	
+			
 			JSONObject obj = new JSONObject();
-			obj.put("color", color);
-			obj.put("year", year);
-			obj.put("month", month);
-			obj.put("date", date);
-			obj.put("startDay", startDay);
-			obj.put("endDay", endDay);
-			obj.put("start", start);
-			obj.put("intToday", intToday);
+			obj.put("sidx", srv.getSidx());
+			obj.put("srdate", srv.getSrdate());
+			obj.put("srround1", srv.getSrround1());
+			obj.put("srround2", srv.getSrround2());
+			obj.put("srround3", srv.getSrround3());
+			obj.put("srround4", srv.getSrround4());
+			
 			
 			response.setContentType("application/x-json; charset=UTF-8");
 			response.getWriter().print(obj); //{"result":1}

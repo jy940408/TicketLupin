@@ -1022,3 +1022,15 @@ body{
 	font-size:13px;
 	display:inline;
 }
+
+
+.round_all{
+	text-align:center;
+	width:235px;
+	padding:15px;
+	font-size:20px;
+}
+
+.round_all:{
+	border: 1px solid blue;
+}

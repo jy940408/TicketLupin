@@ -24,6 +24,18 @@ public class ReservationController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1.jsp").forward(request, response);
 			
+		}else if(str.equals("/Reservation/ReservationStep1Seat.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1_seat.jsp").forward(request, response);
+			
+		}else if(str.equals("/Reservation/ReservationStep2.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step2.jsp").forward(request, response);
+			
+		}else if(str.equals("/Reservation/ReservationStep3.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step3.jsp").forward(request, response);
+			
 		}
 		
 	}

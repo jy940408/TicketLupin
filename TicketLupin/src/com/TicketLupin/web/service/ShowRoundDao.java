@@ -44,11 +44,11 @@ public class ShowRoundDao {
 		return result;
 	}
 	
-	public ArrayList<ShowRoundVo> getShowRoundList(int idx, String date) {
+	public ArrayList<ShowRoundVo> getShowRoundList(int idx) {
 		
 		ArrayList<ShowRoundVo> result = new ArrayList<>();
 		
-		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 FROM SHOWROUND WHERE SRDATE = '" + date + "' AND SIDX = ?";
+		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 FROM SHOWROUND WHERE SIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -56,7 +56,6 @@ public class ShowRoundDao {
 			pstmt.setInt(1, idx);
 			
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("ShowRoundDao 들어오는 것 확인");
 			
 			while(rs.next()) {
 				int sridx = rs.getInt("SRIDX");
@@ -77,6 +76,40 @@ public class ShowRoundDao {
 		}
 		
 		return result;
+		
+	}
+	
+	public ShowRoundVo getShowRoundDetail(int idx, String date){
+		
+		ShowRoundVo srv = null;
+		
+		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 FROM SHOWROUND WHERE SRDATE = '" + date + "' AND SIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int sridx = rs.getInt("SRIDX");
+			int sidx = rs.getInt("SIDX");
+			String srdate = rs.getString("SRDATE");
+			String srround1 = rs.getString("SRROUND1");
+			String srround2 = rs.getString("SRROUND2");
+			String srround3 = rs.getString("SRROUND3");
+			String srround4 = rs.getString("SRROUND4");
+			
+			srv = new ShowRoundVo(sridx, sidx, srdate, srround1, srround2, srround3, srround4);
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return srv;
 		
 	}
 }

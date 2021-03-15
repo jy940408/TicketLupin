@@ -25,24 +25,25 @@ height:10px;
 	position: relative;
 	width:690px;
 	height:1000px;
-	background-image: url('./image/pay_step1_seat.svg');
+	background-image: url('../image/pay_step1_seat.svg');
 	padding: 13px 13px;
 	zoom: 0.91;
 
 }
 
-ul>li>a:focus
-{
-	background-color:blue;
-}
 
-ul>li>a:hover
+
+ul>li>input:hover
 {
 	background:red;
 }
 
 
-
+input[type="checkbox"]:checked {
+	
+	background-color blue;
+	
+}
 
 .column_1{ left:100px; }
 .column_2{ left:115px; }

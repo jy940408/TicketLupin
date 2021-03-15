@@ -7,7 +7,15 @@
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pay_step1_1.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pay_step1_2.css">
 
-  
+	<script>
+		function getIframeValue(){
+			
+			var obj = document.frames("seatIframe").document.forms[0];
+			obj.submit();
+			
+		}
+	</script>
+  	<title>티켓루팡 공연 예매</title>
 </head>
 <body style="overflow: hidden;">
 
@@ -57,7 +65,7 @@
         <!-- 좌석영역-->
         <div class="wrap_seat">
             <div class="btn_extension"><a href="#" class="btn_plus" id="btn_map_p">확대</a><a href="#" class="btn_minus" id="btn_map_m">축소</a></div>
-			  <iframe src="/WEB-INF/view/jsp/pay_step1_seat.jsp" style="width:100%; height:90%"></iframe>
+			  <iframe src="${pageContext.request.contextPath}/Reservation/ReservationStep1Seat.do" name="seatIframe" style="width:100%; height:90%"></iframe>
 			<div class="wrap_seat_box">
 				<div class="seat_box "><!-- on class 컨트롤 -->
 					<!-- <div class="seat_btn" id="txtSelectSeatInfo" onclick="$(this).parent().toggleClass('open');return false;">좌석을 선택해 주세요.</div> -->
@@ -148,7 +156,10 @@
         </div>
         <div class="box_info_bm">
             <div class="btn_onestop">
-                <span class="button btNext"><a href="#" id="nextTicketSelection" class="btnOne btnOneB">좌석 선택 완료<em class="one_arr next_ar">다음</em></a></span>
+            	<form name="nextTicketSelection" action="${pageContext.request.contextPath}/Reservation/ReservationStep2.do" method="get">
+            		<input type="hidden" name="seatHidden" value="">
+            		 <span class="button btNext"><button type="submit" id="nextTicketSelection" class="btnOne btnOneB">좌석 선택 완료<em class="one_arr next_ar">다음</em></button></span>
+            	</form>
             </div>
         </div>
     <!--// 티켓 정보 영역 -->

@@ -26,7 +26,6 @@
 					}
 				}
 			});
-			
 		}
 		
 		function deleteDibs(){
@@ -35,7 +34,7 @@
 			
 			$.ajax({
 				type:"get",
-				url:"<%=request.getContextPath()%>/Dibs/DibsDeleteAction.do",
+				url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
 				data:{"sidx": "${detail.sidx}"},
 				success: function(data){
 					alert(data.result);
@@ -46,60 +45,54 @@
 					}
 				}
 			});
-			
 		}
 		
 //-------------------------------------------------------------------------------------------------------------------------------------//
+
+		function selectDate(i){
 		
-		function selectPrevMonth(){
-			
-			var sidx = $("#sidx").val();
-			var year = $("#year").val();
-			var month = $("#month").val();
-			
-			var preMonth = month-1;
-			var preYear = year-1;
-			var postMonth = month+1;
-			var postYear = year+1;
-			
-			alert("들어가기 전 month: " + month);
-			alert("preMonth 테스트: " + preMonth);
-			
-			var dateMonth;
-			var yearCheckMonth;
-			var innerHTMLMonth;
-			if(preMonth == 0){
-				dateMonth = {"sidx": sidx, "year": preYear, "month": 11};
-				yearCheckMonth = 12;
-			}else{
-				dateMonth = {"sidx": sidx, "year": year, "month": preMonth};
-				yearCheckMonth = month;
-			}
-			
-			alert("dateMonth 테스트: " + dateMonth);
+			alert("date 선택 시작");
+			alert(i);
 			
 			$.ajax({
+				
 				type:"get",
-				url: "${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
-				data: dateMonth,
+				url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
+				data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
 				success: function(data){
-					alert(data.year);
-					alert(dateMonth);
-					alert("들어간 뒤 month: " + data.month);
-					alert("들어간 뒤 yearCheckMonth: " + yearCheckMonth);
 					
-					if(month == 0){
-						$("#preMonth").html("<a onclick='selectPrevMonth()' style='text-decoration:none; color:black;'>12월</a>");
-					}else{
-						$("#preMonth").html("<a onclick='selectPrevMonth()' style='text-decoration:none; color:black;'>" + yearCheckMonth + "월</a>");
-					}
+					alert(i + "가 들어왔다!");
+					alert(data.sidx);
+					alert(data.srdate);
+					alert(data.srround1);
+					alert(data.srround2);
+					alert(data.srround3);
+					alert(data.srround4);
 					
-					$("#month").val(data.month);
-					alert("값 변했는지 확인" + $("#month").val());
+					alert("success 확인");
+					
+					var output="";
+					
+					output += "<div style='display:none;'>";
+					output += "<input type='radio' name='round' id='round1' value='" + data.srround1 + "'>";
+					output += "<input type='radio' name='round' id='round2' value='" + data.srround2 + "'>";
+					output += "<input type='radio' name='round' id='round3' value='" + data.srround3 + "'>";
+					output += "<input type='radio' name='round' id='round4' value='" + data.srround4 + "'>";
+					output += "</div>";
+					output += "<label for='round1'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround1+"</div></label><br>";
+					output += "<label for='round2'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround2+"</div></label><br>";
+					output += "<label for='round3'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround3+"</div></label><br>";
+					output += "<label for='round4'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround4+"</div></label>";
+					
+					$("#main_concert_process_time_calender").html(output);
 				}
 			});
-			
+		
 		}
+
+		//sidx=${detail.sidx}&month=${month}&year=${year}&date=${i}
+
+//-------------------------------------------------------------------------------------------------------------------------------------//
 	
 	</script>
 		<title>티켓 루팡</title>
@@ -219,10 +212,10 @@
 												<tr>
 													<c:choose>
 														<c:when test="${month eq '0' }">
-															<td colspan="2" align="center" id="preMonth"><a onclick="selectPrevMonth()" style="text-decoration:none; color:black;">12월</a></td>
+															<td colspan="2" align="center" id="preMonth"><a href="?sidx=${detail.sidx}&month=11&year=${year-1}" style="text-decoration:none; color:black;">12월</a></td>
 														</c:when>
 														<c:otherwise>
-															<td colspan="2" align="center" id="preMonth"><a onclick="selectPrevMonth()" style="text-decoration:none; color:black;">${month}월</a></td>
+															<td colspan="2" align="center" id="preMonth"><a href="?sidx=${detail.sidx}&month=${month-1}&year=${year}" style="text-decoration:none; color:black;">${month}월</a></td>
 														</c:otherwise>
 													</c:choose>
 													<td colspan="3" align="center" id="nowMonth"><a href="?sidx=${detail.sidx}&month=${month}&year=${year}" style="text-decoration:none; color:black;">${year}년 ${month+1}월</a></td>
@@ -261,7 +254,7 @@
 															<input type="hidden" value="${color = 'black'}">
 														</c:otherwise>
 													</c:choose>
-													<td><a href="?sidx=${detail.sidx}&month=${month}&year=${year}&date=${i}" style="text-decoration:none; color:black;">${i}</a></td>
+													<td><a onclick="selectDate(${i})" style="font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
 													<input type="hidden" value="${newLine = newLine + 1}">
 													<c:if test="${newLine eq 7}">
 														</tr>
@@ -279,12 +272,12 @@
 										<div>시간 선택</div>
 									</div>
 									<div id="main_concert_process_time_calender">
-										대충 여기 날짜 회차 들어가는 곳이라는 뜻
+										<div style="text-align:center; vertical-align:middle;">날짜를 선택해주세요!</div>
 									</div>
 								</div>
 							</div>
 							<div id="main_concert_process_choice_button_div">
-								<a href="<%=request.getContextPath()%>/Reservation/ReservationStep1.do"><div id="main_concert_process_choice_button">예매하기</div></a>
+								<a href="<%=request.getContextPath()%>/Reservation/ReservationStep1.do" target="_blank"><div id="main_concert_process_choice_button">예매하기</div></a>
 							</div>
 						</div>
 					</div>
