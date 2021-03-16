@@ -90,8 +90,31 @@
 		
 		}
 		
+//-------------------------------------------------------------------------------------------------------------------------------------//
+
 		function submitReservation(){
 			
+			if(${empty sessionScope.mid}){
+				alert("로그인이 필요한 서비스입니다");
+				location.href="${pageContext.request.contextPath}/Member/MemberLogin.do";
+			  	return;
+			}
+			
+			var checkRadio = document.getElementsByName("round");
+			var radioLength = $("input:radio[name='round']").length;
+			var radioChecked = $("input:radio[name='round']").is(':checked');
+			alert(radioLength);
+			alert($("input:radio[name='round']").is(':checked'));
+			var checkCount = 0;
+			if(radioChecked == true){
+				checkCount = 1;
+			}
+			
+			if(checkCount < 1){
+				alert("회차를 선택해주세요");
+				return;
+			}
+	
 			var srWin = window.open("about:blank", "winName", "width=955px, height=647px");
 			document.concertReservation.action = "${pageContext.request.contextPath}/Reservation/ReservationStep1.do";
 			document.concertReservation.method = "get";
@@ -221,30 +244,30 @@
 												<tr>
 													<c:choose>
 														<c:when test="${month eq '0' }">
-															<td colspan="2" align="center" id="preMonth"><a href="?sidx=${detail.sidx}&month=11&year=${year-1}" style="text-decoration:none; color:black;">12월</a></td>
+															<td colspan="2" align="center" id="preMonth"><a href="?sidx=${detail.sidx}&month=11&year=${year-1}" style="text-decoration:none; font-weight:bold; color:black;">12월</a></td>
 														</c:when>
 														<c:otherwise>
-															<td colspan="2" align="center" id="preMonth"><a href="?sidx=${detail.sidx}&month=${month-1}&year=${year}" style="text-decoration:none; color:black;">${month}월</a></td>
+															<td colspan="2" align="center" id="preMonth"><a href="?sidx=${detail.sidx}&month=${month-1}&year=${year}" style="text-decoration:none; font-weight:bold; color:black;">${month}월</a></td>
 														</c:otherwise>
 													</c:choose>
-													<td colspan="3" align="center" id="nowMonth"><a href="?sidx=${detail.sidx}&month=${month}&year=${year}" style="text-decoration:none; color:black;">${year}년 ${month+1}월</a></td>
+													<td colspan="3" align="center" id="nowMonth"><a href="?sidx=${detail.sidx}&month=${month}&year=${year}" style="text-decoration:none; font-weight:bold; color:black;">${year}년 ${month+1}월</a></td>
 													<c:choose>
 														<c:when test="${month eq '11' }">
-															<td colspan="2" align="center" id="postMonth"><a href="?sidx=${detail.sidx}&month=0&year=${year+1}" style="text-decoration:none; color:black;">1월</a></td>
+															<td colspan="2" align="center" id="postMonth"><a href="?sidx=${detail.sidx}&month=0&year=${year+1}" style="text-decoration:none; font-weight:bold; color:black;">1월</a></td>
 														</c:when>
 														<c:otherwise>
-															<td colspan="2" align="center" id="postMonth"><a href="?sidx=${detail.sidx}&month=${month+1}&year=${year}" style="text-decoration:none; color:black;">${month+2}월</a></td>
+															<td colspan="2" align="center" id="postMonth"><a href="?sidx=${detail.sidx}&month=${month+1}&year=${year}" style="text-decoration:none; font-weight:bold; color:black;">${month+2}월</a></td>
 														</c:otherwise>
 													</c:choose>
 												</tr>
 												<tr>
-													<td align="center"> <font color="#FF9090">일</font></td>
-													<td align="center"> 월 </td>
-													<td align="center"> 화 </td>
-													<td align="center"> 수 </td>
-													<td align="center"> 목 </td>
-													<td align="center"> 금 </td>
-													<td align="center"><font color=#7ED5E4>토</font></td>
+													<td align="center" style="font-weight:bold;"> <font color="#FF9090">일</font></td>
+													<td align="center" style="font-weight:bold;"> 월 </td>
+													<td align="center" style="font-weight:bold;"> 화 </td>
+													<td align="center" style="font-weight:bold;"> 수 </td>
+													<td align="center" style="font-weight:bold;"> 목 </td>
+													<td align="center" style="font-weight:bold;"> 금 </td>
+													<td align="center" style="font-weight:bold;"><font color=#7ED5E4>토</font></td>
 												</tr>
 												<tr>
 												<c:forEach var="i" begin="1" end="${start-1}" step="1">
@@ -264,11 +287,11 @@
 														</c:otherwise>
 													</c:choose>
 													<c:choose>
-														<c:when test="${not empty roundCheck}">
-															<td><a onclick="selectDate(${i})" style="font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
+														<c:when test="${roundCheck[i-1] eq 1}">
+															<td><a onclick="selectDate(${i})" style="cursor:hand; font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
 														</c:when>
 														<c:otherwise>
-															<td><a href="#" style="text-decoration:none; color:grey;">${i}</a></td>
+															<td><a onclick="" style="text-decoration:none; color:grey;">${i}</a></td>
 														</c:otherwise>
 													</c:choose>
 													<input type="hidden" value="${newLine = newLine + 1}">
@@ -288,7 +311,7 @@
 										<div>시간 선택</div>
 									</div>
 									<div id="main_concert_process_time_calender">
-										<div id="main_concert_process_time_calender_sub">날짜를 선택해주세요!</div>
+										<div id="main_concert_process_time_calender_sub" style="font-weight:bold;">날짜를 선택해주세요!</div>
 									</div>
 								</div>
 							</div>

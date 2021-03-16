@@ -276,7 +276,7 @@ body{
 
 #main_concert_process_time_calender_sub{
 	display:inline-block;
-	height:216px;
+	padding:100px 0 0;
 	width:587px;
 	text-align:center;
 	vertical-align:middle;

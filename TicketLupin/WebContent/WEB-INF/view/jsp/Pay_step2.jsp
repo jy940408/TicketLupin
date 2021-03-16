@@ -9,6 +9,14 @@
 		<title>배송/결제</title>
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/pay_step2.css">
+		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
+		<script>
+			$.ajax({
+				
+				
+				
+			});
+		</script>
 	</head>
 	<body>
 		<div class="section">	
@@ -51,7 +59,7 @@
 										<tr>
 											<td class="txt_left">기본가</td>
 											<td></td>
-											<td>90,000원</td>
+											<td>150,000원</td>
 											<td>
 												<select name="volume">
 													<c:forEach var="i" begin="0" end="${vip}">
@@ -159,7 +167,7 @@
 										<tr>
 											<td class="txt_left">기본가</td>
 											<td></td>
-											<td>90,000원</td>
+											<td>130,000원</td>
 											<td>
 												<select name="volume">
 													<c:forEach var="i" begin="0" end="${r}">
@@ -267,7 +275,7 @@
 										<tr>
 											<td class="txt_left">기본가</td>
 											<td></td>
-											<td>90,000원</td>
+											<td>100,000원</td>
 											<td>
 												<select name="volume">
 													<c:forEach var="i" begin="0" end="${s}">
@@ -375,7 +383,7 @@
 										<tr>
 											<td class="txt_left">기본가</td>
 											<td></td>
-											<td>90,000원</td>
+											<td>80,000원</td>
 											<td>
 												<select name="volume">
 													<c:forEach var="i" begin="0" end="${a}">

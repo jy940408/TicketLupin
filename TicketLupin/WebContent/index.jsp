@@ -7,7 +7,7 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<script>
+		<script> 
 			document.location.replace("<%=request.getContextPath()%>/Main/MainPage.do");
 		</script>
 	</body>

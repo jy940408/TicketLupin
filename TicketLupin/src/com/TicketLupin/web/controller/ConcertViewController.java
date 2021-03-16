@@ -107,7 +107,7 @@ public class ConcertViewController extends HttpServlet{
 			int intToday = Integer.parseInt(sdf.format(todayCal.getTime())); // 오늘 날짜의 형식을 yyyyMMdd형식으로 바꾸고 이를 int형으로 변환
 			System.out.println("todayCal: " + todayCal);
 			System.out.println("intToday: " + intToday);
-				
+			
 			request.setAttribute("color", color);
 			request.setAttribute("year", year);
 			request.setAttribute("month", month);
@@ -119,34 +119,45 @@ public class ConcertViewController extends HttpServlet{
 			
 			
 //==============================================================================================================================//
+			// 회차 불러오기
+			ShowRoundDao srd = new ShowRoundDao();
+			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx);
+			
+			request.setAttribute("srv", srv);
+
+//==============================================================================================================================//
+
+			//각 날짜별로 round 있는지 확인
+			//회차 있는 날 = 1, 회차 없는 날 = 0
+			int strRoundCheck = 0;
 			
 			String month_ = Integer.toString(month+1);
 			if((int)(Math.log10(month)+1) == 1) {
 				month_ = "0" + month_;
 			}
 			
-			String date_ = Integer.toString(date);
-			if((int)(Math.log10(date)+1) == 1) {
-				date_ = "0" + date_;
+			ArrayList roundCheck = new ArrayList();
+			for(int testDate = 1 ; testDate <= endDay ; testDate++) {
+				
+				String date_ = Integer.toString(testDate);
+				if((int)(Math.log10(testDate)+1) == 1) {
+					date_ = "0" + date_;
+				}	
+				
+				String comDate = year + "-" + (month_) + "-" + date_;
+				System.out.println("comDate 테스트" + comDate);
+				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("")) {
+					strRoundCheck = 1;
+					roundCheck.add(strRoundCheck);
+				}else {
+					strRoundCheck = 0;
+					roundCheck.add(strRoundCheck);
+				}
 			}
 			
-			String comDate = year + "-" + (month_) + "-" + date_;
-			System.out.println("comDate: " + comDate);
-			System.out.println("date_ 0 더하기: " + date_);
-			
-			ShowRoundDao srd = new ShowRoundDao();
-			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx);
-			
-			ShowRoundDao srd2 = new ShowRoundDao();
-			ShowRoundVo srv2 = srd2.getShowRoundDetail(sidx, comDate);
-			
-			System.out.println("srv2 test: " + srv2);
-			
-			request.setAttribute("srv", srv);
-			request.setAttribute("roundCheck", srv2);
-			
+			request.setAttribute("roundCheck", roundCheck);
 			System.out.println(srv);
-			
+			System.out.println("roundCheck: " + roundCheck);
 //==============================================================================================================================//	
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
