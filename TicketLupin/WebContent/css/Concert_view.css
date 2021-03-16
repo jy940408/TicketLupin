@@ -280,7 +280,7 @@ body{
 	display:table-cell;
 	vertical-align:middle;
 }
-#main_concert_process_choice_button_div a{
+#main_concert_process_choice_button_div span{
 	text-decoration:none;
 	color:white;
 	text-align:center;
@@ -1031,6 +1031,9 @@ body{
 	font-size:20px;
 }
 
-.round_all:{
+.round_all:hover{
+	border: 1px solid blue;
+}
+.round_all:focus{
 	border: 1px solid blue;
 }

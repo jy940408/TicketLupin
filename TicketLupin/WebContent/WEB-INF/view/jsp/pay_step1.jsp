@@ -6,12 +6,18 @@
     
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pay_step1_1.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pay_step1_2.css">
-
+	<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 	<script>
-		function getIframeValue(){
+		
+		function test(){
+			var test = window.frames['seatIframe'].document.getElementById("checkInput").value;
+			console.log(test);
+			document.getElementById("seatHidden").value = test;
 			
-			var obj = document.frames("seatIframe").document.forms[0];
-			obj.submit();
+			document.nextTicketSelection.action = "${pageContext.request.contextPath}/Reservation/ReservationStep2.do";
+		 	document.nextTicketSelection.method = "get";
+		 	document.nextTicketSelection.submit(); 
+			return;
 			
 		}
 	</script>
@@ -65,7 +71,7 @@
         <!-- 좌석영역-->
         <div class="wrap_seat">
             <div class="btn_extension"><a href="#" class="btn_plus" id="btn_map_p">확대</a><a href="#" class="btn_minus" id="btn_map_m">축소</a></div>
-			  <iframe src="${pageContext.request.contextPath}/Reservation/ReservationStep1Seat.do" name="seatIframe" style="width:100%; height:90%"></iframe>
+			  <iframe src="${pageContext.request.contextPath}/Reservation/ReservationStep1Seat.do" id="seatIframe" name="seatIframe" style="width:100%; height:90%"></iframe>
 			<div class="wrap_seat_box">
 				<div class="seat_box "><!-- on class 컨트롤 -->
 					<!-- <div class="seat_btn" id="txtSelectSeatInfo" onclick="$(this).parent().toggleClass('open');return false;">좌석을 선택해 주세요.</div> -->
@@ -156,9 +162,14 @@
         </div>
         <div class="box_info_bm">
             <div class="btn_onestop">
-            	<form name="nextTicketSelection" action="${pageContext.request.contextPath}/Reservation/ReservationStep2.do" method="get">
-            		<input type="hidden" name="seatHidden" value="">
-            		 <span class="button btNext"><button type="submit" id="nextTicketSelection" class="btnOne btnOneB">좌석 선택 완료<em class="one_arr next_ar">다음</em></button></span>
+            	<form name="nextTicketSelection">
+            		<input type="hidden" id="seatHidden" name="seatHidden" value="">
+            		<input type="hidden" name="sidx" value="${sidx}">
+            		<input type="hidden" name="comDate" value="${comDate}">
+            		<input type="hidden" name="round" value="${round}">
+            		<input type="hidden" name="seatGrade" value="${seatGrade}">
+            		<input type="hidden" name="floor" value="${floor}">
+            		 <span class="button btNext"><button type="button" id="nextTicketSelection" class="btnOne btnOneB" onclick="test()">좌석 선택 완료<em class="one_arr next_ar">다음</em></button></span>
             	</form>
             </div>
         </div>

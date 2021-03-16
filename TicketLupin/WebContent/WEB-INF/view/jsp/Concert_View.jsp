@@ -200,6 +200,7 @@
 								</div>
 							</div>
 						</div>
+						<form name="concertReservation" action="${pageContext.request.contextPath}/Reservation/ReservationStep1.do" method="get">
 						<div id="main_concert_process_box">
 							<div id="main_concert_process">
 								<div id="main_concert_process_ticketing_set" class="main_concert_process_all_set">
@@ -276,10 +277,16 @@
 									</div>
 								</div>
 							</div>
+							<input type="hidden" name="sidx" value="${detail.sidx}">
+							<input type="hidden" name="year" value="${year}">
+							<input type="hidden" name="month" value="${month}">
+							<input type="hidden" name="date" value="${date}">
+							
 							<div id="main_concert_process_choice_button_div">
-								<a href="<%=request.getContextPath()%>/Reservation/ReservationStep1.do" target="_blank"><div id="main_concert_process_choice_button">예매하기</div></a>
+								<button type="submit" id="main_concert_process_choice_button"><span style="font-size:16px;">예매하기</span></button>
 							</div>
 						</div>
+						</form>
 					</div>
 					<div id="main_concert_detail_menu_div">
 						<ul>
