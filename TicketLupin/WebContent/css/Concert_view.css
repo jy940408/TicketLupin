@@ -270,9 +270,19 @@ body{
 #main_concert_process_time_calender{
 	width:587px;
 	height:216px;
-	padding:0 47px 0 30px;
+	padding:1px 47px 0 30px;
 	background-color:#fafafa;
 }
+
+#main_concert_process_time_calender_sub{
+	display:inline-block;
+	height:216px;
+	width:587px;
+	text-align:center;
+	vertical-align:middle;
+}
+
+
 #main_concert_process_choice_button_div{
 	width:998px;
 	height:70px;
@@ -280,7 +290,7 @@ body{
 	display:table-cell;
 	vertical-align:middle;
 }
-#main_concert_process_choice_button_div span{
+#main_concert_process_choice_button_div div{
 	text-decoration:none;
 	color:white;
 	text-align:center;
@@ -1027,13 +1037,17 @@ body{
 .round_all{
 	text-align:center;
 	width:235px;
-	padding:15px;
+	padding:8px;
 	font-size:20px;
 }
 
 .round_all:hover{
-	border: 1px solid blue;
+	border: 1px solid #00b523;
+	color:#00b523;
+	background-color:white;
 }
 .round_all:focus{
-	border: 1px solid blue;
+	border: 1px solid #00b523;
+	color:#00b523;
+	background-color:white;
 }

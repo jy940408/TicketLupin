@@ -79,18 +79,26 @@
 					output += "<input type='radio' name='round' id='round3' value='" + data.srround3 + "'>";
 					output += "<input type='radio' name='round' id='round4' value='" + data.srround4 + "'>";
 					output += "</div>";
-					output += "<label for='round1'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround1+"</div></label><br>";
-					output += "<label for='round2'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround2+"</div></label><br>";
-					output += "<label for='round3'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround3+"</div></label><br>";
-					output += "<label for='round4'><div class='round_all' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround4+"</div></label>";
+					output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround1+"</div></label><br>";
+					output += "<label for='round2'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround2+"</div></label><br>";
+					output += "<label for='round3'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround3+"</div></label><br>";
+					output += "<label for='round4'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround4+"</div></label>";
 					
 					$("#main_concert_process_time_calender").html(output);
 				}
 			});
 		
 		}
-
-		//sidx=${detail.sidx}&month=${month}&year=${year}&date=${i}
+		
+		function submitReservation(){
+			
+			var srWin = window.open("about:blank", "winName", "width=955px, height=647px");
+			document.concertReservation.action = "${pageContext.request.contextPath}/Reservation/ReservationStep1.do";
+			document.concertReservation.method = "get";
+			document.concertReservation.target = "winName";
+			document.concertReservation.submit();
+			return;
+		}
 
 //-------------------------------------------------------------------------------------------------------------------------------------//
 	
@@ -200,7 +208,7 @@
 								</div>
 							</div>
 						</div>
-						<form name="concertReservation" action="${pageContext.request.contextPath}/Reservation/ReservationStep1.do" method="get">
+						<form name="concertReservation">
 						<div id="main_concert_process_box">
 							<div id="main_concert_process">
 								<div id="main_concert_process_ticketing_set" class="main_concert_process_all_set">
@@ -255,7 +263,14 @@
 															<input type="hidden" value="${color = 'black'}">
 														</c:otherwise>
 													</c:choose>
-													<td><a onclick="selectDate(${i})" style="font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
+													<c:choose>
+														<c:when test="${not empty roundCheck}">
+															<td><a onclick="selectDate(${i})" style="font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
+														</c:when>
+														<c:otherwise>
+															<td><a href="#" style="text-decoration:none; color:grey;">${i}</a></td>
+														</c:otherwise>
+													</c:choose>
 													<input type="hidden" value="${newLine = newLine + 1}">
 													<c:if test="${newLine eq 7}">
 														</tr>
@@ -273,7 +288,7 @@
 										<div>시간 선택</div>
 									</div>
 									<div id="main_concert_process_time_calender">
-										<div style="text-align:center; vertical-align:middle;">날짜를 선택해주세요!</div>
+										<div id="main_concert_process_time_calender_sub">날짜를 선택해주세요!</div>
 									</div>
 								</div>
 							</div>
@@ -283,7 +298,7 @@
 							<input type="hidden" name="date" value="${date}">
 							
 							<div id="main_concert_process_choice_button_div">
-								<button type="submit" id="main_concert_process_choice_button"><span style="font-size:16px;">예매하기</span></button>
+								<button type="button" id="main_concert_process_choice_button" onclick="submitReservation()"><div style="font-size:16px;">예매하기</div></button>
 							</div>
 						</div>
 						</form>

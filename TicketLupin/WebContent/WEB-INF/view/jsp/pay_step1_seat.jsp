@@ -17,10 +17,14 @@
 						checked += $(this).val() +"/";
 						$("#checkInput").val(checked);
 					}
+					if($(this).is(":checked") == false){
+						checked -= $(this).val('') + "/";
+						$("#checkInput").val(checked);
+					}
 				})
 			});
 		</script>
-	
+	 
 	</head>
 	<body>
 		<form name="seat">

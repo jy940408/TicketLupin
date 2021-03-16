@@ -1,13 +1,18 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.TicketLupin.web.service.ShowDao;
+import com.TicketLupin.web.service.ShowVo;
 
 @WebServlet("/ReservationController")
 public class ReservationController extends HttpServlet{
@@ -61,6 +66,10 @@ public class ReservationController extends HttpServlet{
 			String comDate = year + "-" + (month) + "-" + date;
 			System.out.println("comDate: " + comDate);
 			
+			ShowDao sd = new ShowDao();
+			ShowVo sv = sd.getShowDetail(sidx);
+			
+			request.setAttribute("title", sv.getStitle());
 			request.setAttribute("sidx", sidx);
 			request.setAttribute("comDate", comDate);
 			request.setAttribute("round", round);
@@ -74,9 +83,12 @@ public class ReservationController extends HttpServlet{
 		}else if(str.equals("/Reservation/ReservationStep2.do")) {
 			
 			String sidx_ = request.getParameter("sidx");
+			String title = request.getParameter("title");
 			String comDate = request.getParameter("comDate");
 			String round = request.getParameter("round");
 			
+			
+			System.out.println("title: " + title);
 			System.out.println("sidx: " + sidx_);
 			System.out.println("comDate: " + comDate);
 			System.out.println("round: " + round);
@@ -94,6 +106,7 @@ public class ReservationController extends HttpServlet{
 			String[] seatGrade = new String[arraySeat.length];
 			String[] floor = new String[arraySeat.length];
 			
+			//예매 좌석 등급 및 층수 구하기
 			for(int i = 0 ; i < arraySeat.length ; i ++) {
 				if(Integer.parseInt(arraySeat[i].substring(0,2)) <= 6) {
 					seatGrade[i] = "VIP";
@@ -114,12 +127,37 @@ public class ReservationController extends HttpServlet{
 				System.out.println("arraySeat[" + i + "] 층수: " + floor[i]);
 			}
 			
+			// 예매 좌석 등급 목록 (중복 제외) 구하기
+			ArrayList<String> gradeCategory = new ArrayList<>();
+			for(int i = 0 ; i < seatGrade.length ; i++) {
+				if(!gradeCategory.contains(seatGrade[i])) {
+					gradeCategory.add(seatGrade[i]);
+				}
+			}
+			System.out.println("gradeCategory: " + gradeCategory);
+			
+			
+			//HashMap을 이용하여 좌석 등급 별 개수 세기
+			HashMap<String, Integer> gradeCount = new HashMap<String, Integer>(); //HashMap 생성
+			
+			for(int i = 0 ; i < seatGrade.length ; i++) { //seatGrade만큼 반복
+				if(gradeCount.containsKey(seatGrade[i])) { //HashMap 내부에 이미 key값이 존재하는지 확인
+					gradeCount.put(seatGrade[i], gradeCount.get(seatGrade[i])+1); //key가 있다면 해당 value에 1 추가
+				}else {
+					gradeCount.put(seatGrade[i], 1); //key가 없다면 key값을 생성 후 1로 초기화
+				}
+			}
+			System.out.println("gradeCount: " + gradeCount);
+			
 			request.setAttribute("sidx", sidx);
+			request.setAttribute("title", title);
 			request.setAttribute("comDate", comDate);
 			request.setAttribute("round", round);
 			request.setAttribute("arraySeat", arraySeat);
 			request.setAttribute("seatGrade", seatGrade);
+			request.setAttribute("gradeCategory", gradeCategory);
 			request.setAttribute("floor", floor);
+			request.setAttribute("gradeCount", gradeCount);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step2.jsp").forward(request, response);
 			

@@ -133,10 +133,17 @@ public class ConcertViewController extends HttpServlet{
 			String comDate = year + "-" + (month_) + "-" + date_;
 			System.out.println("comDate: " + comDate);
 			System.out.println("date_ 0 더하기: " + date_);
+			
 			ShowRoundDao srd = new ShowRoundDao();
 			ArrayList<ShowRoundVo> srv = srd.getShowRoundList(sidx);
 			
+			ShowRoundDao srd2 = new ShowRoundDao();
+			ShowRoundVo srv2 = srd2.getShowRoundDetail(sidx, comDate);
+			
+			System.out.println("srv2 test: " + srv2);
+			
 			request.setAttribute("srv", srv);
+			request.setAttribute("roundCheck", srv2);
 			
 			System.out.println(srv);
 			

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,202 +36,440 @@
 					<form id="frm" method="post" name="frm">
 						<div class="select_price">
 							<h3>티켓 가격을 선택하세요.</h3>
-							<table>
-									<tr id="tr_color">
-										<td colspan="2" class="txt_left"><strong>S석</strong></td>
-										<td colspan="2"><span>${fn:length(arraySeat)}</span>매 중<em>0</em>매 선택</td>
-									</tr>
-									<tr>
-										<td class="txt_left">기본가</td>
-										<td></td>
-										<td>90,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left">공연재개 특별응원 30%</td>
-										<td>27,000원 할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >3인 패키지</td>
-										<td>18,000원 할인</td>
-										<td>72,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >4인 패키지</td>
-										<td>27,000원 할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
-										<td>18,000원 할인</td>
-										<td>72,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >복지할인(4~6급,경증,본인만)</td>
-										<td>27,000원 할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >복지할인(1~3급,중증,1인2매)</td>
-										<td>27,000원 할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td  class="txt_left">국가유공자(본인만)</td>
-										<td>27,000원 할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="volume">
-												<option value="0" selected>0매</option>
-												<option value="1">1매</option>
-												<option value="2">2매</option>
-											</select>
-										</td>
-									</tr>
-							</table>
-							<table>
-								<tr id="tr_color">
-									<td colspan="2" class="txt_left"><strong>A석</strong></td>
-									<td colspan="2"><span>${fn:length(arraySeat)}</span>매 중<em>0</em>매 선택</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >기본가</td>
-									<td></td>
-									<td>60,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td  class="txt_left">공연재개 특별응원 30%</td>
-									<td>18,000원 할인</td>
-									<td>42,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >3인 패키지</td>
-									<td>12,000원 할인</td>
-									<td>48,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >4인 패키지</td>
-									<td>18,000원 할인</td>
-									<td>42,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
-									<td>18,000원 할인</td>
-									<td>42,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >복지할인(4~6급,경증,본인만)</td>
-									<td>18,000원 할인</td>
-									<td>42,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >복지할인(1~3급,중증,1인2매)</td>
-									<td>18,000원 할인</td>
-									<td>42,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="txt_left" >국가유공자(본인만)</td>
-									<td>18,000원 할인</td>
-									<td>42,000원</td>
-									<td>
-										<select name="volume">
-											<option value="0" selected>0매</option>
-											<option value="1">1매</option>
-										</select>
-									</td>
-								</tr>
-							</table>
+							<c:forEach var="gc" items="${gradeCategory}">
+								<c:if test="${gc eq 'VIP'}">
+									<table>
+										<tr id="tr_color">
+											<td colspan="2" class="txt_left"><strong>VIP석</strong></td>
+											<c:forEach var="count" items="${gradeCount}">
+												<c:if test="${count.key == 'VIP'}">
+													<c:set var="vip" value="${count.value}"/>
+													<td colspan="2"><span><c:out value="${vip}"/></span>매 중<em>0</em>매 선택</td>
+												</c:if>
+											</c:forEach>
+										</tr>
+										<tr>
+											<td class="txt_left">기본가</td>
+											<td></td>
+											<td>90,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${vip}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left">공연재개 특별응원 30%</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${vip}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >3인 패키지</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(vip/3),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >4인 패키지</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(vip/4),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${vip}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(4~6급,경증,본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${vip}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(1~3급,중증,1인2매)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${vip}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td  class="txt_left">국가유공자(본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<option value="0" selected>0매</option>
+													<option value="1">1매</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+								</c:if>
+								<c:if test="${gc eq 'R'}">
+									<table>
+										<tr id="tr_color">
+											<td colspan="2" class="txt_left"><strong>R석</strong></td>
+											<c:forEach var="count" items="${gradeCount}">
+												<c:if test="${count.key == 'R'}">
+													<c:set var="r" value="${count.value}"/>
+													<td colspan="2"><span><c:out value="${r}"/></span>매 중<em>0</em>매 선택</td>
+												</c:if>
+											</c:forEach>
+										</tr>
+										<tr>
+											<td class="txt_left">기본가</td>
+											<td></td>
+											<td>90,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${r}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left">공연재개 특별응원 30%</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${r}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >3인 패키지</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(r/3),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >4인 패키지</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(r/4),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${r}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(4~6급,경증,본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${r}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(1~3급,중증,1인2매)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${r}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td  class="txt_left">국가유공자(본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<option value="0" selected>0매</option>
+													<option value="1">1매</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+								</c:if>
+								<c:if test="${gc eq 'S'}">
+									<table>
+										<tr id="tr_color">
+											<td colspan="2" class="txt_left"><strong>S석</strong></td>
+											<c:forEach var="count" items="${gradeCount}">
+												<c:if test="${count.key == 'S'}">
+													<c:set var="s" value="${count.value}"/>
+													<td colspan="2"><span><c:out value="${s}"/></span>매 중<em>0</em>매 선택</td>
+												</c:if>
+											</c:forEach>
+										</tr>
+										<tr>
+											<td class="txt_left">기본가</td>
+											<td></td>
+											<td>90,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${s}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left">공연재개 특별응원 30%</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${s}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >3인 패키지</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/3),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >4인 패키지</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/4),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${s}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(4~6급,경증,본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${s}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(1~3급,중증,1인2매)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${s}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td  class="txt_left">국가유공자(본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<option value="0" selected>0매</option>
+													<option value="1">1매</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+								</c:if>
+								<c:if test="${gc eq 'A'}">
+									<table>
+										<tr id="tr_color">
+											<td colspan="2" class="txt_left"><strong>A석</strong></td>
+											<c:forEach var="count" items="${gradeCount}">
+												<c:if test="${count.key == 'A'}">
+													<c:set var="a" value="${count.value}"/>
+													<td colspan="2"><span><c:out value="${a}"/></span>매 중<em>0</em>매 선택</td>
+												</c:if>
+											</c:forEach>
+										</tr>
+										<tr>
+											<td class="txt_left">기본가</td>
+											<td></td>
+											<td>90,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${a}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left">공연재개 특별응원 30%</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${a}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >3인 패키지</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(a/3),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >4인 패키지</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/4),'.')}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
+											<td>18,000원 할인</td>
+											<td>72,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${a}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(4~6급,경증,본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${a}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="txt_left" >복지할인(1~3급,중증,1인2매)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<c:forEach var="i" begin="0" end="${a}">
+														<option value="${i}">${i}매</option>
+													</c:forEach>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td  class="txt_left">국가유공자(본인만)</td>
+											<td>27,000원 할인</td>
+											<td>63,000원</td>
+											<td>
+												<select name="volume">
+													<option value="0" selected>0매</option>
+													<option value="1">1매</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+								</c:if>
+							</c:forEach>
 							<table>
 								<tr id="tr_color">
 									<td colspan="4" class="txt_left">할인수단을 선택하세요</td>
@@ -269,7 +508,7 @@
 				</h2>
 				<div class="box_info">
 					<h3 class="select_tit select_t txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">
-						뮤지컬 〈몬테크리스토〉 10주년 기념 공연
+						${title}
 					</h3>
 					<div class="box_ticket">
 						<ul class="box_ticket_list">
@@ -279,7 +518,6 @@
 							<li class="nth nth2 txt_ticket_info">
 								총 ${fn:length(arraySeat)}석 선택
 								<br>
-								S석(월,화,수,목) 2 층 7 열 21 번
 							</li>
 						</ul>
 					</div>

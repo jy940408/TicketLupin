@@ -14,6 +14,12 @@
 			console.log(test);
 			document.getElementById("seatHidden").value = test;
 			
+			if(test == ""){
+				alert("좌석을 선택해주세요");
+				window.frames['seatIframe'].document.getElementById("checkInput").focus();
+			  	return;
+			}
+			
 			document.nextTicketSelection.action = "${pageContext.request.contextPath}/Reservation/ReservationStep2.do";
 		 	document.nextTicketSelection.method = "get";
 		 	document.nextTicketSelection.submit(); 
@@ -29,7 +35,7 @@
     <!--좌석선택  영역-->
     <div class="wrap_select">
         <div class="box_seat_top">
-            <h3 class="tit_seat">좌석 선택<span class="tit_s txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">뮤지컬 〈몬테크리스토〉 10주년 기념 공연</span>
+            <h3 class="tit_seat">좌석 선택<span class="tit_s txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">${title}</span>
                 <span class="seat_wrap_sel">
                     <!-- 셀렉트박스 -->
                     <select id="scheduleNo" name="scheduleNo" class="sel_cate" onchange="selectSchedule(this);" onfocus="setOriginNo(this);">
@@ -119,17 +125,20 @@
 										<td class="seat_name">VIP석(금,토,일,공휴일)</td>
 										<td class="price">150,000원</td>
 										<td class="seat_remain">0석</td>
-									</tr><tr>
+									</tr>
+									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#9076FF"></em></th>
 										<td class="seat_name">R석(금,토,일,공휴일)</td>
 										<td class="price">130,000원</td>
 										<td class="seat_remain">2석</td>
-									</tr><tr>
+									</tr>
+									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#FF8AB4"></em></th>
 										<td class="seat_name">S석(금,토,일,공휴일)</td>
 										<td class="price">100,000원</td>
 										<td class="seat_remain">0석</td>
-									</tr><tr>
+									</tr>
+									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#70D0EA"></em></th>
 										<td class="seat_name">A석(금,토,일,공휴일)</td>
 										<td class="price">70,000원</td>
@@ -165,6 +174,7 @@
             	<form name="nextTicketSelection">
             		<input type="hidden" id="seatHidden" name="seatHidden" value="">
             		<input type="hidden" name="sidx" value="${sidx}">
+            		<input type="hidden" name="title" value="${title}">
             		<input type="hidden" name="comDate" value="${comDate}">
             		<input type="hidden" name="round" value="${round}">
             		<input type="hidden" name="seatGrade" value="${seatGrade}">
