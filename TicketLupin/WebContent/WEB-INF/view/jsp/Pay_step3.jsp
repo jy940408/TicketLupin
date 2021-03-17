@@ -7,31 +7,43 @@
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Pay_step3.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Pay_step3.css">
+		<script>
+			function paymentSubmit(){
+			
+				 document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
+			 	 document.frm.method = "get";
+			 	 document.frm.submit(); 
+				 
+			 	 self.close();
+				
+			}
+		</script>
+	
 	</head>
 	<body>
-		<div class="section">	
-			<div class="select">
-				<div class="step">
-					<ul class="step_ul">
-						<li>
-							<a href="#" class="step1">좌석 선택</a>
-						</li>
-						<li>
-							<span style="position:absolute;	top:0; left:150px; margin-top:16px; margin-left:60px;">▶</span>
-						</li>
-						<li>
-							<a href="#" class="step2">가격 선택</a>
-						</li>
-						<li>
-							<span style="position:absolute;	top:0; left:390px; margin-top:16px; margin-left:60px;">▶</span>
-						</li>
-						<li>
-							<a href="#" class="step3">배송/결제</a>
-						</li>
-					</ul>
-				</div>
-				<div class="box">
-					<form id="frm" method="post" name="frm">
+		<form name="frm">
+			<div class="section">
+				<div class="select">
+					<div class="step">
+						<ul class="step_ul">
+							<li>
+								<a href="#" class="step1">좌석 선택</a>
+							</li>
+							<li>
+								<span style="position:absolute;	top:0; left:150px; margin-top:16px; margin-left:60px;">▶</span>
+							</li>
+							<li>
+								<a href="#" class="step2">가격 선택</a>
+							</li>
+							<li>
+								<span style="position:absolute;	top:0; left:390px; margin-top:16px; margin-left:60px;">▶</span>
+							</li>
+							<li>
+								<a href="#" class="step3">배송/결제</a>
+							</li>
+						</ul>
+					</div>
+					<div class="box">
 						<div class="box_how">
 							<h3 class="select_tit">
 								수령방법을 선택하세요
@@ -39,19 +51,19 @@
 							<ul class="list_receipt_how">
 								<li>
 									<label>
-										<input type="radio" value="1" name="radio" class="radio_delvy_type" title="모바일 티켓" checked>
+										<input type="radio" value="1" name="pick" class="radio_delvy_type" title="모바일 티켓" checked>
 										<span class="txt_lab">&nbsp;모바일 티켓</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" value="2" name="radio" class="radio_delvy_type"  title="현장수령">
+										<input type="radio" value="2" name="pick" class="radio_delvy_type"  title="현장수령">
 										<span class="txt_lab">&nbsp;현장수령</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" value="3" name="radio" class="radio_delvy_type"  title="배송">
+										<input type="radio" value="3" name="pick" class="radio_delvy_type"  title="배송">
 										<span class="txt_lab">&nbsp;배송(2,800원)</span>
 									</label>
 								</li>
@@ -76,7 +88,7 @@
 											<td>
 												<div class="wrap_form_input">
 												<input type="hidden" name="userName" id="userName" class="inputType inp_txt inp_w77" value="홍길동">
-													<span style="font-size:12px">홍길동</span>
+													<input type="text" name="name" class="inputType inp_txt inp_w51" maxlength="6">
 												</div>
 											</td>
 											<th class="txt_gray">연락처<span class="require">*</span></th>
@@ -107,31 +119,31 @@
 							<ul class="list_receipt_how">
 								<li>
 									<label>
-										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="신용카드">
+										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="신용카드" value="credit">
 										<span class="txt_lab radio_pay_metohd_label">신용카드</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="무통장입금">
+										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="무통장입금" value="bank">
 										<span class="txt_lab radio_pay_metohd_label">무통장입금</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="휴대폰 결제">
+										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="휴대폰 결제" value="phone">
 										<span class="txt_lab radio_pay_metohd_label">휴대폰 결제</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="카카오페이 머니">
+										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="카카오페이 머니" value="kakaoM">
 										<span class="txt_lab radio_pay_metohd_label">카카오페이 머니</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="카카오페이 카드">
+										<input type="radio" name="payMethodCode" class="radio_pay_metohd_code" title="카카오페이 카드" value="kakaoP">
 										<span class="txt_lab radio_pay_metohd_label">카카오페이 카드</span>
 									</label>
 								</li>
@@ -342,122 +354,164 @@
 								</li>
 							</ul>
 						</div>
-					</form>
-				</div>
-			</div>	
-			<div class="wrap_ticket_info">
-				<h2 class="logo_onestop">
-					<a href="#">
-						<img src="../icon/lupinlogo.png" style="width:116px; height:22px;" alt="티켓루팡 로고">
-					</a>
-				</h2>
-				<div class="box_info">
-					<h3 class="select_tit select_t txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">
-						뮤지컬 〈몬테크리스토〉 10주년 기념 공연
-					</h3>
-					<div class="box_ticket">
-						<ul class="box_ticket_list">
-							<li class="nth nth1 txt_prod_schedule">
-								2021.02.10(수) 20:00
-							</li>
-							<li class="nth nth2 txt_ticket_info">
-								총 1석 선택
-								<br>
-								S석(월,화,수,목) 2 층 7 열 21 번
-							</li>
-						</ul>
 					</div>
-				</div>
-				<div class="box_info">
-					<h3 class="select_tit">결제금액</h3>
-					<div class="box_ticket">
-						<div class="box_total_inner">
-							<p class="tk_b">
-								<span class="tk_tit">티켓금액</span>
-								<span class="pay pay_comp">
-									<span>0</span>원
-								</span>
-							</p>
-							<ul class="list_tkpay">
-								<li>
-									<span class="tk_tit">기본가</span>
-									<span class="pay">
-										<span>0</span>원
-									</span>
+				</div>	
+				<div class="wrap_ticket_info">
+					<h2 class="logo_onestop">
+						<a href="#">
+							<img src="../icon/lupinlogo.png" style="width:116px; height:22px;" alt="티켓루팡 로고">
+						</a>
+					</h2>
+					<div class="box_info">
+						<h3 class="select_tit select_t txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">
+							뮤지컬 〈몬테크리스토〉 10주년 기념 공연
+						</h3>
+						<div class="box_ticket">
+							<ul class="box_ticket_list">
+								<li class="nth nth1 txt_prod_schedule">
+									2021.02.10(수) 20:00
 								</li>
-								<li>
-									<span class="tk_tit">가격할인</span>
-									<span class="pay">
-										<span>0</span>원
-									</span>
-								</li>
-								<li>
-									<span class="tk_tit">쿠폰할인</span>
-									<span class="pay">
-										<span>0</span>원
-									</span>
-								</li>
-								<li>
-									<span class="tk_tit">공연예매권</span>
-									<span class="pay">
-										<span>0</span>원
-									</span>
+								<li class="nth nth2 txt_ticket_info">
+									총 1석 선택
+									<br>
+									S석(월,화,수,목) 2 층 7 열 21 번
 								</li>
 							</ul>
 						</div>
-						<div class="box_total_inner">
-							<p class="tk_b">
-								<span class="tk_tit tk_tit_b">예매수수료</span>
-								<span class="pay pay_comp">
-									<span class="txt_vip" style="display:none">멜론VIP혜택★</span>
-									<span>0</span>원
-								</span>
-							</p>
-						</div>
-						<div class="box_total_inner lst">
-							<p class="tk_b">
-								<span class="tk_tit tk_tit_b">배송료</span>
-								<span class="pay pay_comp">
-									<span id="deliveryCost">0</span>원
-								</span>
-							</p>
-						</div>
-						<div class="box_total_inner box_result">
-							<span class="tk_tit tot_tit">총 결제금액</span>
-							<strong class="pay tot_pay">
-								<span id="paymentAmount">0</span>원
-							</strong>
+					</div>
+					<div class="box_info">
+						<h3 class="select_tit">결제금액</h3>
+						<div class="box_ticket">
+							<div class="box_total_inner">
+								<p class="tk_b">
+									<span class="tk_tit">티켓금액</span>
+									<span class="pay pay_comp">
+										<span>0</span>원
+									</span>
+								</p>
+								<ul class="list_tkpay">
+									<li>
+										<span class="tk_tit">기본가</span>
+										<span class="pay">
+											<span>0</span>원
+										</span>
+									</li>
+									<li>
+										<span class="tk_tit">가격할인</span>
+										<span class="pay">
+											<span>0</span>원
+										</span>
+									</li>
+									<li>
+										<span class="tk_tit">쿠폰할인</span>
+										<span class="pay">
+											<span>0</span>원
+										</span>
+									</li>
+									<li>
+										<span class="tk_tit">공연예매권</span>
+										<span class="pay">
+											<span>0</span>원
+										</span>
+									</li>
+								</ul>
+							</div>
+							<div class="box_total_inner">
+								<p class="tk_b">
+									<span class="tk_tit tk_tit_b">예매수수료</span>
+									<span class="pay pay_comp">
+										<span class="txt_vip" style="display:none">멜론VIP혜택★</span>
+										<span>0</span>원
+									</span>
+								</p>
+							</div>
+							<div class="box_total_inner lst">
+								<p class="tk_b">
+									<span class="tk_tit tk_tit_b">배송료</span>
+									<span class="pay pay_comp">
+										<span id="deliveryCost">0</span>원
+									</span>
+								</p>
+							</div>
+							<div class="box_total_inner box_result">
+								<span class="tk_tit tot_tit">총 결제금액</span>
+								<strong class="pay tot_pay">
+									<span id="paymentAmount">0</span>원
+								</strong>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="box_info_bm">
-					<div class="box_info_list">
-						<ul class="dotlist1x1 one_list">
-							<li>
-								취소기한: 
-								<span class="txt_og txt_cancel_close_dt">2021년 2월 9일(화) 17:00 까지</span>
-							</li>
-							<li>
-								취소수수료:
-								<span class="txt_og txt_cancel_fee_info">티켓금액의 0~30%</span>
-								<a href="#" class="btn_flexible btn_flexible_ico2 btn_detail specCancel">
-									<span>상세보기</span>
+					<div class="box_info_bm">
+						<div class="box_info_list">
+							<ul class="dotlist1x1 one_list">
+								<li>
+									취소기한: 
+									<span class="txt_og txt_cancel_close_dt">2021년 2월 9일(화) 17:00 까지</span>
+								</li>
+								<li>
+									취소수수료:
+									<span class="txt_og txt_cancel_fee_info">티켓금액의 0~30%</span>
+									<a href="#" class="btn_flexible btn_flexible_ico2 btn_detail specCancel">
+										<span>상세보기</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="btn_onestop">
+							<span class="button btWhite frt">
+								<a href="#" class="btnOne">
+									이전<em class="one_arr prav_ar">이전</em>
 								</a>
-							</li>
-						</ul>
-					</div>
-					<div class="btn_onestop">
-						<span class="button btWhite frt">
-							<a href="#" class="btnOne">
-								이전<em class="one_arr prav_ar">이전</em>
-							</a>
-						</span>
-						<span class="button btNext">
-							<a href="#" class="btnOne">결제하기</a>
-						</span>
+							</span>
+							<span class="button btNext">
+								<button type="button" onclick="paymentSubmit()" class="btnOne">결제하기</button>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			
+			<input type="hidden" name="sidx" value="${sidx}">
+			<input type="hidden" name="title" value="${title}">
+			<input type="hidden" name="comDate" value="${comDate}">
+			<input type="hidden" name="round" value="${round}">
+			<input type="hidden" name="priceSum" value="${priceSum}">
+			<input type="hidden" name="basicSum" value="${basicSum}">
+			<input type="hidden" name="discountSum" value="${discountSum}">
+			<input type="hidden" name="couponSum" value="${couponSum}">
+			<input type="hidden" name="paymentAmount" value="${paymentAmount}">
+			<input type="hidden" name="vipBasic" value="${vipBasic}">
+			<input type="hidden" name="vipSpecial" value="${vipSpecial}">
+			<input type="hidden" name="vip3Package" value="${vip3Package}">
+			<input type="hidden" name="vip4Package" value="${vip4Package}">
+			<input type="hidden" name="vipYouth" value="${vipYouth}">
+			<input type="hidden" name="vip4to6" value="${vip4to6}">
+			<input type="hidden" name="vip1to3" value="${vip1to3}">
+			<input type="hidden" name="vipVeterans" value="${vipVeterans}">
+			<input type="hidden" name="rBasic" value="${rBasic}">
+			<input type="hidden" name="rSpecial" value="${rSpecial}">
+			<input type="hidden" name="r3Package" value="${r3Package}">
+			<input type="hidden" name="r4Package" value="${r4Package}">
+			<input type="hidden" name="rYouth" value="${rYouth}">
+			<input type="hidden" name="r4to6" value="${r4to6}">
+			<input type="hidden" name="r1to3" value="${r1to3}">
+			<input type="hidden" name="rVeterans" value="${rVeterans}">
+			<input type="hidden" name="sBasic" value="${sBasic}">
+			<input type="hidden" name="sSpecial" value="${sSpecial}">
+			<input type="hidden" name="s3Package" value="${s3Package}">
+			<input type="hidden" name="s4Package" value="${s4Package}">
+			<input type="hidden" name="sYouth" value="${sYouth}">
+			<input type="hidden" name="s4to6" value="${s4to6}">
+			<input type="hidden" name="s1to3" value="${s1to3}">
+			<input type="hidden" name="sVeterans" value="${sVeterans}">
+			<input type="hidden" name="aBasic" value="${aBasic}">
+			<input type="hidden" name="aSpecial" value="${aSpecial}">
+			<input type="hidden" name="a3Package" value="${a3Package}">
+			<input type="hidden" name="a4Package" value="${a4Package}">
+			<input type="hidden" name="aYouth" value="${aYouth}">
+			<input type="hidden" name="a4to6" value="${a4to6}">
+			<input type="hidden" name="a1to3" value="${a1to3}">
+			<input type="hidden" name="aVeterans" value="${aVeterans}">
+		</form>
 	</body>
 </html>

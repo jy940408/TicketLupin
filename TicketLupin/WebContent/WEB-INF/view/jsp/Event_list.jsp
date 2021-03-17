@@ -1,6 +1,12 @@
+<%@page import="com.TicketLupin.web.service.*"%>
+<%@page import="domain.*"%>
+<%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% 
+	ArrayList<EventVo> alist = (ArrayList<EventVo>) request.getAttribute("alist"); 
+	PageMaker pm = (PageMaker)request.getAttribute("pm");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -16,20 +22,26 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<%
+								if(session.getAttribute("mid") != null){
+									String mid = (String) session.getAttribute("mid");
+							%>
+							<li><%=mid %>님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
+							<% 
+								} else{
+							%> 
 							<li class="login"><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
+							<% } %>
 							<li><a href="<%=request.getContextPath()%>/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath()%>/Main/MainPage.do">
+						<img src="../icon/lupinlogo.png" id="h_logo"/>
+					</a>
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
@@ -38,10 +50,10 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="#" id="main_nav_home">홈</a>
+				<a href="#" id="main_nav_concert">공연</a>
 				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
+				<a href="#" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<a href="#" id="main_nav_myticket">마이 티켓</a>
 			</nav>
@@ -49,9 +61,9 @@
 		<hr id="nav_bar_bottom">
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="<%=request.getContextPath()%>/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Event/MyEvent.do">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -66,11 +78,22 @@
 		</div>
 		
 <!------------------------------------------------------------------------------------------------------------------------------------->		
-
+		<script>
+			function search(){
+				frm.action="<%=request.getContextPath()%>/Event/EventMain.do";
+				frm.method="get";
+				frm.submit();
+			}
+		</script>
 		<section>
 			<article>
 				<div id="main_eventlist_all">
-					<div id="manage_write_div"></div>
+					
+					<div id="manage_write_div">
+						<a href="<%=request.getContextPath()%>/Event/EventWrite.do" id="manage_write">작성하기</a>
+					</div>
+					
+					
 					<div id="main_banner_set">
 						<div class="main_event_banner" id="main_event_banner_main">
 							<img id="main_event_banner_main_img">
@@ -81,175 +104,37 @@
 							<div id="main_event_banner_sub_ment">Hullo Hullo, Following on: 로즈 와일리 전</div>
 						</div>
 					</div>
+					
 					<div id="main_search_set">
-						<form id="main_search_form">
-							<input type="text" id="main_search_text" placeholder="&nbsp;&nbsp;이벤트 검색">
-							<button id="main_search_button">검색</button>
+						<form id="main_search_form" name="frm">
+							<input type="text" name="keyword" id="main_search_text" placeholder="&nbsp;&nbsp;이벤트 검색">
+							<button id="main_search_button" onclick="search();">검색</button>
 						</form>
-						<div class="btn1">
-							<button type="button" class="write" id="Ticketopen_write" onclick="location.href='<%=request.getContextPath()%>/Event/EventWrite.do'">작성하기</button>
-						</div>
 					</div>
+					
+			
 					<div id="main_event_list_set">
 						<ul id="main_evenet_list">
+						<% for(EventVo ev : alist) { %>
 							<li class="main_evenet_list_li">
 								<div class="main_evenet_list_div" id="main_evenet_list_1">
-									<a href="#" class="main_evenet_list_a">
-										<img class="main_evenet_list_img">
-										<div>[카카오 시청권] 카카오 계정으로 구매부터 감상까지!</div>
+									<a href="<%=request.getContextPath()%>/Event/EventView.do?eidx=<%=ev.getEidx()%>" class="main_evenet_list_a">
+										<img class="main_evenet_list_img" src="<%=request.getContextPath()%>/image/<%=ev.getEthumbnail() %>">
+										<div><%=ev.getEtitle() %></div>
 									</a>
 									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
+										<span>이벤트 기간: <%=ev.getEstart() %> ~ <%=ev.getEend() %></span><br>
 										<span>당첨혜택: </span><br>
 										<span>당첨자 발표일: </span>
 									</div>
+									<input type="hidden" name="edelyn" value="<%=ev.getEdelyn() %>">
 								</div>
 							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>[20쌍 초대] 앤디워홀: 비기닝 서울 기대평 이벤트</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>내 ID, kakao와 연결하면 이렇게 편해져요!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div" id="main_evenet_list_1">
-									<a href="#" class="main_evenet_list_a">
-										<img class="main_evenet_list_img">
-										<div>[카카오 시청권] 카카오 계정으로 구매부터 감상까지!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>[20쌍 초대] 앤디워홀: 비기닝 서울 기대평 이벤트</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>내 ID, kakao와 연결하면 이렇게 편해져요!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div" id="main_evenet_list_1">
-									<a href="#" class="main_evenet_list_a">
-										<img class="main_evenet_list_img">
-										<div>[카카오 시청권] 카카오 계정으로 구매부터 감상까지!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>[20쌍 초대] 앤디워홀: 비기닝 서울 기대평 이벤트</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>내 ID, kakao와 연결하면 이렇게 편해져요!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div" id="main_evenet_list_1">
-									<a href="#" class="main_evenet_list_a">
-										<img class="main_evenet_list_img">
-										<div>[카카오 시청권] 카카오 계정으로 구매부터 감상까지!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>[20쌍 초대] 앤디워홀: 비기닝 서울 기대평 이벤트</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
-							<li class="main_evenet_list_li">
-								<div class="main_evenet_list_div">
-									<a href="#">
-										<img class="main_evenet_list_img">
-										<div>내 ID, kakao와 연결하면 이렇게 편해져요!</div>
-									</a>
-									<div class="main_event_list_detail">
-										<span>이벤트 기간: 2020.07.15 ~ 2023.08.31</span><br>
-										<span>당첨혜택: </span><br>
-										<span>당첨자 발표일: </span>
-									</div>
-								</div>
-							</li>
+						<% } %>	
 						</ul>
 					</div>
+			
+		
 					<div id="main_event_page">
 						<div id="main_event_page_set">
 							<a href="#">
@@ -257,26 +142,39 @@
 									<div class="main_event_page_button_llgg">&lt;&lt;</div>
 								</div>
 								<div class="main_event_page_button main_event_page_bn">
-									<div class="main_event_page_button_lg">&lt;</div>
+									<%if (pm.isPrev() == true) { %>
+									<div class="main_event_page_button_lg">
+										<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=pm.getStartPage()-1%>
+										&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+											&lt;
+										</a>
+									</div>
+									<% } %>
 								</div>
 							</a>
 							<a href="#">
 								<div class="main_event_page_bn">
-									<div class="main_event_page_button_page">1</div>
-									<div class="main_event_page_button_page">2</div>
-									<div class="main_event_page_button_page">3</div>
-									<div class="main_event_page_button_page">4</div>
-									<div class="main_event_page_button_page">5</div>
-									<div class="main_event_page_button_page">6</div>
-									<div class="main_event_page_button_page">7</div>
-									<div class="main_event_page_button_page">8</div>
-									<div class="main_event_page_button_page">9</div>
-									<div class="main_event_page_button_page">10</div>
+									<div class="main_event_page_button_page">
+										<% for (int i=pm.getStartPage(); i<=pm.getEndPage(); i++){ %>
+											<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=i%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>"><%=i%></a>	
+										<% 
+										System.out.println("i가 뭐야: " + i);
+										} 
+											
+										%>
+									</div>
 								</div>
 							</a>
 							<a href="#">
 								<div class="main_event_page_button main_event_page_bn">
-									<div class="main_event_page_button_lg">&gt;</div>
+									<%if (pm.isNext() && pm.getEndPage() >0) { %>
+									<div class="main_event_page_button_lg">
+										<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=pm.getEndPage()+1%>
+										&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+											&gt;
+										</a>
+									</div>
+									<% } %>
 								</div>
 								<div class="main_event_page_button main_event_page_bn">
 									<div class="main_event_page_button_llgg">&gt;&gt;</div>
@@ -284,6 +182,8 @@
 							</a>
 						</div>
 					</div>
+					
+		
 				</div>
 			</article>
 		</section>

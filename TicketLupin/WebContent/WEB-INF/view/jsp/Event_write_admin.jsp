@@ -1,14 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>이벤트 공지 작성</title>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Event_write_admin.css">
-		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Event_write_admin.js"></script>
+		
+		<script type="text/javascript">
+			function regist(){
+				if(document.frm.etitle.value == ""){
+					alert("제목을 입력해주세요");
+					document.frm.etitle.focus();
+					return;
+				}else if(document.frm.econtent.value == ""){
+					alert("내용을 입력해주세요");
+					document.frm.econtent.focus();
+					return;
+				}
+				
+				var url = '<%=request.getContextPath()%>';
+				 document.frm.action =url+"/Event/EventWriteAction.do";
+				 document.frm.method = "POST";
+				 document.frm.enctype="multipart/form-data";
+				 document.frm.submit(); 
+				 
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -16,16 +33,10 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-							<li><a href="<%=request.getContextPath()%>/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -38,39 +49,28 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
-				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_myticket">마이 티켓</a>
+				<a href="#" id="n_home">홈</a>
+				<a href="#">공연</a>
+				<a href="#">랭킹</a>
+				<a href="#">티켓오픈소식</a>
+				<a href="#">이벤트</a>
+				<a href="#">마이 티켓</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
-		<div id="nav_menu_sub_event_div" class="main_nav_all">
-			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="<%=request.getContextPath()%>/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<div id="nav_menu_sub_div">
+			<ul id="nav_menu_sub">
+				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
-			<hr id="nav_bar_sub">
 		</div>
-		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
-			<ul id="nav_menu_sub_myticket" style="margin:0px;">
-				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-			</ul>
-			<hr id="nav_bar_sub">
-		</div>
-		
+		<hr id="nav_bar_sub">
 		<section>
 			<article>
 				<div class="event">
-					<h2>
-						이벤트 공지 작성
-					</h2>
+					<h2>티켓 루팡</h2>
+					<form name="frm">
 					<table class="event_table" style="border:1px solid; border-collapse:collapse;">
 						<colgroup>
 							<col width="50px"/>
@@ -82,75 +82,60 @@
 							<col width="300px"/>
 						</colgroup>
 						<tr>
-							<th style="border:1px solid;">
-								유형
-							</th>
+							<th style="border:1px solid;">유형</th>
 							<td colspan="2" style="border:1px solid;">
 								<center>
-									<select class="type" style="border:0px; font-size:15px;">
-										<option>
-											유형1
-										</option>
-										<option>
-											유형2
-										</option>
-										<option>
-											유형3
-										</option>
+									<select class="type" style="border:0px; font-size:15px;" name="ecategory">
+										<option name="ecategory" selected>list</option>
+										<option name="ecategory">banner</option>
 									</select>
 								</center>
 							</td>
-							<th style="border:1px solid;">
-								시작일
-							</th>
+							<th style="border:1px solid;" >시작일</th>
 							<td style="border:1px solid;">
-								<input type="date" class="start_date" style="border:0px; font-size:15px; width:100%; text-align:center;">
+								<input type="date" name="estart" class="start_date" style="border:0px; font-size:15px; width:100%; text-align:center;">
 							</td>
-							<th style="border:1px solid; width:60px;">
-								종료일
-							</th>
+							<th style="border:1px solid; width:60px;" >종료일</th>
 							<td	style="border:1px solid;">
-								<input type="date" class="end_date" style="border:0px; font-size:15px; width:100%; text-align:center;">
+								<input type="date" name="eend" class="end_date" style="border:0px; font-size:15px; width:100%; text-align:center;">
 							</td>
 						</tr>
 						<tr>
-							<th style="border:1px solid">
-								제목
-							</th>
+							<th style="border:1px solid">제목</th>
 							<td colspan="6" style="border:1px solid">
 								<center>
-									<input type="text" class="title" maxlength="100" style="border:0px; font-size:16.1px; width:99%">
+									<input type="text" name="etitle" class="title" maxlength="100" style="border:0px; font-size:16.1px; width:99%">
 								</center>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="7">
 								<center>
-									<textarea class="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									<textarea class="content" name="econtent" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
 								</center>
 							</td>
 						</tr>
 						<tr>
-							<th colspan="2" style="border:1px solid">
-								첨부파일
-							</th>
+							<th colspan="2" style="border:1px solid">썸네일</th>
 							<td colspan="5" style="border:1px solid">
-								<input type="file" class="file" style="border:0px; font-size:14px;">
+								<input type="file" NAME="ethumbnail" class="file" style="border:0px; font-size:14px;">
 							</td>
 						</tr>
+						<tr>
+							<th colspan="2" style="border:1px solid">첨부파일</th>
+							<td colspan="5" style="border:1px solid">
+								<input type="file" NAME="efiles" class="file" style="border:0px; font-size:14px;">
+							</td>
+						</tr>
+						
 					</table>
+					</form>
 					<div class="modify">
-						<button class="remove_btn">
-							제거하기
-						</button>
-						<button class="modify_btn">
-							수정완료
-						</button>
+						<button class="remove_btn">제거하기</button>
+						<button class="modify_btn" onclick="regist();">등록</button>
 					</div>
 					<div class="list">
-						<button class="list_btn">
-							목록으로
-						</button>
+						<button class="list_btn">목록으로</button>
 					</div>					
 				</div>
 			</article>

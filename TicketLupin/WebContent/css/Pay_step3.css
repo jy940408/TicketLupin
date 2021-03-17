@@ -1,11 +1,11 @@
-ï»¿body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button {
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button {
 	margin: 0;
 	padding: 0;
 }
 body, th, td, input, select, textarea, button {
 	font-size: 12px;
 	line-height: 1.5;
-	font-family: AppleSDGothicNeo-Regular, "ë‹ì›€",Dotum,"ë§‘ì€ ê³ ë”•","Malgun Gothic","Apple Gothic",sans-serif;
+	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum,"¸¼Àº °íµñ","Malgun Gothic","Apple Gothic",sans-serif;
 	color: #666;
 	letter-spacing: -1px;
 }
@@ -83,7 +83,7 @@ div {
 .select_tit {
 	padding-bottom:6px;
 	font-weight:bold;
-	font-family:AppleSDGothicNeo-Regular, 'ë§‘ì€ ê³ ë”•','Malgun Gothic',sans-serif;
+	font-family:AppleSDGothicNeo-Regular, '¸¼Àº °íµñ','Malgun Gothic',sans-serif;
 	font-size:16px;
 	color:#333;
 }
@@ -170,6 +170,10 @@ input.inp_w52 {
 	width: 30px;
 	padding: 0 10px;
 }
+input.inp_w51 {
+	width: 50px;
+	padding: 0 10px;
+}
 .wrap_form_input input + .place_holder, .wrap_form_input textarea + .place_holder {
 	position: absolute;
 	top: 10px;
@@ -219,7 +223,7 @@ option {
 	font-weight: normal;
 	color: #333;
 	font-size: 14px;
-	font-family: AppleSDGothicNeo-Regular, "ë‹ì›€",Dotum;
+	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum;
 }
 .box_receipt .box_agree .list_agree .txt_lab {
 	padding-left: 2px;
@@ -279,7 +283,7 @@ option {
 .btn_flexible_ico2 span {
 	background-position: right -130px;
 	color: #666;
-	font-family: AppleSDGothicNeo-Regular, "ë‹ì›€",Dotum,"ë§‘ì€ ê³ ë”•","Malgun Gothic","Apple Gothic",sans-serif;
+	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum,"¸¼Àº °íµñ","Malgun Gothic","Apple Gothic",sans-serif;
 }
 .box_receipt .box_agree .list_agree .float_l {
 	float: left;

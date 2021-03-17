@@ -11,16 +11,37 @@
 		<script>
 			var checked = "";
 			$(document).ready(function(){
+				$("input[type='checkbox']").on("click", function(){
+					var count = $("input:checked[type='checkbox']").length;
+					if(count>5){
+						$(this).prop("checked", false);
+						alert("5개의 좌석까지 선택할 수 있습니다");
+					}
+				});
+				
+// 				var checkArray = new Array();
+// 				$("input[name='round']:checked").each(function(){
+// 					checkArray.push($(this).val());
+// 				})
+// 				alert(checkArray);
+// 				$("#checkInput").val(checkArray);
 				
 				$("input[name=seat]").on("change",function(){
 					if($(this).is(":checked")){
 						checked += $(this).val() +"/";
 						$("#checkInput").val(checked);
 					}
-					if($(this).is(":checked") == false){
-						checked -= $(this).val('') + "/";
-						$("#checkInput").val(checked);
-					}
+// 					if($(this).is(":checked") == false){
+// 						var checklist = checked.split("/");
+// 						alert(checklist);
+// 						alert($("input[name='seat']:checked").length);
+// 						alert($("input:checkbox[name='seat']:checked").val());
+// 						for(var i = 1; i < $("input[name='seat']:checked").length; i++){
+							
+// 						}
+// 						checked -= $(this).val('') + "/";
+// 						$("#checkInput").val(checked);
+// 					}
 				})
 			});
 		</script>

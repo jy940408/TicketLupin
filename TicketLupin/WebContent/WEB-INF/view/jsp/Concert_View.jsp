@@ -18,7 +18,6 @@
 				url:"${pageContext.request.contextPath}/Dibs/DibsAction.do",
 				data:{"sidx": '${detail.sidx}'},
 				success: function(data){
-					alert(data.result);
 					if(data.result == 1){
 						$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
 					}else if(data.result == 0){
@@ -37,7 +36,6 @@
 				url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
 				data:{"sidx": "${detail.sidx}"},
 				success: function(data){
-					alert(data.result);
 					if(data.result == 1){
 						$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
 					}else if(data.result == 0){
@@ -50,9 +48,6 @@
 //-------------------------------------------------------------------------------------------------------------------------------------//
 
 		function selectDate(i){
-		
-			alert("date 선택 시작");
-			alert(i);
 			
 			$.ajax({
 				
@@ -60,16 +55,6 @@
 				url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
 				data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
 				success: function(data){
-					
-					alert(i + "가 들어왔다!");
-					alert(data.sidx);
-					alert(data.srdate);
-					alert(data.srround1);
-					alert(data.srround2);
-					alert(data.srround3);
-					alert(data.srround4);
-					
-					alert("success 확인");
 					
 					var output="";
 					
@@ -103,8 +88,6 @@
 			var checkRadio = document.getElementsByName("round");
 			var radioLength = $("input:radio[name='round']").length;
 			var radioChecked = $("input:radio[name='round']").is(':checked');
-			alert(radioLength);
-			alert($("input:radio[name='round']").is(':checked'));
 			var checkCount = 0;
 			if(radioChecked == true){
 				checkCount = 1;

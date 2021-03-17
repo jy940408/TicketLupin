@@ -1,19 +1,19 @@
 package domain;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class PageMaker {
 	
 	private int totalCount;
 	private int countList;
 	private int pageNum;
-	private int contentNum=10;
-	private int startPage=1;
-	private int endPage=5;
-	private boolean prev=false;
+	private int startPage;
+	private int endPage;
+	private boolean prev;
 	private boolean next;
-	private int currentBlock=1;
-	private int lastBlock;
 	private SearchCriteria scri;
+	private int displayPageNum = 10;
 	
 	
 	
@@ -41,12 +41,7 @@ public class PageMaker {
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
 	}
-	public int getContentNum() {
-		return contentNum;
-	}
-	public void setContentNum(int contentNum) {
-		this.contentNum = contentNum;
-	}
+	
 	public int getStartPage() {
 		return startPage;
 	}
@@ -71,21 +66,38 @@ public class PageMaker {
 	public void setNext(boolean next) {
 		this.next = next;
 	}
-	public int getCurrentBlock() {
-		return currentBlock;
-	}
-	public void setCurrentBlock(int currentBlock) {
-		this.currentBlock = currentBlock;
-	}
-	public int getLastBlock() {
-		return lastBlock;
-	}
-	public void setLastBlock(int lastBlock) {
-		this.lastBlock = lastBlock;
+	
+
+	
+	public void calcData(){
+		//네비게이션의 끝페이지
+		endPage = (int) (Math.ceil(scri.getPage()/(double)displayPageNum) * displayPageNum);
+		//네비게이션의 시작 페이지
+		startPage = (endPage - displayPageNum)+1;
+		
+		//임시끝페이지
+		int tempEndPage = (int) (Math.ceil(totalCount/(double) scri.getPerPageNum()));
+		
+		if(endPage>tempEndPage) {
+			endPage = tempEndPage;
+		}			
+		//이전 다음 버튼
+		prev = startPage == 1 ? false : true;		
+		next = endPage * scri.getPerPageNum() >= totalCount ? false : true;
+		System.out.println("next:"+next);
 	}
 	
-	
-	
+	public String encoding(String keyword){
+		
+		if(keyword==null || keyword.trim().length()==0){
+			return "";
+		}		
+		try{
+			return URLEncoder.encode(keyword, "UTF-8");
+		}catch(UnsupportedEncodingException e){
+			return "";			
+		}
+	}
 	
 	
 	
