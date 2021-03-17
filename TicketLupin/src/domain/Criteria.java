@@ -2,12 +2,12 @@ package domain;
 
 public class Criteria {
 	
-	private int page;		 //ÆäÀÌÁö ¹øÈ£
-	private int perPageNum;  //¸®½ºÆ®¿¡ º¸¿©ÁÖ´Â °³¼ö
+	private int page;		 //ì²«í˜ì´ì§€
+	private int perPageNum;  //í•œ í˜ì´ì§€ì— ë“¤ì–´ê°€ëŠ” ê¸€ ê°œìˆ˜
 	
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 15;		
+		this.perPageNum = 15;
 	}	
 	
 	public int getPage() {
@@ -22,5 +22,5 @@ public class Criteria {
 	public void setPerPageNum(int perPageNum) {
 		this.perPageNum = perPageNum;
 	}
-
+	
 }

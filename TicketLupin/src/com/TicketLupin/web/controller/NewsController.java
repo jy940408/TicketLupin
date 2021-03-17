@@ -72,6 +72,7 @@ public class NewsController extends HttpServlet{
 			System.out.println("list " + list);
 			System.out.println("member id " + mid);
 			System.out.println(setting);
+			
 //==============================================================================================================================//
 
 		}else if(str.equals("/News/NewsDetail.do")) {
@@ -118,7 +119,7 @@ public class NewsController extends HttpServlet{
 			
 		}else if(str.equals("/News/NewsDeleteAction.do")) {
 			String widx_ = request.getParameter("widx");
-			System.out.println("»èÁ¦ widx_ È®ÀÎ: " + widx_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ widx_ È®ï¿½ï¿½: " + widx_);
 			
 			int widx = 0;
 			if(widx_ != null && !widx_.equals("")) {
@@ -127,7 +128,7 @@ public class NewsController extends HttpServlet{
 			
 			NewsDao nd = new NewsDao();
 			nd.deleteNews(widx);
-			System.out.println("»èÁ¦ widx È®ÀÎ: " + widx);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ widx È®ï¿½ï¿½: " + widx);
 			response.sendRedirect("../News/NewsList.do");
 		}
 		
@@ -155,14 +156,14 @@ public class NewsController extends HttpServlet{
 			
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
-			String title = multi.getParameter("title"); //Á¦¸ñ
-			String category = multi.getParameter("category"); //Ä«Å×°í¸®
-			String binfo = multi.getParameter("binfo"); //±âº»Á¤º¸
-			String introduce = multi.getParameter("introduce"); //°ø¿¬¼Ò°³
-			String discount = multi.getParameter("discount"); //ÇÒÀÎÁ¤º¸
-			String company = multi.getParameter("company"); //±âÈ¹»ç Á¤º¸
-			String pub_ = multi.getParameter("pub"); //°ø°³¿©ºÎ
-			String opendate_ = multi.getParameter("opendate"); // ¿ÀÇÂ ³¯Â¥
+			String title = multi.getParameter("title"); //ï¿½ï¿½ï¿½ï¿½
+			String category = multi.getParameter("category"); //Ä«ï¿½×°ï¿½
+			String binfo = multi.getParameter("binfo"); //ï¿½âº»ï¿½ï¿½ï¿½ï¿½
+			String introduce = multi.getParameter("introduce"); //ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½
+			String discount = multi.getParameter("discount"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			String company = multi.getParameter("company"); //ï¿½ï¿½È¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			String pub_ = multi.getParameter("pub"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			String opendate_ = multi.getParameter("opendate"); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
 			
 			Enumeration files = multi.getFileNames();
 			String str_ = (String)files.nextElement();
@@ -170,8 +171,8 @@ public class NewsController extends HttpServlet{
 			file = multi.getFilesystemName(str_);
 			originalFile = multi.getOriginalFileName(str_);
 			
-			System.out.println("file¸í: " + file);
-			System.out.println("originalFile¸í: " + originalFile);
+			System.out.println("fileï¿½ï¿½: " + file);
+			System.out.println("originalFileï¿½ï¿½: " + originalFile);
 			
 //==============================================================================================================================//
 			Date opendate = null;
@@ -227,14 +228,14 @@ public class NewsController extends HttpServlet{
 			
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
-			String title = multi.getParameter("title"); //Á¦¸ñ
-			String category = multi.getParameter("category"); //Ä«Å×°í¸®
-			String binfo = multi.getParameter("binfo"); //±âº»Á¤º¸
-			String introduce = multi.getParameter("introduce"); //°ø¿¬¼Ò°³
-			String discount = multi.getParameter("discount"); //ÇÒÀÎÁ¤º¸
-			String company = multi.getParameter("company"); //±âÈ¹»ç Á¤º¸
-			String pub_ = multi.getParameter("pub"); //°ø°³¿©ºÎ
-			String opendate_ = multi.getParameter("opendate"); // ¿ÀÇÂ ³¯Â¥
+			String title = multi.getParameter("title"); //ï¿½ï¿½ï¿½ï¿½
+			String category = multi.getParameter("category"); //Ä«ï¿½×°ï¿½
+			String binfo = multi.getParameter("binfo"); //ï¿½âº»ï¿½ï¿½ï¿½ï¿½
+			String introduce = multi.getParameter("introduce"); //ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½
+			String discount = multi.getParameter("discount"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			String company = multi.getParameter("company"); //ï¿½ï¿½È¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			String pub_ = multi.getParameter("pub"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			String opendate_ = multi.getParameter("opendate"); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥
 			String widx_ = request.getParameter("widx");
 			
 			int widx = 0;
@@ -248,8 +249,8 @@ public class NewsController extends HttpServlet{
 			file = multi.getFilesystemName(str_);
 			originalFile = multi.getOriginalFileName(str_);
 			
-			System.out.println("file¸í: " + file);
-			System.out.println("originalFile¸í: " + originalFile);
+			System.out.println("fileï¿½ï¿½: " + file);
+			System.out.println("originalFileï¿½ï¿½: " + originalFile);
 			
 //==============================================================================================================================//
 			Date opendate = null;

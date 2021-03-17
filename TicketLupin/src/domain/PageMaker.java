@@ -70,18 +70,21 @@ public class PageMaker {
 
 	
 	public void calcData(){
-		//³×ºñ°ÔÀÌ¼ÇÀÇ ³¡ÆäÀÌÁö
-		endPage = (int) (Math.ceil(scri.getPage()/(double)displayPageNum) * displayPageNum);
-		//³×ºñ°ÔÀÌ¼ÇÀÇ ½ÃÀÛ ÆäÀÌÁö
-		startPage = (endPage - displayPageNum)+1;
+		//ì²«íŽ˜ì´
+		endPage = 10;
+		//endPage = (int) (Math.ceil(scri.getPage()/(double)displayPageNum) * displayPageNum);
+		//ë§ˆì§€ë§‰ íŽ˜ì´ì§€
+		startPage = 1;
+		//startPage = (endPage - displayPageNum)+1;
 		
-		//ÀÓ½Ã³¡ÆäÀÌÁö
-		int tempEndPage = (int) (Math.ceil(totalCount/(double) scri.getPerPageNum()));
+		//ìž„ì‹œ ë§ˆì§€ë§‰ íŽ˜ì´ì§€
+		//int tempEndPage = (int) (Math.ceil(totalCount/(double) scri.getPerPageNum()));
+		int tempEndPage = 8;
 		
 		if(endPage>tempEndPage) {
 			endPage = tempEndPage;
 		}			
-		//ÀÌÀü ´ÙÀ½ ¹öÆ°
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 		prev = startPage == 1 ? false : true;		
 		next = endPage * scri.getPerPageNum() >= totalCount ? false : true;
 		System.out.println("next:"+next);
@@ -98,14 +101,5 @@ public class PageMaker {
 			return "";			
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

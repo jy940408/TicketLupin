@@ -6,6 +6,10 @@
 <% 
 	ArrayList<EventVo> alist = (ArrayList<EventVo>) request.getAttribute("alist"); 
 	PageMaker pm = (PageMaker)request.getAttribute("pm");
+	System.out.println("pm.getStartPage() jsp부분: " + pm.getStartPage());
+	System.out.println("pm.getStartPage() getAttribute: " + request.getAttribute("StartPage"));
+	System.out.println("alist jsp부분: " + alist);
+	System.out.println("alist getAttribute: " + request.getAttribute("alist"));
 %>
 
 <!DOCTYPE html>
@@ -156,7 +160,7 @@
 								<div class="main_event_page_bn">
 									<div class="main_event_page_button_page">
 										<% for (int i=pm.getStartPage(); i<=pm.getEndPage(); i++){ %>
-											<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=i%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>"><%=i%></a>	
+											<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=i%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>"><%=i%>${pm.getStartPage()}</a>	
 										<% 
 										System.out.println("i가 뭐야: " + i);
 										} 

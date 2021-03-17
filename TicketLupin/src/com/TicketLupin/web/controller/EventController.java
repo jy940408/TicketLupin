@@ -55,9 +55,13 @@ public class EventController extends HttpServlet{
 			
 			PageMaker pm = new PageMaker();
 			pm.setScri(scri);
-			
-			System.out.println("³¡ ÆäÀÌÁö: " + pm.getEndPage());
-			System.out.println("½ÃÀÛ ÆäÀÌÁö: " + pm.getStartPage());
+			System.out.println("ë­˜ê¹Œ... : " + (Math.ceil(scri.getPage()/(double)10) * 10));
+			System.out.println("ì´ê±´ ë˜ ë­˜ê¹Œ...: " + (int) (Math.ceil(1/(double) scri.getPerPageNum())));
+			System.out.println("ë§ˆì§€ë§‰ í˜ì´ì§€: " + pm.getEndPage());
+			System.out.println("ì‹œì‘ í˜ì´ì§€: " + pm.getStartPage());
+			System.out.println("pm.getScri(): " + pm.getScri());
+			System.out.println("ë­”ê°€ ë‹µì´ ë‚˜ì˜¬ ê²ƒ ê°™ì€ë°...: " + scri.getPage());
+			System.out.println("ë­”ê°€ ë‹µì´ ë‚˜ì˜¬ ê²ƒ ê°™ì€ë°...222: " + scri.getKeyword());
 			
 			EventDao ed = new EventDao();
 			int cnt = ed.eventTotal(keyword);
@@ -68,7 +72,7 @@ public class EventController extends HttpServlet{
 			
 			request.setAttribute("alist", alist);
 			request.setAttribute("pm", pm);
-			
+			request.setAttribute("StartPage", pm.getStartPage());
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_list.jsp").forward(request, response);
 			
@@ -121,7 +125,7 @@ public class EventController extends HttpServlet{
 		}else if(str.equals("/Event/EventDeleteAction.do")) {
 			
 			String eidx2 = request.getParameter("eidx");
-			System.out.println("»èÁ¦µÈ eidx : "+eidx2);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ eidx : "+eidx2);
 			
 			int eidx = 0;
 			if(eidx2 != null && !eidx2.equals("")) {
