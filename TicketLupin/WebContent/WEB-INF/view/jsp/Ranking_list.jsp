@@ -1,5 +1,13 @@
+<%@page import="domain.PageMaker"%>
+<%@page import="com.TicketLupin.web.service.ShowVo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.TicketLupin.web.service.ShowDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+/* 	ArrayList<ShowVo> alist = (ArrayList<ShowVo>)request.getAttribute("alist"); 
+	PageMaker pm = (PageMaker)request.getAttribute("pm"); */
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,11 +31,11 @@
 							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
-						<img src="musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
-					<button type="submit" id="h_search_button"><img src="search.png" id="h_search_img"></button>
+					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
 			</div>
 		</header>
@@ -68,14 +76,15 @@
 			<hr id="nav_bar_sub"/>
 		</div>
 		
-		
 		<section>
 			<article>
 				<div class="wrap_ranking">
 					<div class="wrap_rank_date">
 						<div id="wrap_select_drop_on"  onclick="mydiv()">
 							<div class="tit_rank_date">
-								<button type="button" value="realtime" onclick="nowranking()" class="rankbtn">실시간 랭킹 - 2021.02.03(수) 현재 &nbsp;&nbsp; ∨</button>
+								<button type="button" value="realtime" onclick="nowranking()" class="rankbtn">
+									실시간 랭킹 - 2021.03.04(목) 현재 &nbsp;&nbsp; ∨
+								</button>
 							</div>
 							<ul class="select_list" id="ul_list" style="display:none">
 								<li><a href="#">실시간</a></li>
@@ -97,186 +106,35 @@
 							</tr>
 						</thead>
 						<tbody>
+						<%-- <%
+							if(alist.size() > 0){
+								for (ShowVo sv : alist){
+						%>
 							<tr>
-								<td class="num">1</td>
+								<td class="num"><%=sv.getSidx() %></td>
 								<td class="td_">
 									<div class="show_info">
 										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter1.jpg" class="rank_poster"></a>
+											<a href="<%=request.getContextPath()%>/Show/ConcertView.do">
+												<img src="../poster/musicalposter1.jpg" class="rank_poster">
+											</a>
 										</span>
 										<span class="show_title">
-											<a href="#">검은 사제들</a>
+											<a href="#"><%=sv.getStitle()%></a>
 										</span>
 									</div>
 								</td>
-								<td>2021.02.25 ~ 2021.05.30</td>
-								<td>대학로 유니플렉스 1관</td>
+								<td><%=sv.getSregdate() %></td>
+								<td><%=sv.getSplace() %></td>
 								<td>
 									<button type="button" class="btn_rank">예매하기</button>
 								</td>
 							</tr>
-							<tr>
-								<td class="num">2</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter2.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">쿠로이 저택엔 누가 살고 있을까?</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.02.18 ~ 2021.03.21</td>
-								<td>플러스씨어터 (구. 컬처스페이스 엔유)</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">3</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter3.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">유월</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.01.22~23, 29~30</td>
-								<td>경기아트센터 광명시민회관</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">4</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter4.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">에어포트 베이비(Airport Baby)</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.1.11 ~ 2021.04.30</td>
-								<td>신한카드 FAN(판)스퀘어 라이브홀</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">5</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter5.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">하모니(harmony)</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.02.18 ~2021.03.01</td>
-								<td>예스24스테이지 1관</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">6</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter6.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">향화</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.02.19 ~2021.02.21</td>
-								<td>경기아트센터 대극장</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">7</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter7.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">붉은정원</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.02.05 ~ 2021.03.28</td>
-								<td>대학로 유니플렉스 2관</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">8</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter8.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">위키드(WICKED)</a>
-										</span>
-									</div>
-								</td>
-								<td>2021.02.16 ~ 2021.05.01</td>
-								<td>블루스퀘어 신한카드홀(구 인터파크홀)</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">9</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter9.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">맨 오브 라만차</a>
-										</span>
-									</div>
-								</td>
-								<td>2020.12.18 ~2021.03.01</td>
-								<td>샤롯데씨어터</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td class="num">10</td>
-								<td class="td_">
-									<div class="show_info">
-										<span class="show_poster">
-											<a href="#"><img src="./poster/musicalposter10.jpg" class="rank_poster"></a>
-										</span>
-										<span class="show_title">
-											<a href="#">배니싱</a>
-										</span>
-									</div>
-								</td>
-								<td>2020.11.01 ~2021.02.21</td>
-								<td>대학로 아트원씨어터 1관</td>
-								<td>
-									<button type="button" class="btn_rank">예매하기</button>
-								</td>
-							</tr>
+							<%
+									}
+								}else {
+								}
+							%> --%>
 						</tbody>
 					</table>
 				</div>
@@ -285,7 +143,7 @@
 		<footer>
 			<hr class="f_bar" id="f_bar_bottom">
 			<div id="f_last">
-				<span class="f_bottom_ment"><img src="lupinlogo.png" id="f_logo"></span>
+				<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
 				<span class="f_bottom_ment">
 					<span class="f_bottom_tagset">예매문의(1234-1234)</span>
 					<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,13 +11,9 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Pay_step3.css">
 		<script>
 			function paymentSubmit(){
-				alert(1);
 				 document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
 			 	 document.frm.method = "get";
 			 	 document.frm.submit(); 
-				 
-			 	// self.close();
-				
 			}
 		</script>
 	
@@ -51,19 +49,19 @@
 							<ul class="list_receipt_how">
 								<li>
 									<label>
-										<input type="radio" value="1" name="pick" class="radio_delvy_type" title="모바일 티켓" checked>
+										<input type="radio" value="mobile" name="pick" class="radio_delvy_type" title="모바일 티켓" checked>
 										<span class="txt_lab">&nbsp;모바일 티켓</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" value="2" name="pick" class="radio_delvy_type"  title="현장수령">
+										<input type="radio" value="pickup" name="pick" class="radio_delvy_type"  title="현장수령">
 										<span class="txt_lab">&nbsp;현장수령</span>
 									</label>
 								</li>
 								<li>
 									<label>
-										<input type="radio" value="3" name="pick" class="radio_delvy_type"  title="배송">
+										<input type="radio" value="delivery" name="pick" class="radio_delvy_type"  title="배송">
 										<span class="txt_lab">&nbsp;배송(2,800원)</span>
 									</label>
 								</li>
@@ -364,17 +362,16 @@
 					</h2>
 					<div class="box_info">
 						<h3 class="select_tit select_t txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">
-							뮤지컬 〈몬테크리스토〉 10주년 기념 공연
+							${title}
 						</h3>
 						<div class="box_ticket">
 							<ul class="box_ticket_list">
 								<li class="nth nth1 txt_prod_schedule">
-									2021.02.10(수) 20:00
+									${comDate} ${round}
 								</li>
 								<li class="nth nth2 txt_ticket_info">
-									총 1석 선택
+									총 ${fn:length(arraySeat)}석 선택
 									<br>
-									S석(월,화,수,목) 2 층 7 열 21 번
 								</li>
 							</ul>
 						</div>
@@ -471,7 +468,15 @@
 				</div>
 			</div>
 			
-			<input type="hidden" name="seat" value="${seat}">
+			<c:forEach var="dp" items="${discountParameter}">
+				<input type="hidden" name="discountParameter" value="${dp}">
+			</c:forEach>
+			<c:forEach var="as" items="${arraySeat}">
+				<input type="hidden" name="arraySeat" value="${as}">
+			</c:forEach>
+			<input type="hidden" name="sidx" value="${sidx}">
+			<input type="hidden" name="comDate" value="${comDate}">
+			<input type="hidden" name="round" value="${round}">
 		</form>
 	</body>
 </html>

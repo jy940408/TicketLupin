@@ -87,7 +87,8 @@
 								<center>
 									<select class="type" style="border:0px; font-size:15px;" name="ecategory">
 										<option name="ecategory" selected>list</option>
-										<option name="ecategory">banner</option>
+										<option name="ecategory">banner1</option>
+										<option name="ecategory">banner2</option>
 									</select>
 								</center>
 							</td>

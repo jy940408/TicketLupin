@@ -683,11 +683,13 @@
 				</div>
 			</div>
 			
+			<c:forEach var="as" items="${arraySeat}">
+				<input type="hidden" name="arraySeat" value="${as}">
+			</c:forEach>
 			<input type="hidden" name="sidx" value="${sidx}">
 			<input type="hidden" name="title" value="${title}">
 			<input type="hidden" name="comDate" value="${comDate}">
 			<input type="hidden" name="round" value="${round}">
-			<input type="hidden" name="seat" value="${seat}">
 			<input type="hidden" name="priceSum" id="priceSumP" value="">
 			<input type="hidden" name="basicSum" id="basicSumP" value="">
 			<input type="hidden" name="discountSum" id="discountSumP" value="">

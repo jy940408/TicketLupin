@@ -1,12 +1,16 @@
-ï»¿@font-face{
-	font-family:"ë‚˜ëˆ”ìŠ¤í€˜ì–´ Regular";
+@font-face{
+	font-family:"³ª´®½ºÄù¾î Regular";
 	src:url("../font/NanumSquareR.ttf") format("truetype");
 	font-style:normal;
 	font-weight:normal;
 }
 body{
-	font-family:ë‚˜ëˆ”ìŠ¤í€˜ì–´ Regular;
+	font-family:³ª´®½ºÄù¾î Regular;
 	margin:0;
+}
+a{
+	text-decoration:none;
+	color:black;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
 #h_title{
@@ -41,13 +45,13 @@ body{
 }
 #h_ads{
 	margin-left:50px;
-	float:right;
 }
 #h_logo{
 	position:relative;
 	top:10px;
-	height:70px;
+	height:80px;
 	margin:10px 0;
+	width:300px;
 }
 #h_search{
 	border-style:solid;
@@ -55,7 +59,7 @@ body{
 	background:transparent;
 	border-color:black;
 	font-size:20px;
-	width:200px;
+	width:210px;
 }
 #h_search_button{
 	background-color:transparent;
@@ -64,6 +68,7 @@ body{
 #h_search_img{
 	width:25px;
 }
+
 /*------------------------------------------------------------------------------------------------------------------------*/
 #nav_bar_top{
 	margin-top:70px;
@@ -86,6 +91,7 @@ body{
 	min-width:1000px;
 	margin:auto;
 }
+
 #nav_menu_sub_event{
 	padding:0px;
 	text-align:right;	
@@ -180,15 +186,6 @@ body{
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
 
-.write{
-	height:35px;
-	width:140px;
-	font-size:15px;
-	background:none;
-	border: 1px solid #D5D5D5;
-	vertical-align:top;
-}
-
 #main_search_set{
 	max-width:1000px;
 	min-width: 1000px;
@@ -233,7 +230,7 @@ body{
 	display:inline;
 }
 .main_evenet_list_div{
-	width:312px;
+	width:328px;
 	height:284px;
 	border:1px solid rgba(0,0,0,0.2);
 	display:inline-block;
@@ -266,7 +263,7 @@ body{
 }
 .main_event_list_detail span{
 	display:inline-block;
-	margin-bottom:3px;
+	margin-bottom:7px;
 	color:rgba(0,0,0,0.6);
 }
 /*------------------------------------------------------------------------------------------------------------------------*/

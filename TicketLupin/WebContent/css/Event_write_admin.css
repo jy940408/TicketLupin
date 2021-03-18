@@ -1,11 +1,11 @@
-ï»¿@font-face{
-	font-family:"ë‚˜ëˆ”ìŠ¤í€˜ì–´ Regular";
+@font-face{
+	font-family:"³ª´®½ºÄù¾î Regular";
 	src:url("../font/NanumSquareR.ttf") format("truetype");
 	font-style:normal;
 	font-weight:normal;
 }
 body{
-	font-family:ë‚˜ëˆ”ìŠ¤í€˜ì–´ Regular;
+	font-family:³ª´®½ºÄù¾î Regular;
 	margin:0;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
@@ -41,13 +41,13 @@ body{
 }
 #h_ads{
 	margin-left:50px;
-	float:right;
 }
 #h_logo{
 	position:relative;
 	top:10px;
-	height:70px;
+	height:80px;
 	margin:10px 0;
+	width:300px;
 }
 #h_search{
 	border-style:solid;
@@ -55,7 +55,7 @@ body{
 	background:transparent;
 	border-color:black;
 	font-size:20px;
-	width:200px;
+	width:210px;
 }
 #h_search_button{
 	background-color:transparent;
@@ -78,60 +78,51 @@ body{
 	text-decoration:none;
 	color:black;
 	font-size:20px;
-	margin:53px;
+	margin:45px;
 	font-weight:bold;
 }
-#nav_menu_sub_event_div{
+#nav_menu_sub_div{
 	max-width:1000px;
 	min-width:1000px;
 	margin:auto;
 }
-#nav_menu_sub_event{
+
+#nav_menu_sub{
 	padding:0px;
-	text-align:right;	
-	margin:5px 60px 10px 10px;
-	padding:0 100px;
-}
-#nav_menu_sub_event a{
-	text-decoration:none;
-	color:rgba(0,0,0,0.5);
-	font-size:16px;
-	font-weight:bold;
-}
-#nav_menu_sub_event li{
-	color:black;
-	display:inline;
-	text-decoration:none;
-}
-#nav_menu_sub_myticket_div{
-	max-width:1000px;
-	min-width:1000px;
-	margin:auto;
-}
-#nav_menu_sub_myticket{
-	padding:0px;
+	position:relative;	
 	text-align:right;
-	margin:5px 40px 10px 10px;
+	margin:0;
 }
-#nav_menu_sub_myticket a{
+#nav_menu_sub2{
+	padding:0px;
+	position:relative;	
+	text-align:right;
+	padding-right:13%;
+	margin:0;
+}
+#nav_menu_sub a, #nav_menu_sub2 a{
 	text-decoration:none;
 	color:rgba(0,0,0,0.5);
 	font-size:16px;
 	font-weight:bold;
 }
-#nav_menu_sub_myticket li{
+#nav_menu_sub li, #nav_menu_sub2 li{
 	color:black;
 	display:inline;
 	text-decoration:none;
 }
-.main_nav_all ul{
-	margin:0px;
+#nav_bar_sub{
+	margin-top:10px;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
 section{
 	max-width:1000px;
 	min-width:1000px;
 	margin:auto
+}
+a{
+	text-decoration:none;
+	color:black;
 }
 .event_table{
 	max-width:1000px;

@@ -6,6 +6,9 @@
 <% 
 	ArrayList<EventVo> alist = (ArrayList<EventVo>) request.getAttribute("alist"); 
 	PageMaker pm = (PageMaker)request.getAttribute("pm");
+	
+	List<EventVo> list = (List<EventVo>) request.getAttribute("list");
+	List<EventVo> list2 = (List<EventVo>) request.getAttribute("list2");
 %>
 
 <!DOCTYPE html>
@@ -61,9 +64,9 @@
 		<hr id="nav_bar_bottom">
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="<%=request.getContextPath()%>/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="<%=request.getContextPath()%>/Event/MyEvent.do">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -93,18 +96,25 @@
 						<a href="<%=request.getContextPath()%>/Event/EventWrite.do" id="manage_write">작성하기</a>
 					</div>
 					
-					
+				<% for(EventVo evo : list){ %>
 					<div id="main_banner_set">
 						<div class="main_event_banner" id="main_event_banner_main">
-							<img id="main_event_banner_main_img">
-							<div id="main_event_banner_main_ment">[Follow Me!] 티켓루팡 SNS에서 더 많은 공연 이야기를 만나보세요</div>
+							<a href="<%=request.getContextPath()%>/Event/EventView.do?eidx=<%=evo.getEidx()%>" class="main_evenet_list_a">
+								<img id="main_event_banner_main_img" src="<%=request.getContextPath()%>/image/<%=evo.getEthumbnail() %>">
+								<div id="main_event_banner_main_ment"><%=evo.getEtitle() %></div>
+							</a>
 						</div>
+				<% } %>	
+				<% for(EventVo evo2 : list2){ %>
 						<div class="main_event_banner" id="main_event_banner_sub">
-							<img id="main_event_banner_sub_img">
-							<div id="main_event_banner_sub_ment">Hullo Hullo, Following on: 로즈 와일리 전</div>
+							<a href="<%=request.getContextPath()%>/Event/EventView.do?eidx=<%=evo2.getEidx()%>" class="main_evenet_list_a">
+								<img id="main_event_banner_sub_img" src="<%=request.getContextPath()%>/image/<%=evo2.getEthumbnail() %>">
+								<div id="main_event_banner_sub_ment"><%=evo2.getEtitle() %></div>
+							</a>
 						</div>
 					</div>
 					
+				<% } %>	
 					<div id="main_search_set">
 						<form id="main_search_form" name="frm">
 							<input type="text" name="keyword" id="main_search_text" placeholder="&nbsp;&nbsp;이벤트 검색">
@@ -120,7 +130,7 @@
 								<div class="main_evenet_list_div" id="main_evenet_list_1">
 									<a href="<%=request.getContextPath()%>/Event/EventView.do?eidx=<%=ev.getEidx()%>" class="main_evenet_list_a">
 										<img class="main_evenet_list_img" src="<%=request.getContextPath()%>/image/<%=ev.getEthumbnail() %>">
-										<div><%=ev.getEtitle() %></div>
+										<div style="font-size:18px;"><%=ev.getEtitle() %></div>
 									</a>
 									<div class="main_event_list_detail">
 										<span>이벤트 기간: <%=ev.getEstart() %> ~ <%=ev.getEend() %></span><br>
@@ -134,13 +144,14 @@
 						</ul>
 					</div>
 			
-		
+		  
 					<div id="main_event_page">
 						<div id="main_event_page_set">
-							<a href="#">
+							
 								<div class="main_event_page_button main_event_page_bn">
 									<div class="main_event_page_button_llgg">&lt;&lt;</div>
 								</div>
+								
 								<div class="main_event_page_button main_event_page_bn">
 									<%if (pm.isPrev() == true) { %>
 									<div class="main_event_page_button_lg">
@@ -151,15 +162,17 @@
 									</div>
 									<% } %>
 								</div>
-							</a>
+							
+							<a href="#">
 								<div class="main_event_page_bn">
 									<div class="main_event_page_button_page">
 										<% for (int i=pm.getStartPage(); i<=pm.getEndPage(); i++){ %>
 											<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=i%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>"><%=i%></a>	
-										<% }	%>
+										<% } %>
 									</div>
 								</div>
-							<a href="#">
+							</a>
+							
 								<div class="main_event_page_button main_event_page_bn">
 									<%if (pm.isNext() && pm.getEndPage() >0) { %>
 									<div class="main_event_page_button_lg">
@@ -170,14 +183,15 @@
 									</div>
 									<% } %>
 								</div>
+								
 								<div class="main_event_page_button main_event_page_bn">
 									<div class="main_event_page_button_llgg">&gt;&gt;</div>
 								</div>
-							</a>
+							
 						</div>
 					</div>
 					
-		
+	
 				</div>
 			</article>
 		</section>

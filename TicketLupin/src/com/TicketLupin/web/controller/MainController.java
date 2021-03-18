@@ -25,7 +25,7 @@ public class MainController extends HttpServlet{
 		if(str.equals("/Main/MainPage.do")) {
 			
 			String query = "";
-			String ssetting = "sregdate";
+			String ssetting = "sopendate";
 			String nsetting = "wregdate";
 			int page = 1;
 			String array = "ASC";

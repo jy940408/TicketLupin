@@ -25,6 +25,9 @@ import com.TicketLupin.web.service.ShowVo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import domain.PageMaker;
+import domain.SearchCriteria;
+
 @WebServlet("/ShowController")
 public class ShowController extends HttpServlet{
 
@@ -123,6 +126,34 @@ public class ShowController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_round_admin.jsp").forward(request, response);
 			
+		}else if(str.equals("/Show/RankingList.do")) {
+			
+//			String page = request.getParameter("page");
+//			if (page==null) page = "1";
+//			int pagex = Integer.parseInt(page);
+//			
+//			
+//			String keyword = request.getParameter("keyword");
+//			if (keyword ==null) keyword ="";
+//			
+//			SearchCriteria scri = new SearchCriteria();
+//			scri.setPage(pagex);
+//			scri.setKeyword(keyword);
+//			
+//			PageMaker pm = new PageMaker();
+//			pm.setScri(scri);
+//			
+//			ShowDao sd = new ShowDao();
+//			int cnt = sd.getShowListCount();
+//			
+//			pm.setTotalCount(cnt);			
+//			
+//			ArrayList<ShowVo> alist = sd.getShowList(scri);
+//			
+//			request.setAttribute("alist", alist);
+//			request.setAttribute("pm", pm);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Ranking_list.jsp").forward(request, response);
 		}
 	}
 	@Override

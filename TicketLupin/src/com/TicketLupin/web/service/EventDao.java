@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.TicketLupin.web.DBconn.DBconn;
 
@@ -97,7 +98,7 @@ public class EventDao {
 		int cnt = 0;
 		ResultSet rs = null;
 		
-		String sql = "select count(*) as cnt from event where edelyn='N' and etitle like ?";
+		String sql = "select count(*) as cnt  from event where edelyn='N' and etitle like ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -206,6 +207,65 @@ public class EventDao {
 		return result;
 	}
 	
+	
+	public List<EventVo> eventbanner1(){
+		
+		List<EventVo> list = new ArrayList<EventVo>();
+		
+		String sql =  "select * from event where edelyn='N' and ecategory='banner1' ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EventVo ev = new EventVo();
+				ev.setEidx(rs.getInt("eidx"));
+				ev.setEtitle(rs.getString("etitle"));
+				ev.setEstart(rs.getString("estart"));
+				ev.setEend(rs.getString("eend"));
+				ev.setEfiles(rs.getString("efiles"));
+				ev.setEthumbnail(rs.getString("ethumbnail"));
+				list.add(ev);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	
+	public List<EventVo> eventbanner2(){
+		
+		List<EventVo> list2 = new ArrayList<EventVo>();
+		
+		String sql =  "select * from event where edelyn='N' and ecategory='banner2' ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EventVo ev = new EventVo();
+				ev.setEidx(rs.getInt("eidx"));
+				ev.setEtitle(rs.getString("etitle"));
+				ev.setEstart(rs.getString("estart"));
+				ev.setEend(rs.getString("eend"));
+				ev.setEfiles(rs.getString("efiles"));
+				ev.setEthumbnail(rs.getString("ethumbnail"));
+				list2.add(ev);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list2;
+	}
 	
 	
 

@@ -11,7 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationVo;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowVo;
 
@@ -64,8 +67,11 @@ public class ReservationController extends HttpServlet{
 				date = "0" + date_;
 			}
 			
+			//예매 공연 날짜 완성하기
 			String comDate = year + "-" + (month) + "-" + date;
 			System.out.println("comDate: " + comDate);
+			
+			System.out.println("범인이 누구냐: " + sidx);
 			
 			ShowDao sd = new ShowDao();
 			ShowVo sv = sd.getShowDetail(sidx);
@@ -98,6 +104,8 @@ public class ReservationController extends HttpServlet{
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
 			}
+			
+			System.out.println("범인이 누구냐: " + sidx);
 			
 			String seat = request.getParameter("seatHidden");
 			System.out.println("seat: " + seat);
@@ -149,12 +157,13 @@ public class ReservationController extends HttpServlet{
 				}
 			}
 			System.out.println("gradeCount: " + gradeCount);
+			System.out.println("arraySeat 첫번째 확인: " + arraySeat[0]);
 			
 			request.setAttribute("sidx", sidx);
 			request.setAttribute("title", title);
 			request.setAttribute("comDate", comDate);
 			request.setAttribute("round", round);
-			request.setAttribute("seat", seat);
+			request.setAttribute("arraySeat", arraySeat);
 			request.setAttribute("seatGrade", seatGrade);
 			request.setAttribute("gradeCategory", gradeCategory);
 			request.setAttribute("floor", floor);
@@ -166,32 +175,209 @@ public class ReservationController extends HttpServlet{
 
 		}else if(str.equals("/Reservation/ReservationStep3.do")) {
 			
-			String seat = request.getParameter("seat");
+			//좌석 목록 받아오기
+			ArrayList arraySeat = new ArrayList();
+			String[] arraySeat_ = request.getParameterValues("arraySeat");
+			for(int i = 0 ; i < arraySeat_.length ; i++) {
+				arraySeat.add(arraySeat_[i]);
+			}
 			
-			ArrayList discountParam = new ArrayList();
+			//할인 목록 받아오기
+			ArrayList discountParameter = new ArrayList();
 			String strDiscountParam = null;
 			for(int i = 1 ; i <= 4 ; i ++) {
 				for(int j = 1 ; j <= 8 ; j++) {
 					strDiscountParam = request.getParameter("discount" + i + "_" + j);
-					discountParam.add("discount" + i + "_" + j + "/" + strDiscountParam);
+					discountParameter.add("discount" + i + "_" + j + "/" + strDiscountParam);
 				}
 			}
 			
+			String sidx_ = request.getParameter("sidx");
+			String title = request.getParameter("title");
+			String comDate = request.getParameter("comDate");
+			String round = request.getParameter("round");
 			
-			System.out.println(seat);
-			System.out.println(discountParam);
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+			System.out.println("범인이 누구냐: " + sidx);
+			
+			System.out.println("함 되는지 봅시다: " + arraySeat);
+			System.out.println(discountParameter);
+			
 //==============================================================================================================================//
 			
-			request.setAttribute("discountParam", discountParam);
+			request.setAttribute("sidx", sidx);
+			request.setAttribute("title", title);
+			request.setAttribute("comDate", comDate);
+			request.setAttribute("round", round);
+			request.setAttribute("arraySeat", arraySeat);
+			request.setAttribute("discountParameter", discountParameter);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step3.jsp").forward(request, response);
 			
 //==============================================================================================================================//
+		
 		}else if(str.equals("/Reservation/ReservationStep4.do")) {
 			
-			String[] seat = request.getParameterValues("seat");
+			//결제 정보 가져오기
+			String pick = request.getParameter("pick");
+			String name = request.getParameter("name");
+			String tel1_ = request.getParameter("tel1");
+			String tel2_ = request.getParameter("tel2");
+			String tel3_ = request.getParameter("tel3");
+			String tel_ = tel1_ + tel2_ + tel3_;
+			String email = request.getParameter("email");
+			String payMethodCode_ = request.getParameter("payMethodCode");
+			String cardCode = request.getParameter("cardCode");
+			String quota = request.getParameter("quota");
+			
+			System.out.println("수령방법: " + pick);
+			System.out.println("예매자 이름: " + name);
+			System.out.println("번호: " + tel_);
+			System.out.println("이메일: " + email);
+			System.out.println("결제방법: " + payMethodCode_);
+			System.out.println("은행 구분: " + cardCode);
+			System.out.println("할부 개월수: " + quota);
+
+//==============================================================================================================================//				
+			
+			//기본 정보 가져오기
+			String comDate = request.getParameter("comDate");
+			String round = request.getParameter("round");
+			
+			String sidx_ = request.getParameter("sidx");
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+			System.out.println("범인이 누구냐: " + sidx);
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+//==============================================================================================================================//				
+			
+			//할인 정보 가져오기
+			ArrayList discountParameter = new ArrayList();
+			String[] discountParameter_ = request.getParameterValues("discountParameter");
+			for(int i = 0 ; i < discountParameter_.length ; i++) {
+				discountParameter.add(discountParameter_[i]);
+			}
+			//좌석 정보 가져오기
+			ArrayList arraySeat = new ArrayList();
+			String[] arraySeat_ = request.getParameterValues("arraySeat");
+			for(int i = 0 ; i < arraySeat_.length ; i++) {
+				arraySeat.add(arraySeat_[i]);
+			}
+			
+			System.out.println("배열 받는지 확인: " + discountParameter);
+			System.out.println("배열 또 받는지 확인: " + arraySeat);
+			
+			//가격 선택 중 선택 된 값만 남기고 나머지 없애기, 여러번 선택된 것은 배열에 갯수만큼 더 써주기
+			ArrayList discount = new ArrayList();
+			for(int i = 0 ; i < discountParameter.size() ; i++) {
+				String split_ = (String) discountParameter.get(i);
+				String[] split =  split_.split("/");
+				if(Integer.parseInt(split[1]) >= 1) {
+					for(int j = 0 ; j < Integer.parseInt(split[1]) ; j++){ 
+						discount.add(split[0]);
+					}
+				}
+			}
+
+//==============================================================================================================================//		
+			
+			//등급별로 나눠주기
+			ArrayList vipDiscount = new ArrayList();
+			ArrayList rDiscount = new ArrayList();
+			ArrayList sDiscount = new ArrayList();
+			ArrayList aDiscount = new ArrayList();
+			ArrayList vipSeat = new ArrayList();
+			ArrayList rSeat = new ArrayList();
+			ArrayList sSeat = new ArrayList();
+			ArrayList aSeat = new ArrayList();
+			
+			for(int i = 0 ; i < discount.size() ; i++) {
+				if(((String)discount.get(i)).substring(8,9).equals("1")) {
+					vipDiscount.add(discount.get(i));
+				}else if(((String)discount.get(i)).substring(8,9).equals("2")) {
+					rDiscount.add(discount.get(i));
+				}else if(((String)discount.get(i)).substring(8,9).equals("3")) {
+					sDiscount.add(discount.get(i));
+				}else if(((String)discount.get(i)).substring(8,9).equals("4")) {
+					aDiscount.add(discount.get(i));
+				}
+				
+				if(Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) <= 6) {
+					vipSeat.add(arraySeat.get(i));
+				}else if(Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) > 6 && Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) <= 20) {
+					rSeat.add(arraySeat.get(i));
+				}else if(Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) > 20 && Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) <= 29) {
+					aSeat.add(arraySeat.get(i));
+				}else if(Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) > 29 && Integer.parseInt(((String)arraySeat.get(i)).substring(0,2)) <= 37) {
+					sSeat.add(arraySeat.get(i));
+				}
+			}
+
+//==============================================================================================================================//
+			
+			System.out.println("vipDiscount: " + vipDiscount);
+			System.out.println("vipSeat: " + vipSeat);
+			System.out.println("rDiscount: " + rDiscount);
+			System.out.println("rSeat: " + rSeat);
+			System.out.println("sDiscount: " + sDiscount);
+			System.out.println("sSeat: " + sSeat);
+			System.out.println("aDiscount: " + aDiscount);
+			System.out.println("aSeat: " + aSeat);
+
+			System.out.println(discount);
+			System.out.println(arraySeat);
+//==============================================================================================================================//		
+			
+			ReservationDao rd = new ReservationDao();
+			ReservationVo rv = new ReservationVo();
+			rv.setSidx(sidx);
+			rv.setMidx(midx);
+			rv.setSrdate(comDate);
+			rv.setSrround(round);
+			if(vipDiscount != null) {
+				for(int i = 0 ; i < vipDiscount.size() ; i++) {
+					rv.setRseat((String)vipSeat.get(i));
+					rv.setRdiscount((String)vipDiscount.get(i));
+					rd.insertReservation(rv);
+					System.out.println(rv.getRseat());
+					System.out.println(rv.getRdiscount());
+				}
+			}
+			if(rDiscount != null) {
+				for(int i = 0 ; i < rDiscount.size() ; i++) {
+					rv.setRseat((String)rSeat.get(i));
+					rv.setRdiscount((String)rDiscount.get(i));
+					rd.insertReservation(rv);
+				}
+			}
+			if(sDiscount != null) {
+				for(int i = 0 ; i < sDiscount.size() ; i++) {
+					rv.setRseat((String)sSeat.get(i));
+					rv.setRdiscount((String)sDiscount.get(i));
+					rd.insertReservation(rv);
+				}
+			}
+			if(aDiscount != null) {
+				for(int i = 0 ; i < aDiscount.size() ; i++) {
+					rv.setRseat((String)aSeat.get(i));
+					rv.setRdiscount((String)aDiscount.get(i));
+					rd.insertReservation(rv);
+				}
+			}
+//==============================================================================================================================//	
 			
 			
+			//팝업창 종료해주기
 			PrintWriter pt = response.getWriter();
 			pt.write("<script>self.close();</script>");
 			pt.flush();

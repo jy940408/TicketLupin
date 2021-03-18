@@ -1,20 +1,9 @@
 package com.TicketLupin.web.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
@@ -46,8 +35,6 @@ public class EventController extends HttpServlet{
 			if (page == null) page ="1";
 			int pagex = Integer.parseInt(page);
 			
-			System.out.println("page: " + page);
-			
 			String keyword = request.getParameter("keyword");
 			if(keyword == null) keyword = "";
 			
@@ -63,20 +50,15 @@ public class EventController extends HttpServlet{
 			
 			pm.setTotalCount(cnt);
 			
-			
-			System.out.println("cnt: " + cnt);
-			
 			ArrayList<EventVo> alist = ed.eventSelectAll(scri);
-			
-			System.out.println("getPage: " + scri.getPage());
-			System.out.println("getEndPage: " + pm.getEndPage());
-			System.out.println("(int) (Math.ceil(scri.getPage()/(double)10) * 10): " + (int) (Math.ceil(scri.getPage()/(double)10) * 10));
-			System.out.println("(int) (Math.ceil(pm.getTotalCount()/(double) scri.getPerPageNum())): " + (int) (Math.ceil(pm.getTotalCount()/(double) scri.getPerPageNum())));
-			System.out.println("pm.getTotalCount(): " + pm.getTotalCount());
-			System.out.println("scri.getPerPageNum(): " + scri.getPerPageNum());
+			List<EventVo> list = ed.eventbanner1();
+			List<EventVo> list2 = ed.eventbanner2();
 			
 			request.setAttribute("alist", alist);
+			request.setAttribute("list", list);
+			request.setAttribute("list2", list2);
 			request.setAttribute("pm", pm);
+			
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_list.jsp").forward(request, response);
 			
@@ -129,7 +111,7 @@ public class EventController extends HttpServlet{
 		}else if(str.equals("/Event/EventDeleteAction.do")) {
 			
 			String eidx2 = request.getParameter("eidx");
-			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ eidx : "+eidx2);
+			System.out.println("»èÁ¦µÈ eidx : "+eidx2);
 			
 			int eidx = 0;
 			if(eidx2 != null && !eidx2.equals("")) {
