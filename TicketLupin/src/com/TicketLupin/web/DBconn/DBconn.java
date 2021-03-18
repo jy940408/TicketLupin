@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class DBconn {
 
 	
-/*
+
 	Connection conn =null;
 	
    String coninfo ="jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -27,8 +27,8 @@ public class DBconn {
          }
          return conn;
    }
-*/
-	
+
+	/*
 	Connection conn =null;
 	
 	   String coninfo ="jdbc:oracle:thin:@10.211.55.4:1521:xe";
@@ -48,6 +48,7 @@ public class DBconn {
 	         }
 	         return conn;
 	   }
+	   */
 	   
 	/*
 	

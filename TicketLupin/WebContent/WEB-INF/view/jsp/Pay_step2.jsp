@@ -129,7 +129,7 @@
 										<td></td>
 										<td>150,000원</td>
 										<td>
-											<select name="vipBasic" id="vipBasic" class="Basic vip">
+											<select name="discount1_1" id="vipBasic" class="Basic vip">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -141,7 +141,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="vipSpecial" id="vipSpecial" class="Special vip">
+											<select name="discount1_2" id="vipSpecial" class="Special vip">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -152,7 +152,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="vip3Package" id="vip3Package" class="3package vip">
+											<select name="discount1_3" id="vip3Package" class="3package vip">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(vip/3),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -164,7 +164,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="vip4Package" id="vip4Package" class="4package vip">
+											<select name="discount1_4" id="vip4Package" class="4package vip">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(vip/4),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -176,7 +176,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="vipYouth" id="vipYouth" class="Youth vip">
+											<select name="discount1_5" id="vipYouth" class="Youth vip">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -188,7 +188,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="vip4to6" id="vip4to6" class="4to6 vip">
+											<select name="discount1_6" id="vip4to6" class="4to6 vip">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -200,7 +200,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="vip1to3" id="vip1to3" class="1to3 vip">
+											<select name="discount1_7" id="vip1to3" class="1to3 vip">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -212,7 +212,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="vipVeterans" id="vipVeterans" class="Veterans vip">
+											<select name="discount1_8" id="vipVeterans" class="Veterans vip">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -236,7 +236,7 @@
 										<td></td>
 										<td>130,000원</td>
 										<td>
-											<select name="rBasic" id="rBasic" class="Basic r">
+											<select name="discount2_1" id="rBasic" class="Basic r">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -248,7 +248,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="rSpecial" id="rSpecial" class="Special r">
+											<select name="discount2_2" id="rSpecial" class="Special r">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -259,7 +259,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="r3Package" id="r3Package" class="3package r">
+											<select name="discount2_3" id="r3Package" class="3package r">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(r/3),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -271,7 +271,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="r4Package" id="r4Package" class="4package r">
+											<select name="discount2_4" id="r4Package" class="4package r">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(r/4),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -283,7 +283,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="rYouth" id="rYouth" class="Youth r">
+											<select name="discount2_5" id="rYouth" class="Youth r">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -295,7 +295,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="r4to6" id="r4to6" class="4to6 r">
+											<select name="discount2_6" id="r4to6" class="4to6 r">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -307,7 +307,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="r1to3" id="r1to3" class="1to3 r">
+											<select name="discount2_7" id="r1to3" class="1to3 r">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -319,7 +319,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="rVeterans" id="rVeterans" class="Veterans r">
+											<select name="discount2_8" id="rVeterans" class="Veterans r">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -343,7 +343,7 @@
 										<td></td>
 										<td>100,000원</td>
 										<td>
-											<select name="sBasic" id="sBasic" class="Basic s">
+											<select name="discount3_1" id="sBasic" class="Basic s">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -355,7 +355,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="sSpecial" id="sSpecial" class="Special s">
+											<select name="discount3_2" id="sSpecial" class="Special s">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -366,7 +366,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="s3Package" id="s3Package" class="3package s">
+											<select name="discount3_3" id="s3Package" class="3package s">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/3),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -378,7 +378,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="s4Package" id="s4Package" class="4package s">
+											<select name="discount3_4" id="s4Package" class="4package s">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/4),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -390,7 +390,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="sYouth" id="sYouth" class="Youth s">
+											<select name="discount3_5" id="sYouth" class="Youth s">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -402,7 +402,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="s4to6" id="s4to6" class="4to6 s">
+											<select name="discount3_6" id="s4to6" class="4to6 s">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -414,7 +414,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="s1to3" id="s1to3" class="1to3 s">
+											<select name="discount3_7" id="s1to3" class="1to3 s">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -426,7 +426,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="sVeterans" id="sVeterans" class="Veterans s">
+											<select name="discount3_8" id="sVeterans" class="Veterans s">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -450,7 +450,7 @@
 										<td></td>
 										<td>80,000원</td>
 										<td>
-											<select name="aBasic" id="aBasic" class="Basic a">
+											<select name="discount4_1" id="aBasic" class="Basic a">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -462,7 +462,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="aSpecial" id="aSpecial" class="Special a">
+											<select name="discount4_2" id="aSpecial" class="Special a">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -473,7 +473,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="a3Package" id="a3Package" class="3package a">
+											<select name="discount4_3" id="a3Package" class="3package a">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(a/3),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -485,7 +485,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="a4Package" id="a4Package" class="4package a">
+											<select name="discount4_4" id="a4Package" class="4package a">
 												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/4),'.')}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -497,7 +497,7 @@
 										<td>18,000원 할인</td>
 										<td>72,000원</td>
 										<td>
-											<select name="aYouth" id="aYouth" class="Youth a">
+											<select name="discount4_5" id="aYouth" class="Youth a">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -509,7 +509,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="a4to6" id="a4to6" class="4to6 a">
+											<select name="discount4_6" id="a4to6" class="4to6 a">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -521,7 +521,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="a1to3" id="a1to3" class="1to3 a">
+											<select name="discount4_7" id="a1to3" class="1to3 a">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -533,7 +533,7 @@
 										<td>27,000원 할인</td>
 										<td>63,000원</td>
 										<td>
-											<select name="aVeterans" id="aVeterans" class="Veterans a">
+											<select name="discount4_8" id="aVeterans" class="Veterans a">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -687,6 +687,7 @@
 			<input type="hidden" name="title" value="${title}">
 			<input type="hidden" name="comDate" value="${comDate}">
 			<input type="hidden" name="round" value="${round}">
+			<input type="hidden" name="seat" value="${seat}">
 			<input type="hidden" name="priceSum" id="priceSumP" value="">
 			<input type="hidden" name="basicSum" id="basicSumP" value="">
 			<input type="hidden" name="discountSum" id="discountSumP" value="">

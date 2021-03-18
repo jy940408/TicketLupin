@@ -9,12 +9,12 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Pay_step3.css">
 		<script>
 			function paymentSubmit(){
-			
+				alert(1);
 				 document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
 			 	 document.frm.method = "get";
 			 	 document.frm.submit(); 
 				 
-			 	 self.close();
+			 	// self.close();
 				
 			}
 		</script>
@@ -471,47 +471,7 @@
 				</div>
 			</div>
 			
-			<input type="hidden" name="sidx" value="${sidx}">
-			<input type="hidden" name="title" value="${title}">
-			<input type="hidden" name="comDate" value="${comDate}">
-			<input type="hidden" name="round" value="${round}">
-			<input type="hidden" name="priceSum" value="${priceSum}">
-			<input type="hidden" name="basicSum" value="${basicSum}">
-			<input type="hidden" name="discountSum" value="${discountSum}">
-			<input type="hidden" name="couponSum" value="${couponSum}">
-			<input type="hidden" name="paymentAmount" value="${paymentAmount}">
-			<input type="hidden" name="vipBasic" value="${vipBasic}">
-			<input type="hidden" name="vipSpecial" value="${vipSpecial}">
-			<input type="hidden" name="vip3Package" value="${vip3Package}">
-			<input type="hidden" name="vip4Package" value="${vip4Package}">
-			<input type="hidden" name="vipYouth" value="${vipYouth}">
-			<input type="hidden" name="vip4to6" value="${vip4to6}">
-			<input type="hidden" name="vip1to3" value="${vip1to3}">
-			<input type="hidden" name="vipVeterans" value="${vipVeterans}">
-			<input type="hidden" name="rBasic" value="${rBasic}">
-			<input type="hidden" name="rSpecial" value="${rSpecial}">
-			<input type="hidden" name="r3Package" value="${r3Package}">
-			<input type="hidden" name="r4Package" value="${r4Package}">
-			<input type="hidden" name="rYouth" value="${rYouth}">
-			<input type="hidden" name="r4to6" value="${r4to6}">
-			<input type="hidden" name="r1to3" value="${r1to3}">
-			<input type="hidden" name="rVeterans" value="${rVeterans}">
-			<input type="hidden" name="sBasic" value="${sBasic}">
-			<input type="hidden" name="sSpecial" value="${sSpecial}">
-			<input type="hidden" name="s3Package" value="${s3Package}">
-			<input type="hidden" name="s4Package" value="${s4Package}">
-			<input type="hidden" name="sYouth" value="${sYouth}">
-			<input type="hidden" name="s4to6" value="${s4to6}">
-			<input type="hidden" name="s1to3" value="${s1to3}">
-			<input type="hidden" name="sVeterans" value="${sVeterans}">
-			<input type="hidden" name="aBasic" value="${aBasic}">
-			<input type="hidden" name="aSpecial" value="${aSpecial}">
-			<input type="hidden" name="a3Package" value="${a3Package}">
-			<input type="hidden" name="a4Package" value="${a4Package}">
-			<input type="hidden" name="aYouth" value="${aYouth}">
-			<input type="hidden" name="a4to6" value="${a4to6}">
-			<input type="hidden" name="a1to3" value="${a1to3}">
-			<input type="hidden" name="aVeterans" value="${aVeterans}">
+			<input type="hidden" name="seat" value="${seat}">
 		</form>
 	</body>
 </html>

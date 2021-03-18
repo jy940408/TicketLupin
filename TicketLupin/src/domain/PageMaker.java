@@ -28,6 +28,7 @@ public class PageMaker {
 	}
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
+		calcData();	
 	}
 	public int getCountList() {
 		return countList;
@@ -66,28 +67,34 @@ public class PageMaker {
 	public void setNext(boolean next) {
 		this.next = next;
 	}
+	public int getDisplayPageNum() {
+		return displayPageNum;
+	}
+	public void setDisplayPageNum(int displayPageNum) {
+		this.displayPageNum = displayPageNum;
+	}
 	
 
 	
 	public void calcData(){
-		//첫페이
-		endPage = 10;
-		//endPage = (int) (Math.ceil(scri.getPage()/(double)displayPageNum) * displayPageNum);
-		//마지막 페이지
-		startPage = 1;
-		//startPage = (endPage - displayPageNum)+1;
+		//泥ロ럹�씠
+		endPage = (int) (Math.ceil(scri.getPage()/(double)displayPageNum) * displayPageNum);
+		//留덉�留� �럹�씠吏�
+		startPage = (endPage - displayPageNum)+1;
 		
-		//임시 마지막 페이지
-		//int tempEndPage = (int) (Math.ceil(totalCount/(double) scri.getPerPageNum()));
-		int tempEndPage = 8;
+		//�엫�떆 留덉�留� �럹�씠吏�
+		int tempEndPage = (int) (Math.ceil(totalCount/(double) scri.getPerPageNum()));
+		
 		
 		if(endPage>tempEndPage) {
 			endPage = tempEndPage;
-		}			
-		//���� ���� ��ư
+		}		
+		if(endPage == 0) {
+			endPage = 1;
+		}
+		//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙튼
 		prev = startPage == 1 ? false : true;		
 		next = endPage * scri.getPerPageNum() >= totalCount ? false : true;
-		System.out.println("next:"+next);
 	}
 	
 	public String encoding(String keyword){

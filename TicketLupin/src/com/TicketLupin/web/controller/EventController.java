@@ -46,6 +46,8 @@ public class EventController extends HttpServlet{
 			if (page == null) page ="1";
 			int pagex = Integer.parseInt(page);
 			
+			System.out.println("page: " + page);
+			
 			String keyword = request.getParameter("keyword");
 			if(keyword == null) keyword = "";
 			
@@ -55,24 +57,26 @@ public class EventController extends HttpServlet{
 			
 			PageMaker pm = new PageMaker();
 			pm.setScri(scri);
-			System.out.println("뭘까... : " + (Math.ceil(scri.getPage()/(double)10) * 10));
-			System.out.println("이건 또 뭘까...: " + (int) (Math.ceil(1/(double) scri.getPerPageNum())));
-			System.out.println("마지막 페이지: " + pm.getEndPage());
-			System.out.println("시작 페이지: " + pm.getStartPage());
-			System.out.println("pm.getScri(): " + pm.getScri());
-			System.out.println("뭔가 답이 나올 것 같은데...: " + scri.getPage());
-			System.out.println("뭔가 답이 나올 것 같은데...222: " + scri.getKeyword());
 			
 			EventDao ed = new EventDao();
 			int cnt = ed.eventTotal(keyword);
 			
 			pm.setTotalCount(cnt);
 			
+			
+			System.out.println("cnt: " + cnt);
+			
 			ArrayList<EventVo> alist = ed.eventSelectAll(scri);
+			
+			System.out.println("getPage: " + scri.getPage());
+			System.out.println("getEndPage: " + pm.getEndPage());
+			System.out.println("(int) (Math.ceil(scri.getPage()/(double)10) * 10): " + (int) (Math.ceil(scri.getPage()/(double)10) * 10));
+			System.out.println("(int) (Math.ceil(pm.getTotalCount()/(double) scri.getPerPageNum())): " + (int) (Math.ceil(pm.getTotalCount()/(double) scri.getPerPageNum())));
+			System.out.println("pm.getTotalCount(): " + pm.getTotalCount());
+			System.out.println("scri.getPerPageNum(): " + scri.getPerPageNum());
 			
 			request.setAttribute("alist", alist);
 			request.setAttribute("pm", pm);
-			request.setAttribute("StartPage", pm.getStartPage());
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_list.jsp").forward(request, response);
 			

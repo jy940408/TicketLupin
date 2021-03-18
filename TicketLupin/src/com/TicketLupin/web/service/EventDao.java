@@ -97,7 +97,7 @@ public class EventDao {
 		int cnt = 0;
 		ResultSet rs = null;
 		
-		String sql = "select count(*) as cnt  from event where edelyn='N' and etitle like ?";
+		String sql = "select count(*) as cnt from event where edelyn='N' and etitle like ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
