@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ShowDao;
+import com.TicketLupin.web.service.ShowRankingVo;
 import com.TicketLupin.web.service.ShowRoundDao;
 import com.TicketLupin.web.service.ShowRoundVo;
 import com.TicketLupin.web.service.ShowVo;
@@ -127,31 +128,41 @@ public class ShowController extends HttpServlet{
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_round_admin.jsp").forward(request, response);
 			
 		}else if(str.equals("/Show/RankingList.do")) {
+
+			//정렬 값 받아오기
+			String order_ = request.getParameter("order");
 			
-//			String page = request.getParameter("page");
-//			if (page==null) page = "1";
-//			int pagex = Integer.parseInt(page);
-//			
-//			
-//			String keyword = request.getParameter("keyword");
-//			if (keyword ==null) keyword ="";
-//			
-//			SearchCriteria scri = new SearchCriteria();
-//			scri.setPage(pagex);
-//			scri.setKeyword(keyword);
-//			
-//			PageMaker pm = new PageMaker();
-//			pm.setScri(scri);
-//			
-//			ShowDao sd = new ShowDao();
-//			int cnt = sd.getShowListCount();
-//			
-//			pm.setTotalCount(cnt);			
-//			
-//			ArrayList<ShowVo> alist = sd.getShowList(scri);
-//			
-//			request.setAttribute("alist", alist);
-//			request.setAttribute("pm", pm);
+			String order = "now";
+			if(order_ != null && !order_.equals("")) {
+				order = order_;
+			}
+
+//==============================================================================================================================//			
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
+			Calendar start = Calendar.getInstance();
+			
+			String startdate = "0000-00-00";
+			if(order.equals("week")) {
+				start.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				startdate = formatter.format(start.getTime());
+				System.out.println(startdate);
+			}else if(order.equals("month")) {
+				String startdate_ = formatter.format(start.getTime());
+				int month = (start.get(Calendar.MONTH)) +1;
+				startdate = start.get(Calendar.YEAR) + "-" + month + "-" + 1;
+				System.out.println(startdate);
+				
+			}
+			
+//==============================================================================================================================//			
+			//==============================================================================================================================//			
+			//==============================================================================================================================//			
+			
+			System.out.println("startdate: " + startdate);
+			ShowDao sd = new ShowDao();
+			ArrayList<ShowRankingVo> srv = sd.getShowRankingList(startdate);
+			System.out.println(srv);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ranking_list.jsp").forward(request, response);
 		}

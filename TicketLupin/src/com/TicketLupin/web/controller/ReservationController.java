@@ -337,7 +337,7 @@ public class ReservationController extends HttpServlet{
 			System.out.println(discount);
 			System.out.println(arraySeat);
 //==============================================================================================================================//		
-			
+			//구분해서 DB에 집어넣기
 			ReservationDao rd = new ReservationDao();
 			ReservationVo rv = new ReservationVo();
 			rv.setSidx(sidx);

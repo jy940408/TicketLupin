@@ -220,4 +220,42 @@ public class ShowDao {
 		
 	}
 	
+	public ArrayList<ShowRankingVo> getShowRankingList(String startdate) {
+		
+		ArrayList<ShowRankingVo> result = new ArrayList<>();
+		
+		String sql = "SELECT * FROM SHOW INNER JOIN "
+				+ "(SELECT COUNT(*) CNT, SIDX FROM RESERVATION "
+				+ "WHERE RREGDATE BETWEEN TO_DATE('"+ startdate +"', 'YYYY-MM-DD') AND TO_DATE(SYSTIMESTAMP, 'YYYY-MM-DD')"
+				+ " GROUP BY SIDX) CNT "
+				+ "ON SHOW.SIDX = CNT.SIDX "
+				+ "WHERE SHOW.SENDDATE >= TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int sidx = rs.getInt("SIDX");
+				String stitle = rs.getString("STITLE");
+				Date sopendate = rs.getDate("SOPENDATE");
+				Date senddate = rs.getDate("SENDDATE");
+				String sdetailaddress = rs.getString("SDETAILADDRESS");
+				String simage = rs.getString("SIMAGE");
+				int cnt = rs.getInt("CNT");
+				Date n = null;
+				
+				ShowRankingVo srv = new ShowRankingVo(sidx, stitle, "", n, "", simage, 0, "", 0, sopendate, senddate, "", "", 0, "", "", sdetailaddress, "", 0, n, cnt);
+				
+				result.add(srv);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
 }

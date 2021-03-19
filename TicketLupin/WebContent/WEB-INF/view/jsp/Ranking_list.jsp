@@ -4,10 +4,6 @@
 <%@page import="com.TicketLupin.web.service.ShowDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-/* 	ArrayList<ShowVo> alist = (ArrayList<ShowVo>)request.getAttribute("alist"); 
-	PageMaker pm = (PageMaker)request.getAttribute("pm"); */
-%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -87,9 +83,9 @@
 								</button>
 							</div>
 							<ul class="select_list" id="ul_list" style="display:none">
-								<li><a href="#">실시간</a></li>
-								<li><a href="#">주간</a></li>
-								<li><a href="#">월간</a></li>
+								<li><a href="?order=now">실시간</a></li>
+								<li><a href="?order=week">주간</a></li>
+								<li><a href="?order=month">월간</a></li>
 							</ul>
 						</div>
 					</div>
@@ -106,11 +102,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<%-- <%
-							if(alist.size() > 0){
-								for (ShowVo sv : alist){
-						%>
-							<tr>
+							<%-- <tr>
 								<td class="num"><%=sv.getSidx() %></td>
 								<td class="td_">
 									<div class="show_info">
@@ -128,13 +120,8 @@
 								<td><%=sv.getSplace() %></td>
 								<td>
 									<button type="button" class="btn_rank">예매하기</button>
-								</td>
+								</td> --%>
 							</tr>
-							<%
-									}
-								}else {
-								}
-							%> --%>
 						</tbody>
 					</table>
 				</div>
