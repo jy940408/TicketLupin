@@ -152,7 +152,9 @@ public class ShowController extends HttpServlet{
 				int month = (start.get(Calendar.MONTH)) +1;
 				startdate = start.get(Calendar.YEAR) + "-" + month + "-" + 1;
 				System.out.println(startdate);
-				
+			}else if(order.equals("now")) {
+				startdate = formatter.format(start.getTime());
+				System.out.println("startdate Å×½ºÆ®: " + startdate);
 			}
 			
 //==============================================================================================================================//			
@@ -161,8 +163,10 @@ public class ShowController extends HttpServlet{
 			
 			System.out.println("startdate: " + startdate);
 			ShowDao sd = new ShowDao();
-			ArrayList<ShowRankingVo> srv = sd.getShowRankingList(startdate);
-			System.out.println(srv);
+			ArrayList<ShowRankingVo> list = sd.getShowRankingList(startdate);
+			System.out.println(list);
+			
+			request.setAttribute("list", list);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ranking_list.jsp").forward(request, response);
 		}

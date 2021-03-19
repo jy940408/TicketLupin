@@ -1,6 +1,8 @@
 package com.TicketLupin.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import com.TicketLupin.web.service.NewsDao;
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ShowDao;
+import com.TicketLupin.web.service.ShowRankingVo;
 import com.TicketLupin.web.service.ShowVo;
 
 @WebServlet("/MainController")
@@ -30,14 +33,22 @@ public class MainController extends HttpServlet{
 			int page = 1;
 			String array = "ASC";
 			
+			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
+			Calendar start = Calendar.getInstance();
+			String startdate = "0000-00-00";
+			startdate = formatter.format(start.getTime());
+			System.out.println("startdate Å×½ºÆ®: " + startdate);
+			
 			ShowDao sd = new ShowDao();
 			ArrayList<ShowVo> showList = sd.getShowList(query, ssetting, array, page);
-					
+			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
+			
 			NewsDao nd = new NewsDao();
 			List<NewsVo> newsList = nd.getNewsList(query, nsetting, page);
 			
 			request.setAttribute("showList", showList);
 			request.setAttribute("newsList", newsList);
+			request.setAttribute("rankingList", rankingList);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 			
 		}

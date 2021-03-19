@@ -4,6 +4,7 @@
 <%@page import="com.TicketLupin.web.service.ShowDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,6 +14,38 @@
 		<script src="<%=request.getContextPath() %>/js/Ranking_list.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Ranking_list.css">
 		<script>
+				
+			function orderSelect(){
+				
+				alert("띠용>");
+				var id;
+				$(".order").click(function(){
+					id = $(this).attr("id");
+					alert("들어왔나..." + id);
+				});
+				
+				alert("id: " + id);
+				
+				var orderData;
+				if(id == "now"){
+					orderData = "{'order': 'now'}"
+				}else if(id == "week"){
+					orderData = "{'order': 'week'}"
+				}else if(id == "month"){
+					orderData = "{'order': 'month'}"
+				}
+				
+				alert("들어왔나?" + orderData);
+				
+				$.ajax({
+					type:"get",
+					url:"${pageContext.request.contextPath}/Show/RankingList.do",
+					data: orderData,
+					success: function(data){
+						alert("ajax 시작!");
+					}
+				});
+			}
 			
 		</script>
 	</head>
@@ -22,10 +55,16 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+						<c:if test="${not empty sessionScope.mid}">
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -38,54 +77,65 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_admin">마이티켓</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
-		
-		
-		<div class="wrap_nav" id="wrap_nav" style="display:none;">
-			<div id="nav_menu_sub_div">
-				<ul id="nav_menu_sub">
-					<li><a href="#">마이홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">마이찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_event_div" class="main_nav_all">
+			<ul id="nav_menu_sub_event" style="margin:0px;">
+				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
-		
-		<div class="wrap_nav"  id="wrap_nav2" style="display:none;">
-			<div id="nav_menu_sub_div" class="main_nav_event" >
-				<ul id="nav_menu_sub2">
-					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
+			<ul id="nav_menu_sub_myticket" style="margin:0px;">
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
 		
 		<section>
 			<article>
 				<div class="wrap_ranking">
 					<div class="wrap_rank_date">
-						<div id="wrap_select_drop_on"  onclick="mydiv()">
+						<div id="wrap_select_drop_on">
 							<div class="tit_rank_date">
 								<button type="button" value="realtime" onclick="nowranking()" class="rankbtn">
 									실시간 랭킹 - 2021.03.04(목) 현재 &nbsp;&nbsp; ∨
 								</button>
 							</div>
 							<ul class="select_list" id="ul_list" style="display:none">
-								<li><a href="?order=now">실시간</a></li>
-								<li><a href="?order=week">주간</a></li>
-								<li><a href="?order=month">월간</a></li>
+								<li><span class="order" id="now" onclick="orderSelect()">실시간</span></li>
+								<li><span class="order" id="week" onclick="orderSelect()">주간</span></li>
+								<li><span class="order" id="month" onclick="orderSelect()">월간</span></li>
 							</ul>
 						</div>
 					</div>
@@ -102,26 +152,28 @@
 							</tr>
 						</thead>
 						<tbody>
-							<%-- <tr>
-								<td class="num"><%=sv.getSidx() %></td>
+							<c:forEach var="l" items="${list}" varStatus="status" begin="0" end="10" step="1">
+							<tr>
+								<td class="num">${status.count }</td>
 								<td class="td_">
 									<div class="show_info">
 										<span class="show_poster">
-											<a href="<%=request.getContextPath()%>/Show/ConcertView.do">
-												<img src="../poster/musicalposter1.jpg" class="rank_poster">
+											<a href="${pageContext.request.contextPath}/Show/ConcertView.do">
+												<img src="${pageContext.request.contextPath}/poster/${l.simage }" class="rank_poster">
 											</a>
 										</span>
 										<span class="show_title">
-											<a href="#"><%=sv.getStitle()%></a>
+											<a href="#">${l.stitle}</a>
 										</span>
 									</div>
 								</td>
-								<td><%=sv.getSregdate() %></td>
-								<td><%=sv.getSplace() %></td>
+								<td>${l.sopendate} - ${l.senddate}</td>
+								<td>${l.sdetailaddress}</td>
 								<td>
 									<button type="button" class="btn_rank">예매하기</button>
-								</td> --%>
+								</td>
 							</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>

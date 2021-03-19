@@ -9,6 +9,17 @@
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/Main.css">
 		<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/Main.js"></script>
+		<script>
+		
+		 	function loginAlert(){
+		 		
+		 		alert("로그인이 필요한 서비스입니다");
+		 		location.href="${pageContext.request.contextPath}/Member/MemberLogin.do";
+			  	return;
+		 		
+		 	}
+		
+		</script>
 	</head>
 	<body>
 		<header>
@@ -73,10 +84,20 @@
 						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<c:choose>
+							<c:when test="${not empty sessionScope.mid}">
+								<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:when>
+							<c:otherwise>
+								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 			</ul>
@@ -144,37 +165,37 @@
 					</div>
 					<div id="main_ranking" class="main_open_ranking">
 						<span id="main_ranking_ment">랭킹</span>
-						<a href="#" id="main_ranking_more">더보기></a>
+						<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_ranking_more">더보기></a>
 						<div class="main_notice_class" id="main_ranking_set">
-							<div class="main_ranking_class" id="main_ranking1">
-								<span class="main_ranking_number">1</span>
-								<img src="../poster/musicalposter1.jpg" id="main_ranking_poster1">
-								<div class="main_ranking_text">
-									<div class="main_ranking_name">검은 사제들</div><br>
-									<div class="main_ranking_date">2020.01.01</div><br>
-									<div class="main_ranking_place">대학로 유니플렉스 1관</div>
+							<c:forEach var="rl" items="${rankingList}" begin="0" end="2" step="1" varStatus="status">
+							<c:if test="${!status.last}">
+							<a href="${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${rl.sidx}" style="text-decoration:none; color:black;">
+								<div class="main_ranking_class" id="main_ranking1">
+									<span class="main_ranking_number">${status.count}</span>
+									<img src="${pageContext.request.contextPath}/poster/${rl.simage }" id="main_ranking_poster1">
+									<div class="main_ranking_text">
+										<div class="main_ranking_name">${rl.stitle }</div><br>
+										<div class="main_ranking_date">${rl.sopendate } ~ ${rl.senddate }</div><br>
+										<div class="main_ranking_place">${rl.sdetailaddress }</div>
+									</div>
 								</div>
-							</div>
+							</a>
 							<hr class="main_ranking_bar">
-							<div class="main_ranking_class" id="main_ranking2">
-								<span class="main_ranking_number">2</span>
-								<img src="../poster/musicalposter2.jpg" id="main_ranking_poster2">
-								<div class="main_ranking_text">
-									<div class="main_ranking_name">쿠로이 저택엔 누가 살고 있을까?</div><br>
-									<div class="main_ranking_date">2020.01.01</div><br>
-									<div class="main_ranking_place">플러스씨어터(구. 컬처스페이스 엔유)</div>
+							</c:if>
+							<c:if test="${status.last }">
+							<a href="${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${rl.sidx}" style="text-decoration:none; color:black;">
+								<div class="main_ranking_class" id="main_ranking1">
+									<span class="main_ranking_number">${status.count}</span>
+									<img src="${pageContext.request.contextPath}/poster/${rl.simage }" id="main_ranking_poster1">
+									<div class="main_ranking_text">
+										<div class="main_ranking_name">${rl.stitle }</div><br>
+										<div class="main_ranking_date">${rl.sopendate } ~ ${rl.senddate }</div><br>
+										<div class="main_ranking_place">${rl.sdetailaddress }</div>
+									</div>
 								</div>
-							</div>
-							<hr class="main_ranking_bar">
-							<div class="main_ranking_class" id="main_ranking3">
-								<span class="main_ranking_number">3</span>
-								<img src="../poster/musicalposter3.jpg" id="main_ranking_poster3">
-								<div class="main_ranking_text">
-									<div class="main_ranking_name">유월</div><br>
-									<div class="main_ranking_date">2020.01.01</div><br>
-									<div class="main_ranking_place" id="main_ranking_place3">경기아트센터 대극장</div>
-								</div>
-							</div>
+							</a>
+							</c:if>
+							</c:forEach>
 						</div>
 					</div>
 				</div>

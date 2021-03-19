@@ -11,6 +11,50 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_dibs.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
+		<script>
+			/* $.ajax({
+				
+				type:"get",
+				url:"${pageContext.request.contextPath}/Dibs/MyDibs.do",
+				data:"",
+				success:function(data){
+					
+					
+				}
+				
+			}); */
+			
+			/* function dibsDelete(){
+				
+				$.ajax({
+					
+					type:"get",
+					url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
+					data:{"sidx": '${list.sidx}'},
+					success:function(data){
+						if(data.result == 0){
+							
+							alert("찜한 목록이 삭제되었습니다!");
+							
+							var output="";
+							output += "<c:forEach var='l' items='${list}'>";
+							output += "	<tr>";
+							output += "		<td>${l.num}</td>";
+							output += "		<td class='td_'><a href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}'>${l.stitle}</a></td>";
+							output += "		<td>${l.sopendate} ~ <br>${l.senddate}</td>";
+							output += "		<td id='dibsDeleteID'>";
+							output += "			<button type='button' value='cancel' class='td_button' onclick='dibsDelete()'>삭제</button>";
+							output += "		</td>";
+							output += "	</tr>";
+							output += "</c:forEach>";
+							
+							$("#tbody").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
+						}
+					}
+				});
+				
+			} */
+		</script>
 	</head>
 	<body>
 		<header>
@@ -20,13 +64,13 @@
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
 							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
 						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
-							<li><a href="<%=request.getContextPath()%>/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
@@ -40,10 +84,10 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="<%=request.getContextPath()%>/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="<%=request.getContextPath()%>/Show/ShowList.do" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="<%=request.getContextPath()%>/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
+				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
@@ -58,8 +102,8 @@
 		<hr id="nav_bar_bottom">
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="<%=request.getContextPath()%>/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="<%=request.getContextPath()%>/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
@@ -68,17 +112,27 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<li><a href="<%=request.getContextPath()%>/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="<%=request.getContextPath()%>/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="<%=request.getContextPath()%>/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<c:choose>
+							<c:when test="${not empty sessionScope.mid}">
+								<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:when>
+							<c:otherwise>
+								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 			</ul>
@@ -116,14 +170,14 @@
 									<th width="15%"></th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tbody">
 								<c:forEach var="l" items="${list}">
 								<tr>
 									<td>${l.num}</td>
 									<td class="td_"><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">${l.stitle}</a></td>
 									<td>${l.sopendate} ~ <br>${l.senddate}</td>
-									<td>
-										<button type="button" value="cancel" class="td_button">삭제</button>
+									<td id="dibsDeleteID">
+										<button type="button" value="cancel" class="td_button" onclick="dibsDelete()">삭제</button>
 									</td>
 								</tr>
 								</c:forEach>

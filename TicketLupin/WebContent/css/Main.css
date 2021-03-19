@@ -297,7 +297,7 @@ body{
 }
 .main_ranking_bar{
 	max-width:730px;
-	margin:5px 20px 20px 20px;
+	margin:5px 20px 0 20px;
 }
 .main_ranking_number{
 	font-size:25px;
