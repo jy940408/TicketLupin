@@ -30,7 +30,7 @@
 					
 					type:"get",
 					url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
-					data:{"sidx": '${list.sidx}'},
+					data:"",
 					success:function(data){
 						if(data.result == 0){
 							
