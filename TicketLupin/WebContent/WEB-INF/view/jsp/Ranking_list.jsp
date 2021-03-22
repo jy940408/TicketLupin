@@ -154,7 +154,7 @@
 						<tbody>
 							<c:forEach var="l" items="${list}" varStatus="status" begin="0" end="10" step="1">
 							<tr>
-								<td class="num">${status.count }</td>
+								<td class="num" style="font-weight: bold;">${status.count }</td>
 								<td class="td_">
 									<div class="show_info">
 										<span class="show_poster">

@@ -8,15 +8,12 @@ public class ShowVo {
 	private String stitle;
 	private String sgenre;
 	private Date sregdate;
-	private String scontent;
-	private String simage;
 	private int spay;
 	private String sdelyn;
 	private int cidx;
 	private Date sopendate;
 	private Date senddate;
 	private String srating;
-	private String sround;
 	private int spostcode;
 	private String sroadaddress;
 	private String sjibunaddress;
@@ -24,28 +21,40 @@ public class ShowVo {
 	private String sextraaddress;
 	private int midx;
 	private Date sticketingdate;
+	private String sround;
+	private String sprice;
+	private String snotice;
+	private String sdiscount;
+	private String sinfo;
+	private String scompany;
+	private String sroundimage;
+	private String spriceimage;
+	private String snoticeimage;
+	private String sdiscountimage;
+	private String sinfoimage;
+	private String scompanyimage;
 	
 	public ShowVo() {
-		
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public ShowVo(int sidx, String stitle, String sgenre, Date sregdate, String scontent, String simage, int spay,
-			String sdelyn, int cidx, Date sopendate, Date senddate, String srating, String sround, int spostcode,
-			String sroadaddress, String sjibunaddress, String sdetailaddress, String sextraaddress, int midx, Date sticketingdate) {
+	public ShowVo(int sidx, String stitle, String sgenre, Date sregdate, int spay, String sdelyn, int cidx,
+			Date sopendate, Date senddate, String srating, int spostcode, String sroadaddress, String sjibunaddress,
+			String sdetailaddress, String sextraaddress, int midx, Date sticketingdate, String sround, String sprice,
+			String snotice, String sdiscount, String sinfo, String scompany, String sroundimage, String spriceimage,
+			String snoticeimage, String sdiscountimage, String sinfoimage, String scompanyimage) {
 		super();
 		this.sidx = sidx;
 		this.stitle = stitle;
 		this.sgenre = sgenre;
 		this.sregdate = sregdate;
-		this.scontent = scontent;
-		this.simage = simage;
 		this.spay = spay;
 		this.sdelyn = sdelyn;
 		this.cidx = cidx;
 		this.sopendate = sopendate;
 		this.senddate = senddate;
 		this.srating = srating;
-		this.sround = sround;
 		this.spostcode = spostcode;
 		this.sroadaddress = sroadaddress;
 		this.sjibunaddress = sjibunaddress;
@@ -53,6 +62,18 @@ public class ShowVo {
 		this.sextraaddress = sextraaddress;
 		this.midx = midx;
 		this.sticketingdate = sticketingdate;
+		this.sround = sround;
+		this.sprice = sprice;
+		this.snotice = snotice;
+		this.sdiscount = sdiscount;
+		this.sinfo = sinfo;
+		this.scompany = scompany;
+		this.sroundimage = sroundimage;
+		this.spriceimage = spriceimage;
+		this.snoticeimage = snoticeimage;
+		this.sdiscountimage = sdiscountimage;
+		this.sinfoimage = sinfoimage;
+		this.scompanyimage = scompanyimage;
 	}
 
 	public int getSidx() {
@@ -85,22 +106,6 @@ public class ShowVo {
 
 	public void setSregdate(Date sregdate) {
 		this.sregdate = sregdate;
-	}
-
-	public String getScontent() {
-		return scontent;
-	}
-
-	public void setScontent(String scontent) {
-		this.scontent = scontent;
-	}
-
-	public String getSimage() {
-		return simage;
-	}
-
-	public void setSimage(String simage) {
-		this.simage = simage;
 	}
 
 	public int getSpay() {
@@ -151,14 +156,6 @@ public class ShowVo {
 		this.srating = srating;
 	}
 
-	public String getSround() {
-		return sround;
-	}
-
-	public void setSround(String sround) {
-		this.sround = sround;
-	}
-
 	public int getSpostcode() {
 		return spostcode;
 	}
@@ -198,29 +195,131 @@ public class ShowVo {
 	public void setSextraaddress(String sextraaddress) {
 		this.sextraaddress = sextraaddress;
 	}
+
 	public int getMidx() {
 		return midx;
 	}
+
 	public void setMidx(int midx) {
 		this.midx = midx;
 	}
+
 	public Date getSticketingdate() {
 		return sticketingdate;
 	}
+
 	public void setSticketingdate(Date sticketingdate) {
 		this.sticketingdate = sticketingdate;
+	}
+
+	public String getSround() {
+		return sround;
+	}
+
+	public void setSround(String sround) {
+		this.sround = sround;
+	}
+
+	public String getSprice() {
+		return sprice;
+	}
+
+	public void setSprice(String sprice) {
+		this.sprice = sprice;
+	}
+
+	public String getSnotice() {
+		return snotice;
+	}
+
+	public void setSnotice(String snotice) {
+		this.snotice = snotice;
+	}
+
+	public String getSdiscount() {
+		return sdiscount;
+	}
+
+	public void setSdiscount(String sdiscount) {
+		this.sdiscount = sdiscount;
+	}
+
+	public String getSinfo() {
+		return sinfo;
+	}
+
+	public void setSinfo(String sinfo) {
+		this.sinfo = sinfo;
+	}
+
+	public String getScompany() {
+		return scompany;
+	}
+
+	public void setScompany(String scompany) {
+		this.scompany = scompany;
+	}
+
+	public String getSroundimage() {
+		return sroundimage;
+	}
+
+	public void setSroundimage(String sroundimage) {
+		this.sroundimage = sroundimage;
+	}
+
+	public String getSpriceimage() {
+		return spriceimage;
+	}
+
+	public void setSpriceimage(String spriceimage) {
+		this.spriceimage = spriceimage;
+	}
+
+	public String getSnoticeimage() {
+		return snoticeimage;
+	}
+
+	public void setSnoticeimage(String snoticeimage) {
+		this.snoticeimage = snoticeimage;
+	}
+
+	public String getSdiscountimage() {
+		return sdiscountimage;
+	}
+
+	public void setSdiscountimage(String sdiscountimage) {
+		this.sdiscountimage = sdiscountimage;
+	}
+
+	public String getSinfoimage() {
+		return sinfoimage;
+	}
+
+	public void setSinfoimage(String sinfoimage) {
+		this.sinfoimage = sinfoimage;
+	}
+
+	public String getScompanyimage() {
+		return scompanyimage;
+	}
+
+	public void setScompanyimage(String scompanyimage) {
+		this.scompanyimage = scompanyimage;
 	}
 
 	@Override
 	public String toString() {
 		return "ShowVo [sidx=" + sidx + ", stitle=" + stitle + ", sgenre=" + sgenre + ", sregdate=" + sregdate
-				+ ", scontent=" + scontent + ", simage=" + simage + ", spay=" + spay + ", sdelyn=" + sdelyn + ", cidx="
-				+ cidx + ", sopendate=" + sopendate + ", senddate=" + senddate + ", srating=" + srating + ", sround="
-				+ sround + ", spostcode=" + spostcode + ", sroadaddress=" + sroadaddress + ", sjibunaddress="
-				+ sjibunaddress + ", sdetailaddress=" + sdetailaddress + ", sextraaddress=" + sextraaddress + ",midx="
-				+ midx + ",sticketingdate=" + sticketingdate + "]";
+				+ ", spay=" + spay + ", sdelyn=" + sdelyn + ", cidx=" + cidx + ", sopendate=" + sopendate
+				+ ", senddate=" + senddate + ", srating=" + srating + ", spostcode=" + spostcode + ", sroadaddress="
+				+ sroadaddress + ", sjibunaddress=" + sjibunaddress + ", sdetailaddress=" + sdetailaddress
+				+ ", sextraaddress=" + sextraaddress + ", midx=" + midx + ", sticketingdate=" + sticketingdate
+				+ ", sround=" + sround + ", sprice=" + sprice + ", snotice=" + snotice + ", sdiscount=" + sdiscount
+				+ ", sinfo=" + sinfo + ", scompany=" + scompany + ", sroundimage=" + sroundimage + ", spriceimage="
+				+ spriceimage + ", snoticeimage=" + snoticeimage + ", sdiscountimage=" + sdiscountimage
+				+ ", sinfoimage=" + sinfoimage + ", scompanyimage=" + scompanyimage + "]";
 	}
-	
 	
 	
 }

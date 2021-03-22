@@ -1051,3 +1051,13 @@ body{
 	color:#00b523;
 	background-color:white;
 }
+/*------------------------------------------------------------------------------------------------------------------------*/
+#modify{
+	border:1px solid black;
+	float:right;
+}
+#delete{
+	border:1px solid black;
+	float:right;
+	margin-top:30px;
+}

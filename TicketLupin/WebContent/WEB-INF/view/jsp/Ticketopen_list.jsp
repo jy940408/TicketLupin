@@ -12,6 +12,7 @@
 		<script src="<%=request.getContextPath() %>/js/slick-1.8.1/slick-1.8.1/slick/slick.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Ticketopen_list.js"></script>
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Ticketopen_list.css">
 	</head>
 	<body>
@@ -77,10 +78,20 @@
 						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<c:choose>
+							<c:when test="${not empty sessionScope.mid}">
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:when>
+							<c:otherwise>
+								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 			</ul>

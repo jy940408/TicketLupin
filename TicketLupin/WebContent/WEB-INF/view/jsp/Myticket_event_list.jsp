@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_event_list.css">
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 	</head>
 	<body>
 		<header>

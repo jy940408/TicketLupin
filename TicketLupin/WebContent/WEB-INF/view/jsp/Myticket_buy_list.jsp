@@ -10,6 +10,7 @@
 		<script src="<%=request.getContextPath() %>/js/nav_event.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Myticket_buy_list.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_buy_list.css">
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 	</head>
 	<body>
 		<header>

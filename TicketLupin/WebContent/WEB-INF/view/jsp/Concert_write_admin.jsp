@@ -339,18 +339,121 @@
 								</td>
 							</tr>
 							<tr>
+								<th colspan="3" style="border:1px solid;">
+									제목 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="titleImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>공연시간</center></td>
+							</tr>
+							<tr>
 								<td colspan="14">
 									<center>
-										<textarea class="content" name="content" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+										<textarea class="content" name="roundText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
 									</center>
 								</td>
 							</tr>
 							<tr>
-								<th colspan="2" style="border:1px solid;">
-									제목 사진
+								<th colspan="3" style="border:1px solid;">
+									공연시간 사진
 								</th>
-								<td colspan="12" style="border:1px solid;">
-									<input type="file" class="file" name="image" style="border:0px; font-size:14px;" required>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="roundImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>가격정보</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="priceText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									가격정보 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="priceImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>예매 공지사항</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="noticeText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									예매공지 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="noticeImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>할인 정보</center></td>
+							</tr>
+							
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="discountText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									테스트 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="discountImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>작품정보</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="infoText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									작품정보 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="infoImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>기획사 정보</center></td>
+							</tr>
+							
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="companyText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									기획사 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="companyImage" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 						</table>

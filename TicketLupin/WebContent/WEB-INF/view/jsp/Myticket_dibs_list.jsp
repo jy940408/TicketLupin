@@ -11,18 +11,8 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_dibs.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 		<script>
-			/* $.ajax({
-				
-				type:"get",
-				url:"${pageContext.request.contextPath}/Dibs/MyDibs.do",
-				data:"",
-				success:function(data){
-					
-					
-				}
-				
-			}); */
 			
 			function dibsDelete(sidx){
 				

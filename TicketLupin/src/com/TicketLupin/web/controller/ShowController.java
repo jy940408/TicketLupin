@@ -76,6 +76,8 @@ public class ShowController extends HttpServlet{
 			System.out.println("setting: " + setting);
 			System.out.println("array: " + array);
 			
+			System.out.println("¸®½ºÆ® Å×½ºÆ®: " + list);
+			System.out.println("Ä«¿îÆ® Å×½ºÆ®: " + count);
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
@@ -169,6 +171,21 @@ public class ShowController extends HttpServlet{
 			request.setAttribute("list", list);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ranking_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Show/ShowDelete.do")) {
+
+			String sidx_ = request.getParameter("sidx");
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+			ShowDao sd = new ShowDao();
+			sd.getShowDelete(sidx);
+			
+			System.out.println("°ø¿¬ »èÁ¦ ¼º°ø");
+			
+			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");
 		}
 	}
 	@Override
@@ -189,19 +206,21 @@ public class ShowController extends HttpServlet{
 			
 			String uploadPath = request.getSession().getServletContext().getRealPath("poster");
 			int sizeLimit = 1024*1024*15;
-			String file = "";
-			String originalFile = "";
 			System.out.println(uploadPath);
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
 			String title = multi.getParameter("title");
-			String content = multi.getParameter("content");
+			String round = multi.getParameter("roundText");
+			String price = multi.getParameter("priceText");
+			String notice = multi.getParameter("noticeText");
+			String discount = multi.getParameter("discountText");
+			String info = multi.getParameter("infoText");
+			String company = multi.getParameter("companyText");
 			String genre = multi.getParameter("genre");
 			String startdate_ = multi.getParameter("startdate");
 			String enddate_ = multi.getParameter("enddate");
 			String ticketingdate_ = multi.getParameter("ticketingdate");
 			String rating = multi.getParameter("rating");
-			String round = multi.getParameter("platanusTime");
 			String image = multi.getParameter("image");
 			String postcode_ = multi.getParameter("postcode");
 			String roadAddress = multi.getParameter("roadAddress");
@@ -215,7 +234,6 @@ public class ShowController extends HttpServlet{
 			}
 			
 			System.out.println("title: " + title);
-			System.out.println("content: " + content);
 			System.out.println("genre: " + genre);
 			System.out.println("startdate: " + startdate_);
 			System.out.println("enddate: " + enddate_);
@@ -273,13 +291,26 @@ public class ShowController extends HttpServlet{
 //==============================================================================================================================//
 			   
 			Enumeration files = multi.getFileNames();
-			String str_ = (String)files.nextElement();
+			String roundImage = (String)files.nextElement();
+			String priceImage = (String)files.nextElement();
+			String noticeImage = (String)files.nextElement();
+			String discountImage = (String)files.nextElement();
+			String infoImage = (String)files.nextElement();
+			String companyImage = (String)files.nextElement();
 							
-			file = multi.getFilesystemName(str_);
-			originalFile = multi.getOriginalFileName(str_);
-							
-			System.out.println("fileï¿½ï¿½: " + file);
-			System.out.println("originalFileï¿½ï¿½: " + originalFile);
+			String rifile = multi.getFilesystemName(roundImage);
+			String rioriginalFile = multi.getOriginalFileName(roundImage);
+			String pifile = multi.getFilesystemName(priceImage);
+			String pioriginalFile = multi.getOriginalFileName(priceImage);
+			String nifile = multi.getFilesystemName(noticeImage);
+			String nioriginalFile = multi.getOriginalFileName(noticeImage);
+			String difile = multi.getFilesystemName(discountImage);
+			String dioriginalFile = multi.getOriginalFileName(discountImage);
+			String iifile = multi.getFilesystemName(infoImage);
+			String iioriginalFile = multi.getOriginalFileName(infoImage);
+			String cifile = multi.getFilesystemName(companyImage);
+			String cioriginalFile = multi.getOriginalFileName(companyImage);
+			
 //==============================================================================================================================//
 			
 			HttpSession session = request.getSession();
@@ -291,13 +322,10 @@ public class ShowController extends HttpServlet{
 			ShowVo sv = new ShowVo();
 			
 			sv.setStitle(title);
-			sv.setScontent(content);
 			sv.setSgenre(genre);
 			sv.setSopendate(sqlStartDate);
 			sv.setSenddate(sqlEndDate);
 			sv.setSrating(rating);
-			sv.setSround(round);
-			sv.setSimage(originalFile);
 			sv.setSpostcode(postcode);
 			sv.setSroadaddress(roadAddress);
 			sv.setSjibunaddress(jibunAddress);
@@ -305,6 +333,19 @@ public class ShowController extends HttpServlet{
 			sv.setSextraaddress(extraAddress);
 			sv.setMidx(midx);
 			sv.setSticketingdate(sqlTicketingDate);
+			sv.setSround(round);
+			sv.setSprice(price);
+			sv.setSnotice(notice);
+			sv.setSdiscount(discount);
+			sv.setSinfo(info);
+			sv.setScompany(company);
+			sv.setSroundimage(rioriginalFile);
+			sv.setSpriceimage(pioriginalFile);
+			sv.setSnoticeimage(nioriginalFile);
+			sv.setSdiscountimage(dioriginalFile);
+			sv.setSinfoimage(iioriginalFile);
+			sv.setScompanyimage(cioriginalFile);
+			
 			sd.insertShow(sv);
 			
 			

@@ -107,7 +107,15 @@
 		}
 
 //-------------------------------------------------------------------------------------------------------------------------------------//
+
+		function deleteAction(){
+			
+			alert("공연이 삭제되었습니다");
 	
+		}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------//
+		
 	</script>
 		<title>티켓 루팡</title>
 		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Concert_view.css">
@@ -241,6 +249,10 @@
 										<dd>무이자</dd>
 									</dl>
 								</div>
+								<c:if test="${sessionScope.mgrade eq 'M'}">
+								<a href="${pageContext.request.contextPath}/ConcertView/ConcertViewModify.do" style="color:black"><div id="modify">수정하기</div></a><br>
+								<a href="${pageContext.request.contextPath}/Show/ShowDelete.do?sidx=${detail.sidx}" onclick="deleteAction()" style="color:black"><div id="delete">삭제하기</div></a>
+								</c:if>
 							</div>
 						</div>
 						<form name="concertReservation">

@@ -161,7 +161,7 @@
 							<c:if test="${!status.last}">
 							<a href="${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${rl.sidx}" style="text-decoration:none; color:black;">
 								<div class="main_ranking_class" id="main_ranking1">
-									<span class="main_ranking_number">${status.count}</span>
+									<span class="main_ranking_number" style="font-weight:bold;">${status.count}</span>
 									<img src="${pageContext.request.contextPath}/poster/${rl.simage }" id="main_ranking_poster1">
 									<div class="main_ranking_text">
 										<div class="main_ranking_name">${rl.stitle }</div><br>
@@ -175,7 +175,7 @@
 							<c:if test="${status.last }">
 							<a href="${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${rl.sidx}" style="text-decoration:none; color:black;">
 								<div class="main_ranking_class" id="main_ranking1">
-									<span class="main_ranking_number">${status.count}</span>
+									<span class="main_ranking_number" style="font-weight:bold;">${status.count}</span>
 									<img src="${pageContext.request.contextPath}/poster/${rl.simage }" id="main_ranking_poster1">
 									<div class="main_ranking_text">
 										<div class="main_ranking_name">${rl.stitle }</div><br>
