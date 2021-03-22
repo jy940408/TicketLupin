@@ -24,19 +24,21 @@
 				
 			}); */
 			
-			/* function dibsDelete(){
+			function dibsDelete(sidx){
 				
 				$.ajax({
 					
 					type:"get",
-					url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
-					data:"",
+					url:"${pageContext.request.contextPath}/Dibs/DibsDeleteMyPageAction.do",
+					data:{"sidx": sidx, "midx": "${sessionScope.midx}"},
 					success:function(data){
 						if(data.result == 0){
 							
 							alert("찜한 목록이 삭제되었습니다!");
 							
 							var output="";
+							
+							
 							output += "<c:forEach var='l' items='${list}'>";
 							output += "	<tr>";
 							output += "		<td>${l.num}</td>";
@@ -48,12 +50,12 @@
 							output += "	</tr>";
 							output += "</c:forEach>";
 							
-							$("#tbody").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
+							$("#tbody").html(output);
 						}
 					}
 				});
 				
-			} */
+			}
 		</script>
 	</head>
 	<body>
@@ -121,8 +123,8 @@
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:when>
@@ -177,7 +179,7 @@
 									<td class="td_"><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">${l.stitle}</a></td>
 									<td>${l.sopendate} ~ <br>${l.senddate}</td>
 									<td id="dibsDeleteID">
-										<button type="button" value="cancel" class="td_button" onclick="dibsDelete()">삭제</button>
+										<button type="button" value="cancel" class="td_button" onclick="dibsDelete(${l.sidx})">삭제</button>
 									</td>
 								</tr>
 								</c:forEach>

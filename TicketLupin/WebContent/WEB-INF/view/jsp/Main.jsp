@@ -9,17 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/Main.css">
 		<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/Main.js"></script>
-		<script>
-		
-		 	function loginAlert(){
-		 		
-		 		alert("로그인이 필요한 서비스입니다");
-		 		location.href="${pageContext.request.contextPath}/Member/MemberLogin.do";
-			  	return;
-		 		
-		 	}
-		
-		</script>
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 	</head>
 	<body>
 		<header>
@@ -86,7 +76,7 @@
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>

@@ -7,6 +7,7 @@
 		<title>티켓 루팡</title>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Main.js"></script>
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Admin_user_list.css">
 	</head>
 	<body>

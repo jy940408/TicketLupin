@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>티켓 루팡</title>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/nav_event.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Mticket_buy_list.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Myticket_buy_list.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_buy_list.css">
 	</head>
 	<body>
@@ -15,53 +17,81 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+						<c:if test="${not empty sessionScope.mid}">
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
-						<img src="musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
-					<button type="submit" id="h_search_button"><img src="search.png" id="h_search_img"></button>
+					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
 			</div>
 		</header>
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_admin">마이티켓</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
-		
-		
-		<div class="wrap_nav" id="wrap_nav" style="display:none;">
-			<div id="nav_menu_sub_div">
-				<ul id="nav_menu_sub">
-					<li><a href="#">마이홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">마이찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_event_div" class="main_nav_all">
+			<ul id="nav_menu_sub_event" style="margin:0px;">
+				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
-		<div class="wrap_nav"  id="wrap_nav2" style="display:none;">
-			<div id="nav_menu_sub_div" class="main_nav_event">
-				<ul id="nav_menu_sub2">
-					<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
+			<ul id="nav_menu_sub_myticket" style="margin:0px;">
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${not empty sessionScope.mid}">
+								<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:when>
+							<c:otherwise>
+								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
 		
 		
@@ -90,88 +120,94 @@
 							<thead>
 								<tr>
 									<th width="10%"></th>
-									<th width="45%">예매확인</th>
-									<th width="15%">공연날짜</th>
+									<th width="40%">예매확인</th>
+									<th width="10%">좌석</th>
+									<th width="10%">공연날짜</th>
 									<th width="15%"></th>
 								</tr>
 							</thead>
 							<tbody>
+								<c:forEach var="l" items="${list}">
 								<tr>
-									<td>10</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
+									<td>${l.num}</td>
+									<td class="td_"><a href="#">${l.stitle }</a></td>
+									<td>
+										${l.rseat}
+									</td>
+									<td>
+										${l.srdate}<br>
+										${l.srround}
+									</td>
 									<td>
 										<button type="submit" value="cancel" class="td_button">취소하기</button>
 									</td>
 								</tr>
-								<tr>
-									<td>9</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>8</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td class="td_"><a href="#">[소리문화전당]명성황후</a></td>
-									<td>2021/01/29</td>
-									<td>
-									</td>
-								</tr>
+								</c:forEach>
 							</tbody>
 						</table>
-						<div class="paging">
-							<a href="#"> << </a>&nbsp;&nbsp;<a href="#"> < </a>&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; </span>&nbsp;<a href="#"> > </a>&nbsp;&nbsp;<a href="#"> >> </a>
+<!--------------------------------------------------------------------------------------------------------------------->
+		
+				<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+				<c:set var="startNum" value="${page-(page-1)%5}"/>
+				<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/15),'.')}"/>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+					
+					<div id="main_news_page">
+						<div id="main_news_page_set">
+<!--------------------------------------------------------------------------------------------------------------------->
+							<a href="?p=1&q=">
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_button_llgg">&lt;&lt;</div>
+								</div>
+							</a>						
+							<c:if test="${startNum>1}">
+								<a href="?p=${startNum-1}">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${startNum<=1}">
+								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+<!--------------------------------------------------------------------------------------------------------------------->
+							
+							<div class="main_news_page_bn">
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(startNum+i) <= lastNum}">
+										<div class="main_news_page_button_page">
+											<a style="color: ${(page==(startNum+i))?'red':'black'}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}" >${startNum+i}</a>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+							<c:if test="${startNum+4<lastNum}">
+								<a href="?p=${startNum+5}">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+							</c:if>
+							<c:if test="${startNum+4>=lastNum}">
+								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+								</a>
+							</c:if>
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_news_llgg">&gt;&gt;</div>
+								</div>
+							</a>
+<!--------------------------------------------------------------------------------------------------------------------->
+
 						</div>
+					</div>
 					</div>
 					<div style="display:none;" class="cancel_view">
 						<div class="cancel_list">
@@ -199,7 +235,7 @@
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">
-					<span class="f_bottom_ment"><img src="lupinlogo.png" id="f_logo"></span>
+					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
 					<span class="f_bottom_ment">
 						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
 						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>

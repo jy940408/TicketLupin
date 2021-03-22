@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Admin_main.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Main.js"></script>
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 	</head>
 	<body>
 		<header>

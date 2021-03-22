@@ -1,7 +1,13 @@
 package com.TicketLupin.web.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
+
+import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationShowVo;
 
 @WebServlet("/MyticketController")
 public class MyticketController extends HttpServlet{
@@ -15,11 +21,42 @@ public class MyticketController extends HttpServlet{
 		System.out.println("str"+str);
 		
 		if(str.equals("/Myticket/MyticketMain.do")) {
-			System.out.println("확인");
+			
+			String page_ = request.getParameter("p");
+			int page = 1;
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			ReservationDao rd = new ReservationDao();
+			ArrayList<ReservationShowVo> list = rd.getReservationList(midx, page);
+			
+			request.setAttribute("list", list);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
 			
 		}else if(str.equals("/Myticket/MyticketReservation.do")) {
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Buy_list.jsp").forward(request, response);
+			
+			String page_ = request.getParameter("p");
+			int page = 1;
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			ReservationDao rd = new ReservationDao();
+			ArrayList<ReservationShowVo> list = rd.getReservationList(midx, page);
+			int count = rd.getReservationCount(midx);
+			System.out.println("list 확인: " + list);
+			System.out.println("count 확인: " + count);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_list.jsp").forward(request, response);
 			
 		}
 		
