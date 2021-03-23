@@ -217,7 +217,7 @@
 					<div id="main_concert_product">
 						<div id="main_concert_cont">
 							<div id="main_concert_cont_poster_div">
-								<img src="<%=request.getContextPath()%>/poster/${detail.simage}" id="main_concert_cont_poster">
+								<img src="<%=request.getContextPath()%>/poster/${detail.stitleimage}" id="main_concert_cont_poster">
 							</div>
 							<div id="main_concert_cont_text_div">
 								<div id="main_concert_cont_text_dibs">

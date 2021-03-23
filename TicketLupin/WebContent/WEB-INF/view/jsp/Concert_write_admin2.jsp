@@ -11,12 +11,28 @@
 
 		<!-- JS -->
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/timePicker.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Main.js"></script>
 		<script src="${pageContext.request.contextPath}/js/Nav_all.js"></script>
-
+		<script src="<%=request.getContextPath() %>/js/Main.js"></script>
+		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 		<!-- core CSS -->
 		<link rel="stylesheet" href="../css/jquery.timepicker.css">
 		<link rel="stylesheet" href="../css/Concert_write_admin.css">
+		
+		<script type="text/javascript">
+			
+		
+			function submitShow(){
+				
+				alert("공연을 등록합니다!");
+				
+				document.frm.action = "<%=request.getContextPath()%>/Show/ShowWriteStep2Action.do";
+			 	document.frm.method = "post";
+			 	document.frm.enctype = "multipart/form-data";
+			 	document.frm.submit(); 
+				return;
+				
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -105,54 +121,153 @@
 			<article>
 				<div class="open_notice">
 					<h2>
-						공연 회차 설정
+						공연 작성
 					</h2>
-					<form action="<%=request.getContextPath() %>/Show/ShowWriteStep3Action.do?sidx=${sidx}" method="post">
+					<form name="frm">
 						<table class="open_notice_table" style="border:1px solid; border-collapse:collapse;">
+							<colgroup>
+								<col width="50px">
+								<col width="35px">
+								<col width="20px">
+								<col width="395px">
+								<col width="85px">
+								<col width="10px">
+								<col width="50px">
+								<col width="5px">
+								<col width="85px">
+								<col width="60px">
+								<col width="40px">
+								<col width="45px">
+								<col width="70px">
+								<col width="50px">
+								
+							</colgroup>
 							<tr>
-								<th style="border:1px solid;">
-									일자
+								<th colspan="3" style="border:1px solid;">
+									제목 사진
 								</th>
-								<th style="border:1px solid;">
-									1회차
-								</th>
-								<th style="border:1px solid;">
-									2회차
-								</th>
-								<th style="border:1px solid;">
-									3회차
-								</th>
-								<th style="border:1px solid;">
-									4회차
-								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="titleImage" style="border:0px; font-size:14px;" required>
+								</td>
 							</tr>
-							<c:set var="i" value="0"/>
-							<c:forEach var="dl" items="${datelist}">
-								<c:set var="i" value="${i+1}" />
-									<tr>
-										<th style="border:1px solid;">
-											<input type="text" name="showdate${i}" value="${dl}" readonly style="width:100px; border:none; font-weight:bold; font-size:18px; text-align:center;">
-										</th>
-										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_1" style="border:0px; font-size:15px; text-align:center;"></center>
-										</td>
-										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_2" style="border:0px; font-size:15px; text-align:center;"></center>
-										</td>
-										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_3" style="border:0px; font-size:15px; text-align:center;"></center>
-										</td>
-										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_4" style="border:0px; font-size:15px; text-align:center;"></center>
-										</td>
-									</tr>
-							</c:forEach>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>공연시간</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="roundText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									공연시간 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="roundImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>가격정보</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="priceText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									가격정보 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="priceImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>예매 공지사항</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="noticeText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									예매공지 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="noticeImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>할인 정보</center></td>
+							</tr>
+							
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="discountText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									테스트 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="discountImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>작품정보</center></td>
+							</tr>
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="infoText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									작품정보 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="infoImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>기획사 정보</center></td>
+							</tr>
+							
+							<tr>
+								<td colspan="14">
+									<center>
+										<textarea class="content" name="companyText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
+									</center>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3" style="border:1px solid;">
+									기획사 사진
+								</th>
+								<td colspan="11" style="border:1px solid;">
+									<input type="file" class="file" name="companyImage" style="border:0px; font-size:14px;" required>
+								</td>
+							</tr>
 						</table>
+						<input type="hidden" name="sidx" value="${sidx}">
 						<div class="reg">
-							<button class="reg_btn" type="submit">
-								등록
+							<button class="reg_btn" type="button" onclick="submitShow()">
+								다음
 							</button>
 						</div>
+						
 						<div class="list">
 							<button class="list_btn">
 								목록으로

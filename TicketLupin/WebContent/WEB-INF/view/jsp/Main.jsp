@@ -101,7 +101,7 @@
 						<div class="main_poster_content">
 							<ul>
 								<c:forEach var="sl" items="${showList}">
-									<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${sl.sidx}"><img src="<%=request.getContextPath()%>/poster/${sl.simage}" id="main_poster_slider_poster1"></a></li>
+									<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${sl.sidx}"><img src="<%=request.getContextPath()%>/poster/${sl.stitleimage}" id="main_poster_slider_poster1"></a></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -115,7 +115,7 @@
 					<div id="main_comingsoon">
 						<c:forEach var="sl" items="${showList}" begin="0" end="3">
 						<a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${sl.sidx}">
-							<img src="<%=request.getContextPath()%>/poster/${sl.simage}" id="main_open_poster1">
+							<img src="<%=request.getContextPath()%>/poster/${sl.stitleimage}" id="main_open_poster1">
 						</a>
 						</c:forEach>
 						<div id="main_comingsoon_time" style="font-size:25px;"></div>

@@ -12,7 +12,7 @@ import com.TicketLupin.web.service.NewsDao;
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRankingVo;
-import com.TicketLupin.web.service.ShowVo;
+import com.TicketLupin.web.service.Show1Vo;
 
 @WebServlet("/MainController")
 public class MainController extends HttpServlet{
@@ -40,15 +40,17 @@ public class MainController extends HttpServlet{
 			System.out.println("startdate 테스트: " + startdate);
 			
 			ShowDao sd = new ShowDao();
-			ArrayList<ShowVo> showList = sd.getShowList(query, ssetting, array, page);
-			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
+			ArrayList<Show1Vo> showList = sd.getShowList(query, ssetting, array, page);
+//			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
+			System.out.println("이미지 나오는지 테스트: " + showList.get(0));
+			System.out.println("이미지 나오는지 테스트: " + showList.get(0).getStitleimage());
 			
 			NewsDao nd = new NewsDao();
 			List<NewsVo> newsList = nd.getNewsList(query, nsetting, page);
 			
 			request.setAttribute("showList", showList);
 			request.setAttribute("newsList", newsList);
-			request.setAttribute("rankingList", rankingList);
+//			request.setAttribute("rankingList", rankingList);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 			
 		}

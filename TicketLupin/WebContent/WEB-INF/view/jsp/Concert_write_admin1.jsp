@@ -31,7 +31,10 @@
 				var roadAddress = document.frm.roadAddress;
 				var detailAddress = document.frm.detailAddress;
 				var extraAddress = document.frm.extraAddress;
-				var content = document.frm.content;
+				var vipPrice = document.frm.vipPrice;
+				var rPrice = document.frm.rPrice;
+				var aPrice = document.frm.aPrice;
+				var sPrice = document.frm.sPrice;
 				
 				if(title.value == ""){
 					alert("제목을 입력해주세요!");
@@ -65,9 +68,21 @@
 					alert("주소참고항목을 입력해주세요!");
 					extraAddress.focus();
 					return;
-				}else if(content.value == ""){
-					alert("내용을 입력해주세요!");
-					content.focus();
+				}else if(vipPrice.value == ""){
+					alert("VIP석 가격을 입력해주세요!");
+					vipPrice.focus();
+					return;
+				}else if(rPrice.value == ""){
+					alert("R석 가격을 입력해주세요!");
+					rPrice.focus();
+					return;
+				}else if(sPrice.value == ""){
+					alert("S석 가격을 입력해주세요!");
+					sPrice.focus();
+					return;
+				}else if(aPrice.value == ""){
+					alert("A석 가격을 입력해주세요!");
+					aPrice.focus();
 					return;
 				}
 				
@@ -75,7 +90,6 @@
 				
 				document.frm.action = "<%=request.getContextPath()%>/Show/ShowWriteStep1Action.do";
 			 	document.frm.method = "post";
-			 	document.frm.enctype = "multipart/form-data";
 			 	document.frm.submit(); 
 				return;
 				
@@ -338,123 +352,16 @@
 									</div>
 								</td>
 							</tr>
+							<tr><td colspan="14" style="border:1px solid;"><center>입장권 가격 설정<center><td></tr>
 							<tr>
-								<th colspan="3" style="border:1px solid;">
-									제목 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="titleImage" style="border:0px; font-size:14px;" required>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>공연시간</center></td>
-							</tr>
-							<tr>
-								<td colspan="14">
-									<center>
-										<textarea class="content" name="roundText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									공연시간 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="roundImage" style="border:0px; font-size:14px;" required>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>가격정보</center></td>
-							</tr>
-							<tr>
-								<td colspan="14">
-									<center>
-										<textarea class="content" name="priceText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									가격정보 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="priceImage" style="border:0px; font-size:14px;" required>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>예매 공지사항</center></td>
-							</tr>
-							<tr>
-								<td colspan="14">
-									<center>
-										<textarea class="content" name="noticeText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									예매공지 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="noticeImage" style="border:0px; font-size:14px;" required>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>할인 정보</center></td>
-							</tr>
-							
-							<tr>
-								<td colspan="14">
-									<center>
-										<textarea class="content" name="discountText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									테스트 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="discountImage" style="border:0px; font-size:14px;" required>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>작품정보</center></td>
-							</tr>
-							<tr>
-								<td colspan="14">
-									<center>
-										<textarea class="content" name="infoText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									작품정보 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="infoImage" style="border:0px; font-size:14px;" required>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="14" style="border:1px solid; font-weight:bold;"><center>기획사 정보</center></td>
-							</tr>
-							
-							<tr>
-								<td colspan="14">
-									<center>
-										<textarea class="content" name="companyText" style="width:99%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<th colspan="3" style="border:1px solid;">
-									기획사 사진
-								</th>
-								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="companyImage" style="border:0px; font-size:14px;" required>
-								</td>
+								<td colspan="2" style="border:1px solid;">VIP</td>
+								<td colspan="2" style="border:1px solid;"><input type="nunber" name="vipPrice" id="vipPrice"></td>
+								<td colspan="2" style="border:1px solid;">R</td>
+								<td colspan="2" style="border:1px solid;"><input type="nunber" name="rPrice" id="rPrice"></td>
+								<td colspan="2" style="border:1px solid;">S</td>
+								<td colspan="2" style="border:1px solid;"><input type="nunber" name="sPrice" id="sPrice"></td>
+								<td colspan="1" style="border:1px solid;">A</td>
+								<td colspan="1" style="border:1px solid;"><input type="nunber" name="aPrice" id="aPrice"></td>
 							</tr>
 						</table>
 						<div class="reg">

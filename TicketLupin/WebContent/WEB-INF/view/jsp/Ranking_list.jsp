@@ -1,5 +1,5 @@
 <%@page import="domain.PageMaker"%>
-<%@page import="com.TicketLupin.web.service.ShowVo"%>
+<%@page import="com.TicketLupin.web.service.Show1Vo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.TicketLupin.web.service.ShowDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

@@ -22,7 +22,8 @@ import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRankingVo;
 import com.TicketLupin.web.service.ShowRoundDao;
 import com.TicketLupin.web.service.ShowRoundVo;
-import com.TicketLupin.web.service.ShowVo;
+import com.TicketLupin.web.service.Show1Vo;
+import com.TicketLupin.web.service.Show2Vo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -70,7 +71,7 @@ public class ShowController extends HttpServlet{
 			}
 			
 			ShowDao sd = new ShowDao();
-			List<ShowVo> list = sd.getShowList(query, setting, array, page);
+			List<Show1Vo> list = sd.getShowList(query, setting, array, page);
 			int count = sd.getShowListCount(query, setting);
 			
 			System.out.println("setting: " + setting);
@@ -84,12 +85,25 @@ public class ShowController extends HttpServlet{
 			
 		}else if(str.equals("/Show/ShowWriteStep1.do")) {
 			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin1.jsp").forward(request, response);
 			
 		}else if(str.equals("/Show/ShowWriteStep2.do")) {
+
+			//바로 직전에 등록한 공연의 sidx 가져오기
+			ShowDao sd = new ShowDao();
+			Show1Vo sv = sd.getRecentShowDetail();
+			
+			int sidx = sv.getSidx();
+			System.out.println("최근 sidx 값 받아오는지 확인: " + sidx);
+			//sidx 값 보내주기
+			request.setAttribute("sidx", sidx);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin2.jsp").forward(request, response);
+			
+		}else if(str.equals("/Show/ShowWriteStep3.do")) {
 			
 			ShowDao sd = new ShowDao();
-			ShowVo sv = sd.getRecentShowDetail();
+			Show1Vo sv = sd.getRecentShowDetail();
 			
 			int sidx = sv.getSidx();
 			Date sopendate_ = sv.getSopendate();
@@ -159,16 +173,14 @@ public class ShowController extends HttpServlet{
 				System.out.println("startdate 테스트: " + startdate);
 			}
 			
-//==============================================================================================================================//			
-			//==============================================================================================================================//			
-			//==============================================================================================================================//			
+//==============================================================================================================================//
 			
 			System.out.println("startdate: " + startdate);
 			ShowDao sd = new ShowDao();
-			ArrayList<ShowRankingVo> list = sd.getShowRankingList(startdate);
-			System.out.println(list);
-			
-			request.setAttribute("list", list);
+//			ArrayList<ShowRankingVo> list = sd.getShowRankingList(startdate);
+//			System.out.println(list);
+//			
+//			request.setAttribute("list", list);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ranking_list.jsp").forward(request, response);
 			
@@ -200,81 +212,88 @@ public class ShowController extends HttpServlet{
 		
 		if(str.equals("/Show/ShowWriteStep1Action.do")) {
 			
+//==============================================================================================================================//
+			
+			//기본 정보 받아오기
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("poster");
-			int sizeLimit = 1024*1024*15;
-			System.out.println(uploadPath);
-			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+			String title = request.getParameter("title");
+			String genre = request.getParameter("genre");
+			String startdate_ = request.getParameter("startdate");
+			String enddate_ = request.getParameter("enddate");
+			String ticketingdate_ = request.getParameter("ticketingdate");
+			String rating = request.getParameter("rating");
+			String postcode_ = request.getParameter("postcode");
+			String roadAddress = request.getParameter("roadAddress");
+			String jibunAddress = request.getParameter("jibunAddress");
+			String detailAddress = request.getParameter("detailAddress");
+			String extraAddress = request.getParameter("extraAddress");
+			String vipprice_ = request.getParameter("vipPrice");
+			String rprice_ = request.getParameter("rPrice");
+			String sprice_ = request.getParameter("sPrice");
+			String aprice_ = request.getParameter("aPrice");
 			
-			String title = multi.getParameter("title");
-			String round = multi.getParameter("roundText");
-			String price = multi.getParameter("priceText");
-			String notice = multi.getParameter("noticeText");
-			String discount = multi.getParameter("discountText");
-			String info = multi.getParameter("infoText");
-			String company = multi.getParameter("companyText");
-			String genre = multi.getParameter("genre");
-			String startdate_ = multi.getParameter("startdate");
-			String enddate_ = multi.getParameter("enddate");
-			String ticketingdate_ = multi.getParameter("ticketingdate");
-			String rating = multi.getParameter("rating");
-			String image = multi.getParameter("image");
-			String postcode_ = multi.getParameter("postcode");
-			String roadAddress = multi.getParameter("roadAddress");
-			String jibunAddress = multi.getParameter("jibunAddress");
-			String detailAddress = multi.getParameter("detailAddress");
-			String extraAddress = multi.getParameter("extraAddress");
+			//세션에 있는 midx 값 받아오기
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
 			
+			//String으로 받은 값들 int로 바꿔주기
 			int postcode = 0;
 			if(postcode_ != null && !postcode_.equals("")) {
 				postcode = Integer.parseInt(postcode_);
 			}
 			
-			System.out.println("title: " + title);
-			System.out.println("genre: " + genre);
-			System.out.println("startdate: " + startdate_);
-			System.out.println("enddate: " + enddate_);
-			System.out.println("rating: " + rating);
-			System.out.println("platanusTime: " + round);
-			System.out.println("image: " + image);
-			System.out.println("postcode: " + postcode);
-			System.out.println("roadAddress: " + roadAddress);
-			System.out.println("jibunAddress: " + jibunAddress);
-			System.out.println("detailAddress: " + detailAddress);
-			System.out.println("extraAddress: " + extraAddress);
+			int vipprice = 0;
+			if(vipprice_ != null && !vipprice_.equals("")) {
+				vipprice = Integer.parseInt(vipprice_);
+			}
+			int rprice = 0;
+			if(rprice_ != null && !rprice_.equals("")) {
+				rprice = Integer.parseInt(rprice_);
+			}
+			int sprice = 0;
+			if(sprice_ != null && !sprice_.equals("")) {
+				sprice = Integer.parseInt(sprice_);
+			}
+			int aprice = 0;
+			if(aprice_ != null && !aprice_.equals("")) {
+				aprice = Integer.parseInt(aprice_);
+			}
+			
 //==============================================================================================================================//
+			//오픈 날짜 oracle에서 쓸 수 있는 date 타입으로 바꿔주기
 			Date startdate = null;
-			   try {
-				   DateFormat formatter;
-				   
-				   formatter =  new SimpleDateFormat("yyyy-MM-dd");
-				   startdate = (Date)formatter.parse(startdate_);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		   try {
+			   DateFormat formatter;
+			   
+			   formatter =  new SimpleDateFormat("yyyy-MM-dd");
+			   startdate = (Date)formatter.parse(startdate_);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			   
 			   java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());
 			   System.out.println("占쏙옙환 占싹뤄옙 占쏙옙占쌜놂옙짜: " + sqlStartDate);
 //==============================================================================================================================//
+			 //마감 날짜 oracle에서 쓸 수 있는 date 타입으로 바꿔주기
 			Date enddate = null;
-			   try {
-				   DateFormat formatter;
-				   
-				   formatter =  new SimpleDateFormat("yyyy-MM-dd");
-				   enddate = (Date)formatter.parse(enddate_);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		   try {
+			   DateFormat formatter;
+			   
+			   formatter =  new SimpleDateFormat("yyyy-MM-dd");
+			   enddate = (Date)formatter.parse(enddate_);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			   
 			   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
 			   System.out.println("占쏙옙환 占싹뤄옙 占쏙옙占쏙옙짜: " + sqlEndDate);
 //==============================================================================================================================//
-			
+			   //예매 시작 날짜 oracle에서 쓸 수 있는 date 타입으로 바꿔주기
 			   Date ticketingdate = null;
 			   try {
 				   DateFormat formatter;
@@ -289,37 +308,9 @@ public class ShowController extends HttpServlet{
 			   java.sql.Date sqlTicketingDate = new java.sql.Date(ticketingdate.getTime());
 			   System.out.println("占쏙옙환 占싹뤄옙 티占싹울옙占승놂옙짜: " + sqlTicketingDate);
 //==============================================================================================================================//
-			   
-			Enumeration files = multi.getFileNames();
-			String roundImage = (String)files.nextElement();
-			String priceImage = (String)files.nextElement();
-			String noticeImage = (String)files.nextElement();
-			String discountImage = (String)files.nextElement();
-			String infoImage = (String)files.nextElement();
-			String companyImage = (String)files.nextElement();
-							
-			String rifile = multi.getFilesystemName(roundImage);
-			String rioriginalFile = multi.getOriginalFileName(roundImage);
-			String pifile = multi.getFilesystemName(priceImage);
-			String pioriginalFile = multi.getOriginalFileName(priceImage);
-			String nifile = multi.getFilesystemName(noticeImage);
-			String nioriginalFile = multi.getOriginalFileName(noticeImage);
-			String difile = multi.getFilesystemName(discountImage);
-			String dioriginalFile = multi.getOriginalFileName(discountImage);
-			String iifile = multi.getFilesystemName(infoImage);
-			String iioriginalFile = multi.getOriginalFileName(infoImage);
-			String cifile = multi.getFilesystemName(companyImage);
-			String cioriginalFile = multi.getOriginalFileName(companyImage);
-			
-//==============================================================================================================================//
-			
-			HttpSession session = request.getSession();
-			int midx = (int)session.getAttribute("midx");
-			
-//==============================================================================================================================//
 			
 			ShowDao sd = new ShowDao();
-			ShowVo sv = new ShowVo();
+			Show1Vo sv = new Show1Vo();
 			
 			sv.setStitle(title);
 			sv.setSgenre(genre);
@@ -333,12 +324,88 @@ public class ShowController extends HttpServlet{
 			sv.setSextraaddress(extraAddress);
 			sv.setMidx(midx);
 			sv.setSticketingdate(sqlTicketingDate);
+		
+			
+			sd.insertShow(sv);
+
+//==============================================================================================================================//			
+			
+			//다음 페이지 불러오기
+			response.sendRedirect(request.getContextPath()+"/Show/ShowWriteStep2.do");
+			
+		}else if(str.equals("/Show/ShowWriteStep2Action.do")) {
+			
+//==============================================================================================================================//		
+			
+			//이미지 업로드 설정해주기
+			String uploadPath = request.getSession().getServletContext().getRealPath("poster");
+			int sizeLimit = 1024*1024*15;
+			System.out.println(uploadPath);
+			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+
+//==============================================================================================================================//
+			
+			//기본 값 받아오기
+			String sidx_ = multi.getParameter("sidx");
+			String round = multi.getParameter("roundText");
+			String price = multi.getParameter("priceText");
+			String notice = multi.getParameter("noticeText");
+			String discount = multi.getParameter("discountText");
+			String info = multi.getParameter("infoText");
+			String company = multi.getParameter("companyText");
+			
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+//==============================================================================================================================//
+			//이미지 이름 받아오기   
+			Enumeration files = multi.getFileNames();
+			String titleImage = (String)files.nextElement();
+			String roundImage = (String)files.nextElement();
+			String priceImage = (String)files.nextElement();
+			String noticeImage = (String)files.nextElement();
+			String discountImage = (String)files.nextElement();
+			String infoImage = (String)files.nextElement();
+			String companyImage = (String)files.nextElement();
+							
+			String tfile = multi.getFilesystemName(titleImage);
+			String toriginalFile = multi.getOriginalFileName(titleImage);
+			String rifile = multi.getFilesystemName(roundImage);
+			String rioriginalFile = multi.getOriginalFileName(roundImage);
+			String pifile = multi.getFilesystemName(priceImage);
+			String pioriginalFile = multi.getOriginalFileName(priceImage);
+			String nifile = multi.getFilesystemName(noticeImage);
+			String nioriginalFile = multi.getOriginalFileName(noticeImage);
+			String difile = multi.getFilesystemName(discountImage);
+			String dioriginalFile = multi.getOriginalFileName(discountImage);
+			String iifile = multi.getFilesystemName(infoImage);
+			String iioriginalFile = multi.getOriginalFileName(infoImage);
+			String cifile = multi.getFilesystemName(companyImage);
+			String cioriginalFile = multi.getOriginalFileName(companyImage);
+			
+			System.out.println("제목사진 받아오는지 테스트: " + toriginalFile);
+			System.out.println("공연시간 사진 받아오는지 테스트: " + rioriginalFile);
+			System.out.println("가격사진 받아오는지 테스트: " + pioriginalFile);
+			System.out.println("공지사진 받아오는지 테스트: " + nioriginalFile);
+			System.out.println("할인사진 받아오는지 테스트: " + dioriginalFile);
+			System.out.println("정보사진 받아오는지 테스트: " + iioriginalFile);
+			System.out.println("회사사진 받아오는지 테스트: " + cioriginalFile);
+			
+//==============================================================================================================================//
+			
+			ShowDao sd = new ShowDao();
+			Show2Vo sv = new Show2Vo();
+			
+			sv.setSidx(sidx);
 			sv.setSround(round);
 			sv.setSprice(price);
 			sv.setSnotice(notice);
 			sv.setSdiscount(discount);
 			sv.setSinfo(info);
 			sv.setScompany(company);
+			sv.setStitleimage(toriginalFile);
 			sv.setSroundimage(rioriginalFile);
 			sv.setSpriceimage(pioriginalFile);
 			sv.setSnoticeimage(nioriginalFile);
@@ -346,12 +413,12 @@ public class ShowController extends HttpServlet{
 			sv.setSinfoimage(iioriginalFile);
 			sv.setScompanyimage(cioriginalFile);
 			
-			sd.insertShow(sv);
+			sd.insertShow2(sv);
+
 			
+			response.sendRedirect(request.getContextPath()+"/Show/ShowWriteStep3.do");
 			
-			response.sendRedirect(request.getContextPath()+"/Show/ShowWriteStep2.do");
-			
-		}else if(str.equals("/Show/ShowWriteStep2Action.do")) {
+		}else if(str.equals("/Show/ShowWriteStep3Action.do")) {
 			
 			String sidx_ = request.getParameter("sidx");
 			
@@ -363,7 +430,7 @@ public class ShowController extends HttpServlet{
 //==============================================================================================================================//			
 			
 			ShowDao sd = new ShowDao();
-			ShowVo sv = sd.getShowDetail(sidx);
+			Show1Vo sv = sd.getShowDetail(sidx);
 			
 			Date sopendate_ = sv.getSopendate();
 			Date senddate_ = sv.getSenddate();

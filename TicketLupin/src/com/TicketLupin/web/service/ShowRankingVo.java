@@ -2,7 +2,7 @@ package com.TicketLupin.web.service;
 
 import java.sql.Date;
 
-public class ShowRankingVo extends ShowVo{
+public class ShowRankingVo extends Show1Vo{
 
 	private int cnt;
 
@@ -21,15 +21,14 @@ public class ShowRankingVo extends ShowVo{
 		this.cnt = cnt;
 	}
 
-	public ShowRankingVo(int sidx, String stitle, String sgenre, Date sregdate, String scontent, String simage,
-			int spay, String sdelyn, int cidx, Date sopendate, Date senddate, String srating, String sround,
-			int spostcode, String sroadaddress, String sjibunaddress, String sdetailaddress, String sextraaddress,
-			int midx, Date sticketingdate, int cnt) {
-		super(sidx, stitle, sgenre, sregdate, scontent, simage, spay, sdelyn, cidx, sopendate, senddate, srating, sround,
-				spostcode, sroadaddress, sjibunaddress, sdetailaddress, sextraaddress, midx, sticketingdate);
-
+	public ShowRankingVo(int sidx, String stitleimage, String sround, String sprice, String snotice, String sdiscount,
+			String sinfo, String scompany, String sroundimage, String spriceimage, String snoticeimage,
+			String sdiscountimage, String sinfoimage, String scompanyimage, String sdelyn, int cnt) {
+		super(sidx, stitleimage, sround, sprice, snotice, sdiscount, sinfo, scompany, sroundimage, spriceimage, snoticeimage,
+				sdiscountimage, sinfoimage, scompanyimage, sdelyn);
 		this.cnt = cnt;
 	}
+
 	
 	
 	

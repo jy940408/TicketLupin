@@ -16,7 +16,7 @@ import com.TicketLupin.web.service.DibsDao;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRoundDao;
 import com.TicketLupin.web.service.ShowRoundVo;
-import com.TicketLupin.web.service.ShowVo;
+import com.TicketLupin.web.service.Show1Vo;
 
 @WebServlet("/ConcertViewController")
 public class ConcertViewController extends HttpServlet{
@@ -45,7 +45,7 @@ public class ConcertViewController extends HttpServlet{
 			}
 			
 			ShowDao sd = new ShowDao();
-			ShowVo detail = sd.getShowDetail(sidx);
+			Show1Vo detail = sd.getShowDetail(sidx);
 			
 			DibsDao dd = new DibsDao();
 			int didx = dd.getDibsCheck(sidx, midx);

@@ -19,42 +19,32 @@ public class ShowDao {
 		this.conn = dbconn.getConnection();
 	}
 	
-	public int insertShow(ShowVo sv) {
+	public int insertShow(Show1Vo sv) {
 		int result = 0;
 		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
-		String sql = "INSERT INTO SHOW (SIDX, STITLE, SGENRE, SREGDATE, "
-				+ "SROUND, SPRICE, SNOTICE, SDISCOUNT, SINFO, SCOMPANY, SROUNDIMAGE, SPRICEIMAGE, SNOTICEIMAGE, SDISCOUNTIMAGE, SINFOIMAGE, SCOMPANYIMAGE, "
-				+ "SDELYN, SOPENDATE, SENDDATE, SRATING, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, MIDX, STICKETINGDATE) "
-				+ "VALUES(SHOW_SEQUENCE.NEXTVAL, ?, ?, sysdate, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO SHOW1 (SIDX, STITLE, SGENRE, SREGDATE, SOPENDATE, SENDDATE, SRATING, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, "
+				+ "MIDX, STICKETINGDATE, SVIPPRICE, SRPRICE, SSPRICE, SAPRICE, SDELYN) "
+				+ "VALUES(SHOW_SEQUENCE.NEXTVAL, ?, ?, sysdate, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, sv.getStitle());
 			pstmt.setString(2, sv.getSgenre());
-			pstmt.setString(3, sv.getSround());
-			pstmt.setString(4, sv.getSprice());
-			pstmt.setString(5, sv.getSnotice());
-			pstmt.setString(6, sv.getSdiscount());
-			pstmt.setString(7, sv.getSinfo());
-			pstmt.setString(8, sv.getScompany());
-			pstmt.setString(9, sv.getSroundimage());
-			pstmt.setString(10, sv.getSpriceimage());
-			pstmt.setString(11, sv.getSnoticeimage());
-			pstmt.setString(12, sv.getSdiscountimage());
-			pstmt.setString(13, sv.getSinfoimage());
-			pstmt.setString(14, sv.getScompanyimage());
-			pstmt.setDate(15, sv.getSopendate());
-			pstmt.setDate(16, sv.getSenddate());
-			pstmt.setString(17, sv.getSrating());
-			pstmt.setString(18, sv.getSround());
-			pstmt.setInt(19, sv.getSpostcode());
-			pstmt.setString(20, sv.getSroadaddress());
-			pstmt.setString(21, sv.getSjibunaddress());
-			pstmt.setString(22, sv.getSdetailaddress());
-			pstmt.setString(23, sv.getSextraaddress());
-			pstmt.setInt(24, sv.getMidx());
-			pstmt.setDate(25, sv.getSticketingdate());
+			pstmt.setDate(3, sv.getSopendate());
+			pstmt.setDate(4, sv.getSenddate());
+			pstmt.setString(5, sv.getSrating());
+			pstmt.setInt(6, sv.getSpostcode());
+			pstmt.setString(7, sv.getSroadaddress());
+			pstmt.setString(8, sv.getSjibunaddress());
+			pstmt.setString(9, sv.getSdetailaddress());
+			pstmt.setString(10, sv.getSextraaddress());
+			pstmt.setInt(11, sv.getMidx());
+			pstmt.setDate(12, sv.getSticketingdate());
+			pstmt.setInt(13, sv.getSvipprice());
+			pstmt.setInt(14, sv.getSrprice());
+			pstmt.setInt(15, sv.getSsprice());
+			pstmt.setInt(16, sv.getSaprice());
 			ResultSet rs = pstmt.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -64,11 +54,45 @@ public class ShowDao {
 		return result;
 	}
 	
-	public ArrayList<ShowVo> getShowList(String query, String setting, String array, int page){
+	public int insertShow2(Show2Vo sv) {
+		int result = 0;
+		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
+		String sql = "INSERT INTO SHOW2 (SIDX, SROUND, SPRICE, SNOTICE, SDISCOUNT, SINFO, SCOMPANY, "
+				+ "STITLEIMAGE, SROUNDIMAGE, SPRICEIMAGE, SNOTICEIMAGE, SDISCOUNTIMAGE, SINFOIMAGE, SCOMPANYIMAGE) "
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
-		ArrayList<ShowVo> list = new ArrayList<>();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sv.getSidx());
+			pstmt.setString(2, sv.getSround());
+			pstmt.setString(3, sv.getSprice());
+			pstmt.setString(4, sv.getSnotice());
+			pstmt.setString(5, sv.getSdiscount());
+			pstmt.setString(6, sv.getSinfo());
+			pstmt.setString(7, sv.getScompany());
+			pstmt.setString(8, sv.getStitleimage());
+			pstmt.setString(9, sv.getSroundimage());
+			pstmt.setString(10, sv.getSpriceimage());
+			pstmt.setString(11, sv.getSnoticeimage());
+			pstmt.setString(12, sv.getSdiscountimage());
+			pstmt.setString(13, sv.getSinfoimage());
+			pstmt.setString(14, sv.getScompanyimage());
+			
+			ResultSet rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Show1Vo> getShowList(String query, String setting, String array, int page){
+		
+		ArrayList<Show1Vo> list = new ArrayList<>();
 
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, S.* FROM (SELECT * FROM SHOW WHERE STITLE LIKE ? AND SDELYN = 'N' ORDER BY " + setting +  " " + array + ") S) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, S.* FROM (SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE STITLE LIKE ? AND SHOW1.SDELYN = 'N' ORDER BY " + setting +  " " + array + ") S) WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 			
@@ -81,38 +105,28 @@ public class ShowDao {
 			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
+				Show1Vo sv = new Show1Vo();
 				
-				int sidx = rs.getInt("SIDX");
-				String stitle = rs.getString("STITLE");
-				String sgenre = rs.getString("sgenre");
-				Date sregdate = rs.getDate("SREGDATE");
-				String sdelyn = rs.getString("SDELYN");
-				int cidx = rs.getInt("CIDX");
-				String sround = rs.getString("SROUND");
-				String sprice = rs.getString("SPRICE");
-				String snotice = rs.getString("SNOTICE");
-				String sdiscount = rs.getString("SDISCOUNT");
-				String sinfo = rs.getString("SINFO");
-				String scompany = rs.getString("SCOMPANY");
-				String sroundimage = rs.getString("SROUNDIMAGE");
-				String spriceimage = rs.getString("SPRICEIMAGE");
-				String snoticeimage = rs.getString("SNOTICEIMAGE");
-				String sdiscountimage = rs.getString("SDISCOUNTIMAGE");
-				String sinfoimage = rs.getString("SINFOIMAGE");
-				String scompanyimage = rs.getString("SCOMPANYIMAGE");
-				int spay = rs.getInt("SPAY");
-				Date sopendate = rs.getDate("SOPENDATE");
-				Date senddate = rs.getDate("SENDDATE");
-				String srating = rs.getString("SRATING");
-				int spostcode = rs.getInt("SPOSTCODE");
-				String sroadaddress = rs.getString("SROADADDRESS");
-				String sjibunaddress = rs.getString("SJIBUNADDRESS");
-				String sdetailaddress = rs.getString("SDETAILADDRESS");
-				String sextraaddress = rs.getString("sextraaddress");
-				int midx = rs.getInt("MIDX");
-				Date sticketingdate = rs.getDate("STICKETINGDATE");
-				ShowVo sv = new ShowVo(sidx, stitle, sgenre, sregdate, spay, sdelyn, cidx, sopendate, senddate, srating, spostcode, sroadaddress, sjibunaddress, sdetailaddress, sextraaddress, midx, sticketingdate, sround, sprice, snotice, sdiscount, sinfo, scompany, sroundimage, spriceimage, snoticeimage, sdiscountimage, sinfoimage, scompanyimage);
-				
+				sv.setSidx(rs.getInt("SIDX"));
+				sv.setStitle(rs.getString("STITLE"));
+				sv.setSgenre(rs.getString("sgenre"));
+				sv.setSregdate(rs.getDate("SREGDATE"));
+				sv.setSopendate(rs.getDate("SOPENDATE"));
+				sv.setSenddate(rs.getDate("SENDDATE"));
+				sv.setSrating(rs.getString("SRATING"));
+				sv.setSpostcode(rs.getInt("SPOSTCODE"));
+				sv.setSroadaddress(rs.getString("SROADADDRESS"));
+				sv.setSjibunaddress(rs.getString("SJIBUNADDRESS"));
+				sv.setSdetailaddress(rs.getString("SDETAILADDRESS"));
+				sv.setSextraaddress(rs.getString("SEXTRAADDRESS"));
+				sv.setMidx(rs.getInt("MIDX"));
+				sv.setSticketingdate(rs.getDate("STICKETINGDATE"));
+				sv.setSvipprice(rs.getInt("SVIPPRICE"));
+				sv.setSrprice(rs.getInt("SRPRICE"));
+				sv.setSsprice(rs.getInt("SSPRICE"));
+				sv.setSaprice(rs.getInt("SAPRICE"));
+				sv.setSdelyn(rs.getString("SDELYN"));
+				sv.setStitleimage(rs.getString("STITLEIMAGE"));
 				list.add(sv);
 			}
 		
@@ -127,7 +141,7 @@ public class ShowDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(SIDX) COUNT FROM (SELECT ROWNUM NUM, S.* FROM (SELECT * FROM SHOW WHERE STITLE LIKE ? ORDER BY ? DESC) S)";
+		String sql = "SELECT COUNT(SIDX) COUNT FROM (SELECT ROWNUM NUM, S.* FROM (SELECT * FROM SHOW1 WHERE STITLE LIKE ? ORDER BY ? DESC) S)";
 		
 		try {
 		
@@ -151,10 +165,10 @@ public class ShowDao {
 		return count;
 	}
 
-	public ShowVo getShowDetail(int idx) {
-		ShowVo sv = null;
+	public Show1Vo getShowDetail(int idx) {
+		Show1Vo sv = new Show1Vo();
 		
-		String sql = "SELECT * FROM SHOW WHERE SIDX = ?";
+		String sql = "SELECT * FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE SHOW1.SIDX =  ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -165,37 +179,39 @@ public class ShowDao {
 			
 			rs.next();
 			
-			int sidx = rs.getInt("SIDX");
-			String stitle = rs.getString("STITLE");
-			String sgenre = rs.getString("sgenre");
-			Date sregdate = rs.getDate("SREGDATE");
-			String sdelyn = rs.getString("SDELYN");
-			int cidx = rs.getInt("CIDX");
-			String sround = rs.getString("SROUND");
-			String sprice = rs.getString("SPRICE");
-			String snotice = rs.getString("SNOTICE");
-			String sdiscount = rs.getString("SDISCOUNT");
-			String sinfo = rs.getString("SINFO");
-			String scompany = rs.getString("SCOMPANY");
-			String sroundimage = rs.getString("SROUNDIMAGE");
-			String spriceimage = rs.getString("SPRICEIMAGE");
-			String snoticeimage = rs.getString("SNOTICEIMAGE");
-			String sdiscountimage = rs.getString("SDISCOUNTIMAGE");
-			String sinfoimage = rs.getString("SINFOIMAGE");
-			String scompanyimage = rs.getString("SCOMPANYIMAGE");
-			int spay = rs.getInt("SPAY");
-			Date sopendate = rs.getDate("SOPENDATE");
-			Date senddate = rs.getDate("SENDDATE");
-			String srating = rs.getString("SRATING");
-			int spostcode = rs.getInt("SPOSTCODE");
-			String sroadaddress = rs.getString("SROADADDRESS");
-			String sjibunaddress = rs.getString("SJIBUNADDRESS");
-			String sdetailaddress = rs.getString("SDETAILADDRESS");
-			String sextraaddress = rs.getString("sextraaddress");
-			int midx = rs.getInt("MIDX");
-			Date sticketingdate = rs.getDate("STICKETINGDATE");
+			sv.setSidx(rs.getInt("SIDX"));
+			sv.setStitle(rs.getString("STITLE"));
+			sv.setSgenre(rs.getString("sgenre"));
+			sv.setSregdate(rs.getDate("SREGDATE"));
+			sv.setSopendate(rs.getDate("SOPENDATE"));
+			sv.setSenddate(rs.getDate("SENDDATE"));
+			sv.setSrating(rs.getString("SRATING"));
+			sv.setSpostcode(rs.getInt("SPOSTCODE"));
+			sv.setSroadaddress(rs.getString("SROADADDRESS"));
+			sv.setSjibunaddress(rs.getString("SJIBUNADDRESS"));
+			sv.setSdetailaddress(rs.getString("SDETAILADDRESS"));
+			sv.setSextraaddress(rs.getString("SEXTRAADDRESS"));
+			sv.setMidx(rs.getInt("MIDX"));
+			sv.setSticketingdate(rs.getDate("STICKETINGDATE"));
+			sv.setSvipprice(rs.getInt("SVIPPRICE"));
+			sv.setSrprice(rs.getInt("SRPRICE"));
+			sv.setSsprice(rs.getInt("SSPRICE"));
+			sv.setSaprice(rs.getInt("SAPRICE"));
+			sv.setSdelyn(rs.getString("SDELYN"));
+			sv.setSround(rs.getString("SROUND"));
+			sv.setSprice(rs.getString("SPRICE"));
+			sv.setSnotice(rs.getString("SNOTICE"));
+			sv.setSdiscount(rs.getString("SDISCOUNT"));
+			sv.setSinfo(rs.getString("SINFO"));
+			sv.setScompany(rs.getString("SCOMPANY"));
+			sv.setStitleimage(rs.getString("STITLEIMAGE"));
+			sv.setSroundimage(rs.getString("SROUNDIMAGE"));
+			sv.setSpriceimage(rs.getString("SPRICEIMAGE"));
+			sv.setSnoticeimage(rs.getString("SNOTICEIMAGE"));
+			sv.setSdiscountimage(rs.getString("SDISCOUNTIMAGE"));
+			sv.setSinfoimage(rs.getString("SINFOIMAGE"));
+			sv.setScompanyimage(rs.getString("SCOMPANYIMAGE"));
 			
-			sv = new ShowVo(sidx, stitle, sgenre, sregdate, spay, sdelyn, cidx, sopendate, senddate, srating, spostcode, sroadaddress, sjibunaddress, sdetailaddress, sextraaddress, midx, sticketingdate, sround, sprice, snotice, sdiscount, sinfo, scompany, sroundimage, spriceimage, snoticeimage, sdiscountimage, sinfoimage, scompanyimage);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -205,11 +221,11 @@ public class ShowDao {
 	}
 
 	
-	public ShowVo getRecentShowDetail() {
+	public Show1Vo getRecentShowDetail() {
 		
-		ShowVo sv = null;
+		Show1Vo sv = new Show1Vo();
 		
-		String sql = "SELECT * FROM SHOW WHERE SIDX = (SELECT MAX(SIDX) FROM SHOW)";
+		String sql = "SELECT * FROM SHOW1 WHERE SIDX = (SELECT MAX(SIDX) FROM SHOW1)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -217,37 +233,11 @@ public class ShowDao {
 			
 			rs.next();
 			
-			int sidx = rs.getInt("SIDX");
-			String stitle = rs.getString("STITLE");
-			String sgenre = rs.getString("sgenre");
-			Date sregdate = rs.getDate("SREGDATE");
-			String sdelyn = rs.getString("SDELYN");
-			int cidx = rs.getInt("CIDX");
-			String sround = rs.getString("SROUND");
-			String sprice = rs.getString("SPRICE");
-			String snotice = rs.getString("SNOTICE");
-			String sdiscount = rs.getString("SDISCOUNT");
-			String sinfo = rs.getString("SINFO");
-			String scompany = rs.getString("SCOMPANY");
-			String sroundimage = rs.getString("SROUNDIMAGE");
-			String spriceimage = rs.getString("SPRICEIMAGE");
-			String snoticeimage = rs.getString("SNOTICEIMAGE");
-			String sdiscountimage = rs.getString("SDISCOUNTIMAGE");
-			String sinfoimage = rs.getString("SINFOIMAGE");
-			String scompanyimage = rs.getString("SCOMPANYIMAGE");
-			int spay = rs.getInt("SPAY");
-			Date sopendate = rs.getDate("SOPENDATE");
-			Date senddate = rs.getDate("SENDDATE");
-			String srating = rs.getString("SRATING");
-			int spostcode = rs.getInt("SPOSTCODE");
-			String sroadaddress = rs.getString("SROADADDRESS");
-			String sjibunaddress = rs.getString("SJIBUNADDRESS");
-			String sdetailaddress = rs.getString("SDETAILADDRESS");
-			String sextraaddress = rs.getString("sextraaddress");
-			int midx = rs.getInt("MIDX");
-			Date sticketingdate = rs.getDate("STICKETINGDATE");
+			sv.setSidx(rs.getInt("SIDX"));
+			sv.setSopendate(rs.getDate("SOPENDATE"));
+			sv.setSenddate(rs.getDate("SENDDATE"));
 			
-			sv = new ShowVo(sidx, stitle, sgenre, sregdate, spay, sdelyn, cidx, sopendate, senddate, srating, spostcode, sroadaddress, sjibunaddress, sdetailaddress, sextraaddress, midx, sticketingdate, sround, sprice, snotice, sdiscount, sinfo, scompany, sroundimage, spriceimage, snoticeimage, sdiscountimage, sinfoimage, scompanyimage);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -281,9 +271,6 @@ public class ShowDao {
 				String simage = rs.getString("SIMAGE");
 				int cnt = rs.getInt("CNT");
 				Date n = null;
-				
-				ShowRankingVo srv = new ShowRankingVo(sidx, stitle, "", n, "", simage, 0, "", 0, sopendate, senddate, "", "", 0, "", "", sdetailaddress, "", 0, n, cnt);
-				
 				result.add(srv);
 			}
 		} catch (SQLException e) {
@@ -298,7 +285,7 @@ public class ShowDao {
 	public int getShowDelete(int sidx) {
 		
 		int value = 0;
-		String sql = "UPDATE SHOW SET SDELYN = 'Y' WHERE SIDX = ?";
+		String sql = "UPDATE SHOW1 SET SDELYN = 'Y' WHERE SIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

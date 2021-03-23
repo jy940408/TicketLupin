@@ -178,9 +178,9 @@
 								<c:forEach var="l" items="${list}">
 								<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">
 									<div class="main_concert_musical_detail">
-										<img src="<%=request.getContextPath() %>/poster/${l.simage }" class="main_concert_musical_detail_poster">
+										<img src="<%=request.getContextPath() %>/poster/${l.stitleimage}" class="main_concert_musical_detail_poster">
 										<div class="main_concert_musical_detail_title">
-											${l.stitle}
+											${l.stitle} ${l.stitleimage}
 										</div>
 										<div class="main_concert_musical_detail_date">
 											${l.sopendate } - ${l.senddate}

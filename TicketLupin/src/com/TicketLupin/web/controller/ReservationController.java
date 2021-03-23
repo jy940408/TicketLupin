@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ReservationVo;
 import com.TicketLupin.web.service.ShowDao;
-import com.TicketLupin.web.service.ShowVo;
+import com.TicketLupin.web.service.Show1Vo;
 
 @WebServlet("/ReservationController")
 public class ReservationController extends HttpServlet{
@@ -74,7 +74,7 @@ public class ReservationController extends HttpServlet{
 			System.out.println("범인이 누구냐: " + sidx);
 			
 			ShowDao sd = new ShowDao();
-			ShowVo sv = sd.getShowDetail(sidx);
+			Show1Vo sv = sd.getShowDetail(sidx);
 			
 			request.setAttribute("title", sv.getStitle());
 			request.setAttribute("sidx", sidx);
