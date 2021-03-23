@@ -10,6 +10,7 @@
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script>
 			var checked = "";
+			var checkedTest = "";
 			$(document).ready(function(){
 				$("input[type='checkbox']").on("click", function(){
 					var count = $("input:checked[type='checkbox']").length;
@@ -26,23 +27,45 @@
 // 				alert(checkArray);
 // 				$("#checkInput").val(checkArray);
 				
-				$("input[name=seat]").on("change",function(){
+				/* $("input[name=seat]").on("change",function(){
 					if($(this).is(":checked")){
 						checked += $(this).val() +"/";
 						$("#checkInput").val(checked);
 					}
-// 					if($(this).is(":checked") == false){
-// 						var checklist = checked.split("/");
-// 						alert(checklist);
-// 						alert($("input[name='seat']:checked").length);
-// 						alert($("input:checkbox[name='seat']:checked").val());
-// 						for(var i = 1; i < $("input[name='seat']:checked").length; i++){
+					if($(this).is(":checked") == false){
+ 						var checklist = checked.split("/");
+ 						alert(checklist);
+ 						alert($("input[name='seat']:checked").length);
+ 						alert($("input:checkbox[name='seat']:checked").val());
+ 						for(var i = 1; i < $("input[name='seat']:checked").length; i++){
 							
-// 						}
-// 						checked -= $(this).val('') + "/";
-// 						$("#checkInput").val(checked);
-// 					}
-				})
+ 						}
+ 						checked -= $(this).val('') + "/";
+ 						$("#checkInput").val(checked);
+ 					}
+				}) */
+				var arraySeat = new Array();
+				$("input[name=seat]").on("change", function(){
+					alert("들어오긴 함");
+					if($(this).is(":checked")){
+						alert("체크 됨");
+						checked = checkedTest;
+						alert("들어가기 전 checked 값 test: " + checked);
+						$("input[name=seat]:checked").each(function(){
+							checked += $(this).val() + "/";
+							alert(checked);
+						})
+					}else{
+						alert("체크 해제 됨");
+						checked = checkedTest;
+						alert("들어가기 전 checked 값 test: " + checked);
+						$("input[name=seat]:checked").each(function(){
+							checked += $(this).val() + "/";
+							alert(checked);
+						})
+					}
+					$("#checkInput").val(checked);
+				});
 			});
 		</script>
 	 

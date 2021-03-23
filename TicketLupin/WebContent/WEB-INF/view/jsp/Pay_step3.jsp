@@ -11,9 +11,12 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Pay_step3.css">
 		<script>
 			function paymentSubmit(){
-				 document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
-			 	 document.frm.method = "get";
-			 	 document.frm.submit(); 
+				
+				if()
+				
+				document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
+			 	document.frm.method = "get";
+			 	document.frm.submit(); 
 			}
 		</script>
 	

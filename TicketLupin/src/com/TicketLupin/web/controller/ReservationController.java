@@ -71,8 +71,6 @@ public class ReservationController extends HttpServlet{
 			String comDate = year + "-" + (month) + "-" + date;
 			System.out.println("comDate: " + comDate);
 			
-			System.out.println("범인이 누구냐: " + sidx);
-			
 			ShowDao sd = new ShowDao();
 			Show1Vo sv = sd.getShowDetail(sidx);
 			
@@ -104,8 +102,6 @@ public class ReservationController extends HttpServlet{
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
 			}
-			
-			System.out.println("범인이 누구냐: " + sidx);
 			
 			String seat = request.getParameter("seatHidden");
 			System.out.println("seat: " + seat);
@@ -202,8 +198,6 @@ public class ReservationController extends HttpServlet{
 				sidx = Integer.parseInt(sidx_);
 			}
 			
-			System.out.println("범인이 누구냐: " + sidx);
-			
 			System.out.println("함 되는지 봅시다: " + arraySeat);
 			System.out.println(discountParameter);
 			
@@ -253,8 +247,6 @@ public class ReservationController extends HttpServlet{
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
 			}
-			
-			System.out.println("범인이 누구냐: " + sidx);
 			
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
