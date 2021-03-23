@@ -55,19 +55,20 @@
 				url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
 				data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
 				success: function(data){
-					
 					var output="";
 					
 					output += "<div style='display:none;'>";
-					output += "<input type='radio' name='round' id='round1' value='" + data.srround1 + "'>";
-					output += "<input type='radio' name='round' id='round2' value='" + data.srround2 + "'>";
-					output += "<input type='radio' name='round' id='round3' value='" + data.srround3 + "'>";
-					output += "<input type='radio' name='round' id='round4' value='" + data.srround4 + "'>";
+					for(var i = 1 ; i <= 4 ; i++){
+						if(eval("data.srround" + i) != null){
+							output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + i) + "'>";
+						}
+					}
 					output += "</div>";
-					output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround1+"</div></label><br>";
-					output += "<label for='round2'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround2+"</div></label><br>";
-					output += "<label for='round3'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround3+"</div></label><br>";
-					output += "<label for='round4'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>"+data.srround4+"</div></label>";
+					for(var i = 1 ; i <= 4 ; i++){
+						if(eval("data.srround" + i) != null){
+							output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + i) + "</div></label><br>";
+						}
+					}
 					
 					$("#main_concert_process_time_calender").html(output);
 				}
@@ -250,7 +251,7 @@
 									</dl>
 								</div>
 								<c:if test="${sessionScope.mgrade eq 'M'}">
-								<a href="${pageContext.request.contextPath}/ConcertView/ConcertViewModify.do" style="color:black"><div id="modify">수정하기</div></a><br>
+								<a href="${pageContext.request.contextPath}/Show/ShowModifyStep1.do?sidx=${detail.sidx}" style="color:black"><div id="modify">수정하기</div></a><br>
 								<a href="${pageContext.request.contextPath}/Show/ShowDelete.do?sidx=${detail.sidx}" onclick="deleteAction()" style="color:black"><div id="delete">삭제하기</div></a>
 								</c:if>
 							</div>

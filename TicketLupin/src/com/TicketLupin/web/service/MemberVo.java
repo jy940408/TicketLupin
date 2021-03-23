@@ -19,14 +19,6 @@ public class MemberVo {
 	private String mgrade;
 	private String memailchecked;
 	
-	private Boolean SHA256;
-	
-	public Boolean getSHA256() {
-		return SHA256;
-	}
-	public void setSHA256(Boolean sHA256) {
-		SHA256 = sHA256;
-	}
 	public String getMemailchecked() {
 		return memailchecked;
 	}

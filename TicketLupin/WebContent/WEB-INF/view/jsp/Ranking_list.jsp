@@ -13,41 +13,6 @@
 		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Ranking_list.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Ranking_list.css">
-		<script>
-				
-			function orderSelect(){
-				
-				alert("띠용>");
-				var id;
-				$(".order").click(function(){
-					id = $(this).attr("id");
-					alert("들어왔나..." + id);
-				});
-				
-				alert("id: " + id);
-				
-				var orderData;
-				if(id == "now"){
-					orderData = "{'order': 'now'}"
-				}else if(id == "week"){
-					orderData = "{'order': 'week'}"
-				}else if(id == "month"){
-					orderData = "{'order': 'month'}"
-				}
-				
-				alert("들어왔나?" + orderData);
-				
-				$.ajax({
-					type:"get",
-					url:"${pageContext.request.contextPath}/Show/RankingList.do",
-					data: orderData,
-					success: function(data){
-						alert("ajax 시작!");
-					}
-				});
-			}
-			
-		</script>
 	</head>
 	<body>
 		<header>
@@ -133,9 +98,9 @@
 								</button>
 							</div>
 							<ul class="select_list" id="ul_list" style="display:none">
-								<li><span class="order" id="now" onclick="orderSelect()">실시간</span></li>
-								<li><span class="order" id="week" onclick="orderSelect()">주간</span></li>
-								<li><span class="order" id="month" onclick="orderSelect()">월간</span></li>
+								<li><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=now" class="order" id="now">실시간</a></li>
+								<li><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=week" class="order" id="week">주간</a></li>
+								<li><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=month" class="order" id="month">월간</a></li>
 							</ul>
 						</div>
 					</div>
@@ -158,8 +123,8 @@
 								<td class="td_">
 									<div class="show_info">
 										<span class="show_poster">
-											<a href="${pageContext.request.contextPath}/Show/ConcertView.do">
-												<img src="${pageContext.request.contextPath}/poster/${l.simage }" class="rank_poster">
+											<a href="${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}">
+												<img src="${pageContext.request.contextPath}/poster/${l.stitleimage }" class="rank_poster">
 											</a>
 										</span>
 										<span class="show_title">

@@ -251,26 +251,26 @@ public class ShowDao {
 		
 		ArrayList<ShowRankingVo> result = new ArrayList<>();
 		
-		String sql = "SELECT * FROM SHOW INNER JOIN "
+		String sql = "SELECT * FROM (SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX) SHOWCOM INNER JOIN "
 				+ "(SELECT COUNT(*) CNT, SIDX FROM RESERVATION "
 				+ "WHERE RREGDATE BETWEEN TO_DATE('"+ startdate +"', 'YYYY-MM-DD') AND TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9')"
 				+ " GROUP BY SIDX ORDER BY CNT DESC) CNT "
-				+ "ON SHOW.SIDX = CNT.SIDX "
-				+ "WHERE SHOW.SENDDATE >= TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9') ORDER BY CNT.CNT DESC";
+				+ "ON SHOWCOM.SIDX = CNT.SIDX "
+				+ "WHERE SHOWCOM.SENDDATE >= TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9') ORDER BY CNT.CNT DESC";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				int sidx = rs.getInt("SIDX");
-				String stitle = rs.getString("STITLE");
-				Date sopendate = rs.getDate("SOPENDATE");
-				Date senddate = rs.getDate("SENDDATE");
-				String sdetailaddress = rs.getString("SDETAILADDRESS");
-				String simage = rs.getString("SIMAGE");
-				int cnt = rs.getInt("CNT");
-				Date n = null;
+				ShowRankingVo srv = new ShowRankingVo();
+				srv.setSidx(rs.getInt("SIDX"));
+				srv.setStitle(rs.getString("STITLE"));
+				srv.setSopendate(rs.getDate("SOPENDATE"));
+				srv.setSenddate(rs.getDate("SENDDATE"));
+				srv.setSdetailaddress(rs.getString("SDETAILADDRESS"));
+				srv.setStitleimage(rs.getString("STITLEIMAGE"));
+				srv.setCnt(rs.getInt("CNT"));
 				result.add(srv);
 			}
 		} catch (SQLException e) {
@@ -298,6 +298,74 @@ public class ShowDao {
 		
 		return value;
 		
+	}
+	
+	public int modifyShow(Show1Vo sv) {
+		int result = 0;
+		String sql = "UPDATE SHOW1 SET STITLE = ?, SGENRE = ?, SRATING = ?, SOPENDATE = ?, SENDDATE = ?, STICKETINGDATE = ?, "
+				+ "SPOSTCODE = ?, SROADADDRESS = ?, SJIBUNADDRESS = ?, SDETAILADDRESS = ?, SEXTRAADDRESS = ?, "
+				+ "SVIPPRICE = ?, SRPRICE = ?, SSPRICE = ?, SAPRICE = ? WHERE SIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, sv.getStitle());
+			pstmt.setString(2, sv.getSgenre());
+			pstmt.setString(3, sv.getSrating());
+			pstmt.setDate(4, sv.getSopendate());
+			pstmt.setDate(5, sv.getSenddate());
+			pstmt.setDate(6, sv.getSticketingdate());
+			pstmt.setInt(7, sv.getSpostcode());
+			pstmt.setString(8, sv.getSroadaddress());
+			pstmt.setString(9, sv.getSjibunaddress());
+			pstmt.setString(10, sv.getSdetailaddress());
+			pstmt.setString(11, sv.getSextraaddress());
+			pstmt.setInt(12, sv.getSvipprice());
+			pstmt.setInt(13, sv.getSrprice());
+			pstmt.setInt(14, sv.getSsprice());
+			pstmt.setInt(15, sv.getSaprice());
+			pstmt.setInt(16, sv.getSidx());
+			
+			ResultSet rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int modifyShow2(Show2Vo sv) {
+		int result = 0;
+		String sql = "UPDATE SHOW2 SET SROUND = ?, SPRICE = ?, SNOTICE = ?, SDISCOUNT = ?, SINFO = ?, SCOMPANY = ?, " + 
+				"STITLEIMAGE = ?, SROUNDIMAGE = ?, SPRICEIMAGE = ?, SNOTICEIMAGE = ?, SDISCOUNTIMAGE = ?, " + 
+				"SINFOIMAGE = ?, SCOMPANYIMAGE = ? WHERE SIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, sv.getSround());
+			pstmt.setString(2, sv.getSprice());
+			pstmt.setString(3, sv.getSnotice());
+			pstmt.setString(4, sv.getSdiscount());
+			pstmt.setString(5, sv.getSinfo());
+			pstmt.setString(6, sv.getScompany());
+			pstmt.setString(7, sv.getStitleimage());
+			pstmt.setString(8, sv.getSroundimage());
+			pstmt.setString(9, sv.getSpriceimage());
+			pstmt.setString(10, sv.getSnoticeimage());
+			pstmt.setString(11, sv.getSdiscountimage());
+			pstmt.setString(12, sv.getSinfoimage());
+			pstmt.setString(13, sv.getScompanyimage());
+			pstmt.setInt(14, sv.getSidx());
+			
+			ResultSet rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 }

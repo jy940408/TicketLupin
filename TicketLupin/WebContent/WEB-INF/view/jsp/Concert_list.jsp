@@ -180,7 +180,7 @@
 									<div class="main_concert_musical_detail">
 										<img src="<%=request.getContextPath() %>/poster/${l.stitleimage}" class="main_concert_musical_detail_poster">
 										<div class="main_concert_musical_detail_title">
-											${l.stitle} ${l.stitleimage}
+											${l.stitle}
 										</div>
 										<div class="main_concert_musical_detail_date">
 											${l.sopendate } - ${l.senddate}

@@ -54,7 +54,7 @@ public class ReservationDao {
 	public ArrayList<ReservationShowVo> getReservationList(int idx, int page){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
-		String sql = "SELECT NUM, STITLE, MYLIST.* FROM SHOW INNER JOIN (SELECT ROWNUM NUM, RESERVATION.* FROM RESERVATION WHERE MIDX = ? ORDER BY RREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW.SIDX WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT NUM, SHOW1.STITLE, MYLIST.* FROM (SELECT ROWNUM NUM, RESERVATION.* FROM RESERVATION WHERE MIDX = ? ORDER BY RREGDATE DESC) MYLIST INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

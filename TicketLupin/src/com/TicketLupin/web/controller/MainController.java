@@ -41,7 +41,7 @@ public class MainController extends HttpServlet{
 			
 			ShowDao sd = new ShowDao();
 			ArrayList<Show1Vo> showList = sd.getShowList(query, ssetting, array, page);
-//			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
+			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
 			System.out.println("이미지 나오는지 테스트: " + showList.get(0));
 			System.out.println("이미지 나오는지 테스트: " + showList.get(0).getStitleimage());
 			
@@ -50,7 +50,7 @@ public class MainController extends HttpServlet{
 			
 			request.setAttribute("showList", showList);
 			request.setAttribute("newsList", newsList);
-//			request.setAttribute("rankingList", rankingList);
+			request.setAttribute("rankingList", rankingList);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 			
 		}

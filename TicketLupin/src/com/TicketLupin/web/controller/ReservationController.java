@@ -282,9 +282,12 @@ public class ReservationController extends HttpServlet{
 			for(int i = 0 ; i < discountParameter.size() ; i++) {
 				String split_ = (String) discountParameter.get(i);
 				String[] split =  split_.split("/");
-				if(Integer.parseInt(split[1]) >= 1) {
-					for(int j = 0 ; j < Integer.parseInt(split[1]) ; j++){ 
-						discount.add(split[0]);
+				System.out.println(split[1].getClass().getName());
+				if(!split[1].equals("null")) {
+					if(Integer.parseInt(split[1]) >= 1) {
+						for(int j = 0 ; j < Integer.parseInt(split[1]) ; j++){ 
+							discount.add(split[0]);
+						}
 					}
 				}
 			}
