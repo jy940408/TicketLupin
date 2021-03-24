@@ -40,6 +40,7 @@ public class MyticketController extends HttpServlet{
 		}else if(str.equals("/Myticket/MyticketReservation.do")) {
 			
 			String page_ = request.getParameter("p");
+			
 			int page = 1;
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
@@ -57,6 +58,27 @@ public class MyticketController extends HttpServlet{
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Myticket/MyticketDetail.do")) {
+			
+			String ridx_ = request.getParameter("ridx");
+			int ridx = 0;
+			if(ridx_ != null && !ridx_.equals("")) {
+				ridx = Integer.parseInt(ridx_);
+			}
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			ReservationDao rd = new ReservationDao();
+			ReservationShowVo detail = rd.getReservationDetail(ridx, midx);
+			int count = rd.getReservationCount(midx);
+			System.out.println("detail 확인: " + detail);
+			System.out.println("count 확인: " + count);
+			
+			request.setAttribute("detail", detail);
+			request.setAttribute("count", count);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_detail.jsp").forward(request, response);
 			
 		}
 		

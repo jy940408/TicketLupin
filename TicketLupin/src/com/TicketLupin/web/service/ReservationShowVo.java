@@ -6,6 +6,7 @@ public class ReservationShowVo extends ReservationVo{
 
 	private String stitle;
 	private int num;
+	private String stitleimage;
 	
 	public ReservationShowVo() {
 		super();
@@ -26,6 +27,13 @@ public class ReservationShowVo extends ReservationVo{
 	public void setNum(int num) {
 		this.num = num;
 	}
+	public String getStitleimage() {
+		return stitleimage;
+	}
+
+	public void setStitleimage(String stitleimage) {
+		this.stitleimage = stitleimage;
+	}
 	
 
 	public ReservationShowVo(String stitle, int num) {
@@ -35,11 +43,12 @@ public class ReservationShowVo extends ReservationVo{
 	}
 
 	public ReservationShowVo(String stitle, int ridx, int sidx, int midx, String rseat, int rprice, String rdiscount, String srdate,
-			String srround, Date rregdate, int num) {
+			String srround, Date rregdate, int num, String stitleimage) {
 		super(ridx, sidx, midx, rseat, rprice, rdiscount, srdate, srround, rregdate);
 
 		this.stitle = stitle;
 		this.num = num;
+		this.stitleimage = stitleimage;
 	}
 
 	

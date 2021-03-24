@@ -12,8 +12,6 @@
 		<script>
 			function paymentSubmit(){
 				
-				if()
-				
 				document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
 			 	document.frm.method = "get";
 			 	document.frm.submit(); 

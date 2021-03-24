@@ -10,7 +10,6 @@
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script>
 			var checked = "";
-			var checkedTest = "";
 			$(document).ready(function(){
 				$("input[type='checkbox']").on("click", function(){
 					var count = $("input:checked[type='checkbox']").length;
@@ -49,7 +48,7 @@
 					alert("들어오긴 함");
 					if($(this).is(":checked")){
 						alert("체크 됨");
-						checked = checkedTest;
+						checked = "";
 						alert("들어가기 전 checked 값 test: " + checked);
 						$("input[name=seat]:checked").each(function(){
 							checked += $(this).val() + "/";
@@ -57,7 +56,7 @@
 						})
 					}else{
 						alert("체크 해제 됨");
-						checked = checkedTest;
+						checked = "";
 						alert("들어가기 전 checked 값 test: " + checked);
 						$("input[name=seat]:checked").each(function(){
 							checked += $(this).val() + "/";

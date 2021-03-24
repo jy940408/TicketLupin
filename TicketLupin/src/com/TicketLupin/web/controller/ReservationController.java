@@ -83,6 +83,8 @@ public class ReservationController extends HttpServlet{
 			
 		}else if(str.equals("/Reservation/ReservationStep1Seat.do")) {
 			
+			
+			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1_seat.jsp").forward(request, response);
 			
 		}else if(str.equals("/Reservation/ReservationStep2.do")) {
@@ -222,7 +224,7 @@ public class ReservationController extends HttpServlet{
 			String tel1_ = request.getParameter("tel1");
 			String tel2_ = request.getParameter("tel2");
 			String tel3_ = request.getParameter("tel3");
-			String tel_ = tel1_ + tel2_ + tel3_;
+			String tel = tel1_ + tel2_ + tel3_;
 			String email = request.getParameter("email");
 			String payMethodCode_ = request.getParameter("payMethodCode");
 			String cardCode = request.getParameter("cardCode");
@@ -230,12 +232,14 @@ public class ReservationController extends HttpServlet{
 			
 			System.out.println("수령방법: " + pick);
 			System.out.println("예매자 이름: " + name);
-			System.out.println("번호: " + tel_);
+			System.out.println("번호: " + tel);
 			System.out.println("이메일: " + email);
 			System.out.println("결제방법: " + payMethodCode_);
 			System.out.println("은행 구분: " + cardCode);
 			System.out.println("할부 개월수: " + quota);
 
+			
+			System.out.println(tel);
 //==============================================================================================================================//				
 			
 			//기본 정보 가져오기

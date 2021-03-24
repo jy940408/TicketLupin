@@ -131,7 +131,7 @@
 								<c:forEach var="l" items="${list}">
 								<tr>
 									<td>${l.num}</td>
-									<td class="td_"><a href="#">${l.stitle }</a></td>
+									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketDetail.do?ridx=${l.ridx}">${l.stitle }</a></td>
 									<td>
 										${l.rseat}
 									</td>
@@ -209,13 +209,14 @@
 
 						</div>
 					</div>
-					</div>
-					<div style="display:none;" class="cancel_view">
-						<div class="cancel_list">
-							<div><h2>취소 내역이 없습니다.</h2></div>
-						</div>
+				</div>
+				<div style="display:none;" class="cancel_view">
+					<div class="cancel_list">
+						<div><h2>취소 내역이 없습니다.</h2></div>
 					</div>
 				</div>
+				
+			</div>
 						
 				<div class="cancel_notice">
 					<h3>취소안내</h3>
@@ -226,13 +227,10 @@
 						</li>
 					</ul>
 				</div>
-					
-					
-					
-				
-
 			</article>
 		</section>
+		
+		
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">
