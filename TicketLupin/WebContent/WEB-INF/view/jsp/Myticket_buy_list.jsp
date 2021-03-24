@@ -11,6 +11,16 @@
 		<script src="<%=request.getContextPath() %>/js/Myticket_buy_list.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_buy_list.css">
 		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
+		<script>
+			
+			var srWin = window.open("about:blank", "winName", "width=955px, height=647px");
+			document.concertReservation.action = "${pageContext.request.contextPath}/Reservation/ReservationStep1.do";
+			document.concertReservation.method = "get";
+			document.concertReservation.target = "winName";
+			document.concertReservation.submit();
+			return;
+			
+		</script>
 	</head>
 	<body>
 		<header>
@@ -121,7 +131,7 @@
 							<thead>
 								<tr>
 									<th width="10%"></th>
-									<th width="40%">예매확인</th>
+									<th width="40%">공연 제목</th>
 									<th width="10%">좌석</th>
 									<th width="10%">공연날짜</th>
 									<th width="15%"></th>
@@ -131,7 +141,7 @@
 								<c:forEach var="l" items="${list}">
 								<tr>
 									<td>${l.num}</td>
-									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketDetail.do?ridx=${l.ridx}">${l.stitle }</a></td>
+									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketDetail.do?ridx=${l.ridx}" onclick="window.open(this.href,'popup','width=955px, height=654px'); return false;">${l.stitle }</a></td>
 									<td>
 										${l.rseat}
 									</td>
@@ -140,7 +150,7 @@
 										${l.srround}
 									</td>
 									<td>
-										<button type="submit" value="cancel" class="td_button">취소하기</button>
+										<button type="button" class="goShowDetail" onclick="location.href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}'">공연 정보<br>보기</button>
 									</td>
 								</tr>
 								</c:forEach>
@@ -211,11 +221,99 @@
 					</div>
 				</div>
 				<div style="display:none;" class="cancel_view">
-					<div class="cancel_list">
-						<div><h2>취소 내역이 없습니다.</h2></div>
+					<table class="table_list">
+							<thead>
+								<tr>
+									<th width="10%"></th>
+									<th width="40%">공연 제목</th>
+									<th width="10%">좌석</th>
+									<th width="10%">공연날짜</th>
+									<th width="15%"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="dl" items="${dList}">
+								<tr>
+									<td>${dl.num}</td>
+									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketCancelDetail.do?ridx=${dl.ridx}" onclick="window.open(this.href,'popup','width=955px, height=654px'); return false;">${dl.stitle }</a></td>
+									<td>
+										${dl.rseat}
+									</td>
+									<td>
+										${dl.srdate}<br>
+										${dl.srround}
+									</td>
+									<td>
+										<button type="button" class="goShowDetail" onclick="location.href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${dl.sidx}'">공연 정보<br>보기</button>
+									</td>
+								</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+<!--------------------------------------------------------------------------------------------------------------------->
+		
+				<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+				<c:set var="startNum" value="${page-(page-1)%5}"/>
+				<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/15),'.')}"/>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+					
+					<div id="main_news_page">
+						<div id="main_news_page_set">
+<!--------------------------------------------------------------------------------------------------------------------->
+							<a href="?p=1&q=">
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_button_llgg">&lt;&lt;</div>
+								</div>
+							</a>						
+							<c:if test="${startNum>1}">
+								<a href="?p=${startNum-1}">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${startNum<=1}">
+								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&lt;</div>
+									</div>
+								</a>
+							</c:if>
+<!--------------------------------------------------------------------------------------------------------------------->
+							
+							<div class="main_news_page_bn">
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(startNum+i) <= lastNum}">
+										<div class="main_news_page_button_page">
+											<a style="color: ${(page==(startNum+i))?'red':'black'}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}" >${startNum+i}</a>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+							<c:if test="${startNum+4<lastNum}">
+								<a href="?p=${startNum+5}">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+							</c:if>
+							<c:if test="${startNum+4>=lastNum}">
+								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+									<div class="main_news_page_button main_news_page_bn">
+										<div class="main_news_page_button_lg">&gt;</div>
+									</div>
+								</a>
+							</c:if>
+								<div class="main_news_page_button main_news_page_bn">
+									<div class="main_news_page_news_llgg">&gt;&gt;</div>
+								</div>
+							</a>
+<!--------------------------------------------------------------------------------------------------------------------->
+
+						</div>
 					</div>
 				</div>
-				
 			</div>
 						
 				<div class="cancel_notice">

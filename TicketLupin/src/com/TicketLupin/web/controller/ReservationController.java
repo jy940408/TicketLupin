@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationShowVo;
 import com.TicketLupin.web.service.ReservationVo;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.Show1Vo;
@@ -82,8 +83,6 @@ public class ReservationController extends HttpServlet{
 			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1.jsp").forward(request, response);
 			
 		}else if(str.equals("/Reservation/ReservationStep1Seat.do")) {
-			
-			
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1_seat.jsp").forward(request, response);
 			
@@ -219,27 +218,90 @@ public class ReservationController extends HttpServlet{
 		}else if(str.equals("/Reservation/ReservationStep4.do")) {
 			
 			//결제 정보 가져오기
-			String pick = request.getParameter("pick");
+			String pick_ = request.getParameter("pick");
 			String name = request.getParameter("name");
 			String tel1_ = request.getParameter("tel1");
 			String tel2_ = request.getParameter("tel2");
 			String tel3_ = request.getParameter("tel3");
 			String tel = tel1_ + tel2_ + tel3_;
 			String email = request.getParameter("email");
-			String payMethodCode_ = request.getParameter("payMethodCode");
+			String payMethodCode = request.getParameter("payMethodCode");
 			String cardCode = request.getParameter("cardCode");
 			String quota = request.getParameter("quota");
 			
-			System.out.println("수령방법: " + pick);
+			System.out.println("수령방법: " + pick_);
 			System.out.println("예매자 이름: " + name);
 			System.out.println("번호: " + tel);
 			System.out.println("이메일: " + email);
-			System.out.println("결제방법: " + payMethodCode_);
+			System.out.println("결제방법: " + payMethodCode);
 			System.out.println("은행 구분: " + cardCode);
 			System.out.println("할부 개월수: " + quota);
-
 			
-			System.out.println(tel);
+//==============================================================================================================================//
+
+			//코드 바꿔주기
+			String pick = null;
+			if(pick_.equals("mobile")) {
+				pick = "모바일 티켓";
+			}else if(pick_.equals("pickup")) {
+				pick = "현장수령";
+			}else if(pick_.equals("delivery")) {
+				pick = "배송";
+			}
+			
+			String payMethod = null;
+			if(payMethodCode.equals("credit")) {
+				payMethod = "신용카드";
+			}else if(payMethodCode.equals("bank")) {
+				payMethod = "무통장입금";
+			}else if(payMethodCode.equals("phone")) {
+				payMethod = "휴대폰 결제";
+			}else if(payMethodCode.equals("kakaoM")) {
+				payMethod = "카카오페이 머니";
+			}else if(payMethodCode.equals("kakaoP")) {
+				payMethod = "카카오페이 카드";
+			}
+			
+			String card = null;
+			if(cardCode.equals("SAMSUNG")) {
+				card = "삼성카드";
+			}else if(cardCode.equals("KB")) {
+				card = "KB국민카드";
+			}else if(cardCode.equals("HYUNDAI")) {
+				card = "현대카드";
+			}else if(cardCode.equals("BC")) {
+				card = "BC카드";
+			}else if(cardCode.equals("SHINHAN")) {
+				card = "신한카드";
+			}else if(cardCode.equals("NH")) {
+				card = "NH농협카드";
+			}else if(cardCode.equals("NHMH")) {
+				card = "NH문화누리카드";
+			}else if(cardCode.equals("HANA_SK")) {
+				card = "하나카드";
+			}else if(cardCode.equals("LOTTE")) {
+				card = "롯데카드";
+			}else if(cardCode.equals("CITI")) {
+				card = "씨티카드";
+			}else if(cardCode.equals("KAKAOBANK")) {
+				card = "카카오뱅크카드";
+			}else if(cardCode.equals("BCKA")) {
+				card = "카카오페이카드";
+			}else if(cardCode.equals("KBANK")) {
+				card = "케이뱅크카드";
+			}else if(cardCode.equals("WOORI")) {
+				card = "우리카드";
+			}else if(cardCode.equals("GWANGJU")) {
+				card = "광주카드";
+			}else if(cardCode.equals("JEONBOOK")) {
+				card = "전북카드";
+			}else if(cardCode.equals("SOOHYUP")) {
+				card = "수협카드";
+			}else if(cardCode.equals("KDB")) {
+				card = "KDB산업은행카드";
+			}else if(cardCode.equals("JEJU")) {
+				card = "제주카드";
+			}
 //==============================================================================================================================//				
 			
 			//기본 정보 가져오기
@@ -343,6 +405,14 @@ public class ReservationController extends HttpServlet{
 			rv.setMidx(midx);
 			rv.setSrdate(comDate);
 			rv.setSrround(round);
+			rv.setRpick(pick);
+			rv.setRname(name);
+			rv.setRtel(tel);
+			rv.setRemail(email);
+			rv.setRpaymethod(payMethod);
+			rv.setRcard(card);
+			rv.setRquota(quota);
+			
 			if(vipDiscount != null) {
 				for(int i = 0 ; i < vipDiscount.size() ; i++) {
 					rv.setRseat((String)vipSeat.get(i));
@@ -375,12 +445,35 @@ public class ReservationController extends HttpServlet{
 			}
 //==============================================================================================================================//	
 			
-			
 			//팝업창 종료해주기
 			PrintWriter pt = response.getWriter();
 			pt.write("<script>self.close();</script>");
 			pt.flush();
 			pt.close();
+			
+		}else if(str.equals("/Reservation/deleteReservation.do")) {
+			
+			String ridx_ = request.getParameter("ridx");
+			int ridx = 0;
+			if(ridx_ != null && !ridx_.equals("")) {
+				ridx = Integer.parseInt(ridx_);
+			}
+			
+			System.out.println("delete부분 ridx: " + ridx);
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			System.out.println("delete부분 midx: " + midx);
+			
+			ReservationDao rd = new ReservationDao();
+			rd.deleteReservation(ridx, midx);
+			System.out.println("rd: " + rd);
+			
+			response.sendRedirect(request.getContextPath()+"/Myticket/MyticketReservation.do");
+			
+//==============================================================================================================================//
+		
 		}
 	}
 	

@@ -7,7 +7,7 @@
 	<head>
 		<title>배송/결제</title>
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_buy_detail.css">
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_cancel_detail.css">
 	</head>
 	<body>
 		<form name="frm">
@@ -115,11 +115,6 @@
 							<span class="button btWhite frt">
 								<a href="#" class="btnOne" onclick="self.close();">
 									확인<em class="one_arr prav_ar">이전</em>
-								</a>
-							</span>
-							<span class="button btNext">
-								<a href="${pageContext.request.contextPath}/Reservation/deleteReservation.do?ridx=${detail.ridx}" class="btnOne">
-									예매 취소<em class="one_arr prav_ar">이전</em>
 								</a>
 							</span>
 						</div>

@@ -26,8 +26,9 @@ public class ReservationDao {
 		
 		int value = 0;
 		
-		String sql = "INSERT INTO RESERVATION(RIDX, SIDX, MIDX, RSEAT, RPRICE, RDISCOUNT, SRDATE, SRROUND, RREGDATE)"
-					+"VALUES(RESERVATION_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, SYSTIMESTAMP)";
+		String sql = "INSERT INTO RESERVATION(RIDX, SIDX, MIDX, RSEAT, RPRICE, RDISCOUNT, SRDATE, SRROUND, RREGDATE, RDELYN, "
+				+ "RPICK, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RQUOTA)"
+					+"VALUES(RESERVATION_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, SYSTIMESTAMP, 'N', ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			
@@ -40,6 +41,13 @@ public class ReservationDao {
 			pstmt.setString(5, rv.getRdiscount());
 			pstmt.setString(6, rv.getSrdate());
 			pstmt.setString(7, rv.getSrround());
+			pstmt.setString(8, rv.getRpick());
+			pstmt.setString(9, rv.getRname());
+			pstmt.setString(10, rv.getRtel());
+			pstmt.setString(11, rv.getRemail());
+			pstmt.setString(12, rv.getRpaymethod());
+			pstmt.setString(13, rv.getRcard());
+			pstmt.setString(14, rv.getRquota());
 			
 			value = pstmt.executeUpdate();
 			
@@ -54,7 +62,7 @@ public class ReservationDao {
 	public ArrayList<ReservationShowVo> getReservationList(int idx, int page){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
-		String sql = "SELECT NUM, SHOW1.STITLE, MYLIST.* FROM (SELECT ROWNUM NUM, RESERVATION.* FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'N' ORDER BY RREGDATE DESC) MYLIST INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT SHOW1.STITLE, MYLIST.* FROM (SELECT ROWNUM NUM, LISTNUM.* FROM (SELECT RESERVATION.* FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'N' ORDER BY RREGDATE DESC) LISTNUM) MYLIST INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -64,19 +72,20 @@ public class ReservationDao {
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				String stitle = rs.getString("STITLE");
-				int ridx = rs.getInt("RIDX");
-				int sidx = rs.getInt("SIDX");
-				int midx = rs.getInt("MIDX");
-				String rseat = rs.getString("RSEAT");
-				int price = rs.getInt("RPRICE");
-				String rdiscount = rs.getNString("RDISCOUNT");
-				String srdate = rs.getString("SRDATE");
-				String srround = rs.getString("SRROUND");
-				Date rregdate = rs.getDate("RREGDATE");
-				int num = rs.getInt("NUM");
 				
-				ReservationShowVo rsv = new ReservationShowVo(stitle, ridx, sidx, midx, rseat, price, rdiscount, srdate, srround, rregdate, num, "");
+				ReservationShowVo rsv = new ReservationShowVo();
+				
+				rsv.setStitle(rs.getString("STITLE"));
+				rsv.setRidx(rs.getInt("RIDX"));
+				rsv.setSidx(rs.getInt("SIDX"));
+				rsv.setMidx(rs.getInt("MIDX"));
+				rsv.setRseat(rs.getString("RSEAT"));
+				rsv.setRprice(rs.getInt("RPRICE"));
+				rsv.setRdiscount(rs.getNString("RDISCOUNT"));
+				rsv.setSrdate(rs.getString("SRDATE"));
+				rsv.setSrround(rs.getString("SRROUND"));
+				rsv.setRregdate(rs.getDate("RREGDATE"));
+				rsv.setNum(rs.getInt("NUM"));
 				
 				list.add(rsv);
 				
@@ -126,19 +135,20 @@ public class ReservationDao {
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				String stitle = rs.getString("STITLE");
-				int ridx = rs.getInt("RIDX");
-				int sidx = rs.getInt("SIDX");
-				int midx = rs.getInt("MIDX");
-				String rseat = rs.getString("RSEAT");
-				int price = rs.getInt("RPRICE");
-				String rdiscount = rs.getNString("RDISCOUNT");
-				String srdate = rs.getString("SRDATE");
-				String srround = rs.getString("SRROUND");
-				Date rregdate = rs.getDate("RREGDATE");
-				int num = rs.getInt("NUM");
 				
-				ReservationShowVo rsv = new ReservationShowVo(stitle, ridx, sidx, midx, rseat, price, rdiscount, srdate, srround, rregdate, num, "");
+				ReservationShowVo rsv = new ReservationShowVo();
+				
+				rsv.setStitle(rs.getString("STITLE"));
+				rsv.setRidx(rs.getInt("RIDX"));
+				rsv.setSidx(rs.getInt("SIDX"));
+				rsv.setMidx(rs.getInt("MIDX"));
+				rsv.setRseat(rs.getString("RSEAT"));
+				rsv.setRprice(rs.getInt("RPRICE"));
+				rsv.setRdiscount(rs.getNString("RDISCOUNT"));
+				rsv.setSrdate(rs.getString("SRDATE"));
+				rsv.setSrround(rs.getString("SRROUND"));
+				rsv.setRregdate(rs.getDate("RREGDATE"));
+				rsv.setNum(rs.getInt("NUM"));
 				
 				list.add(rsv);
 				
@@ -198,6 +208,13 @@ public class ReservationDao {
 			rsv.setRregdate(rs.getDate("RREGDATE"));
 			rsv.setStitle(rs.getNString("STITLE"));
 			rsv.setStitleimage(rs.getString("STITLEIMAGE"));
+			rsv.setRpick(rs.getString("RPICK"));
+			rsv.setRname(rs.getString("RNAME"));
+			rsv.setRtel(rs.getString("RTEL"));
+			rsv.setRemail(rs.getString("REMAIL"));
+			rsv.setRpaymethod(rs.getString("RPAYMETHOD"));
+			rsv.setRcard(rs.getString("RCARD"));
+			rsv.setRquota(rs.getString("RQUOTA"));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -205,6 +222,27 @@ public class ReservationDao {
 		}
 		
 		return rsv;
+	}
+	
+	public int deleteReservation(int ridx, int midx) {
+		System.out.println("메소드 들어오는지 확인");
+		System.out.println("ridx: " + ridx);
+		System.out.println("midx: " + midx);
+		int value = 0;
+		String sql = "UPDATE RESERVATION SET RDELYN = 'Y' WHERE RIDX = ? AND MIDX = ?";
 		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, ridx);
+			pstmt.setInt(2, midx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("value값: " + value);
+		return value;
 	}
 }

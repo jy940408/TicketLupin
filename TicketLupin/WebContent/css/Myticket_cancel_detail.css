@@ -1,0 +1,462 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button {
+	margin: 0;
+	padding: 0;
+}
+body, th, td, input, select, textarea, button {
+	font-size: 12px;
+	line-height: 1.5;
+	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum,"¸¼Àº °íµñ","Malgun Gothic","Apple Gothic",sans-serif;
+	color: #666;
+	letter-spacing: -1px;
+}
+input, select, textarea, button {
+	vertical-align: middle;
+}
+.section{
+	width:950px;
+	height:653px;
+}
+.select{
+	float:left;
+	width:682px;
+}
+.box{
+	overflow-y:auto;
+	width:636px;
+	height:574px;
+	padding:29px 16px 0 30px;
+}
+.wrap_ticket_info{
+	position:relative;
+	float:left;
+	width:245px;
+	padding:14px 10px 14px 13px;
+	height:624px;
+	background-color:#fafafa;
+}
+/*---------------------------------------------------------------*/
+a{
+	color:#666;
+	text-decoration:none;
+}
+li{
+	list-style:none;
+}
+div {
+	display: block;
+}
+.step_ul{
+	display: block;
+	overflow: hidden;
+	position: relative;
+	height: 50px;
+	background: #f9f9f9;
+}
+.step1{
+	position:absolute;
+	top:0;
+	left:0;
+	margin-top:12px;
+	margin-left:60px;
+	font-size:17px;
+}
+.step2{
+	position:absolute;
+	top:0;
+	left:240px;
+	margin-top:12px;
+	margin-left:60px;
+	font-size:17px;
+}
+.step3{
+	position:absolute;
+	top:0;
+	left:480px;
+	margin-top:12px;
+	margin-left:60px;
+	font-size:17px;
+}
+/*---------------------------------------------------------------*/
+.box_how{
+	letter-spacing: 0;
+}
+.select_tit {
+	padding-bottom:6px;
+	font-weight:bold;
+	font-family:AppleSDGothicNeo-Regular, '¸¼Àº °íµñ','Malgun Gothic',sans-serif;
+	font-size:16px;
+	color:#333;
+}
+.list_receipt_how{
+	padding:10px 0 0 6px;
+}
+.list_receipt_how li {
+	display: inline-block;
+	vertical-align: top;
+}
+.list_receipt_how label {
+	line-height: 18px;
+	padding-right: 38px;
+}
+.list_receipt_how label input, .list_receipt_how label span {
+	vertical-align: middle;
+}
+.list_receipt_how .txt_lab {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 18px;
+	color: #333;
+	vertical-align: bottom;
+}
+.box_how .txt {
+	padding: 7px 0 0 6px;
+	color: #666;
+}
+.box_info_use {
+	padding: 0px 20px 0 15px;
+	line-height: 46px;
+}
+.box_gray {
+	width: 580px;
+	margin-top: 20px;
+	padding: 14px 20px 22px;
+	background-color: #fafafa;
+	line-height: 30px;
+}
+.tit_receipt {
+	font-weight: normal;
+	font-size: 14px;
+	color: #333;
+}
+.tbl {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.box_inp_opt th {
+	text-align: left;
+}
+.box_inp_opt th .require {
+	color: #f0780a;
+	font-size: 16px;
+	padding-left: 4px;
+}
+.txt_gray {
+	font-weight: normal;
+	color: #666;
+	font-size:12px;
+}
+.box_inp_opt td {
+	padding: 8px 0;
+	letter-spacing: 0;
+}
+.wrap_form_input {
+	position: relative;
+}
+input.inp_w77 {
+	width: 55px;
+	padding: 0 10px;
+}
+.box_gray input, .box_gray select {
+	height: 22px;
+}
+.inp_txt {
+	border: 1px solid #ddd;
+}
+input.inp_w150 {
+	width: 128px;
+	padding: 0 10px;
+}
+input.inp_w52 {
+	width: 30px;
+	padding: 0 10px;
+}
+input.inp_w51 {
+	width: 50px;
+	padding: 0 10px;
+}
+.wrap_form_input input + .place_holder, .wrap_form_input textarea + .place_holder {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 1;
+	cursor: text;
+}
+/*---------------------------------------------------------------*/
+.box_payment {
+	margin-top: 24px;
+}
+.box_payment .list_receipt_how label {
+	padding-right: 28px;
+}
+.wrap_sel .btn_sel .sel_cate {
+	padding-left: 5px;
+	line-height: 24px;
+	text-align: left;
+	border: 1px solid #ddd;
+}
+option {
+	font-weight: normal;
+	display: block;
+	white-space: pre;
+	min-height: 1.2em;
+	padding: 0px 2px 1px;
+}
+/*---------------------------------------------------------------*/
+.box_receipt {
+	margin: 20px 0;
+}
+.box_receipt .box_agree {
+	font-size: 13px;
+	line-height: 38px;
+}
+.box_receipt .box_agree .list_agree.frt {
+	border-top: 0;
+}
+.box_receipt .box_agree .list_agree .select_tit {
+	position: relative;
+}
+.box_receipt .box_agree .list_agree .tit_check_r {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-weight: normal;
+	color: #333;
+	font-size: 14px;
+	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum;
+}
+.box_receipt .box_agree .list_agree .txt_lab {
+	padding-left: 2px;
+}
+.box_receipt .box_agree .list_agree .tit_check {
+	line-height: 40px;
+}
+.box_receipt .box_agree .list_agree {
+	border-top: 1px solid #dddddd;
+}
+.box_receipt .box_agree .list_agree .txt_lab {
+	vertical-align: middle;
+}
+.box_receipt .box_agree .list_agree .box_ar_info {
+	padding: 0 20px;
+	margin: 0 0 18px;
+}
+.box_receipt .box_agree .list_agree .box_ar_info .tb_date {
+	width: 552px;
+	padding: 5px 0;
+	text-align: center;
+	background-color: #fafafa;
+}
+.box_receipt .box_agree .list_agree .box_ar_info .tb_date .tb_date_th {
+	border-bottom: 1px solid #eee;
+}
+.box_receipt .box_agree .list_agree .box_ar_info .tb_date th {
+	padding: 5px 0;
+	color: #999;
+}
+.box_receipt .box_agree .list_agree .box_ar_info .tb_date td {
+	padding: 4px 0;
+	color: #888;
+	letter-spacing: 0;
+}
+.box_receipt .box_agree .list_agree .box_ar_info .list_ds {
+	padding-top: 10px;
+	color: #888;
+	line-height: 24px;
+}
+.btn_flexible_ico2 {
+	background-position: left -860px;
+	padding-left: 7px;
+}
+.btn_detail {
+	margin-left: 5px;
+	margin-bottom: 2px;
+	vertical-align: middle;
+	background-color: #fff;
+	border:1px solid #c2c2c2;
+	border-radius:15px;
+}
+.btn_flexible_ico2 span {
+	background-position: right -860px;
+	padding-right: 8px;
+}
+.btn_flexible_ico2 span {
+	background-position: right -130px;
+	color: #666;
+	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum,"¸¼Àº °íµñ","Malgun Gothic","Apple Gothic",sans-serif;
+}
+.box_receipt .box_agree .list_agree .float_l {
+	float: left;
+	width: 50%;
+}
+/*---------------------------------------------------------------*/
+.wrap_ticket_info .logo_onestop {
+	padding-left: 65px;
+	height: 22px;
+}
+fieldset, img {
+	border: 0 none;
+}
+.wrap_ticket_info .box_info {
+	padding-top: 20px;
+}
+.wrap_ticket_info .box_info .select_tit.select_t {
+	overflow: hidden;
+	line-height: 19px;
+	max-height: 33px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	font-weight: normal;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list {
+	margin: 10px 9px;
+	font-size: 13px;
+	line-height: 20px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth1 {
+	padding: 0 0 10px;
+	border-bottom: 1px solid #eeeeee;
+	letter-spacing: 0;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth {
+	margin-left: 5px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth2 {
+	padding-top: 10px;
+}
+.layer_ticket {
+	z-index: 2;
+	display: none;
+	width: 165px;
+	position: absolute;
+	top: 90px;
+	left: 73px;
+}
+.wrap_ticket_info .select_tit {
+	font-weight: normal;
+}
+.wrap_ticket_info .box_info .box_ticket {
+	position: relative;
+	width: 240px;
+	border: 1px solid #eeeeee;
+	background-color: #fff;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner {
+	margin: 10px 14px;
+	line-height: 20px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .tk_b {
+	font-size: 14px;
+	color: #333333;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .tk_tit {
+	float: left;
+	width: 37%;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .pay {
+	float: right;
+	width: 63%;
+	text-align: right;
+	letter-spacing: 0;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .list_tkpay {
+	line-height: 24px;
+	color: #888;
+	padding-top: 25px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .txt_vip {
+	font-size: 11px;
+	color: #00b523;
+	margin-right: 3px;
+	vertical-align: top;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner.lst {
+	margin-bottom: 16px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_result {
+	margin: 0;
+	padding: 15px;
+	border-top: 1px solid #eeeeee;
+	font-weight: bold;
+}
+.wrap_ticket_info .box_info .box_ticket .box_result .tot_tit {
+	font-size: 14px;
+	color: #333;
+}
+.wrap_ticket_info .box_info .box_ticket .box_result .tot_pay {
+	font-size: 22px;
+	color: #00b523;
+}
+.wrap_ticket_info .box_info_bm .box_info_list {
+	padding: 10px 0;
+}
+.one_list li {
+	position: relative;
+	font-size: 12px;
+}
+.dotlist1x1 li {
+	margin-bottom: 1px;
+	padding: 0 0 0 6px;
+	line-height: 18px;
+}
+.txt_og {
+	color: #f28e47;
+}
+.one_list .btn_detail {
+	margin-left: 0;
+}
+.btn_onestop {
+	position: absolute;
+	left: 15px;
+	bottom: 10px;
+}
+.btn_onestop .button.frt {
+	margin-right: -3px;
+}
+.btn_onestop .button {
+	display: inline-block;
+	position: relative;
+	line-height: 48px;
+	font-size: 14px;
+}
+.btn_onestop .button.btWhite a {
+	border: 1px solid #cccccc;
+	background: #fff;
+	text-align:center;
+}
+.btn_onestop .button .btnOne {
+	display: block;
+	width: 236px;
+	height: 48px;
+	text-decoration: none;
+}
+.btn_onestop .button .btnOne .one_arr.prav_ar {
+	position: absolute;
+	top: 17px;
+	left: 20px;
+	background-position: -30px 0;
+}
+.btn_onestop .button .btnOne .one_arr {
+	display: inline-block;
+	overflow: hidden;
+	width: 6px;
+	height: 17px;
+	text-indent: -9999px;
+}
+.btn_onestop .button.btNext {
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #fff;
+	text-align:center;
+}

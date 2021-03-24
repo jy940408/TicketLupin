@@ -13,6 +13,14 @@ public class ReservationVo {
 	private String srdate;
 	private String srround;
 	private Date rregdate;
+	private String rdelyn;
+	private String rpick;
+	private String rname;
+	private String rtel;
+	private String remail;
+	private String rpaymethod;
+	private String rcard;
+	private String rquota;
 	
 	public ReservationVo() {
 		super();
@@ -20,7 +28,8 @@ public class ReservationVo {
 	}
 
 	public ReservationVo(int ridx, int sidx, int midx, String rseat, int rprice, String rdiscount, String srdate,
-			String srround, Date rregdate) {
+			String srround, Date rregdate, String rdelyn, String rpick, String rname, String rtel, String remail,
+			String rpaymethod, String rcard, String rquota) {
 		super();
 		this.ridx = ridx;
 		this.sidx = sidx;
@@ -31,6 +40,14 @@ public class ReservationVo {
 		this.srdate = srdate;
 		this.srround = srround;
 		this.rregdate = rregdate;
+		this.rdelyn = rdelyn;
+		this.rpick = rpick;
+		this.rname = rname;
+		this.rtel = rtel;
+		this.remail = remail;
+		this.rpaymethod = rpaymethod;
+		this.rcard = rcard;
+		this.rquota = rquota;
 	}
 
 	public int getRidx() {
@@ -105,12 +122,76 @@ public class ReservationVo {
 		this.rregdate = rregdate;
 	}
 
+	public String getRdelyn() {
+		return rdelyn;
+	}
+
+	public void setRdelyn(String rdelyn) {
+		this.rdelyn = rdelyn;
+	}
+
+	public String getRpick() {
+		return rpick;
+	}
+
+	public void setRpick(String rpick) {
+		this.rpick = rpick;
+	}
+
+	public String getRname() {
+		return rname;
+	}
+
+	public void setRname(String rname) {
+		this.rname = rname;
+	}
+
+	public String getRtel() {
+		return rtel;
+	}
+
+	public void setRtel(String rtel) {
+		this.rtel = rtel;
+	}
+
+	public String getRemail() {
+		return remail;
+	}
+
+	public void setRemail(String remail) {
+		this.remail = remail;
+	}
+
+	public String getRpaymethod() {
+		return rpaymethod;
+	}
+
+	public void setRpaymethod(String rpaymethod) {
+		this.rpaymethod = rpaymethod;
+	}
+
+	public String getRcard() {
+		return rcard;
+	}
+
+	public void setRcard(String rcard) {
+		this.rcard = rcard;
+	}
+
+	public String getRquota() {
+		return rquota;
+	}
+
+	public void setRquota(String rquota) {
+		this.rquota = rquota;
+	}
+
 	@Override
 	public String toString() {
 		return "ReservationVo [ridx=" + ridx + ", sidx=" + sidx + ", midx=" + midx + ", rseat=" + rseat + ", rprice="
 				+ rprice + ", rdiscount=" + rdiscount + ", srdate=" + srdate + ", srround=" + srround + ", rregdate="
-				+ rregdate + "]";
+				+ rregdate + ", rdelyn=" + rdelyn + ", rpick=" + rpick + ", rname=" + rname + ", rtel=" + rtel
+				+ ", remail=" + remail + ", rpaymethod=" + rpaymethod + ", rcard=" + rcard + ", rquota=" + rquota + "]";
 	}
-
 	
 }

@@ -1,9 +1,13 @@
 ﻿$(function(){
 	$('.btn_rsrv').click(function(){
+		$('.btn_rsrv').css("background-color", "#A6A6A6");
+		$('.btn_cancel').css("background-color", "white");
 		$('.cancel_view').hide();
 		$('.box_customer').show();
 	});
 	$('.btn_cancel').click(function(){
+		$('.btn_rsrv').css("background-color", "white");
+		$('.btn_cancel').css("background-color", "#A6A6A6");
 		$('.box_customer').hide();
 		$('.cancel_view').show();
 	});

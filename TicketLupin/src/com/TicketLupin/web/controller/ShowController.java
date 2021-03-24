@@ -289,6 +289,11 @@ public class ShowController extends HttpServlet{
 				aprice = Integer.parseInt(aprice_);
 			}
 			
+			System.out.println("vipprice 테스트: " + vipprice);
+			System.out.println("rprice 테스트: " + rprice);
+			System.out.println("sprice 테스트: " + sprice);
+			System.out.println("aprice 테스트: " + aprice);
+			
 //==============================================================================================================================//
 			//오픈 날짜 oracle에서 쓸 수 있는 date 타입으로 바꿔주기
 			Date startdate = null;
@@ -351,7 +356,10 @@ public class ShowController extends HttpServlet{
 			sv.setSextraaddress(extraAddress);
 			sv.setMidx(midx);
 			sv.setSticketingdate(sqlTicketingDate);
-		
+			sv.setSvipprice(vipprice);
+			sv.setSrprice(rprice);
+			sv.setSsprice(sprice);
+			sv.setSaprice(aprice);
 			
 			sd.insertShow(sv);
 
@@ -605,6 +613,11 @@ public class ShowController extends HttpServlet{
 			if(aprice_ != null && !aprice_.equals("")) {
 				aprice = Integer.parseInt(aprice_);
 			}
+			
+			System.out.println("vipprice 테스트: " + vipprice);
+			System.out.println("rprice 테스트: " + rprice);
+			System.out.println("sprice 테스트: " + sprice);
+			System.out.println("aprice 테스트: " + aprice);
 			
 //==============================================================================================================================//
 			//오픈 날짜 oracle에서 쓸 수 있는 date 타입으로 바꿔주기

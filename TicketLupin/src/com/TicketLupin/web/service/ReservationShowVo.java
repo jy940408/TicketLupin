@@ -42,15 +42,19 @@ public class ReservationShowVo extends ReservationVo{
 		this.num = num;
 	}
 
-	public ReservationShowVo(String stitle, int ridx, int sidx, int midx, String rseat, int rprice, String rdiscount, String srdate,
-			String srround, Date rregdate, int num, String stitleimage) {
-		super(ridx, sidx, midx, rseat, rprice, rdiscount, srdate, srround, rregdate);
-
+	public ReservationShowVo(int ridx, int sidx, int midx, String rseat, int rprice, String rdiscount, String srdate,
+			String srround, Date rregdate, String rdelyn, String rpick, String rname, String rtel, String remail,
+			String rpaymethod, String rcard, String rquota, String stitle, int num, String stitleimage) {
+		super(ridx, sidx, midx, rseat, rprice, rdiscount, srdate, srround, rregdate, rdelyn, rpick, rname, rtel, remail,
+				rpaymethod, rcard, rquota);
+		// TODO Auto-generated constructor stub
+		
 		this.stitle = stitle;
 		this.num = num;
 		this.stitleimage = stitleimage;
 	}
 
+	
 	
 	
 }

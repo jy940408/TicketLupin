@@ -40,10 +40,15 @@ public class MyticketController extends HttpServlet{
 		}else if(str.equals("/Myticket/MyticketReservation.do")) {
 			
 			String page_ = request.getParameter("p");
+			String dPage_ = request.getParameter("dp");
 			
 			int page = 1;
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
+			}
+			int dPage = 1;
+			if(dPage_ != null && !dPage_.equals("")) {
+				dPage = Integer.parseInt(dPage_);
 			}
 			
 			HttpSession session = request.getSession();
@@ -54,8 +59,10 @@ public class MyticketController extends HttpServlet{
 			int count = rd.getReservationCount(midx);
 			System.out.println("list 확인: " + list);
 			System.out.println("count 확인: " + count);
+			ArrayList<ReservationShowVo> dList = rd.getDelReservationList(midx, dPage);
 			
 			request.setAttribute("list", list);
+			request.setAttribute("dList", dList);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_list.jsp").forward(request, response);
 			
@@ -72,13 +79,33 @@ public class MyticketController extends HttpServlet{
 			
 			ReservationDao rd = new ReservationDao();
 			ReservationShowVo detail = rd.getReservationDetail(ridx, midx);
-			int count = rd.getReservationCount(midx);
 			System.out.println("detail 확인: " + detail);
-			System.out.println("count 확인: " + count);
+			System.out.println(detail.getRcard());
 			
 			request.setAttribute("detail", detail);
-			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_detail.jsp").forward(request, response);
+			
+		}else if(str.equals("/Myticket/MyticketCancelDetail.do")) {
+			
+			String ridx_ = request.getParameter("ridx");
+			int ridx = 0;
+			if(ridx_ != null && !ridx_.equals("")) {
+				ridx = Integer.parseInt(ridx_);
+			}
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			System.out.println("ridx: " + ridx);
+			System.out.println("midx: " + midx);
+			
+			ReservationDao rd = new ReservationDao();
+			ReservationShowVo detail = rd.getReservationDetail(ridx, midx);
+			System.out.println("detail 확인: " + detail);
+			System.out.println(detail.getRcard());
+			
+			request.setAttribute("detail", detail);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_cancel_detail.jsp").forward(request, response);
 			
 		}
 		
