@@ -243,7 +243,9 @@ public class ConcertViewController extends HttpServlet{
 			obj.put("srround2", srv.getSrround2());
 			obj.put("srround3", srv.getSrround3());
 			obj.put("srround4", srv.getSrround4());
-			
+			obj.put("year", year);
+			obj.put("month", strMonth);
+			obj.put("date", strDate);
 			
 			response.setContentType("application/x-json; charset=UTF-8");
 			response.getWriter().print(obj); //{"result":1}

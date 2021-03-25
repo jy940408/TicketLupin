@@ -242,15 +242,39 @@ public class ReservationDao {
 		return value;
 	}
 	
-	public int deleteUpdateReservation(int sidx) {
+	public int deleteUpdateReservation1(int sidx) {
 		System.out.println("deleteUpdateReservationÀÌ ¹Þ´Â sidx: " + sidx);
 		int value = 0;
 		String sql = "MERGE INTO RESERVATION USING "
-				+ "(SELECT * FROM RESERVATION INNER JOIN SHOWROUND ON RESERVATION.SIDX = SHOWROUND.SIDX "
-				+ "AND NOT RESERVATION.SRDATE = SHOWROUND.SRDATE "
-				+ "AND NOT (SHOWROUND.SRROUND1 = RESERVATION.SRROUND OR SHOWROUND.SRROUND2 = RESERVATION.SRROUND "
-				+ "OR SHOWROUND.SRROUND3 = RESERVATION.SRROUND OR SHOWROUND.SRROUND4 = RESERVATION.SRROUND) "
-				+ "WHERE RESERVATION.SIDX = ?) RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
+				+ "(SELECT * FROM RESERVATION R INNER JOIN SHOWROUND S "
+				+ "ON R.SIDX = S.SIDX "
+				+ "AND R.SIDX = ? "
+				+ "AND R.SRDATE = S.SRDATE "
+				+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
+				+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
+				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
+				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)) "
+				+ "RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
+				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return value;
+	}
+	
+	public int deleteCancelReservation(int sidx) {
+		int value = 0;
+		String sql = "MERGE INTO RESERVATION USING "
+				+ "(SELECT * FROM RESERVATION WHERE SIDX = ?) "
+				+ "RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
 				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
 		
 		try {

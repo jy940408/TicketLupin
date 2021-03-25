@@ -35,44 +35,7 @@
     <!--좌석선택  영역-->
     <div class="wrap_select">
         <div class="box_seat_top">
-            <h3 class="tit_seat">좌석 선택<span class="tit_s txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">${title}</span>
-                <span class="seat_wrap_sel">
-                    <!-- 셀렉트박스 -->
-                    <select id="scheduleNo" name="scheduleNo" class="sel_cate" onchange="selectSchedule(this);" onfocus="setOriginNo(this);">
-						<option value="100129">2021.02.18 (목) 19:00</option>
-						<option value="100121">2021.02.19 (금) 15:00</option>
-						<option value="100130" selected="selected">2021.02.19 (금) 20:00</option>
-						<option value="100122">2021.02.20 (토) 14:00</option>
-						<option value="100131">2021.02.20 (토) 19:00</option>
-						<option value="100136">2021.02.21 (일) 15:00</option>
-						<option value="100113">2021.02.22 (월) 19:00</option>
-						<option value="100123">2021.02.24 (수) 15:00</option>
-						<option value="100116">2021.02.24 (수) 20:00</option>
-						<option value="100132">2021.02.25 (목) 19:00</option>
-						<option value="100133">2021.02.26 (금) 20:00</option>
-						<option value="100125">2021.02.27 (토) 14:00</option>
-						<option value="100134">2021.02.27 (토) 19:00</option>
-						<option value="100137">2021.02.28 (일) 15:00</option>
-						<option value="100154">2021.03.01 (월) 14:00</option>
-						<option value="100138">2021.03.01 (월) 19:00</option>
-						<option value="100140">2021.03.03 (수) 20:00</option>
-						<option value="100144">2021.03.04 (목) 19:00</option>
-						<option value="100146">2021.03.05 (금) 15:00</option>
-						<option value="100141">2021.03.05 (금) 20:00</option>
-						<option value="100148">2021.03.06 (토) 14:00</option>
-						<option value="100150">2021.03.06 (토) 19:00</option>
-						<option value="100152">2021.03.07 (일) 15:00</option>
-						<option value="100139">2021.03.08 (월) 19:00</option>
-						<option value="100142">2021.03.10 (수) 20:00</option>
-						<option value="100145">2021.03.11 (목) 19:00</option>
-						<option value="100147">2021.03.12 (금) 15:00</option>
-						<option value="100143">2021.03.12 (금) 20:00</option>
-						<option value="100149">2021.03.13 (토) 14:00</option>
-						<option value="100151">2021.03.13 (토) 19:00</option>
-						<option value="100153">2021.03.14 (일) 15:00</option>
-					</select>
-                </span>
-            </h3>
+            <h3 class="tit_seat">좌석 선택<span class="tit_s txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">${title}</span></h3>
         </div>
         <!-- 좌석영역-->
         <div class="wrap_seat">

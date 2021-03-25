@@ -220,6 +220,10 @@ public class ShowController extends HttpServlet{
 				sidx = Integer.parseInt(sidx_);
 			}
 			
+			//삭제되는 공연 예매내역 삭제하기
+			ReservationDao rd = new ReservationDao();
+			rd.deleteCancelReservation(sidx);
+			
 			ShowDao sd = new ShowDao();
 			sd.getShowDelete(sidx);
 			
@@ -926,7 +930,7 @@ public class ShowController extends HttpServlet{
 			
 			//기존 공연 회차 예매내역 삭제하기
 			ReservationDao rd = new ReservationDao();
-			rd.deleteUpdateReservation(sidx);
+			rd.deleteUpdateReservation1(sidx);
 			
 			System.out.println(roundlist);
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");

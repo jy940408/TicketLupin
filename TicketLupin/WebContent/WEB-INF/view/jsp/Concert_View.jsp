@@ -72,10 +72,10 @@
 					
 					var output2 = "";
 					
-					ouyput2 = "<button type="button" id="main_concert_process_choice_button" onclick="submitReservation()"><div style="font-size:16px;">예매하기</div></button>"
+					output2 = "<button type='button' id='main_concert_process_choice_button' onclick='submitReservation()'><div style='font-size:16px;'>예매하기</div></button>";
 					
 					$("#main_concert_process_time_calender").html(output);
-					$("main_concert_process_choice_button_div").html();
+					$("main_concert_process_choice_button_div").html(output2);
 				}
 			});
 		

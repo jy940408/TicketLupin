@@ -12,6 +12,15 @@
 		<script>
 			$(document).ready(function(){
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				$("select").on("change",function(){	
 					
 					var vipBasic = $("#vipBasic").val();
@@ -106,7 +115,7 @@
 							<span style="position:absolute;	top:0; left:150px; margin-top:16px; margin-left:60px;">▶</span>
 						</li>
 						<li>
-							<a href="#" class="step2">가격 선택</a>
+							<a href="#" class="step2" style="font-weight:bold;">가격 선택</a>
 						</li>
 						<li>
 							<span style="position:absolute;	top:0; left:390px; margin-top:16px; margin-left:60px;">▶</span>

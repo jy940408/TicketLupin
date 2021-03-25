@@ -10,8 +10,85 @@
 		<script src="<%=request.getContextPath() %>/js/Pay_step3.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Pay_step3.css">
 		<script>
-			function paymentSubmit(){
+			
+			$(document).ready(function(){
+				$("input:radio[name='payMethodCode']").on("click", function(){
+					if($("input:radio[name='payMethodCode']").val() == "credit"){
+						$(".box_card").css("display", "");
+					}else if($("input:radio[name='payMethodCode']").val() == "bank"){
+						$(".box_card").css("display", "none");
+					}else if($("input:radio[name='payMethodCode']").val() == "phone"){
+						$(".box_card").css("display", "none");
+					}else if($("input:radio[name='payMethodCode']").val() == "kakaoM"){
+						$(".box_card").css("display", "none");
+					}else if($("input:radio[name='payMethodCode']").val() == "kakaoP"){
+						$(".box_card").css("display", "none");
+					}
+				});
 				
+			});
+		
+			function paymentSubmit(){
+	        	if (document.frm.name.value == ""){
+					alert("주문자 이름을 입력해주세요");
+				  	document.frm.userName.focus();
+				  	return;
+			  	}else if (document.frm.tel1.value == ""){
+				  	alert("주문자 연락처를 입력해주세요");
+				  	document.frm.tel1.focus();
+				  	return;
+			  	}else if (document.frm.tel2.value == ""){
+				  	alert("주문자 연락처를 입력해주세요");
+				  	document.frm.tel2.focus();
+				  	return;
+			  	}else if (document.frm.tel3.value == ""){
+				  	alert("주문자 연락처를 입력해주세요");
+				  	document.frm.tel3.focus();
+				  	return;
+			  	}else if (document.frm.email.value == ""){
+				  	alert("주문자 이메일을 입력해주세요");
+				  	document.frm.email.focus();
+				  	return;
+			  	}else if (document.frm.payMethodCode.value == ""){
+				  	alert("주문자 결제방법을 선택해주세요");
+				  	document.frm.payMethodCode.focus();
+				  	return;
+			  	}else if (!document.frm.chkAgree1.checked){
+			  		alert("필수 동의사항을 체크해주세요");
+				  	document.frm.chkAgree1.focus();
+				  	return;
+			  	}else if (!document.frm.chkAgree2.checked){
+			  		alert("필수 동의사항을 체크해주세요");
+				  	document.frm.chkAgree1.focus();
+				  	return;
+			  	}else if (!document.frm.chkAgree3.checked){
+			  		alert("필수 동의사항을 체크해주세요");
+				  	document.frm.chkAgree1.focus();
+				  	return;
+			  	}else if (!document.frm.chkAgree4.checked){
+			  		alert("필수 동의사항을 체크해주세요");
+				  	document.frm.chkAgree1.focus();
+				  	return;
+			  	}else if (!document.frm.chkAgree5.checked){
+			  		alert("필수 동의사항을 체크해주세요");
+				  	document.frm.chkAgree1.focus();
+				  	return;
+			  	}else if (!document.frm.chkAgree6.checked){
+			  		alert("필수 동의사항을 체크해주세요");
+				  	document.frm.chkAgree1.focus();
+				  	return;
+			  	}
+	        	
+	        	if(document.frm.payMethodCode.value == "credit"){
+	        		if (document.frm.cardCode.value == "none"){
+					  	alert("결제카드를 선택해주세요");
+					  	document.frm.cardCode.focus();
+					  	return;
+				  	}
+	        	}
+	        	
+	        	alert("결제가 완료되었습니다!");
+	        	
 				document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep4.do";
 			 	document.frm.method = "get";
 			 	document.frm.submit(); 
@@ -38,7 +115,7 @@
 								<span style="position:absolute;	top:0; left:390px; margin-top:16px; margin-left:60px;">▶</span>
 							</li>
 							<li>
-								<a href="#" class="step3">배송/결제</a>
+								<a href="#" class="step3" style="font-weight:bold;">배송/결제</a>
 							</li>
 						</ul>
 					</div>
@@ -161,7 +238,7 @@
 												<div class="wrap_sel">
 													<div class="btn_sel">
 														<select name="cardCode" class="sel_cate">
-															<option value="" selected="selected">카드를 선택해주세요.</option>
+															<option value="none" selected="selected">카드를 선택해주세요.</option>
 															<option value="SAMSUNG">삼성카드</option>
 															<option value="KB">KB국민카드</option>
 															<option value="HYUNDAI">현대카드</option>
@@ -226,7 +303,7 @@
 								</li>
 								<li class="list_agree">
 									<div class="tit_check">
-										<input type="checkbox" name="chkAgree" title="[필수] 예매 및 취소 수수료/ 취소기한을 확인하였으며 동의합니다.">
+										<input type="checkbox" name="chkAgree1" title="[필수] 예매 및 취소 수수료/ 취소기한을 확인하였으며 동의합니다.">
 										<label class="chkAgree01">
 											<span class="txt_lab">[필수] 예매 및 취소 수수료/ 취소기한을 확인하였으며 동의합니다.</span>
 										</label>
@@ -265,7 +342,7 @@
 									<ul>
 										<li>
 											<div class="tit_check">
-												<input type="checkbox" name="chkAgree" title="[필수] 결제대행 서비스 표준이용약관">
+												<input type="checkbox" name="chkAgree2" id="check1" title="[필수] 결제대행 서비스 표준이용약관">
 												<label class="chkAgree05">
 													<span class="txt_lab">[필수] 결제대행 서비스 표준이용약관</span>
 												</label>
@@ -280,7 +357,7 @@
 									<ul>
 										<li>
 											<div class="tit_check">
-												<input type="checkbox" id="chkAgree_kakao" name="chkAgree" title="[필수] 카카오 전자금융 이용약관 동의">
+												<input type="checkbox"  id="check2" name="chkAgree3" title="[필수] 카카오 전자금융 이용약관 동의">
 												<label for="chkAgree_kakao">
 													<span class="txt_lab">[필수] 카카오 전자금융 이용약관 동의</span>
 												</label>
@@ -295,7 +372,7 @@
 									<ul>
 										<li>
 											<div class="tit_check">
-												<input type="checkbox" name="chkAgree" title="[필수] 개인정보 수집/이용에 동의합니다.">
+												<input type="checkbox" name="chkAgree4"  id="check3" title="[필수] 개인정보 수집/이용에 동의합니다.">
 												<label>
 													<span class="txt_lab">[필수] 개인정보 수집/이용에 동의합니다.</span>
 												</label>
@@ -310,7 +387,7 @@
 									<ul>
 										<li>
 											<div class="tit_check">
-												<input type="checkbox" name="chkAgree" title="[필수] 개인정보 제3자 제공 동의 및 주의사항">
+												<input type="checkbox" name="chkAgree5" id="check4" title="[필수] 개인정보 제3자 제공 동의 및 주의사항">
 												<label for="chkAgree04">
 													<span class="txt_lab">[필수] 개인정보 제3자 제공 동의 및 주의사항</span>
 												</label>
@@ -325,24 +402,9 @@
 									<ul>
 										<li>
 											<div class="tit_check">
-												<input type="checkbox" name="chkAgree" title="[필수] 멜론티켓 이용약관 동의합니다.">
+												<input type="checkbox" name="chkAgree6" id="check5" title="[필수] 멜론티켓 이용약관 동의합니다.">
 												<label>
 													<span class="txt_lab">[필수] 멜론티켓 이용약관 동의합니다.</span>
-												</label>
-												<a href="#" class="btn_flexible btn_flexible_ico2 btn_detail">
-													<span>상세보기</span>
-												</a>
-											</div>
-										</li>
-									</ul>
-								</li>
-								<li class="list_agree">
-									<ul>
-										<li class="float_l">
-											<div class="tit_check">
-												<input type="checkbox" name="chkAgree" title="[선택] 카카오톡 멜론티켓 채널 추가">
-												<label for="chkAgreeChannel">
-													<span class="txt_lab">[선택] 카카오톡 멜론티켓 채널 추가</span>
 												</label>
 												<a href="#" class="btn_flexible btn_flexible_ico2 btn_detail">
 													<span>상세보기</span>
