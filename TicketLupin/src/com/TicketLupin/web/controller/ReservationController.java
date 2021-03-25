@@ -61,8 +61,10 @@ public class ReservationController extends HttpServlet{
 			
 			String month = Integer.toString(month_+1);
 			if((int)(Math.log10(month_)+1) == 1) {
-				month = "0" + month_;
+				month = "0" + month;
 			}
+			System.out.println("달 테스트: " + month);
+			
 			String date = Integer.toString(date_);
 			if((int)(Math.log10(date_)+1) == 1) {
 				date = "0" + date_;

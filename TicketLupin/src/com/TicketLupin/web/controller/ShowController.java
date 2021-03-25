@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.NewsVo;
+import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRankingVo;
 import com.TicketLupin.web.service.ShowRoundDao;
@@ -783,7 +784,7 @@ public class ShowController extends HttpServlet{
 			
 			//round_admin에 보내줄 값 받아오기
 			
-			Show1Vo sv1 = sd.getRecentShowDetail();
+			Show1Vo sv1 = sd.getShowDetail(sidx);
 			
 			Date sopendate_ = sv1.getSopendate();
 			Date senddate_ = sv1.getSenddate();
@@ -900,7 +901,10 @@ public class ShowController extends HttpServlet{
 			
 			ShowRoundDao srd = new ShowRoundDao();
 			
+			//기존 공연 회차 삭제하기
+			srd.deleteShowRound(sidx);
 			
+			//수정 공연 회차 등록하기
 			int j = 0;
 			while(j != datelength*5) {
 				
@@ -919,6 +923,10 @@ public class ShowController extends HttpServlet{
 				j = j+5;
 				
 			}
+			
+			//기존 공연 회차 예매내역 삭제하기
+			ReservationDao rd = new ReservationDao();
+			rd.deleteUpdateReservation(sidx);
 			
 			System.out.println(roundlist);
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");

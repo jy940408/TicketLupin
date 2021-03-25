@@ -225,9 +225,6 @@ public class ReservationDao {
 	}
 	
 	public int deleteReservation(int ridx, int midx) {
-		System.out.println("메소드 들어오는지 확인");
-		System.out.println("ridx: " + ridx);
-		System.out.println("midx: " + midx);
 		int value = 0;
 		String sql = "UPDATE RESERVATION SET RDELYN = 'Y' WHERE RIDX = ? AND MIDX = ?";
 		
@@ -242,7 +239,30 @@ public class ReservationDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("value값: " + value);
+		return value;
+	}
+	
+	public int deleteUpdateReservation(int sidx) {
+		System.out.println("deleteUpdateReservation이 받는 sidx: " + sidx);
+		int value = 0;
+		String sql = "MERGE INTO RESERVATION USING "
+				+ "(SELECT * FROM RESERVATION INNER JOIN SHOWROUND ON RESERVATION.SIDX = SHOWROUND.SIDX "
+				+ "AND NOT RESERVATION.SRDATE = SHOWROUND.SRDATE "
+				+ "AND NOT (SHOWROUND.SRROUND1 = RESERVATION.SRROUND OR SHOWROUND.SRROUND2 = RESERVATION.SRROUND "
+				+ "OR SHOWROUND.SRROUND3 = RESERVATION.SRROUND OR SHOWROUND.SRROUND4 = RESERVATION.SRROUND) "
+				+ "WHERE RESERVATION.SIDX = ?) RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
+				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return value;
 	}
 }

@@ -55,7 +55,7 @@
 				url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
 				data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
 				success: function(data){
-					var output="";
+					var output = "";
 					
 					output += "<div style='display:none;'>";
 					for(var i = 1 ; i <= 4 ; i++){
@@ -70,7 +70,12 @@
 						}
 					}
 					
+					var output2 = "";
+					
+					ouyput2 = "<button type="button" id="main_concert_process_choice_button" onclick="submitReservation()"><div style="font-size:16px;">예매하기</div></button>"
+					
 					$("#main_concert_process_time_calender").html(output);
+					$("main_concert_process_choice_button_div").html();
 				}
 			});
 		

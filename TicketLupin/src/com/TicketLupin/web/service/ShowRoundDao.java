@@ -112,19 +112,15 @@ public class ShowRoundDao {
 		return srv;	
 	}
 	
-	public int modifyShowRound(ShowRoundVo srv) {
+	public int deleteShowRound(int sidx) {
 		int result = 0;
-		String sql = "UPDATE SHOWROUND SET SRROUND1 = ?, SRROUND2 = ?, SRROUND3 = ?, SRROUND4 = ? WHERE SIDX = ?";
+		String sql = "DELETE SHOWROUND WHERE SIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, srv.getSidx());
-			pstmt.setString(2, srv.getSrdate());
-			pstmt.setString(3, srv.getSrround1());
-			pstmt.setString(4, srv.getSrround2());
-			pstmt.setString(5, srv.getSrround3());
-			pstmt.setString(6, srv.getSrround4());
+			pstmt.setInt(1, sidx);
+			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println("ShowRoundDao 들어오는 것 확인");
 		} catch (SQLException e) {
