@@ -158,6 +158,11 @@ public class ReservationController extends HttpServlet{
 			System.out.println("gradeCount: " + gradeCount);
 			System.out.println("arraySeat 첫번째 확인: " + arraySeat[0]);
 			
+			//가격 불러오기 용도 공연 디테일 항목 가져오기
+			ShowDao sd = new ShowDao();
+			Show1Vo sv = new Show1Vo();
+			sv = sd.getShowDetail(sidx);
+			
 			request.setAttribute("sidx", sidx);
 			request.setAttribute("title", title);
 			request.setAttribute("comDate", comDate);
@@ -167,7 +172,7 @@ public class ReservationController extends HttpServlet{
 			request.setAttribute("gradeCategory", gradeCategory);
 			request.setAttribute("floor", floor);
 			request.setAttribute("gradeCount", gradeCount);
-			
+			request.setAttribute("detail", sv);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step2.jsp").forward(request, response);
 
 //==============================================================================================================================//

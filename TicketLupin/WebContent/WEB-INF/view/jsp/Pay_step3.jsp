@@ -12,17 +12,11 @@
 		<script>
 			
 			$(document).ready(function(){
-				$("input:radio[name='payMethodCode']").on("click", function(){
-					if($("input:radio[name='payMethodCode']").val() == "credit"){
-						$(".box_card").css("display", "");
-					}else if($("input:radio[name='payMethodCode']").val() == "bank"){
-						$(".box_card").css("display", "none");
-					}else if($("input:radio[name='payMethodCode']").val() == "phone"){
-						$(".box_card").css("display", "none");
-					}else if($("input:radio[name='payMethodCode']").val() == "kakaoM"){
-						$(".box_card").css("display", "none");
-					}else if($("input:radio[name='payMethodCode']").val() == "kakaoP"){
-						$(".box_card").css("display", "none");
+				$("input:radio[name='payMethodCode']").on("change", function(){
+					if($(this).val() == "credit"){
+						$(".box_card").show();
+					}else{
+						$(".box_card").hide();
 					}
 				});
 				

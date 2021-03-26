@@ -586,6 +586,11 @@ public class ShowController extends HttpServlet{
 			String aprice_ = request.getParameter("aPrice");
 			String sidx_ = request.getParameter("sidx");
 			
+			System.out.println("받아오는 vipPrice 확인: " + vipprice_);
+			System.out.println("받아오는 rPrice 확인: " + rprice_);
+			System.out.println("받아오는 sPrice 확인: " + sprice_);
+			System.out.println("받아오는 aPrice 확인: " + aprice_);
+			
 			int sidx = 0;
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
@@ -619,11 +624,10 @@ public class ShowController extends HttpServlet{
 				aprice = Integer.parseInt(aprice_);
 			}
 			
-			System.out.println("vipprice 테스트: " + vipprice);
-			System.out.println("rprice 테스트: " + rprice);
-			System.out.println("sprice 테스트: " + sprice);
-			System.out.println("aprice 테스트: " + aprice);
-			
+			System.out.println("바뀐 vipPrice 확인: " + vipprice);
+			System.out.println("바뀐 rPrice 확인: " + rprice);
+			System.out.println("바뀐 sPrice 확인: " + sprice);
+			System.out.println("바뀐 aPrice 확인: " + aprice);
 //==============================================================================================================================//
 			//오픈 날짜 oracle에서 쓸 수 있는 date 타입으로 바꿔주기
 			Date startdate = null;
@@ -687,6 +691,10 @@ public class ShowController extends HttpServlet{
 			sv.setMidx(midx);
 			sv.setSticketingdate(sqlTicketingDate);
 			sv.setSidx(sidx);
+			sv.setSvipprice(vipprice);
+			sv.setSrprice(rprice);
+			sv.setSsprice(sprice);
+			sv.setSaprice(aprice);
 			
 			sd.modifyShow(sv);
 			
