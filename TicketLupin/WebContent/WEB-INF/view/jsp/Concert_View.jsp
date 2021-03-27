@@ -55,27 +55,32 @@
 				url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
 				data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
 				success: function(data){
+					
+					
 					var output = "";
 					
 					output += "<div style='display:none;'>";
-					for(var i = 1 ; i <= 4 ; i++){
-						if(eval("data.srround" + i) != null){
-							output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + i) + "'>";
+					for(var j = 1 ; j <= 4 ; j++){
+						if(eval("data.srround" + j) != null){
+							output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + j) + "'>";
 						}
 					}
 					output += "</div>";
-					for(var i = 1 ; i <= 4 ; i++){
-						if(eval("data.srround" + i) != null){
-							output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + i) + "</div></label><br>";
+					for(var j = 1 ; j <= 4 ; j++){
+						if(eval("data.srround" + j) != null){
+							output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + j) + "</div></label><br>";
 						}
 					}
 					
 					var output2 = "";
 					
-					output2 = "<button type='button' id='main_concert_process_choice_button' onclick='submitReservation()'><div style='font-size:16px;'>예매하기</div></button>";
+					output += "<input type='hidden' name='sidx' value='${detail.sidx}'>";
+					output += "<input type='hidden' name='year' value='${year}'>";
+					output += "<input type='hidden' name='month' value='${month}'>";
+					output += "<input type='hidden' name='date' value='" + i + "'>";
 					
 					$("#main_concert_process_time_calender").html(output);
-					$("main_concert_process_choice_button_div").html(output2);
+					$("#dateRedirect").html(output2);
 				}
 			});
 		
@@ -345,11 +350,12 @@
 									</div>
 								</div>
 							</div>
-							<input type="hidden" name="sidx" value="${detail.sidx}">
-							<input type="hidden" name="year" value="${year}">
-							<input type="hidden" name="month" value="${month}">
-							<input type="hidden" name="date" value="${date}">
-							
+							<div id="dateRedirect">
+								<input type="hidden" name="sidx" value="${detail.sidx}">
+								<input type="hidden" name="year" value="${year}">
+								<input type="hidden" name="month" value="${month}">
+								<input type="hidden" name="date" value="${date}">
+							</div>
 							<div id="main_concert_process_choice_button_div">
 								<button type="button" id="main_concert_process_choice_button" onclick="submitReservation()"><div style="font-size:16px;">예매하기</div></button>
 							</div>

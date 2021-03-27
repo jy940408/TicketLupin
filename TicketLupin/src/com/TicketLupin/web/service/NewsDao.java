@@ -14,6 +14,7 @@ public class NewsDao {
 
 	private	Connection conn;
 	private PreparedStatement pstmt;
+	private ResultSet rs;
 	
 	public NewsDao() {
 		DBconn dbconn = new DBconn();
@@ -64,6 +65,13 @@ public class NewsDao {
 			
 		}catch (SQLException e) {
 				e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;
@@ -92,6 +100,13 @@ public class NewsDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return count;
@@ -135,6 +150,13 @@ public class NewsDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		System.out.println("dao: " + newsvo);
 		return newsvo;
@@ -142,7 +164,7 @@ public class NewsDao {
 	
 	public int insertNews(NewsVo nv) {
 		int result = 0;
-		//�ε���, Ÿ��Ʋ, �⺻ ����, ����ε���, ��ϳ�¥, ��ȸ��, �̹���, ÷������, ��������, ���ƿ� ��, ��������, ���³�¥, Ÿ��Ʋ������, �����Ұ�, ��������, ������ ����, ī�װ�
+		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
 		String sql = "INSERT INTO NEWS VALUES(NEWS_SEQUENCE.NEXTVAL, ?, ?, ?, sysdate, 1, '123', '123', ?, 1, 'N', ?, ?, ?, ?, ?, ?)";
 		
 		try {
@@ -164,6 +186,13 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -183,6 +212,13 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -190,7 +226,7 @@ public class NewsDao {
 	}
 	public int modifyNews(NewsVo nv) {
 		int result = 0;
-		//�ε���, Ÿ��Ʋ, �⺻ ����, ����ε���, ��ϳ�¥, ��ȸ��, �̹���, ÷������, ��������, ���ƿ� ��, ��������, ���³�¥, Ÿ��Ʋ������, �����Ұ�, ��������, ������ ����, ī�װ�
+		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
 		String sql = "UPDATE NEWS SET WTITLE = ?, WBASICINFO = ?, WTITLEPOSTER = ?, WPUB = ?, WOPENDATE = ?, WINTRODUCE = ?, WDISCOUNT = ?, WCOMPANY = ? WHERE WIDX = ?";
 		
 		try {
@@ -211,6 +247,13 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -233,6 +276,13 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;

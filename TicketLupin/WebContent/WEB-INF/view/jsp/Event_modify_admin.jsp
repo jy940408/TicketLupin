@@ -9,7 +9,6 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Event_write_admin.css">
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
-		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
 		<script type="text/javascript">
 			function regist(){
 				if(document.frm.etitle.value == ""){
@@ -36,16 +35,10 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -58,59 +51,37 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
-				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
-				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
+				<a href="#" id="main_nav_home">홈</a>
+				<a href="#" id="main_nav_concert">공연</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
+				<a href="#" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<c:choose>
-					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<a href="#" id="main_nav_myticket">관리자</a>
-					</c:when>
-					<c:otherwise>
-						<a href="#" id="main_nav_myticket">마이티켓</a>
-					</c:otherwise>
-				</c:choose>
+				<a href="#" id="main_nav_admin">관리자</a>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
-		<div id="nav_menu_sub_event_div" class="main_nav_all">
-			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-			</ul>
-			<hr id="nav_bar_sub">
+		
+		<div class="wrap_nav" id="wrap_nav"  style="display:none;">
+			<div id="nav_menu_sub_div" class="main_nav_all">
+				<ul id="nav_menu_sub">
+					<li><a href="#">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				</ul>
+			</div>
+			<hr id="nav_bar_sub"/>
 		</div>
-		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
-			<ul id="nav_menu_sub_myticket" style="margin:0px;">
-				<c:choose>
-					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					</c:when>
-					<c:otherwise>
-						<c:choose>
-							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:when>
-							<c:otherwise>
-								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:otherwise>
-						</c:choose>
-					</c:otherwise>
-				</c:choose>
-			</ul>
-			<hr id="nav_bar_sub">
+		<div class="wrap_nav"  id="wrap_nav2" style="display:none;">
+			<div id="nav_menu_sub_div" class="main_nav_event" >
+				<ul id="nav_menu_sub2">
+					<li><a href="<%=request.getContextPath()%>/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				</ul>
+			</div>
+			<hr id="nav_bar_sub"/>
 		</div>
 		
 		<section>
@@ -119,7 +90,6 @@
 					<h2>이벤트 공지 작성</h2>
 					<form name="frm">
 					<input type="hidden" name="eidx" value="<%=ev.getEidx() %>">
-					<input type="hidden" name="midx" value="<%=ev.getMidx() %>">
 					<table class="event_table" style="border:1px solid; border-collapse:collapse;">
 						<colgroup>
 							<col width="50px"/>
@@ -134,10 +104,10 @@
 							<th style="border:1px solid;">유형</th>
 							<td colspan="2" style="border:1px solid;">
 								<center>
-									<select class="type" style="border:0px; font-size:15px;">
-										<option>유형1</option>
-										<option>유형2</option>
-										<option>유형3</option>
+									<select class="type" style="border:0px; font-size:15px;" name="ecategory" value="<%=ev.getEcategory()%>">
+										<option>list</option>
+										<option>banner1</option>
+										<option>banner2</option>
 									</select>
 								</center>
 							</td>
@@ -170,13 +140,15 @@
 						<tr>
 							<th colspan="2" style="border:1px solid">썸네일</th>
 							<td colspan="5" style="border:1px solid">
-								<input type="file" name="ethumbnail" class="file" style="border:0px; font-size:14px;"><%=ev.getEthumbnail()%>
+								<input type="file" name="ethumbnail" class="file" style="border:0px; font-size:14px;" value="<%=ev.getEthumbnail()%>">
+							
 							</td>
 						</tr>
 						<tr>
 							<th colspan="2" style="border:1px solid">첨부파일</th>
 							<td colspan="5" style="border:1px solid">
-								<input type="file" name="efiles" class="file" style="border:0px; font-size:14px;"><%=ev.getEfiles() %>
+								<input type="file" name="efiles" class="file" style="border:0px; font-size:14px;" value="<%=ev.getEfiles() %>">
+							
 							</td>
 						</tr>
 					</table>
@@ -186,7 +158,7 @@
 						<button class="modify_btn" onclick="regist();">수정</button>
 					</div>
 					<div class="list">
-						<button class="list_btn">목록으로</button>
+						<button class="list_btn" onclick="history.back()">목록으로</button>
 					</div>					
 				</div>
 			</article>

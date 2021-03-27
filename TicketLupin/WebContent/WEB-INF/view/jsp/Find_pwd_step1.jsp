@@ -1,17 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lnag="ko">
+<html lang="ko">
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입 인증</title>
-        <link rel="stylesheet" href="./css/Login_FI_FP_Join__.css">
+        <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
         
     </head>
+    <script>
+	    function findPwd(){
+			if (document.frm.mname.value == ""){
+				alert("이름을 입력해주세요");
+			  	document.frm.mname.focus();
+			  	return;
+		  	}else if (document.frm.mid.value ==""){
+			  	alert("아이디를 입력해주세요");
+			  	document.frm.mid.focus();
+			  	return;
+		  	}else if (document.frm.memail.value ==""){
+			  	alert("이메일을 입력해주세요");
+			  	document.frm.memail.focus();
+			  	return;
+		  	}
+			
+			
+			 
+			alert("전송");
+		  	document.frm.action ="<%=request.getContextPath()%>/Member/findPwdAction.do?mid="+mid;
+		  	document.frm.method = "GET";
+		  	document.frm.submit(); 
+		  	return;
+		}
+	</script>
     <body>
         <!-- header -->
         <div id="header">
-            <a href="https://ticket.melon.com/main/index.htm" target="_blank" title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
+            <a href="<%=request.getContextPath()%>/Main/MainPage.do" target="_blank" title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
         </div>
 		<br/>
 		<h2 align="center">비밀번호 찾기</h2>
@@ -23,12 +48,12 @@
 
             <!-- content-->
             <div id="content">
-             
+             <form name="frm">
                 <!-- NAME -->
                 <div>
                     <h3 class="join_title"><label for="name">이름</label></h3>
                     <span class="box int_name">
-                        <input type="text" id="name" class="int" maxlength="20" placeholder="이름 입력" >
+                        <input type="text" name="mname" id="name" class="int" maxlength="20" placeholder="이름 입력" >
                     </span>
                     <span class="error_next_box"></span>
                 </div>
@@ -39,8 +64,7 @@
                         <label for="id">아이디</label>
                     </h3>
                     <span class="box int_id">
-                        <input type="text" id="id" class="int" maxlength="20" placeholder="아이디 입력">
-               
+                        <input type="text" name="mid" id="mid" class="int" maxlength="20" placeholder="아이디 입력">
                     </span>
                     <span class="error_next_box"></span>
                 </div>
@@ -52,7 +76,7 @@
                         <span>인증</span>
 					</button>
 					<span class="box int_email" id= "emailbox1" >
-                        <input type="text" id="email" class="int" maxlength="100" placeholder="이메일 입력">
+                        <input type="text" id="email" name="memail" class="int" maxlength="100" placeholder="이메일 입력">
                     </span>
                     <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span> 
                 </div>
@@ -71,14 +95,15 @@
 
                 <!-- JOIN BTN-->
                 <div class="btn_area">
-                    <button type="button" id="btnJoin">
-                        <span>가입하기</span>
+                    <button type="button" id="btnJoin" onclick="findPwd()">
+                        <span>비밀번호 찾기</span>
                     </button>
                 </div>
 
                 
-
+			 </form>
             </div> 
+            
             <!-- content-->
 
         </div> 

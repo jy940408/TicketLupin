@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class NoticeVo {
 	
+	private int num;
 	private int nidx;
 	private String ntitle;
 	private String ncontent;
@@ -16,30 +17,13 @@ public class NoticeVo {
 	private int ngood;
 	private String ndelyn;
 	private String ncategory;
-	
-	public NoticeVo() {
 		
+	public int getNum() {
+		return num;
 	}
-	
-	
-	public NoticeVo(int nidx, String ntitle, String ncontent, int midx, Date nregdate, int nhit, String nimage,
-			String nfiles, String npub, int ngood, String ndelyn, String ncategory) {
-		super();
-		this.nidx = nidx;
-		this.ntitle = ntitle;
-		this.ncontent = ncontent;
-		this.midx = midx;
-		this.nregdate = nregdate;
-		this.nhit = nhit;
-		this.nimage = nimage;
-		this.nfiles = nfiles;
-		this.npub = npub;
-		this.ngood = ngood;
-		this.ndelyn = ndelyn;
-		this.ncategory = ncategory;
+	public void setNum(int num) {
+		this.num = num;
 	}
-	
-	
 	public String getNcategory() {
 		return ncategory;
 	}
@@ -113,5 +97,4 @@ public class NoticeVo {
 		this.ndelyn = ndelyn;
 	}
 	
-
 }

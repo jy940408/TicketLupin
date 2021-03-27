@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>티켓 루팡</title>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.5.1.min.js"></script>
+		<title>나의 문의 내역</title>
+		<script type="text/javascript" src="../js/jquery-3.5.1.min.js"></script>
+		<link rel="stylesheet" href="../css/Myask_list.css">
 		<script src="<%=request.getContextPath()%>/js/Nav_event.js"></script>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myask_list.css">
+		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
+		<script>
+			function changeState(){
+				
+				document.frm.action = "../Customer/QuestionList.do";
+				document.frm.method = "get";
+				document.frm.submit();
+				return;
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -17,17 +27,17 @@
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+		              		<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		              		<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                </c:if>
+		                <c:if test="${empty sessionScope.mid}">
+		                	<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		               		<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                </c:if>
+		                	<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                	<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>         
 						</ul>
-						<img src="../ads/musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads" style="float:right;">
 					</span>
 					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
@@ -40,7 +50,7 @@
 			<nav id="main_nav">
 				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
 				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
-				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
 				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<c:choose>
@@ -53,14 +63,14 @@
 				</c:choose>
 			</nav>
 		</div>
-		<hr id="nav_bar_bottom">
+		<hr id="nav_bar_bottom">	
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
-			<hr id="nav_bar_sub">
+		<hr id="nav_bar_sub">
 		</div>
 		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
@@ -73,84 +83,144 @@
 						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:when>
-							<c:otherwise>
-								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:otherwise>
-						</c:choose>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
-			<hr id="nav_bar_sub">
-		</div>
-		
-		
+		<hr id="nav_bar_sub">
+		</div>	
 		<section>
 			<article>
 				<div class="cont">
 					<div class="tit">
 						<span class="label">고객센터</span>
 						<span class="btn">
-							<button type="button" class="qwrite">1:1 문의하기</button>
+							<button type="button" class="qwrite" onclick="location.href='../Customer/QuestionWrite.do'">1:1 문의하기</button>
 						</span>
 					</div>
 					<div class="cont_tb1">
 						<table border="1"  class="table1">
 							<tr>
-								<td width="140px"><a href="#">공지사항</a></td>
-								<td width="140px"><a href="#">이용안내</a></td>
-								<td width="140px"><a href="#">FAQ</a></td>
-								<td width="140px"><a href="#">나의 문의 내역</a></td>
+								<td width="140px"><a href="../Customer/NoticeList.do">공지사항</a></td>
+								<td width="140px"><a href="../Customer/Buyguide.do">이용안내</a></td>
+								<td width="140px"><a href="../Customer/FaqList.do">FAQ</a></td>
+								<td width="140px">
+									<c:choose>
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'G'}">
+											<a href="../Customer/QuestionList.do">나의 문의 내역</a>
+										</c:when>
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'M'}">
+											<a href="../Customer/AnswerMain.do">문의 관리</a>
+										</c:when>
+										<c:otherwise>
+											<a href="../Member/MemberLogin.do">나의 문의 내역</a>
+										</c:otherwise>
+									</c:choose>
+								</td>
 							</tr>
 						</table>
 					</div>
-	
-					<div class="box_customer">
-						<div class="sel">
-							<select name="searchType" class="selectBox">
-								<option value="total" selected><a href="#">전체</a></option>
-								<option value="wait"><a href="#">대기</a></option>
-								<option value="complete"><a href="#">완료</a></option>
-							</select>
+					<form name="frm">
+						<div class="box_customer">
+							<div class="sel">
+								<c:set var="state" value = "${state}"></c:set>
+								<select id="selectOption" name="state" class="selectBox" onchange="changeState();">
+									<option value="" ${state == '' ? 'selected="selected"' : '' }>전체</option>
+									<option value="대기" ${state == '대기' ? 'selected="selected"' : '' }>대기</option>
+									<option value="완료" ${state == '완료' ? 'selected="selected"' : '' }>완료</option>
+								</select>
+							</div>
+							<c:set var = "page" value = "${(param.p==null)? 1: param.p}"/>
+		          			<c:set var ="startNum" value = "${page-(page-1)%5}"/>    
+		           			<c:set var ="lastNum" value = "${ fn:substringBefore(Math.ceil(count/10), '.')  }"/>
+							<table class="tb2" style="width:100%">
+								<tbody>
+									<tr>
+										<th style="width:5%;">No.</th>
+										<th style="width:10%;">처리상태</th>
+										<th style="width:45%;">제목</th>
+										<th style="width:10%;">등록일</th>
+									</tr>
+									<c:forEach var="list" items="${list}">
+									<tr>
+										<td style="width:10%;">${list.num}</td>
+										<td style="width:20%;">${list.qstate}</td>
+										<td style="width:50%;" class="td_">
+											<c:choose>
+												<c:when test="${list.qstate == '대기'}">
+													<a href="../Customer/QuestionView.do?qidx=${list.qidx}">${list.qtitle}</a>
+												</c:when>
+												<c:otherwise>
+													<a href="../Customer/QuestionView2.do?qidx=${list.qidx}">${list.qtitle}</a>
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td style="width:20%;">${list.qregdate}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<div class="paging">
+								<div>
+									<c:choose>
+										<c:when test="${count > 0}">
+											<c:if test="${startNum == 1}">
+												<a href="?p=${startNum}&state=${state}">&lt;&lt;</a>
+											</c:if>
+											<c:if test="${startNum > 1}">
+												<a href="?p=${startNum-1}&state=${state}">&lt;&lt;</a>
+											</c:if>
+											<c:if test="${page == 1}">
+												<a href="?p=${startNum}&state=${state}">&lt</a>
+											</c:if>
+											<c:if test="${startNum < page && page < (startNum+5)}">
+												<a href="?p=${page-1}&state=${state}">&lt</a>                
+											</c:if>
+											<c:if test="${page == startNum && startNum > 1}">
+												<a href="?p=${startNum-1}&state=${state}">&lt</a>                
+											</c:if>
+											<span>
+									   			<c:forEach var = "i" begin= "0" end = "4">
+													<c:if test="${(startNum+i) <= lastNum }">
+														<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&state=${state}">${startNum+i}</a>
+													</c:if>
+												</c:forEach>
+											</span>    
+											<c:if test="${page < lastNum}">
+												<a href="?p=${page+1}&state=${state}">&gt;</a>
+											</c:if>
+											<c:if test="${page == lastNum}">
+												<a href="?p=${lastNum}&state=${state}">&gt;</a>
+											</c:if>
+											<c:if test="${(startNum+4) < lastNum}">
+								               	<a href="?p=${startNum+5}&state=${state}">&gt;&gt;</a>
+								           	</c:if>
+											<c:if test="${(startNum+4) >= lastNum}">
+												<a href="?p=${lastNum}&state=${state}">&gt;&gt;</a>
+											</c:if>
+										</c:when>
+										<c:otherwise>
+											<a href="?p=1&state=${state}">&lt;&lt;</a>
+											<a href="?p=1&state=${state}">&lt;</a>
+											<a style="color:red; font-weight:bold;" href="?p=1&state=${state}">1</a>
+											<a href="?p=1&state=${state}">&gt;</a>
+											<a href="?p=1&state=${state}">&gt;&gt;</a>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
 						</div>
-						<table class="tb2" style="width:100%">
-							<tbody>
-								<tr>
-									<th></th>
-									<th>처리상태</th>
-									<th>제목</th>
-									<th>등록일</th>
-								</tr>
-								<c:forEach var="Q" items="${list}">
-								<tr>
-									<td>${Q.qidx}</td>
-									<td>대기</td>
-									<td class="td_"><a href="#">${Q.qtitle}</a></td>
-									<td>${Q.qregdate}</td>
-								</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-						<div class="paging">
-							<a href="#"> << </a>&nbsp;&nbsp;<a href="#"> < </a>&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; </span>&nbsp;<a href="#"> > </a>&nbsp;&nbsp;<a href="#"> >> </a>
-						</div>
-					</div>
+					</form>
 				</div>
 			</article>
 		</section>
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">
-					<span class="f_bottom_ment"><img src="<%=request.getContextPath() %>/icon/lupinlogo.png" id="f_logo"></span>
+					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
 					<span class="f_bottom_ment">
 						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
 						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>

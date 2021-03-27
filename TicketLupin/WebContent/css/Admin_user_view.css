@@ -23,7 +23,7 @@ table.type06 .even {
 }
 
 #btnJoin {
-    width: 49%;
+    width: 22%;
     padding: 21px 0 17px;
     border: 0;
     cursor: pointer;
@@ -35,7 +35,7 @@ table.type06 .even {
 	
 }
 #btnJoin2 {
-    width: 49%;
+    width: 22%;
     padding: 21px 0 17px;
     border: 0;
     cursor: pointer;
@@ -48,4 +48,29 @@ table.type06 .even {
 	right:0;
 
 }
+#btnJoin3 {
+    width: 22%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #a8a8a8;
+    font-size: 20px;
+    font-weight: 400;
+	ont-family:"³ª´®½ºÄù¾î Regular";
+	position:center;
+}
+#btnJoin4 {
+    width: 22%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #a8a8a8;
+    font-size: 20px;
+    font-weight: 400;
+	ont-family:"³ª´®½ºÄù¾î Regular";
+}
+
+
 

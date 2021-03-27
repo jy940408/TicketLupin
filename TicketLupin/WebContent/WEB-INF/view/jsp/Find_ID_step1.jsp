@@ -5,13 +5,33 @@
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입 인증</title>
-        <link rel="stylesheet" href="./css/Login_FI_FP_Join__.css">
-        
+        <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
     </head>
+    <script>
+	    function findId(){
+			if (document.frm.mname.value == ""){
+				alert("이름을 입력해주세요");
+			  	document.frm.mname.focus();
+			  	return;
+		  	}else if (document.frm.memail.value ==""){
+			  	alert("이메일을 입력해주세요");
+			  	document.frm.memail.focus();
+			  	return;
+		  	}
+			 
+			alert("전송");
+		  	document.frm.action ="<%=request.getContextPath()%>/Member/findIdAction.do";
+		  	document.frm.method = "POST";
+		  	document.frm.submit(); 
+		  	return;
+		}
+	</script>
     <body>
         <!-- header -->
         <div id="header">
-            <a href="https://ticket.melon.com/main/index.htm" target="_blank" title="티켓루팡 회원가입 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
+            <a href="<%=request.getContextPath()%>/Main/MainPage.do" >
+            	<img src="../icon/lupinlogo.png" id="logo">
+            </a>
         </div>
 		
 		<!-- guide -->
@@ -26,12 +46,12 @@
 
             <!-- content-->
             <div id="content">
-             
+             	<form name="frm">
                 <!-- NAME -->
                 <div>
                     <h3 class="join_title"><label for="name">이름</label></h3>
                     <span class="box int_name">
-                        <input type="text" id="name" class="int" maxlength="20" placeholder="이름 입력" >
+                        <input type="text" id="name" class="int" maxlength="20" placeholder="이름 입력" name="mname">
                     </span>
                     <span class="error_next_box"></span>
                 </div>
@@ -43,13 +63,15 @@
                         <span>인증</span>
 					</button>
 					<span class="box int_email" id= "emailbox1" >
-                        <input type="text" id="email" class="int" maxlength="100" placeholder="이메일 입력">
+                        <input type="text" id="email" class="int" maxlength="100" placeholder="이메일 입력" name="memail">
                     </span>
+                    <!-- 
                     <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span> 
+                    -->
                 </div>
 			
 
-                <!-- MOBILE -->
+                <!-- MOBILE 
                 <div>
                     <h3 class="join_title"><label for="phoneNo">인증번호</label></h3>
                     <span class="box int_mobile">
@@ -57,17 +79,17 @@
                     </span>
                     <span class="error_next_box"></span>    
                 </div>
-
+				-->
 				
 
                 <!-- JOIN BTN-->
                 <div class="btn_area">
-                    <button type="button" id="btnJoin">
-                        <span>가입하기</span>
+                    <button type="button" id="btnJoin" onclick="findId()">
+                        <span>아이디 찾기</span>
                     </button>
                 </div>
 
-                
+                </form>
 
             </div> 
             <!-- content-->

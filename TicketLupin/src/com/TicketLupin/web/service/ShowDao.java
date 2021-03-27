@@ -13,6 +13,7 @@ public class ShowDao {
 
 	private	Connection conn;
 	private PreparedStatement pstmt;
+	private ResultSet rs;
 	
 	public ShowDao() {
 		DBconn dbconn = new DBconn();
@@ -49,6 +50,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -83,6 +91,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -132,6 +147,13 @@ public class ShowDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return list;
 		
@@ -160,6 +182,13 @@ public class ShowDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return count;
@@ -215,6 +244,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return sv;
@@ -241,6 +277,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return sv;
@@ -276,6 +319,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -294,6 +344,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return value;
@@ -330,6 +387,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -363,6 +427,13 @@ public class ShowDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;

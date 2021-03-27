@@ -1,18 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>문의 글 작성</title>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myask_write.css">
-		<script>
+		<link rel="stylesheet" href="../css/Myask_write.css">
+		<script type="text/javascript" src="../js/jquery-3.5.1.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/Nav_event.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
+		<script>	
 			function questionWrite(){	
 				
-				alert("등록하시겠습니까?");
-				document.frm.action = "<%=request.getContextPath()%>/Question/QuestionWriteAction.do";
-				document.frm.method = "get";
-				document.frm.submit();
-				return;
+				$(document).ready(function(){
+					
+					if($(".title").val() == ''){
+						
+						alert("제목을 입력해주세요.");
+						$(".title").focus();
+						return false;
+						
+					}else if($(".content").val() == ''){
+						
+						alert("내용을 입력해주세요.");
+						$(".content").focus();
+						return false;
+				
+					}else{
+						
+						var conf = confirm("등록하시겠습니까?");
+						
+						if(conf == true){
+							
+							document.frm.action = "../Customer/QuestionWriteAction.do";
+							document.frm.method = "get";
+							document.frm.submit();
+							return;
+							
+						}else if(conf == false){
+							
+							return false;
+						}
+					}
+					
+				});	
+				
 			}
 		</script>
 	</head>
@@ -23,17 +55,17 @@
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+		              		<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		              		<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                </c:if>
+		                <c:if test="${empty sessionScope.mid}">
+		                	<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		               		<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                </c:if>
+		                	<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                	<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>         
 						</ul>
-						<img src="../ads/musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads" style="float:right;">
 					</span>
 					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
@@ -46,7 +78,7 @@
 			<nav id="main_nav">
 				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
 				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
-				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
 				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
 				<c:choose>
@@ -59,14 +91,14 @@
 				</c:choose>
 			</nav>
 		</div>
-		<hr id="nav_bar_bottom">
+		<hr id="nav_bar_bottom">	
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
-			<hr id="nav_bar_sub">
+		<hr id="nav_bar_sub">
 		</div>
 		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
@@ -79,102 +111,112 @@
 						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:when>
-							<c:otherwise>
-								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:otherwise>
-						</c:choose>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
-			<hr id="nav_bar_sub">
+		<hr id="nav_bar_sub">
 		</div>
-		
 		<section>
 			<article>
-				<form name="frm">
-					<div class="inquiry">
-						<p class="tit">
-							<span class="label">고객센터</span>
-						</p>
-						<div class="cont_tbl">
-							<table class="table1" border="1">
-								<tr>
-									<td width="140px"><a href="#">공지사항</a></td>
-									<td width="140px"><a href="#">이용안내</a></td>
-									<td width="140px"><a href="#">FAQ</a></td>
-									<td width="140px"><a href="#">나의 문의 내역</a></td>
-								</tr>
-							</table>
-						</div>
-						<table class="inquiry_table" style="border:1px solid; border-collapse:collapse;">
-							<colgroup>
-								<col width="50px"/>
-								<col width="1000px"/>
-								<col width="85px"/>
-								<col width="68px"/>
-							</colgroup>
+				<div class="inquiry">
+					<p class="tit">
+						<span class="label">고객센터</span>
+					</p>
+					<div class="cont_tbl">
+						<table class="table1" border="1">
 							<tr>
-								<th style="border:1px solid;">
-									제목
-								</th>
-								<td style="border:1px solid;">
-									<input type="text" name="qtitle" class="title" maxlength="100" style="border:0px; font-size:16.1px; width:99%">
-								</td>
-								<th style="border:1px solid;">
-									문의유형
-								</th>
-								<td style="border:1px solid;">
-									<center>
-										<select class="type" style="border:0px; font-size:15px;">
-											<option>
-												유형1
-											</option>
-											<option>
-												유형2
-											</option>
-											<option>
-												유형3
-											</option>
-										</select>
-									</center>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4">
-									<center>
-										<textarea class="content" name="qcontent" style="width:99.7%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요."></textarea>
-									</center>
+								<td width="140px"><a href="../Customer/NoticeList.do">공지사항</a></td>
+								<td width="140px"><a href="../Customer/Buyguide.do">이용안내</a></td>
+								<td width="140px"><a href="../Customer/FaqList.do">FAQ</a></td>
+								<td width="140px">
+									<c:choose>
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'G'}">
+											<a href="../Customer/QuestionList.do">나의 문의 내역</a>
+										</c:when>
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'M'}">
+											<a href="../Customer/AnswerMain.do">문의 관리</a>
+										</c:when>
+										<c:otherwise>
+											<a href="../Member/MemberLogin.do">나의 문의 내역</a>
+										</c:otherwise>
+									</c:choose>
 								</td>
 							</tr>
 						</table>
-						<div class="reg">
-							<button class="reg_btn" onclick="questionWrite();">
-								등록
-							</button>
-						</div>
-						<div class="list">
-							<button class="list_btn">
-								목록으로
-							</button>
-						</div>
 					</div>
-				</form>
+					<form name="frm">
+					<table class="inquiry_table" style="border:1px solid; border-collapse:collapse;">
+						<colgroup>
+							<col width="50px"/>
+							<col width="1000px"/>
+							<col width="85px"/>
+							<col width="68px"/>
+						</colgroup>
+						<tr>
+							<th style="border:1px solid;">
+								제목
+							</th>
+							<td style="border:1px solid;">
+								<input type="text" name="qtitle" class="title" maxlength="100" style="border:0px; font-size:16.1px; width:99%" autocomplete="off">
+							</td>
+							<th style="border:1px solid;">
+								문의유형
+							</th>
+							<td style="border:1px solid;">
+								<center>
+									<select name="qtype" class="type" style="border:0px; font-size:15px;">
+										<option>
+											예매/결제
+										</option>
+										<option>
+											취소/환불
+										</option>
+										<option>
+											발권/배송
+										</option>
+										<option>
+											일정/마감
+										</option>
+										<option>
+											이벤트
+										</option>
+										<option>
+											기타
+										</option>
+									</select>
+								</center>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<center>
+									<textarea class="content" name="qcontent" style="width:99.7%; height:500px; border:0px; font-size:15px; resize:none; overflow-x:hidden;" placeholder="내용을 입력해주세요." maxlength="2000"></textarea>
+								</center>
+							</td>
+						</tr>
+					</table>
+					<div class="reg">
+						<button class="reg_btn" onclick="questionWrite(); return false;">
+							등록
+						</button>
+					</div>
+					</form>
+					<div class="list">
+						<button class="list_btn" onclick="location.href='../Customer/QuestionList.do'">
+							목록으로
+						</button>
+					</div>
+				</div>
 			</article>
 		</section>
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">
-					<span class="f_bottom_ment"><img src="<%=request.getContextPath() %>/icon/lupinlogo.png" id="f_logo"></span>
+					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
 					<span class="f_bottom_ment">
 						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
 						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>

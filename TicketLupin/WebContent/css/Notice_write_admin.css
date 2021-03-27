@@ -8,6 +8,10 @@ body{
 	font-family:³ª´®½ºÄù¾î Regular;
 	margin:0;
 }
+a{
+	text-decoration:none;
+	color:black;
+}
 /*------------------------------------------------------------------------------------------------------------------------*/
 #h_title{
 	height:50px;
@@ -41,13 +45,13 @@ body{
 }
 #h_ads{
 	margin-left:50px;
-	float:right;
 }
 #h_logo{
 	position:relative;
 	top:10px;
-	height:70px;
+	height:80px;
 	margin:10px 0;
+	width:300px;
 }
 #h_search{
 	border-style:solid;
@@ -55,7 +59,7 @@ body{
 	background:transparent;
 	border-color:black;
 	font-size:20px;
-	width:200px;
+	width:210px;
 }
 #h_search_button{
 	background-color:transparent;
@@ -64,6 +68,7 @@ body{
 #h_search_img{
 	width:25px;
 }
+
 /*------------------------------------------------------------------------------------------------------------------------*/
 #nav_bar_top{
 	margin-top:70px;
@@ -86,6 +91,7 @@ body{
 	min-width:1000px;
 	margin:auto;
 }
+
 #nav_menu_sub_event{
 	padding:0px;
 	text-align:right;	

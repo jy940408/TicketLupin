@@ -1,30 +1,36 @@
 <%@page import="org.apache.tomcat.dbcp.dbcp2.Jdbc41Bridge"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <!DOCTYPE html>
+<% request.setCharacterEncoding("UTF-8"); %>
+
+
+
+<!DOCTYPE html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입</title>
-        <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Login_FI_FP_Join__.css">
+        <script type="text/javascript" src="<%=request.getContextPath()%>/js/Join_step2.js"></script>
+        <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
         	
 			function check(){
-				if (document.frm.MID.value == ""){
+				if (document.frm.mid.value == ""){
 					alert("아이디를 입력해주세요");
-				  	document.frm.MID.focus();
+				  	document.frm.mid.focus();
 				  	return;
-				}else if (document.frm.MPWD.value ==""){
+				}else if (document.frm.mpwd.value ==""){
 				  	alert("비밀번호를 입력해주세요");
-				  	document.frm.MPWD.focus();
+				  	document.frm.mpwd.focus();
 				  	return;
-			  	}else if (document.frm.MPWD.value != document.frm.mPwd2.value){
+			  	}else if (document.frm.mpwd.value != document.frm.mPwd2.value){
 				  	alert("비밀번호가 일치하지 않습니다.");
 				  	document.frm.mPwd2.focus();
 				  	return;
-			  	}else if (document.frm.MNAME.value ==""){
+			  	}else if (document.frm.mname.value ==""){
 				  	alert("이름을 입력해주세요");
-				  	document.frm.MNAME.focus();
+				  	document.frm.mname.focus();
 				  	return;
 			  	}
 			  
@@ -44,7 +50,7 @@
             <a href="<%=request.getContextPath()%>/Main/MainPage.do" title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
         </div>
 
-		<form name="frm" onsubmit="return checkValue()" action="/Member/MemberJoinAcion.do">
+		<form name="frm" action="/Member/MemberJoinAction.do">
 	        <!-- wrapper -->
 	        <div id="wrapper">
 	
@@ -55,37 +61,41 @@
 	                <div>
 	                    <h3 class="join_title">
 	                        <label for="id">아이디</label>
-	                        <input type="button" value="아이디 중복 확인" onclick="idcheck();" id="checkIdbtn">
-	                        <input type="hidden" name="idDuplication" value="idUncheck" >
+	                        <input type="button" class="mid" id="midbtn" value="중복체크"  onclick="idcheck()" >
 	                    </h3>
 	                    <span class="box int_id">
-	                        <input type="text" id="id" class="int" maxlength="20" name="MID">
-	               			
+	                        <input type="text"  class="int" id="id" maxlength="20" name="mid" >
 	                    </span>
 	                    <span class="error_next_box"></span>
+	                    <div id="checkMsg"></div>
 	                </div>
 		
-			<script>
+			
+			<script type="text/javascript">
+				
 				function idcheck(){
-					 var id = document.frm.MID.value;
-					 if(id.length<1 || id==null){
+					
+					 var mid = document.frm.mid.value;
+					 
+					 if(mid.length<1 || mid==null){
 					  alert("ID를 입력하세요.");
-					  document.frm.MID.focus();
+					  document.frm.mid.focus();
 					  return false;
 					 }
 					 
-					 window.open("<%=request.getContextPath() %>/Member/joinIdCheck.do", "idwin", "height = 200, width = 500");
+					 url = "<%=request.getContextPath() %>/Member/joinIdCheck.do?mid="+mid;
+					 window.open(url, "get", "height = 200, width = 500");
 					}
 				
-				
 			</script>
+			
 		
 		
 	                <!-- PW1 -->
 	                <div>
 	                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
 	                    <span class="box int_pass">
-	                        <input type="password" id="pswd1" class="int" maxlength="20"  name="MPWD">
+	                        <input type="password" id="pswd1" class="int" maxlength="20"  name="mpwd">
 	                        <span id="alertTxt">사용불가</span>
 	                        <img src="../icon/m_icon_pass.png" id="pswd1_img1" class="pswdImg">
 	                    </span>
@@ -106,7 +116,7 @@
 	                <div>
 	                    <h3 class="join_title"><label for="name">이름</label></h3>
 	                    <span class="box int_name">
-	                        <input type="text" id="name" class="int" maxlength="20"  name="MNAME">
+	                        <input type="text" id="name" class="int" maxlength="20"  name="mname">
 	                    </span>
 	                    <span class="error_next_box"></span>
 	                </div>
@@ -119,14 +129,14 @@
 	                        <!-- BIRTH_YY -->
 	                        <div id="bir_yy">
 	                            <span class="box">
-	                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+	                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)" name="mssn">
 	                            </span>
 	                        </div>
 	
 	                        <!-- BIRTH_MM -->
 	                        <div id="bir_mm">
 	                            <span class="box">
-	                                <select id="mm" class="sel">
+	                                <select id="mm" class="sel" name="mbirthmonth">
 	                                    <option>월</option>
 	                                    <option value="01">1</option>
 	                                    <option value="02">2</option>
@@ -147,7 +157,7 @@
 	                        <!-- BIRTH_DD -->
 	                        <div id="bir_dd">
 	                            <span class="box">
-	                                <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
+	                                <input type="text" name="mbirthday" id="dd" class="int" maxlength="2" placeholder="일">
 	                            </span>
 	                        </div>
 	
@@ -176,8 +186,8 @@
 					
 					<input type="text" id="sample6_postcode" placeholder="우편번호" style="height:25px" >
 					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="height:25px"><br>
-					<input type="text" id="sample6_address" placeholder="주소" style="width:100%; height:25px" name="MADDRESS"><br>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:45%; height:25px" name="MADDRESS">
+					<input type="text" id="sample6_address" placeholder="주소" style="width:100%; height:25px" name="maddress"><br>
+					<input type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:45%; height:25px" name="maddress">
 					<input type="text" id="sample6_extraAddress" placeholder="참고항목" style="width:45%; height:25px">
 					
 					
@@ -238,7 +248,7 @@
 	                <div>
 	                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
 	                    <span class="box int_email">
-	                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력" name="MEMAIL">
+	                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력" name="memail">
 	                    </span>
 	                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
 	                </div>
@@ -247,7 +257,7 @@
 	                <div>
 	                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
 	                    <span class="box int_mobile">
-	                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력"  name="MPHONE">
+	                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력"  name="mphone">
 	                    </span>
 	                    <span class="error_next_box"></span>    
 	                </div>
@@ -268,6 +278,6 @@
 	        </div> 
 	        <!-- wrapper -->
         </form>
-		<script src="../js/Join_step2"></script>
+		
     </body>
 </html>

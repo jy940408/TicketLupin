@@ -31,9 +31,6 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Show")) {			
 			ShowController showc = new ShowController();
 			showc.doGet(request, response);			
-		}else if (hc.equals("Notice")) {			
-			NoticeController noticec = new NoticeController();
-			noticec.doGet(request, response);					
 		}else if (hc.equals("Event")) {			
 			EventController eventc = new EventController();
 			eventc.doGet(request, response);			
@@ -64,12 +61,6 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Dibs")) {			
 			DibsController dibsc = new DibsController();
 			dibsc.doGet(request, response);
-		}else if (hc.equals("Question")) {			
-			QuestionController questionc = new QuestionController();
-			questionc.doGet(request, response);
-		}else if (hc.equals("Answer")) {			
-			AnswerController answerc = new AnswerController();
-			answerc.doGet(request, response);
 		}else if (hc.equals("Coupon")) {			
 			CouponController couponc = new CouponController();
 			couponc.doGet(request, response);
@@ -80,6 +71,9 @@ public class FrontController extends HttpServlet{
 			MainController mainc = new MainController();
 			mainc.doGet(request, response);
 		}else if (hc.equals("Admin")) {
+			ManagerController managerc = new ManagerController();
+			managerc.doGet(request, response);
+		}else if (hc.equals("Manager")) {
 			ManagerController managerc = new ManagerController();
 			managerc.doGet(request, response);
 		}else if (hc.equals("Myticket")) {
@@ -121,9 +115,6 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Show")) {			
 			ShowController showc = new ShowController();
 			showc.doPost(request, response);		
-		}else if (hc.equals("Notice")) {			
-			NoticeController noticec = new NoticeController();
-			noticec.doPost(request, response);					
 		}else if (hc.equals("Event")) {			
 			EventController eventc = new EventController();
 			eventc.doPost(request, response);			

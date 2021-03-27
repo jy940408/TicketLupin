@@ -1,10 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>고객센터 공지 상세</title>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Notice_view.css">
+		<link rel="stylesheet" href="../css/Notice_view.css">
+		<script type="text/javascript" src="../js/jquery-3.5.1.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/Nav_event.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
+		<script>
+			function deleteNotice(){
+				
+				var conf = confirm("삭제하시겠습니까?")
+				
+				if(conf == true){
+					
+					location.href = "../Customer/NoticeDeleteAction.do?nidx=${nv.nidx}";
+					
+				}else{
+					
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -12,12 +30,18 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+						<c:if test="${not empty sessionScope.mid}">
+		              		<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		              		<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                </c:if>
+		                <c:if test="${empty sessionScope.mid}">
+		                	<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		               		<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                </c:if>
+		                	<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+		                	<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>         
 						</ul>
-						<img src="../ads/musicalads.png" id="h_ads">
+						<img src="../ads/musicalads.png" id="h_ads" style="float:right;">
 					</span>
 					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
@@ -28,15 +52,50 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="n_home">홈</a>
-				<a href="#">공연</a>
-				<a href="#">랭킹</a>
-				<a href="#">티켓오픈소식</a>
-				<a href="#">이벤트</a>
-				<a href="#">마이 티켓</a>
+				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="#" id="main_nav_ranking">랭킹</a>
+				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
+				<a href="#" id="main_nav_event">이벤트</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
-		<hr id="nav_bar_bottom">
+		<hr id="nav_bar_bottom">	
+		<div id="nav_menu_sub_event_div" class="main_nav_all">
+			<ul id="nav_menu_sub_event" style="margin:0px;">
+				<li><a href="${pageContext.request.contextPath}/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+		<hr id="nav_bar_sub">
+		</div>
+		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
+			<ul id="nav_menu_sub_myticket" style="margin:0px;">
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		<hr id="nav_bar_sub">
+		</div>
 		<section>
 			<article>
 				<div class="notice">
@@ -46,10 +105,22 @@
 					<div class="cont_tbl">
 						<table class="table1" border="1">
 							<tr>
-								<td width="140px"><a href="#">공지사항</a></td>
-								<td width="140px"><a href="#">이용안내</a></td>
-								<td width="140px"><a href="#">FAQ</a></td>
-								<td width="140px"><a href="#">나의 문의 내역</a></td>
+								<td width="140px"><a href="../Customer/NoticeList.do">공지사항</a></td>
+								<td width="140px"><a href="../Customer/Buyguide.do">이용안내</a></td>
+								<td width="140px"><a href="../Customer/FaqList.do">FAQ</a></td>
+								<td width="140px">
+									<c:choose>
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'G'}">
+											<a href="../Customer/QuestionList.do">나의 문의 내역</a>
+										</c:when>
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'M'}">
+											<a href="../Customer/AnswerMain.do">문의 관리</a>
+										</c:when>
+										<c:otherwise>
+											<a href="../Member/MemberLogin.do">나의 문의 내역</a>
+										</c:otherwise>
+									</c:choose>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -57,85 +128,72 @@
 						<table class="notice_table1">
 							<colgroup>
 								<col style="width:60px">
+								<col style="width:120px">
 								<col style="width:800px">
 								<col style="width:140px">							
 							</colgroup>
+							<c:set var="nv" value="${nv}"/>		
+							<c:set var="pnv" value="${pnv}"/>
+							<c:set var="nnv" value="${nnv}"/>
+							<c:set var="count" value="${count}"/>
 							<tr class="notice_table1_tr">
-								<td style="text-align:center">
-									252
-								</td>
-								<td>
-									&nbsp;［시스템작업］12.26(토) 삼성카드 전산작업으로 인한 결제중단 안내
-								</td>
-								<td style="text-align:center">
-									2020.12.21
-								</td>
+								<td style="text-align:center">${nv.nidx}</td>
+								<td style="text-align:center">${nv.ncategory}</td>
+								<td>${nv.ntitle}</td>
+								<td style="text-align:center">${nv.nregdate}</td>
 							</tr>
-							<tr class="notice_table1_view">
-								<td colspan="3" style="border-bottom:1px solid #ebebeb">
-									<div class="box_view">
-										<p><span style="font-size: 11pt;">안녕하세요 티켓루팡입니다.&nbsp;</span></p><p><span style="font-size: 11pt;">삼성카드 전산작업이 아래와 같이 예정되어 있어 안내드립니다.</span></p><p><span style="font-size: 11pt;">작업시간 중 서비스 이용에 제한이 있을 수 있으니 참고하시기 바랍니다.</span></p><p><br></p><p><span style="font-size: 11pt;">1. 작업내용 : 삼성카드 승인 및 기간 시스템 개선 작업</span></p><p><span style="font-size: 11pt;">2. 작업시간 : 2020년 12월 26일(토) 02:30~05:30</span></p><p><span style="font-size: 11pt;">3. 결제수단 : 신용카드 일반, 카카오페이 카드</span></p><p><span style="font-size: 11pt;">4. 작업영향 : 온라인결제, 앱카드결제, 간편결제(삼성페이 등) 등 이용 불가</span></p><p><br></p><p><span style="font-size: 11pt;">티켓루팡은 고객님께 보다 안정된 서비스를 제공하기 위해 최선을 다하겠습니다.&nbsp;</span></p><p><span style="font-size: 11pt;">감사합니다.</span></p></div>
+							<tr class="notice_table1_view" >
+								<td colspan="4" style="border-bottom:1px solid #ebebeb">
+									<div class="box_view" style="padding:20px 25px;">
+										<p><pre style="font-size:14px;">${nv.ncontent}</pre></p>
+									</div>
 								</td>
 							</tr>
 						</table>
 						<table class="notice_table2">
 							<colgroup>
 								<col style="width:80px">
-								<col style="width:90px">
+								<col style="width:120px">
 								<col style="width:620px">
 								<col style="width:70px">
 								<col style="width:140px">												
 							</colgroup>
+							<c:if test="${nv.nidx > 1}">
 							<tr>
-								<td style="text-align:center">
-									이전글
-								</td>
-								<td style="text-align:center">
-									서비스 점검
-								</td>
+								<td style="text-align:center">이전글</td>
+								<td style="text-align:center">${pnv.ncategory}</td>
 								<td>
-									<a href="#" style="text-decoration:none; color:black;">
-										&nbsp;［시스템작업］12.29(화) 금융결제원 전산작업으로 인한 결제중단 안내
+									<a href="../Customer/NoticeView.do?nidx=${pnv.nidx}" style="text-decoration:none; color:black;">
+										&nbsp; ${pnv.ncontent}
 									</a>
 								</td>
-								<td>
-								</td>
-								<td style="text-align:center">
-									2020.12.24
-								</td>
+								<td></td>
+								<td style="text-align:center">${pnv.nregdate}</td>
 							</tr>
+							</c:if>
+							<c:if test="${nv.nidx < count}">
 							<tr>
-								<td style="text-align:center">
-									다음글
-								</td>
-								<td style="text-align:center">
-									서비스 점검
-								</td>
+								<td style="text-align:center">다음글</td>
+								<td style="text-align:center">${nnv.ncategory}</td>
 								<td>
-									<a href="#" style="text-decoration:none; color:black;">
-										&nbsp;［시스템작업］12.13(일) SKT 전산작업으로 인한 결제중단 안내
+									<a href="../Customer/NoticeView.do?nidx=${nnv.nidx}" style="text-decoration:none; color:black;">
+										&nbsp; ${nnv.ncontent}
 									</a>
 								</td>
-								<td>
-								</td>
-								<td style="text-align:center">
-									2020.12.10
-								</td>
+								<td></td>
+								<td style="text-align:center">${nnv.nregdate}</td>
 							</tr>
+							</c:if>
 						</table>
 					</div>
-					<div class="modify">
-						<button class="remove_btn">
-							제거하기
-						</button>
-						<button class="modify_btn">
-							수정하기
-						</button>
-					</div>
+					<c:if test="${sessionScope.mgrade eq 'M'}">
+						<div class="modify">
+							<button class="modify_btn" onclick="location='../Customer/NoticeModify.do?nidx=${nv.nidx}'">수정하기</button>
+							<button class="remove_btn" onclick="deleteNotice();">삭제하기</button>
+						</div>
+					</c:if>
 					<div class="list">
-						<button class="list_btn">
-							목록으로
-						</button>
+						<button class="list_btn" onclick="location='../Customer/NoticeList.do'">목록으로</button>
 					</div>
 				</div>
 			</article>

@@ -2,7 +2,7 @@ package com.TicketLupin.web.service;
 
 import java.sql.Date;
 
-public class MemberVo {
+public class MemberVo extends ReservationVo{
 	
 	private int midx;
 	private String mid;
@@ -18,7 +18,47 @@ public class MemberVo {
 	private String msecessionyn;
 	private String mgrade;
 	private String memailchecked;
+	private Boolean SHA256;
+	private String mbirthmonth;
+	private String mbirthday;
 	
+	public String getMbirthmonth() {
+		return mbirthmonth;
+	}
+
+
+
+	public void setMbirthmonth(String mbirthmonth) {
+		this.mbirthmonth = mbirthmonth;
+	}
+
+
+
+	public String getMbirthday() {
+		return mbirthday;
+	}
+
+
+
+	public void setMbirthday(String mbirthday) {
+		this.mbirthday = mbirthday;
+	}
+
+
+	
+	
+	public MemberVo() {
+		super();
+	}
+	
+	
+	
+	public Boolean getSHA256() {
+		return SHA256;
+	}
+	public void setSHA256(Boolean sHA256) {
+		SHA256 = sHA256;
+	}
 	public String getMemailchecked() {
 		return memailchecked;
 	}
@@ -104,9 +144,6 @@ public class MemberVo {
 		this.mgrade = mgrade;
 	}
 	
-	public MemberVo() {
-		
-	}
 	
 	public MemberVo(int midx, String mid, String mname, String mpwd, String mssn, String maddress, String memail,
 			String mphone, int maccount, Date msignindate, Date msecessiondate, String msecessionyn, String mgrade, String memailchecked) {
@@ -126,6 +163,54 @@ public class MemberVo {
 		this.mgrade = mgrade;
 		this.memailchecked = memailchecked;
 	}
+
+
+
+	public MemberVo(int midx, String mid, String mname, String mpwd, String mssn, String maddress, String memail,
+			String mphone, int maccount, Date msignindate, Date msecessiondate, String msecessionyn, String mgrade,
+			String memailchecked,  String mbirthmonth, String mbirthday) {
+		super();
+		this.midx = midx;
+		this.mid = mid;
+		this.mname = mname;
+		this.mpwd = mpwd;
+		this.mssn = mssn;
+		this.maddress = maddress;
+		this.memail = memail;
+		this.mphone = mphone;
+		this.maccount = maccount;
+		this.msignindate = msignindate;
+		this.msecessiondate = msecessiondate;
+		this.msecessionyn = msecessionyn;
+		this.mgrade = mgrade;
+		this.memailchecked = memailchecked;
+		this.mbirthmonth = mbirthmonth;
+		this.mbirthday = mbirthday;
+	}
+
+
+	
+	
+	
+
+
+	
+	
+	
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

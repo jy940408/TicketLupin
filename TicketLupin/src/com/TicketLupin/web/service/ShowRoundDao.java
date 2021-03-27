@@ -13,6 +13,7 @@ public class ShowRoundDao {
 
 	private	Connection conn;
 	private PreparedStatement pstmt;
+	private ResultSet rs;
 	
 	public ShowRoundDao() {
 		DBconn dbconn = new DBconn();
@@ -39,6 +40,13 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -73,6 +81,13 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
@@ -107,6 +122,13 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return srv;	
@@ -126,6 +148,13 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return result;

@@ -2,7 +2,7 @@ package com.TicketLupin.web.service;
 
 import java.util.Date;
 
-public class ReservationVo {
+public class ReservationVo extends Show1Vo{
 
 	private int ridx;
 	private int sidx;

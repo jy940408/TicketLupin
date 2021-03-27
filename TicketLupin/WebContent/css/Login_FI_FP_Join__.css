@@ -36,7 +36,19 @@ body {
 
 
 /* ÀÔ·ÂÆû */
-
+#backbtn{
+	width:60px;
+	height:30px;
+	border:none;
+	background-color:#D9E5FF;
+	border-radius:30px;
+}
+#login_mid{
+	border:none;
+	background:none;
+	font-size:22px;
+	font-weight:bold;
+}
 input:focus {
     outline: none;
 }
@@ -110,6 +122,8 @@ input {
 	width: 77%;
 	
 }	
+
+
 
 
 #bir_wrap {
