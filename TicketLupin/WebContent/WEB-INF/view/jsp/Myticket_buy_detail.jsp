@@ -8,6 +8,13 @@
 		<title>배송/결제</title>
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_buy_detail.css">
+		<script>
+		
+			function reservationDelete(){
+				
+			}
+			
+		</script>
 	</head>
 	<body>
 		<form name="frm">

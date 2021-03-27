@@ -13,7 +13,6 @@ public class ShowRoundDao {
 
 	private	Connection conn;
 	private PreparedStatement pstmt;
-	private ResultSet rs;
 	
 	public ShowRoundDao() {
 		DBconn dbconn = new DBconn();
@@ -22,7 +21,6 @@ public class ShowRoundDao {
 	
 	public ShowRoundVo insertShowRound(ShowRoundVo srv) {
 		ShowRoundVo result = null;
-		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
 		String sql = "INSERT INTO SHOWROUND(SIDX, SRIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4)"
 				+ "VALUES(?, SHOWROUND_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?)";
 		
@@ -40,13 +38,6 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -81,13 +72,6 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -118,17 +102,10 @@ public class ShowRoundDao {
 			String srround4 = rs.getString("SRROUND4");
 			
 			srv = new ShowRoundVo(sridx, sidx, srdate, srround1, srround2, srround3, srround4);
-		
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return srv;	
@@ -148,13 +125,6 @@ public class ShowRoundDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;

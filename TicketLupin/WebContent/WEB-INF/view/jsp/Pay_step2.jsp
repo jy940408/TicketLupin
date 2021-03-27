@@ -13,19 +13,46 @@
 		<script>
 			$(document).ready(function(){
 				
-				var vipCount = ""
+				var vipCount = 0;
 				$(".vip").on("change", function(){
-					
-					alert(1);
-					
-				})
+					vipCount=0;
+					for(var i = 0 ; i < 8 ; i++){
+						vipCount += Number($(".vip").eq(i).val());
+					}
+					alert("vipCount: " + vipCount);
+					alert(Number($(".vip").eq(0).val()) + Number($(".vip").eq(1).val()));
+				});
 				
+				var rCount = 0;
+				$(".r").on("change", function(){
+					rCount=0;
+					for(var i = 0 ; i < 8 ; i++){
+						rCount += Number($(".r").eq(i).val());
+					}
+					alert("rCount: " + rCount);
+					alert(Number($(".r").eq(0).val()) + Number($(".r").eq(1).val()));
+				});
 				
+				var sCount = 0;
+				$(".s").on("change", function(){
+					sCount=0;
+					for(var i = 0 ; i < 8 ; i++){
+						sCount += Number($(".s").eq(i).val());
+					}
+					alert("sCount: " + sCount);
+					alert(Number($(".s").eq(0).val()) + Number($(".s").eq(1).val()));
+				});
 				
-				
-				
-				
-				
+				var aCount = 0;
+				$(".a").on("change", function(){
+					aCount=0;
+					for(var i = 0 ; i < 8 ; i++){
+						aCount += Number($(".a").eq(i).val());
+					}
+					alert("aCount: " + aCount);
+					alert(Number($(".a").eq(0).val()) + Number($(".a").eq(1).val()));
+				});
+			
 				
 				$("select").on("change",function(){	
 					
@@ -88,13 +115,6 @@
 					$("#paymentAmountP").val(priceSum);
 					
 				})
-				var testArray = new Array();
-				var testArray2 = "";
-				$(".discount").on("change", function(){
-					testArray += $(".discount").val();
-					alert("array 보기: " + testArray);
-				});
-				
 			});
 		</script>
 	</head>

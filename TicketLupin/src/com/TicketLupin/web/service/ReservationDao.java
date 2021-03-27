@@ -54,13 +54,6 @@ public class ReservationDao {
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return value;
@@ -100,13 +93,6 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		
@@ -130,15 +116,7 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		
 		
 		return count;
 	}
@@ -177,15 +155,7 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		
 		
 		return list;
 	}
@@ -207,15 +177,7 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		
 		
 		return count;
 	}
@@ -254,13 +216,6 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return rsv;
@@ -280,14 +235,8 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return value;
 	}
 	
@@ -315,14 +264,8 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return value;
 	}
 	
@@ -342,14 +285,8 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return value;
 	}
 }

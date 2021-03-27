@@ -145,7 +145,7 @@ public class ConcertViewController extends HttpServlet{
 				}	
 				
 				String comDate = year + "-" + (month_) + "-" + date_;
-				System.out.println("comDate 테스트" + comDate);
+				System.out.println("if문 바깥 : " + srd.getShowRoundDetail(sidx, comDate));
 				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("")) {
 					strRoundCheck = 1;
 					roundCheck.add(strRoundCheck);

@@ -61,6 +61,10 @@ public class MyticketController extends HttpServlet{
 			System.out.println("count »Æ¿Œ: " + count);
 			ArrayList<ReservationShowVo> dList = rd.getDelReservationList(midx, dPage);
 			
+			System.out.println("dList target midx: " + midx);
+			System.out.println("dList page: " + dPage);
+			System.out.println("dList test: " + dList);
+			
 			request.setAttribute("list", list);
 			request.setAttribute("dList", dList);
 			request.setAttribute("count", count);
