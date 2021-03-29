@@ -12,93 +12,146 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/pay_step2.css">
 		<script>
 			$(document).ready(function(){
-				
+
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/				
+
 				var vipCount = 0;
 				$(".vip").on("change", function(){
-					vipCount=0;
+					vipCount = 0;
 					for(var i = 0 ; i < 8 ; i++){
-						vipCount += Number($(".vip").eq(i).val());
+						if(vipCount >= (${requestScope.gradeCount.VIP}+1)){
+							alert(${requestScope.gradeCount.VIP} + "매를 넘을 수 없습니다!");
+							$(this).val(0);
+							break;
+						}else{
+							vipCount += Number($(".vip").eq(i).val());
+						}
 					}
 					alert("vipCount: " + vipCount);
-					alert(Number($(".vip").eq(0).val()) + Number($(".vip").eq(1).val()));
+					$("#vipSum").contents()[0].textContent = vipCount;
 				});
 				
 				var rCount = 0;
 				$(".r").on("change", function(){
-					rCount=0;
+					rCount = 0;
 					for(var i = 0 ; i < 8 ; i++){
 						rCount += Number($(".r").eq(i).val());
 					}
 					alert("rCount: " + rCount);
-					alert(Number($(".r").eq(0).val()) + Number($(".r").eq(1).val()));
+					$("#rSum").contents()[0].textContent = rCount;
+					
+					if(rCount >= (${requestScope.gradeCount.R}+1)){
+						alert(${requestScope.gradeCount.R} + "매를 넘을 수 없습니다!");
+						$(this).val(0);
+					};
+					
 				});
 				
 				var sCount = 0;
 				$(".s").on("change", function(){
-					sCount=0;
+					sCount = 0;
 					for(var i = 0 ; i < 8 ; i++){
 						sCount += Number($(".s").eq(i).val());
 					}
 					alert("sCount: " + sCount);
-					alert(Number($(".s").eq(0).val()) + Number($(".s").eq(1).val()));
+					$("#sSum").contents()[0].textContent = sCount;
+					
+					if(vipCount >= (${requestScope.gradeCount.S}+1)){
+						alert(${requestScope.gradeCount.S} + "매를 넘을 수 없습니다!");
+						$(this).val(0);
+					};
+					
 				});
 				
 				var aCount = 0;
 				$(".a").on("change", function(){
-					aCount=0;
+					aCount = 0;
 					for(var i = 0 ; i < 8 ; i++){
 						aCount += Number($(".a").eq(i).val());
 					}
 					alert("aCount: " + aCount);
-					alert(Number($(".a").eq(0).val()) + Number($(".a").eq(1).val()));
+					$("#aSum").contents()[0].textContent = aCount;
+					
+					if(vipCount >= (${requestScope.gradeCount.A}+1)){
+						alert(${requestScope.gradeCount.A} + "매를 넘을 수 없습니다!");
+						$(this).val(0);
+					};
 				});
+				
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				
 				$("select").on("change",function(){	
 					
-					var vipBasic = $("#vipBasic").val();
-					var vipSpecial = $("#vipSpecial").val();
-					var vip3Package = $("#vip3Package").val();
-					var vip4Package = $("#vip4Package").val();
-					var vipYouth = $("#vipYouth").val();
-					var vip4to6 = $("#vip4to6").val();
-					var vip1to3 = $("#vip1to3").val();
-					var vipVeterans = $("#vipVeterans").val();
+					var vipBasic = $("#vipBasic").val(); if($("#vipBasic").val() === undefined){vipBasic = Number(0);}
+					var vipSpecial = $("#vipSpecial").val(); if($("#vipSpecial").val() === undefined){vipSpecial = Number(0);}
+					var vip3Package = $("#vip3Package").val(); if($("#vip3Package").val() === undefined){vip3Package = Number(0);}
+					var vip4Package = $("#vip4Package").val(); if($("#vip4Package").val() === undefined){vip4Package = Number(0);}
+					var vipYouth = $("#vipYouth").val(); if($("#vipYouth").val() === undefined){vipYouth = Number(0);}
+					var vip4to6 = $("#vip4to6").val(); if($("#vip4to6").val() === undefined){vip4to6 = Number(0);}
+					var vip1to3 = $("#vip1to3").val(); if($("#vip1to3").val() === undefined){vip1to3 = Number(0);}
+					var vipVeterans = $("#vipVeterans").val(); if($("#vipVeterans").val() === undefined){vipVeterans = Number(0);}
 					
-					var rBasic = $("#rBasic").val();
-					var rSpecial = $("#rSpecial").val();
-					var r3Package = $("#r3Package").val();
-					var r4Package = $("#r4Package").val();
-					var rYouth = $("#rYouth").val();
-					var r4to6 = $("#r4to6").val();
-					var r1to3 = $("#r1to3").val();
-					var rVeterans = $("#rVeterans").val();
+					var rBasic = $("#rBasic").val(); if($("#rBasic").val() === undefined){rBasic = Number(0);}
+					var rSpecial = $("#rSpecial").val(); if($("#rSpecial").val() === undefined){rSpecial = Number(0);}
+					var r3Package = $("#r3Package").val(); if($("#r3Package").val() === undefined){r3Package = Number(0);}
+					var r4Package = $("#r4Package").val(); if($("#r4Package").val() === undefined){r4Package = Number(0);}
+					var rYouth = $("#rYouth").val(); if($("#rYouth").val() === undefined){rYouth = Number(0);}
+					var r4to6 = $("#r4to6").val(); if($("#r4to6").val() === undefined){r4to6 = Number(0);}
+					var r1to3 = $("#r1to3").val(); if($("#r1to3").val() === undefined){r1to3 = Number(0);}
+					var rVeterans = $("#rVeterans").val(); if($("#rVeterans").val() === undefined){rVeterans = Number(0);}
 					
-					var sBasic = $("#sBasic").val();
-					var sSpecial = $("#sSpecial").val();
-					var s3Package = $("#s3Package").val();
-					var s4Package = $("#s4Package").val();
-					var sYouth = $("#sYouth").val();
-					var s4to6 = $("#s4to6").val();
-					var s1to3 = $("#s1to3").val();
-					var sVeterans = $("#sVeterans").val();
+					var sBasic = $("#sBasic").val(); if($("#sBasic").val() === undefined){sBasic = Number(0);}
+					var sSpecial = $("#sSpecial").val(); if($("#sSpecial").val() === undefined){sSpecial = Number(0);}
+					var s3Package = $("#s3Package").val(); if($("#s3Package").val() === undefined){s3Package = Number(0);}
+					var s4Package = $("#s4Package").val(); if($("#s4Package").val() === undefined){s4Package = Number(0);}
+					var sYouth = $("#sYouth").val(); if($("#rYouth").val() === undefined){sYouth = Number(0);}
+					var s4to6 = $("#s4to6").val(); if($("#s4to6").val() === undefined){s4to6 = Number(0);}
+					var s1to3 = $("#s1to3").val(); if($("#s1to3").val() === undefined){s1to3 = Number(0);}
+					var sVeterans = $("#sVeterans").val(); if($("#sVeterans").val() === undefined){sVeterans = Number(0);}
 					
-					var aBasic = $("#aBasic").val();
-					var aSpecial = $("#aSpecial").val();
-					var a3Package = $("#a3Package").val();
-					var a4Package = $("#a4Package").val();
-					var aYouth = $("#aYouth").val();
-					var a4to6 = $("#a4to6").val();
-					var a1to3 = $("#a1to3").val();
-					var aVeterans = $("#aVeterans").val();
+					var aBasic = $("#aBasic").val(); if($("#aBasic").val() === undefined){aBasic = Number(0);}
+					var aSpecial = $("#aSpecial").val(); if($("#aSpecial").val() === undefined){aSpecial = Number(0);}
+					var a3Package = $("#a3Package").val(); if($("#a3Package").val() === undefined){a3Package = Number(0);}
+					var a4Package = $("#a4Package").val(); if($("#a4Package").val() === undefined){a4Package = Number(0);}
+					var aYouth = $("#aYouth").val(); if($("#rYouth").val() === undefined){aYouth = Number(0);}
+					var a4to6 = $("#a4to6").val(); if($("#a4to6").val() === undefined){a4to6 = Number(0);}
+					var a1to3 = $("#a1to3").val(); if($("#a1to3").val() === undefined){a1to3 = Number(0);}
+					var aVeterans = $("#aVeterans").val(); if($("#aVeterans").val() === undefined){aVeterans = Number(0);}
 					
 					var coupon = $("#coupon").val();
 					var firstPayment = $("#firstPayment").val();
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+					
+					for(var i = 0 ; i < 32 ; i++){
+						if($(".discount").eq(i).val() == "undefined"){
+							$(".discount").eq(i).val('0');
+						}
+					}	
+					
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-					var basicSum = (vipBasic*${detail.svipprice}) + (rBasic*${detail.srprice}) + (sBasic*${detail.ssprice}) + (aBasic*${detail.saprice}); 
-					var discountSum = (vipSpecial*${detail.svipprice*0.7}) + (vip3Package*18000) + (vip4Package*27000) + (vipYouth*${detail.svipprice}*0.8) + (vip4to6*${detail.svipprice}*0.8) + (vip1to3*${detail.svipprice}*0.8) + (vipVeterans*${detail.svipprice}*0.7) +
-										(rSpecial*${detail.srprice*0.7}) + (r3Package*18000) + (r4Package*27000) + (rYouth*${detail.srprice}*0.8) + (r4to6*${detail.srprice}*0.8) + (r1to3*${detail.srprice}*0.8) + (rVeterans*${detail.srprice}*0.7) +
-										(sSpecial*${detail.ssprice*0.7}) + (s3Package*18000) + (s4Package*27000) + (sYouth*${detail.ssprice}*0.8) + (s4to6*${detail.ssprice}*0.8) + (s1to3*${detail.ssprice}*0.8) + (sVeterans*${detail.ssprice}*0.7) +
-										(aSpecial*${detail.saprice*0.7}) + (a3Package*18000) + (a4Package*27000) + (aYouth*${detail.saprice}*0.8) + (a4to6*${detail.saprice}*0.8) + (a1to3*${detail.saprice}*0.8) + (aVeterans*${detail.saprice}*0.7);
+					var svipprice = 0;
+					if(${not empty detail.svipprice}){
+						svipprice = ${detail.svipprice};
+					}
+					var srprice = 0;
+					if(${not empty detail.srprice}){
+						srprice = ${detail.srprice};
+					}
+					var ssprice = 0;
+					if(${not empty detail.ssprice}){
+						ssprice = ${detail.ssprice};
+					}
+					var saprice = 0;
+					if(${not empty detail.saprice}){
+						saprice = ${detail.saprice};
+					}
+					
+					var basicSum = (vipBasic*svipprice) + (rBasic*srprice) + (sBasic*ssprice) + (aBasic*saprice); 
+					var discountSum = (vipSpecial*(svipprice*0.7)) +(vip3Package*18000) + (vip4Package*27000) + (vipYouth*$(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
+									(rSpecial*(srprice*0.7)) + (r3Package*18000) + (r4Package*27000) + (rYouth*(srprice*0.8)) + (r4to6*(srprice*0.8)) + (r1to3*(srprice*0.8)) + (rVeterans*(srprice*0.7)) +
+									(sSpecial*(ssprice*0.7)) + (s3Package*18000) + (s4Package*27000) + (sYouth*(ssprice*0.8)) + (s4to6*(ssprice*0.8)) + (s1to3*(ssprice*0.8)) + (sVeterans*(ssprice*0.7)) +
+									(aSpecial*(saprice*0.7)) + (a3Package*18000) + (a4Package*27000) + (aYouth*(saprice*0.8)) + (a4to6*(saprice*0.8)) + (a1to3*(saprice*0.8)) + (aVeterans*(saprice*0.7));
 					var priceSum = basicSum + discountSum
 					
 					$("#priceSum").html(priceSum.toLocaleString());
@@ -107,11 +160,7 @@
 					$("#discountSum").html(discountSum.toLocaleString());
 					$("#paymentAmount").html(priceSum.toLocaleString());
 					
-					$("#priceSumP").val(priceSum);
-					$("#priceSumP").val(priceSum);
-					$("#basicSumP").val(basicSum);
-					$("#discountSumP").val(discountSum);
-					$("#paymentAmountP").val(priceSum);
+					alert("여기까지!!");
 					
 				})
 			});
@@ -151,7 +200,7 @@
 										<c:forEach var="count" items="${gradeCount}">
 											<c:if test="${count.key == 'VIP'}">
 												<c:set var="vip" value="${count.value}"/>
-												<td colspan="2"><span><c:out value="${vip}"/></span>매 중<em>0</em>매 선택</td>
+												<td colspan="2"><span><c:out value="${vip}"/></span>매 중<em><span id="vipSum">0</span></em>매 선택</td>
 											</c:if>
 										</c:forEach>
 									</tr>
@@ -258,7 +307,7 @@
 										<c:forEach var="count" items="${gradeCount}">
 											<c:if test="${count.key == 'R'}">
 												<c:set var="r" value="${count.value}"/>
-												<td colspan="2"><span><c:out value="${r}"/></span>매 중<em>0</em>매 선택</td>
+												<td colspan="2"><span><c:out value="${r}"/></span>매 중<em id="rSum">0</em>매 선택</td>
 											</c:if>
 										</c:forEach>
 									</tr>
@@ -365,7 +414,7 @@
 										<c:forEach var="count" items="${gradeCount}">
 											<c:if test="${count.key == 'S'}">
 												<c:set var="s" value="${count.value}"/>
-												<td colspan="2"><span><c:out value="${s}"/></span>매 중<em>0</em>매 선택</td>
+												<td colspan="2"><span><c:out value="${s}"/></span>매 중<em id="sSum">0</em>매 선택</td>
 											</c:if>
 										</c:forEach>
 									</tr>
@@ -472,7 +521,7 @@
 										<c:forEach var="count" items="${gradeCount}">
 											<c:if test="${count.key == 'A'}">
 												<c:set var="a" value="${count.value}"/>
-												<td colspan="2"><span><c:out value="${a}"/></span>매 중<em>0</em>매 선택</td>
+												<td colspan="2"><span><c:out value="${a}"/></span>매 중<em id="aSum">0</em>매 선택</td>
 											</c:if>
 										</c:forEach>
 									</tr>

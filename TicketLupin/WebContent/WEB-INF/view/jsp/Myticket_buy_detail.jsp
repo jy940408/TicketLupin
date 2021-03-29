@@ -12,6 +12,9 @@
 		
 			function reservationDelete(){
 				
+				alert("예매가 취소되었습니다!");
+				location.href="${pageContext.request.contextPath}/Reservation/deleteReservation.do?ridx=${detail.ridx}";
+				
 			}
 			
 		</script>
@@ -125,7 +128,7 @@
 								</a>
 							</span>
 							<span class="button btNext">
-								<a href="${pageContext.request.contextPath}/Reservation/deleteReservation.do?ridx=${detail.ridx}" class="btnOne">
+								<a onclick="reservationDelete()" class="btnOne">
 									예매 취소<em class="one_arr prav_ar">이전</em>
 								</a>
 							</span>

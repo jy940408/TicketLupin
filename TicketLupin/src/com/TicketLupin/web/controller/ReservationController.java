@@ -17,6 +17,9 @@ import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ReservationShowVo;
 import com.TicketLupin.web.service.ReservationVo;
 import com.TicketLupin.web.service.ShowDao;
+
+import util.reservationMail;
+
 import com.TicketLupin.web.service.Show1Vo;
 
 @WebServlet("/ReservationController")
@@ -474,6 +477,9 @@ public class ReservationController extends HttpServlet{
 			}
 //==============================================================================================================================//	
 			
+			reservationMail mail = new reservationMail();
+			mail.naverMailSend();
+			
 			//팝업창 종료해주기
 			PrintWriter pt = response.getWriter();
 			pt.write("<script>self.close();</script>");
@@ -499,7 +505,10 @@ public class ReservationController extends HttpServlet{
 			rd.deleteReservation(ridx, midx);
 			System.out.println("rd: " + rd);
 			
-			response.sendRedirect(request.getContextPath()+"/Myticket/MyticketReservation.do");
+			PrintWriter pt = response.getWriter();
+			pt.write("<script>self.close();</script>");
+			pt.flush();
+			pt.close();
 			
 //==============================================================================================================================//
 		

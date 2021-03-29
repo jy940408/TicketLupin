@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	List<ReservationShowVo> list = (List<ReservationShowVo>) request.getAttribute("list");
+	System.out.println("확인: " + list);
 %>
 <!DOCTYPE html>
 <html>
@@ -58,10 +59,15 @@
 				<%
 				for(int j = 1 ; j <= 1 ; j++) {
 					for(int k = 3 ; k <= 28 ; k++) {
-						String seat = j + "-" + k;
-						if(list == null){
+						String seat = null;
+						if(j < 10){
+							seat = "0" + j + "-" + k;
+						}else{
+							seat = j + "-" + k;
+						}
+						if(list.size() == 0){
 				%>
-							<li class="row_<%=j%> column_<%=k%>"><input type="checkbox" name="seat" id="0<%=j%>-<%=k%>" value="0<%=j%>-<%=k%>" class="seats"></li>
+				<li class="row_<%=j%> column_<%=k%>"><input type="checkbox" name="seat" id="0<%=j%>-<%=k%>" value="0<%=j%>-<%=k%>" class="seats"></li>
 				<%
 						}else{
 							for(int i = 0 ; i < list.size() ; i++){
@@ -84,8 +90,13 @@
 				<%
 				for(int j = 2 ; j <= 2 ; j++) {
 					for(int k = 2 ; k <= 29 ; k++) {
-						String seat = j + "-" + k;
-						if(list == null){
+						String seat = null;
+						if(j < 10){
+							seat = "0" + j + "-" + k;
+						}else{
+							seat = j + "-" + k;
+						}
+						if(list.size() == 0){
 				%>
 							<li class="row_<%=j%> column_<%=k%>"><input type="checkbox" name="seat" id="0<%=j%>-<%=k%>" value="0<%=j%>-<%=k%>" class="seats"></li>
 				<%
@@ -110,18 +121,21 @@
 				<%				
 				for(int j = 3 ; j <= 37 ; j++) {
 					for(int k = 1 ; k <= 30 ; k++) {
-						String seat = j + "-" + k;
-						if(list == null){
+						String seat = null;
+						if(j < 10){
+							seat = "0" + j + "-" + k;
+						}else{
+							seat = j + "-" + k;
+						}
+						if(list.size() == 0){
 							if(j < 10){
 				%>
 				<li class="row_<%=j%> column_<%=k%>"><input type="checkbox" name="seat" id="0<%=j%>-<%=k%>" value="0<%=j%>-<%=k%>" class="seats"></li>
-				<%	
-							break;
+				<%
 							}else{
 				%>
 				<li class="row_<%=j%> column_<%=k%>"><input type="checkbox" name="seat" id="0<%=j%>-<%=k%>" value="<%=j%>-<%=k%>" class="seats"></li>
-				<%	
-							break;
+				<%
 							}
 						}else{
 							for(int i = 0 ; i < list.size() ; i++){
