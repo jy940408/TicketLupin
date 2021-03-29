@@ -52,7 +52,6 @@
 					alert("aCount: " + aCount);
 					alert(Number($(".a").eq(0).val()) + Number($(".a").eq(1).val()));
 				});
-			
 				
 				$("select").on("change",function(){	
 					

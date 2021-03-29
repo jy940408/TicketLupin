@@ -86,6 +86,28 @@ public class ReservationController extends HttpServlet{
 			
 		}else if(str.equals("/Reservation/ReservationStep1Seat.do")) {
 			
+			String sidx_ = request.getParameter("sidx");
+			String srdate = request.getParameter("srdate");
+			String srround = request.getParameter("srround");
+			
+			int sidx = 0;
+			if(sidx_ != null && !sidx_.equals("")) {
+				sidx = Integer.parseInt(sidx_);
+			}
+			
+			System.out.println("ÁÂ¼®¸ñ·Ï ridx_: " + sidx_);
+			System.out.println("ÁÂ¼®¸ñ·Ï ridx: " + sidx);
+			System.out.println("ÁÂ¼®¸ñ·Ï srdate: " + srdate);
+			System.out.println("ÁÂ¼®¸ñ·Ï srround: " + srround);
+			
+			ReservationDao rd = new ReservationDao();
+			ArrayList<ReservationShowVo> list = rd.getReservationSeatList(sidx, srdate, srround);
+			
+			for(int i = 0 ; i < list.size() ; i++) {
+				System.out.println("ÁÂ¼® ¸ñ·Ï Å×½ºÆ®: " + list.get(i).getRseat());
+			}
+			
+			request.setAttribute("list", list);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/pay_step1_seat.jsp").forward(request, response);
 			
 		}else if(str.equals("/Reservation/ReservationStep2.do")) {

@@ -40,7 +40,7 @@
         <!-- 좌석영역-->
         <div class="wrap_seat">
             <div class="btn_extension"><a href="#" class="btn_plus" id="btn_map_p">확대</a><a href="#" class="btn_minus" id="btn_map_m">축소</a></div>
-			  <iframe src="${pageContext.request.contextPath}/Reservation/ReservationStep1Seat.do" id="seatIframe" name="seatIframe" style="width:100%; height:90%"></iframe>
+			  <iframe src="${pageContext.request.contextPath}/Reservation/ReservationStep1Seat.do?sidx=${sidx}&srdate=${comDate}&srround=${round}" id="seatIframe" name="seatIframe" style="width:100%; height:90%"></iframe>
 			<div class="wrap_seat_box">
 				<div class="seat_box "><!-- on class 컨트롤 -->
 					<!-- <div class="seat_btn" id="txtSelectSeatInfo" onclick="$(this).parent().toggleClass('open');return false;">좌석을 선택해 주세요.</div> -->

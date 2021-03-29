@@ -99,6 +99,40 @@ public class ReservationDao {
 		return list;
 	}
 	
+	public ArrayList<ReservationShowVo> getReservationSeatList(int sidx, String srdate, String srround){
+		ArrayList<ReservationShowVo> list = new ArrayList<>();
+
+		String sql = "SELECT ROWNUM NUM, LISTNUM.RSEAT FROM "
+				+ "(SELECT RESERVATION.* FROM "
+				+ "RESERVATION WHERE SIDX = ? AND SRDATE = ? AND SRROUND = ? AND RDELYN = 'N' "
+				+ "ORDER BY RREGDATE DESC) LISTNUM";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sidx);
+			pstmt.setString(2, srdate);
+			pstmt.setString(3, srround);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ReservationShowVo rsv = new ReservationShowVo();
+				
+				rsv.setRseat(rs.getString("RSEAT"));
+				rsv.setNum(rs.getInt("NUM"));
+				
+				list.add(rsv);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return list;
+	}
+	
 	public int getReservationCount(int idx) {
 		int count = 0;
 		String sql = "SELECT COUNT(*) CNT FROM SHOW1 INNER JOIN (SELECT * FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'N' ORDER BY RREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW1.SIDX";
@@ -220,6 +254,8 @@ public class ReservationDao {
 		
 		return rsv;
 	}
+	
+	
 	
 	public int deleteReservation(int ridx, int midx) {
 		int value = 0;
