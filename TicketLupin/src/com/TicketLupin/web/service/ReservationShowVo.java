@@ -44,9 +44,9 @@ public class ReservationShowVo extends ReservationVo{
 
 	public ReservationShowVo(int ridx, int sidx, int midx, String rseat, int rprice, String rdiscount, String srdate,
 			String srround, Date rregdate, String rdelyn, String rpick, String rname, String rtel, String remail,
-			String rpaymethod, String rcard, String rquota, String stitle, int num, String stitleimage) {
+			String rpaymethod, String rcard, String rquota, int riidx, String stitle, int num, String stitleimage) {
 		super(ridx, sidx, midx, rseat, rprice, rdiscount, srdate, srround, rregdate, rdelyn, rpick, rname, rtel, remail,
-				rpaymethod, rcard, rquota);
+				rpaymethod, rcard, rquota, riidx);
 		// TODO Auto-generated constructor stub
 		
 		this.stitle = stitle;

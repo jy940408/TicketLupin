@@ -18,64 +18,65 @@
 				var vipCount = 0;
 				$(".vip").on("change", function(){
 					vipCount = 0;
-					for(var i = 0 ; i < 8 ; i++){
-						if(vipCount >= (${requestScope.gradeCount.VIP}+1)){
-							alert(${requestScope.gradeCount.VIP} + "매를 넘을 수 없습니다!");
-							$(this).val(0);
-							break;
-						}else{
-							vipCount += Number($(".vip").eq(i).val());
-						}
+					
+					for(var j = 0 ; j < 8 ; j++){
+						vipCount += Number($(".vip").eq(j).val());
 					}
-					alert("vipCount: " + vipCount);
+					
+					if(vipCount > Number(${requestScope.gradeCount.VIP})){
+						alert(${requestScope.gradeCount.VIP} + "매를 넘을 수 없습니다!");
+						return $(this).val(0);	
+					}
+					
 					$("#vipSum").contents()[0].textContent = vipCount;
 				});
 				
 				var rCount = 0;
 				$(".r").on("change", function(){
 					rCount = 0;
-					for(var i = 0 ; i < 8 ; i++){
-						rCount += Number($(".r").eq(i).val());
+					
+					for(var j = 0 ; j < 8 ; j++){
+						rCount += Number($(".r").eq(j).val());
 					}
-					alert("rCount: " + rCount);
-					$("#rSum").contents()[0].textContent = rCount;
 					
-					if(rCount >= (${requestScope.gradeCount.R}+1)){
+					if(rCount > Number(${requestScope.gradeCount.R})){
 						alert(${requestScope.gradeCount.R} + "매를 넘을 수 없습니다!");
-						$(this).val(0);
-					};
+						return $(this).val(0);	
+					}
 					
+					$("#rSum").contents()[0].textContent = rCount;
 				});
 				
 				var sCount = 0;
 				$(".s").on("change", function(){
 					sCount = 0;
-					for(var i = 0 ; i < 8 ; i++){
-						sCount += Number($(".s").eq(i).val());
-					}
-					alert("sCount: " + sCount);
-					$("#sSum").contents()[0].textContent = sCount;
 					
-					if(vipCount >= (${requestScope.gradeCount.S}+1)){
+					for(var j = 0 ; j < 8 ; j++){
+						sCount += Number($(".s").eq(j).val());
+					}
+					
+					if(sCount > Number(${requestScope.gradeCount.S})){
 						alert(${requestScope.gradeCount.S} + "매를 넘을 수 없습니다!");
-						$(this).val(0);
-					};
+						return $(this).val(0);	
+					}
+					
+					$("#sSum").contents()[0].textContent = sCount;
 					
 				});
 				
 				var aCount = 0;
 				$(".a").on("change", function(){
 					aCount = 0;
-					for(var i = 0 ; i < 8 ; i++){
-						aCount += Number($(".a").eq(i).val());
+					for(var j = 0 ; j < 8 ; j++){
+						aCount += Number($(".a").eq(j).val());
 					}
-					alert("aCount: " + aCount);
-					$("#aSum").contents()[0].textContent = aCount;
 					
-					if(vipCount >= (${requestScope.gradeCount.A}+1)){
+					if(aCount > Number(${requestScope.gradeCount.A})){
 						alert(${requestScope.gradeCount.A} + "매를 넘을 수 없습니다!");
-						$(this).val(0);
-					};
+						return $(this).val(0);	
+					}
+					
+					$("#aSum").contents()[0].textContent = aCount;
 				});
 				
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -104,7 +105,7 @@
 					var sSpecial = $("#sSpecial").val(); if($("#sSpecial").val() === undefined){sSpecial = Number(0);}
 					var s3Package = $("#s3Package").val(); if($("#s3Package").val() === undefined){s3Package = Number(0);}
 					var s4Package = $("#s4Package").val(); if($("#s4Package").val() === undefined){s4Package = Number(0);}
-					var sYouth = $("#sYouth").val(); if($("#rYouth").val() === undefined){sYouth = Number(0);}
+					var sYouth = $("#sYouth").val(); if($("#sYouth").val() === undefined){sYouth = Number(0);}
 					var s4to6 = $("#s4to6").val(); if($("#s4to6").val() === undefined){s4to6 = Number(0);}
 					var s1to3 = $("#s1to3").val(); if($("#s1to3").val() === undefined){s1to3 = Number(0);}
 					var sVeterans = $("#sVeterans").val(); if($("#sVeterans").val() === undefined){sVeterans = Number(0);}
@@ -113,13 +114,11 @@
 					var aSpecial = $("#aSpecial").val(); if($("#aSpecial").val() === undefined){aSpecial = Number(0);}
 					var a3Package = $("#a3Package").val(); if($("#a3Package").val() === undefined){a3Package = Number(0);}
 					var a4Package = $("#a4Package").val(); if($("#a4Package").val() === undefined){a4Package = Number(0);}
-					var aYouth = $("#aYouth").val(); if($("#rYouth").val() === undefined){aYouth = Number(0);}
+					var aYouth = $("#aYouth").val(); if($("#aYouth").val() === undefined){aYouth = Number(0);}
 					var a4to6 = $("#a4to6").val(); if($("#a4to6").val() === undefined){a4to6 = Number(0);}
 					var a1to3 = $("#a1to3").val(); if($("#a1to3").val() === undefined){a1to3 = Number(0);}
 					var aVeterans = $("#aVeterans").val(); if($("#aVeterans").val() === undefined){aVeterans = Number(0);}
 					
-					var coupon = $("#coupon").val();
-					var firstPayment = $("#firstPayment").val();
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 					
 					for(var i = 0 ; i < 32 ; i++){
@@ -148,7 +147,7 @@
 					}
 					
 					var basicSum = (vipBasic*svipprice) + (rBasic*srprice) + (sBasic*ssprice) + (aBasic*saprice); 
-					var discountSum = (vipSpecial*(svipprice*0.7)) +(vip3Package*18000) + (vip4Package*27000) + (vipYouth*$(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
+					var discountSum = (vipSpecial*(svipprice*0.7)) +(vip3Package*18000) + (vip4Package*27000) + (vipYouth*(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
 									(rSpecial*(srprice*0.7)) + (r3Package*18000) + (r4Package*27000) + (rYouth*(srprice*0.8)) + (r4to6*(srprice*0.8)) + (r1to3*(srprice*0.8)) + (rVeterans*(srprice*0.7)) +
 									(sSpecial*(ssprice*0.7)) + (s3Package*18000) + (s4Package*27000) + (sYouth*(ssprice*0.8)) + (s4to6*(ssprice*0.8)) + (s1to3*(ssprice*0.8)) + (sVeterans*(ssprice*0.7)) +
 									(aSpecial*(saprice*0.7)) + (a3Package*18000) + (a4Package*27000) + (aYouth*(saprice*0.8)) + (a4to6*(saprice*0.8)) + (a1to3*(saprice*0.8)) + (aVeterans*(saprice*0.7));
@@ -160,15 +159,76 @@
 					$("#discountSum").html(discountSum.toLocaleString());
 					$("#paymentAmount").html(priceSum.toLocaleString());
 					
-					alert("여기까지!!");
+					$("#basicSumP").val(basicSum);
+					$("#discountSumP").val(discountSum);
+					$("#priceSumP").val(priceSum);
 					
+					alert((aYouth*(saprice*0.8)));
 				})
+				
 			});
+			
+			function nextSubmit(){
+				
+				var vipCount = 0;
+				for(var i = 0 ; i < 8 ; i++){
+					vipCount += Number($(".vip").eq(i).val());
+				}
+				
+				var rCount = 0;	
+				for(var j = 0 ; j < 8 ; j++){
+					if(isNaN(Number($(".r").eq(j).val()))){
+						rCount = 0;
+					}else{
+						rCount += Number($(".r").eq(j).val());	
+					}
+				}
+				
+				
+				var sCount = 0;
+				for(var j = 0 ; j < 8 ; j++){
+					if(isNaN(Number($(".s").eq(j).val()))){
+						sCount = 0;
+					}else{
+						sCount += Number($(".s").eq(j).val());	
+					}
+				}
+	
+				var aCount = 0;
+				for(var j = 0 ; j < 8 ; j++){
+					if(isNaN(Number($(".a").eq(j).val()))){
+						aCount = 0;
+					}else{
+						aCount += Number($(".a").eq(j).val());	
+					}
+				}
+				
+				if(vipCount != ${requestScope.gradeCount.VIP}){
+					alert("티켓 가격을 모두 선택해주세요!");
+					return;
+				}else if (rCount != ${requestScope.gradeCount.R}){
+					alert("티켓 가격을 모두 선택해주세요!");
+					return;
+				}else if (sCount != ${requestScope.gradeCount.S}){
+					alert("티켓 가격을 모두 선택해주세요!");
+					return;
+				}else if (aCount != ${requestScope.gradeCount.A}){
+					alert("티켓 가격을 모두 선택해주세요!");
+					return;
+				}
+				
+				document.frm.action = "${pageContext.request.contextPath}/Reservation/ReservationStep3.do";
+			 	document.frm.method = "get";
+			 	document.frm.submit(); 
+				return;
+			
+				
+			}
 		</script>
 	</head>
 	<body>
 		<div class="section">	
-		<form id="frm" action="${pageContext.request.contextPath}/Reservation/ReservationStep3.do" method="get" name="frm">
+		<form id="frm" name="frm">
 			<div class="select">
 				<div class="step">
 					<ul class="step_ul">
@@ -720,7 +780,7 @@
 							</a>
 						</span>
 						<span class="button btNext">
-							<button type="submit" class="btnOne">다음</button>
+							<a><div type="button" class="btnOne" onclick="nextSubmit()">다음</a>
 						</span>
 					</div>
 				</div>

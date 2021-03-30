@@ -21,6 +21,7 @@ public class ReservationVo extends Show1Vo{
 	private String rpaymethod;
 	private String rcard;
 	private String rquota;
+	private int riidx;
 	
 	public ReservationVo() {
 		super();
@@ -29,7 +30,7 @@ public class ReservationVo extends Show1Vo{
 
 	public ReservationVo(int ridx, int sidx, int midx, String rseat, int rprice, String rdiscount, String srdate,
 			String srround, Date rregdate, String rdelyn, String rpick, String rname, String rtel, String remail,
-			String rpaymethod, String rcard, String rquota) {
+			String rpaymethod, String rcard, String rquota, int riidx) {
 		super();
 		this.ridx = ridx;
 		this.sidx = sidx;
@@ -48,6 +49,7 @@ public class ReservationVo extends Show1Vo{
 		this.rpaymethod = rpaymethod;
 		this.rcard = rcard;
 		this.rquota = rquota;
+		this.riidx = riidx;
 	}
 
 	public int getRidx() {
@@ -185,13 +187,21 @@ public class ReservationVo extends Show1Vo{
 	public void setRquota(String rquota) {
 		this.rquota = rquota;
 	}
+	
+	public int getRiidx() {
+		return riidx;
+	}
+
+	public void setRiidx(int riidx) {
+		this.riidx = riidx;
+	}
 
 	@Override
 	public String toString() {
 		return "ReservationVo [ridx=" + ridx + ", sidx=" + sidx + ", midx=" + midx + ", rseat=" + rseat + ", rprice="
 				+ rprice + ", rdiscount=" + rdiscount + ", srdate=" + srdate + ", srround=" + srround + ", rregdate="
 				+ rregdate + ", rdelyn=" + rdelyn + ", rpick=" + rpick + ", rname=" + rname + ", rtel=" + rtel
-				+ ", remail=" + remail + ", rpaymethod=" + rpaymethod + ", rcard=" + rcard + ", rquota=" + rquota + "]";
+				+ ", remail=" + remail + ", rpaymethod=" + rpaymethod + ", rcard=" + rcard + ", rquota=" + rquota + ", riidx=" + riidx + "]";
 	}
 	
 }

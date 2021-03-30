@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -440,32 +441,20 @@
 								<p class="tk_b">
 									<span class="tk_tit">티켓금액</span>
 									<span class="pay pay_comp">
-										<span>0</span>원
+										<span><fmt:formatNumber value="${priceSum}" pattern="#,###" /></span>원
 									</span>
 								</p>
 								<ul class="list_tkpay">
 									<li>
 										<span class="tk_tit">기본가</span>
 										<span class="pay">
-											<span>0</span>원
+											<span><fmt:formatNumber value="${basicSum }" pattern="#,###" /></span>원
 										</span>
 									</li>
 									<li>
-										<span class="tk_tit">가격할인</span>
+										<span class="tk_tit">할인가</span>
 										<span class="pay">
-											<span>0</span>원
-										</span>
-									</li>
-									<li>
-										<span class="tk_tit">쿠폰할인</span>
-										<span class="pay">
-											<span>0</span>원
-										</span>
-									</li>
-									<li>
-										<span class="tk_tit">공연예매권</span>
-										<span class="pay">
-											<span>0</span>원
+											<span><fmt:formatNumber value="${discountSum }" pattern="#,###" /></span>원
 										</span>
 									</li>
 								</ul>
@@ -490,7 +479,7 @@
 							<div class="box_total_inner box_result">
 								<span class="tk_tit tot_tit">총 결제금액</span>
 								<strong class="pay tot_pay">
-									<span id="paymentAmount">0</span>원
+									<span id="paymentAmount"><fmt:formatNumber value="${priceSum}" pattern="#,###" /></span>원
 								</strong>
 							</div>
 						</div>
@@ -518,7 +507,7 @@
 								</a>
 							</span>
 							<span class="button btNext">
-								<button type="button" onclick="paymentSubmit()" class="btnOne">결제하기</button>
+								<div type="button" onclick="paymentSubmit()" class="btnOne">결제하기</div>
 							</span>
 						</div>
 					</div>

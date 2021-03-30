@@ -1,298 +1,305 @@
-Ôªøbody, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button {
-				margin: 0;
-				padding: 0;
-			}
-			body, th, td, input, select, textarea, button {
-				font-size: 12px;
-				line-height: 1.5;
-				font-family: AppleSDGothicNeo-Regular, "ÎèãÏõÄ",Dotum,"ÎßëÏùÄ Í≥†Îîï","Malgun Gothic","Apple Gothic",sans-serif;
-				color: #666;
-				letter-spacing: -1px;
-			}
-			input, select, textarea, button {
-				vertical-align: middle;
-			}
-			.section{
-				width:950px;
-				height:653px;
-			}
-			.select{
-				float:left;
-				width:682px;
-			}
-			.box{
-				overflow-y:auto;
-				width:636px;
-				height:574px;
-				padding:29px 16px 0 30px;
-			}
-			.wrap_ticket_info{
-				position:relative;
-				float:left;
-				width:245px;
-				padding:14px 10px 14px 13px;
-				height:624px;
-				background-color:#fafafa;
-			}
-			/*---------------------------------------------------------------*/
-			a{
-				color:#666;
-				text-decoration:none;
-			}
-			li{
-				list-style:none;
-			}
-			div {
-				display: block;
-			}
-			.step_ul{
-				display: block;
-				overflow: hidden;
-				position: relative;
-				height: 50px;
-				background: #f9f9f9;
-			}
-			.step1{
-				position:absolute;
-				top:0;
-				left:0;
-				margin-top:12px;
-				margin-left:60px;
-				font-size:17px;
-			}
-			.step2{
-				position:absolute;
-				top:0;
-				left:240px;
-				margin-top:12px;
-				margin-left:60px;
-				font-size:17px;
-			}
-			.step3{
-				position:absolute;
-				top:0;
-				left:480px;
-				margin-top:12px;
-				margin-left:60px;
-				font-size:17px;
-			}
-			/*---------------------------------------------------------------*/
-			
-			.select_tit {
-				padding-bottom:6px;
-				font-weight:bold;
-				font-family:AppleSDGothicNeo-Regular, 'ÎßëÏùÄ Í≥†Îîï','Malgun Gothic',sans-serif;
-				font-size:16px;
-				color:#333;
-			}
-			table{
-				text-align:center;
-				width: 100%;
-				margin:20px 0 100px;
-				border-top: 1px solid #D5D5D5;
-				border-collapse: collapse;
-			}
-			td{
-				border-bottom: 1px solid #D5D5D5;
-				height:50px;
-			}
-			.txt_left{
-				text-align:left;
-				padding-left:10px;
-			}
-			#tr_color{
-				background-color:#F6F6F6;
-			}
-			.box_ticket {
-				border:1px solid #eeeeee;
-				background-color:#fff;
-			}
-			
-			/*---------------------------------------------------------------*/
-			.wrap_ticket_info .logo_onestop {
-				padding-left: 65px;
-				height: 22px;
-			}
-			fieldset, img {
-				border: 0 none;
-			}
-			.wrap_ticket_info .box_info {
-				padding-top: 20px;
-			}
-			.wrap_ticket_info .box_info .select_tit.select_t {
-				overflow: hidden;
-				line-height: 19px;
-				max-height: 33px;
-				margin-top: 7px;
-				margin-bottom: 7px;
-				text-overflow: ellipsis;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-				word-wrap: break-word;
-				font-weight: normal;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_ticket_list {
-				margin: 10px 9px;
-				font-size: 13px;
-				line-height: 20px;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth1 {
-				padding: 0 0 10px;
-				border-bottom: 1px solid #eeeeee;
-				letter-spacing: 0;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth {
-				margin-left: 5px;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth2 {
-				padding-top: 10px;
-			}
-			.layer_ticket {
-				z-index: 2;
-				display: none;
-				width: 165px;
-				position: absolute;
-				top: 90px;
-				left: 73px;
-			}
-			.wrap_ticket_info .select_tit {
-				font-weight: normal;
-			}
-			
-			.wrap_ticket_info .box_info .box_ticket {
-				position: relative;
-				width: 240px;
-				border: 1px solid #eeeeee;
-				background-color: #fff;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner {
-				margin: 10px 14px;
-				line-height: 20px;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner .tk_b {
-				font-size: 14px;
-				color: #333333;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner .tk_tit {
-				float: left;
-				width: 37%;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner .pay {
-				float: right;
-				width: 63%;
-				text-align: right;
-				letter-spacing: 0;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner .list_tkpay {
-				line-height: 24px;
-				color: #888;
-				padding-top: 25px;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner .txt_vip {
-				font-size: 11px;
-				color: #00b523;
-				margin-right: 3px;
-				vertical-align: top;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner:after {
-				content: "";
-				display: block;
-				clear: both;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_total_inner.lst {
-				margin-bottom: 16px;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_result {
-				margin: 0;
-				padding: 15px;
-				border-top: 1px solid #eeeeee;
-				font-weight: bold;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_result .tot_tit {
-				font-size: 14px;
-				color: #333;
-			}
-			.wrap_ticket_info .box_info .box_ticket .box_result .tot_pay {
-				font-size: 22px;
-				color: #00b523;
-			}
-			.wrap_ticket_info .box_info_bm .box_info_list {
-				padding: 10px 0;
-			}
-			.one_list li {
-				position: relative;
-				font-size: 12px;
-			}
-			.dotlist1x1 li {
-				margin-bottom: 1px;
-				padding: 0 0 0 6px;
-				line-height: 18px;
-			}
-			.txt_og {
-				color: #f28e47;
-			}
-			.one_list .btn_detail {
-				margin-left: 0;
-			}
-			.btn_onestop {
-				position: absolute;
-				left: 15px;
-				bottom: 10px;
-			}
-			.btn_onestop .button.frt {
-				margin-right: -3px;
-			}
-			.btn_onestop .button {
-				display: inline-block;
-				position: relative;
-				line-height: 48px;
-				font-size: 14px;
-			}
-			.btn_onestop .button.btWhite a {
-				border: 1px solid #cccccc;
-				background: #fff;
-				text-align:center;
-			}
-			.btn_onestop .button .btnOne {
-				display: block;
-				width: 118px;
-				height: 48px;
-				text-decoration: none;
-			}
-			.btn_onestop .button .btnOne .one_arr.prav_ar {
-				position: absolute;
-				top: 17px;
-				left: 20px;
-				background-position: -30px 0;
-			}
-			.btn_onestop .button .btnOne .one_arr {
-				display: inline-block;
-				overflow: hidden;
-				width: 6px;
-				height: 17px;
-				text-indent: -9999px;
-			}
-			.btn_onestop .button.btNext {
-				border-top: 1px solid #ccc;
-				border-right: 1px solid #ccc;
-				border-bottom: 1px solid #ccc;
-				background: #fff;
-				text-align:center;
-			}
-			.btn_detail {
-				margin-left: 5px;
-				margin-bottom: 2px;
-				vertical-align: middle;
-				background-color: #fff;
-				border:1px solid #c2c2c2;
-				border-radius:15px;
-			}
-			.btn_flexible_ico2 {
-				background-position: left -860px;
-				padding-left: 7px;
-			}
-			.btn_flexible_ico2 span {
-				background-position: right -860px;
-				padding-right: 8px;
-			}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, textarea, button {
+	margin: 0;
+	padding: 0;
+}
+body, th, td, input, select, textarea, button {
+	font-size: 12px;
+	line-height: 1.5;
+	font-family: AppleSDGothicNeo-Regular, "µ∏øÚ",Dotum,"∏º¿∫ ∞ÌµÒ","Malgun Gothic","Apple Gothic",sans-serif;
+	color: #666;
+	letter-spacing: -1px;
+}
+input, select, textarea, button {
+	vertical-align: middle;
+}
+.section{
+	width:950px;
+	height:653px;
+}
+.select{
+	float:left;
+	width:682px;
+}
+.box{
+	overflow-y:auto;
+	width:636px;
+	height:574px;
+	padding:29px 16px 0 30px;
+}
+.wrap_ticket_info{
+	position:relative;
+	float:left;
+	width:245px;
+	padding:14px 10px 14px 13px;
+	height:624px;
+	background-color:#fafafa;
+}
+/*---------------------------------------------------------------*/
+a{
+	color:#666;
+	text-decoration:none;
+}
+li{
+	list-style:none;
+}
+div {
+	display: block;
+}
+.step_ul{
+	display: block;
+	overflow: hidden;
+	position: relative;
+	height: 50px;
+	background: #f9f9f9;
+}
+.step1{
+	position:absolute;
+	top:0;
+	left:0;
+	margin-top:12px;
+	margin-left:60px;
+	font-size:17px;
+}
+.step2{
+	position:absolute;
+	top:0;
+	left:240px;
+	margin-top:12px;
+	margin-left:60px;
+	font-size:17px;
+}
+.step3{
+	position:absolute;
+	top:0;
+	left:480px;
+	margin-top:12px;
+	margin-left:60px;
+	font-size:17px;
+}
+/*---------------------------------------------------------------*/
+
+.select_tit {
+	padding-bottom:6px;
+	font-weight:bold;
+	font-family:AppleSDGothicNeo-Regular, '∏º¿∫ ∞ÌµÒ','Malgun Gothic',sans-serif;
+	font-size:16px;
+	color:#333;
+}
+table{
+	text-align:center;
+	width: 100%;
+	margin:20px 0 100px;
+	border-top: 1px solid #D5D5D5;
+	border-collapse: collapse;
+}
+td{
+	border-bottom: 1px solid #D5D5D5;
+	height:50px;
+}
+.txt_left{
+	text-align:left;
+	padding-left:10px;
+}
+#tr_color{
+	background-color:#F6F6F6;
+}
+.box_ticket {
+	border:1px solid #eeeeee;
+	background-color:#fff;
+}
+
+/*---------------------------------------------------------------*/
+.wrap_ticket_info .logo_onestop {
+	padding-left: 65px;
+	height: 22px;
+}
+fieldset, img {
+	border: 0 none;
+}
+.wrap_ticket_info .box_info {
+	padding-top: 20px;
+}
+.wrap_ticket_info .box_info .select_tit.select_t {
+	overflow: hidden;
+	line-height: 19px;
+	max-height: 33px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	font-weight: normal;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list {
+	margin: 10px 9px;
+	font-size: 13px;
+	line-height: 20px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth1 {
+	padding: 0 0 10px;
+	border-bottom: 1px solid #eeeeee;
+	letter-spacing: 0;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth {
+	margin-left: 5px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth2 {
+	padding-top: 10px;
+}
+.layer_ticket {
+	z-index: 2;
+	display: none;
+	width: 165px;
+	position: absolute;
+	top: 90px;
+	left: 73px;
+}
+.wrap_ticket_info .select_tit {
+	font-weight: normal;
+}
+
+.wrap_ticket_info .box_info .box_ticket {
+	position: relative;
+	width: 240px;
+	border: 1px solid #eeeeee;
+	background-color: #fff;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner {
+	margin: 10px 14px;
+	line-height: 20px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .tk_b {
+	font-size: 14px;
+	color: #333333;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .tk_tit {
+	float: left;
+	width: 37%;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .pay {
+	float: right;
+	width: 63%;
+	text-align: right;
+	letter-spacing: 0;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .list_tkpay {
+	line-height: 24px;
+	color: #888;
+	padding-top: 25px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner .txt_vip {
+	font-size: 11px;
+	color: #00b523;
+	margin-right: 3px;
+	vertical-align: top;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.wrap_ticket_info .box_info .box_ticket .box_total_inner.lst {
+	margin-bottom: 16px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_result {
+	margin: 0;
+	padding: 15px;
+	border-top: 1px solid #eeeeee;
+	font-weight: bold;
+}
+.wrap_ticket_info .box_info .box_ticket .box_result .tot_tit {
+	font-size: 14px;
+	color: #333;
+}
+.wrap_ticket_info .box_info .box_ticket .box_result .tot_pay {
+	font-size: 22px;
+	color: #00b523;
+}
+.wrap_ticket_info .box_info_bm .box_info_list {
+	padding: 10px 0;
+}
+.one_list li {
+	position: relative;
+	font-size: 12px;
+}
+.dotlist1x1 li {
+	margin-bottom: 1px;
+	padding: 0 0 0 6px;
+	line-height: 18px;
+}
+.txt_og {
+	color: #f28e47;
+}
+.one_list .btn_detail {
+	margin-left: 0;
+}
+.btn_onestop {
+	position: absolute;
+	left: 15px;
+	bottom: 10px;
+}
+.btn_onestop .button.frt {
+	margin-right: -3px;
+}
+.btn_onestop .button {
+	display: inline-block;
+	position: relative;
+	line-height: 48px;
+	font-size: 14px;
+}
+.btn_onestop .button.btWhite a {
+	border: 1px solid #cccccc;
+	background: #fff;
+	text-align:center;
+}
+.btn_onestop .button .btnOne {
+	display: block;
+	width: 118px;
+	height: 48px;
+	text-decoration: none;
+}
+.btn_onestop .button .btnOne .one_arr.prav_ar {
+	position: absolute;
+	top: 17px;
+	left: 20px;
+	background-position: -30px 0;
+}
+.btn_onestop .button .btnOne .one_arr {
+	display: inline-block;
+	overflow: hidden;
+	width: 6px;
+	height: 17px;
+	text-indent: -9999px;
+}
+
+.btnOne{
+	background-color:white;
+	border:none;
+}
+
+
+.btn_onestop .button.btNext {
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #fff;
+	text-align:center;
+}
+.btn_detail {
+	margin-left: 5px;
+	margin-bottom: 2px;
+	vertical-align: middle;
+	background-color: #fff;
+	border:1px solid #c2c2c2;
+	border-radius:15px;
+}
+.btn_flexible_ico2 {
+	background-position: left -860px;
+	padding-left: 7px;
+}
+.btn_flexible_ico2 span {
+	background-position: right -860px;
+	padding-right: 8px;
+}

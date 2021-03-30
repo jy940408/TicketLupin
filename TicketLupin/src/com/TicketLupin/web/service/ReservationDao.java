@@ -22,6 +22,55 @@ public class ReservationDao {
 		this.conn = dbconn.getConnection();		
 	}
 	
+	public int insertReservationIdx(ReservationVo rv) {
+		int value = 0;
+		
+		String sql = "INSERT INTO RESERVATIONIDX VALUES(RESERVATIONIDX_SEQUENCE.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, rv.getSidx());
+			pstmt.setInt(2, rv.getMidx());
+			pstmt.setString(3, rv.getSrdate());
+			pstmt.setString(4, rv.getSrround());
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
+	
+	public int getReservaionRecentIdx(int sidx, int midx) {
+		
+		int riv = 0;
+		
+		String sql = "SELECT MAX(RIIDX) RIIDX FROM RESERVATIONIDX WHERE SIDX = ? AND MIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			pstmt.setInt(2, midx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			riv = rs.getInt("RIIDX");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return riv;
+		
+	}
+	
 	public int insertReservation(ReservationVo rv) {
 		
 		int value = 0;

@@ -180,6 +180,20 @@ public class ReservationController extends HttpServlet{
 					gradeCount.put(seatGrade[i], 1); //key가 없다면 key값을 생성 후 1로 초기화
 				}
 			}
+			
+			if(!gradeCount.containsKey("VIP")) {
+				gradeCount.put("VIP", 0);
+			}
+			if(!gradeCount.containsKey("R")) {
+				gradeCount.put("R", 0);
+			}
+			if(!gradeCount.containsKey("S")) {
+				gradeCount.put("S", 0);
+			}
+			if(!gradeCount.containsKey("A")) {
+				gradeCount.put("A", 0);
+			}
+			
 			System.out.println("gradeCount: " + gradeCount);
 			System.out.println("arraySeat 첫번째 확인: " + arraySeat[0]);
 			
@@ -221,6 +235,26 @@ public class ReservationController extends HttpServlet{
 				}
 			}
 			
+			String basicSum_ = request.getParameter("basicSum");
+			String discountSum_ = request.getParameter("discountSum");
+			String priceSum_ = request.getParameter("priceSum");
+			
+			int basicSum = 0;
+			if(basicSum_ != null && !basicSum_.equals("")) {
+				basicSum = Integer.parseInt(basicSum_);
+			}
+			int discountSum = 0;
+			if(discountSum_ != null && !discountSum_.equals("")) {
+				discountSum = Integer.parseInt(discountSum_);
+			}
+			int priceSum = 0;
+			if(priceSum_ != null && !priceSum_.equals("")) {
+				priceSum = Integer.parseInt(priceSum_);
+			}
+			System.out.println("basicSum 테스트: " + basicSum);
+			System.out.println("discountSum 테스트: " + discountSum);
+			System.out.println("priceSum 테스트: " + priceSum);
+			
 			String sidx_ = request.getParameter("sidx");
 			String title = request.getParameter("title");
 			String comDate = request.getParameter("comDate");
@@ -242,6 +276,10 @@ public class ReservationController extends HttpServlet{
 			request.setAttribute("round", round);
 			request.setAttribute("arraySeat", arraySeat);
 			request.setAttribute("discountParameter", discountParameter);
+			
+			request.setAttribute("basicSum", basicSum);
+			request.setAttribute("discountSum", discountSum);
+			request.setAttribute("priceSum", priceSum);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step3.jsp").forward(request, response);
 			
@@ -437,6 +475,10 @@ public class ReservationController extends HttpServlet{
 			rv.setMidx(midx);
 			rv.setSrdate(comDate);
 			rv.setSrround(round);
+			
+			rd.insertReservationIdx(rv);
+			int riidx = rd.getReservaionRecentIdx(sidx, midx);
+			
 			rv.setRpick(pick);
 			rv.setRname(name);
 			rv.setRtel(tel);
@@ -444,6 +486,7 @@ public class ReservationController extends HttpServlet{
 			rv.setRpaymethod(payMethod);
 			rv.setRcard(card);
 			rv.setRquota(quota);
+			rv.setRiidx(riidx);
 			
 			if(vipDiscount != null) {
 				for(int i = 0 ; i < vipDiscount.size() ; i++) {
@@ -475,6 +518,8 @@ public class ReservationController extends HttpServlet{
 					rd.insertReservation(rv);
 				}
 			}
+			
+			
 //==============================================================================================================================//	
 			
 			reservationMail mail = new reservationMail();

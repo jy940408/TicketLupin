@@ -440,6 +440,11 @@ fieldset, img {
 	height: 48px;
 	text-decoration: none;
 }
+
+.btnOne{
+	background-color:white;
+	border:none;
+}
 .btn_onestop .button .btnOne .one_arr.prav_ar {
 	position: absolute;
 	top: 17px;
