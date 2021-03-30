@@ -22,6 +22,7 @@ public class ReservationDao {
 		this.conn = dbconn.getConnection();		
 	}
 	
+	//예매하기
 	public int insertReservationIdx(ReservationIdxVo riv) {
 		int value = 0;
 		
@@ -49,6 +50,7 @@ public class ReservationDao {
 		return value;
 	}
 	
+	//내가 한 예매 중 가장 최근 인덱스 불러오기
 	public int getReservaionRecentIdx(int sidx, int midx) {
 		
 		int riv = 0;
@@ -76,6 +78,7 @@ public class ReservationDao {
 		
 	}
 	
+	//예매 좌석별로 예매 내역 추가하기
 	public int insertReservation(ReservationVo rv) {
 		
 		int value = 0;
@@ -113,7 +116,6 @@ public class ReservationDao {
 		
 		return value;
 	}
-	
 	public ArrayList<ReservationShowVo> getReservationList(int idx, int page){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
@@ -199,6 +201,7 @@ public class ReservationDao {
 		return list;
 	}
 	
+	//예매 된 좌석 리스트 목록 만들기
 	public ArrayList<ReservationShowVo> getReservationSeatList(int sidx, String srdate, String srround){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
@@ -233,9 +236,10 @@ public class ReservationDao {
 		return list;
 	}
 	
+	//예매 게시글 개수
 	public int getReservationCount(int idx) {
 		int count = 0;
-		String sql = "SELECT COUNT(*) CNT FROM SHOW1 INNER JOIN (SELECT * FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'N' ORDER BY RREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW1.SIDX";
+		String sql = "SELECT COUNT(*) CNT FROM SHOW1 INNER JOIN (SELECT * FROM RESERVATIONIDX WHERE MIDX = ? AND RIDELYN = 'N' ORDER BY RIREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW1.SIDX";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -255,8 +259,9 @@ public class ReservationDao {
 		return count;
 	}
 	
-	public ArrayList<ReservationShowVo> getDelReservationList(int idx, int page){
-		ArrayList<ReservationShowVo> list = new ArrayList<>();
+	//마이티켓 예매 취소 목록 리스트 불러오기
+	public ArrayList<ReservationListVo> getReservationIdxDelList(int idx, int page){
+		ArrayList<ReservationListVo> list = new ArrayList<>();
 
 		String sql = "SELECT COMINFO.* FROM "
 				+ "(SELECT ROWNUM PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
@@ -275,21 +280,19 @@ public class ReservationDao {
 			
 			while(rs.next()) {
 				
-				ReservationShowVo rsv = new ReservationShowVo();
+				ReservationListVo rlv = new ReservationListVo();
 				
-				rsv.setStitle(rs.getString("STITLE"));
-				rsv.setRidx(rs.getInt("RIDX"));
-				rsv.setSidx(rs.getInt("SIDX"));
-				rsv.setMidx(rs.getInt("MIDX"));
-				rsv.setRseat(rs.getString("RSEAT"));
-				rsv.setRprice(rs.getInt("RPRICE"));
-				rsv.setRdiscount(rs.getNString("RDISCOUNT"));
-				rsv.setSrdate(rs.getString("SRDATE"));
-				rsv.setSrround(rs.getString("SRROUND"));
-				rsv.setRregdate(rs.getDate("RREGDATE"));
-				rsv.setNum(rs.getInt("NUM"));
+				rlv.setRiidx(rs.getInt("RIIDX"));
+				rlv.setStitle(rs.getString("STITLE"));
+				rlv.setSidx(rs.getInt("SIDX"));
+				rlv.setMidx(rs.getInt("MIDX"));
+				rlv.setSrdate(rs.getString("SRDATE"));
+				rlv.setSrround(rs.getString("SRROUND"));
+				rlv.setRiregdate(rs.getDate("RIREGDATE"));
+				rlv.setPagenum(rs.getInt("PAGENUM"));
+				rlv.setNum(rs.getInt("NUM"));
 				
-				list.add(rsv);
+				list.add(rlv);
 				
 			}
 		} catch (SQLException e) {
@@ -297,12 +300,14 @@ public class ReservationDao {
 			e.printStackTrace();
 		}
 		
+		
 		return list;
 	}
 	
+	//예매취소 게시글 개수
 	public int getDelReservationCount(int idx) {
 		int count = 0;
-		String sql = "SELECT COUNT(*) CNT FROM SHOW INNER JOIN (SELECT * FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'Y' ORDER BY RREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW.SIDX";
+		String sql = "SELECT COUNT(*) CNT FROM SHOW1 INNER JOIN (SELECT * FROM RESERVATIONIDX WHERE MIDX = ? AND RIDELYN = 'Y' ORDER BY RIREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW1.SIDX";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -322,6 +327,7 @@ public class ReservationDao {
 		return count;
 	}
 	
+	//예매 내역 자세히 보기
 	public ArrayList<ReservationShowVo> getReservationDetail(int midx, int riidx) {
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 		String sql = "SELECT * FROM RESERVATIONIDX " + 
@@ -365,6 +371,7 @@ public class ReservationDao {
 				rsv.setRipayment(rs.getInt("RIPAYMENT"));
 				rsv.setRseat(rs.getString("RSEAT"));
 				rsv.setRdiscount(rs.getString("RDISCOUNT"));
+				rsv.setRideldate(rs.getDate("RIDELDATE"));
 			
 				list.add(rsv);
 				
@@ -378,15 +385,15 @@ public class ReservationDao {
 	}
 	
 	
-	
-	public int deleteReservation(int ridx, int midx) {
+	//예매 취소하기
+	public int deleteReservation(int riidx, int midx) {
 		int value = 0;
-		String sql = "UPDATE RESERVATION SET RDELYN = 'Y' WHERE RIDX = ? AND MIDX = ?";
+		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = SYSTIMESTAMP WHERE RIIDX = ? AND MIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, ridx);
+			pstmt.setInt(1, riidx);
 			pstmt.setInt(2, midx);
 			
 			value = pstmt.executeUpdate();
@@ -447,4 +454,5 @@ public class ReservationDao {
 		
 		return value;
 	}
+	
 }

@@ -23,6 +23,7 @@
 				
 				var deliverySum = 0;
 				var paymentSum = 0;
+				$("#paymentSum").val(${paymentAmount});
 				$("input:radio[name='pick']").on("change", function(){
 					if($(this).val() == "delivery"){
 						$("#deliveryCost").html((2800).toLocaleString());
@@ -31,6 +32,7 @@
 						paymentSum = ${paymentAmount} + 2800;
 						$("#deliverySum").val(deliverySum);
 						$("#paymentSum").val(paymentSum);
+						alert(paymentSum);
 					}else{
 						$("#deliveryCost").html(0);
 						$("#paymentAmount").html((${paymentAmount}).toLocaleString());
@@ -38,6 +40,7 @@
 						paymentSum = ${paymentAmount};
 						$("#deliverySum").val(deliverySum);
 						$("#paymentSum").val(paymentSum);
+						alert(paymentSum);
 					}
 				});
 				

@@ -13,6 +13,38 @@
 		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Ranking_list.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Ranking_list.css">
+		<script>
+			$(document).ready(function(){
+				var order = "";
+				$("input:radio[name='order']").on("change", function(){
+					var order = "";
+					if($(".order:checked").val() == "now"){
+						order = "now";
+					}else if($(".order:checked").val() == "week"){
+						order = "week";
+					}else if($(".order:checked").val() == "month"){
+						order = "month";
+					}
+					
+					alert("order 확인: " + order);
+					
+					$.ajax({
+						type:"get",
+						url:"${pageContext.request.contextPath}/Show/RankingListAJAX.do",
+						data:{"order": order},
+						success: function(data){
+							
+							alert("왜 안되지?");
+							
+						}
+					});
+				});
+				
+				
+				
+			});
+			
+		</script>
 	</head>
 	<body>
 		<header>
@@ -98,9 +130,9 @@
 								</button>
 							</div>
 							<ul class="select_list" id="ul_list" style="display:none">
-								<li><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=now" class="order" id="now">실시간</a></li>
-								<li><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=week" class="order" id="week">주간</a></li>
-								<li><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=month" class="order" id="month">월간</a></li>
+								<li><label for="now"><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=now"><input type="radio" name="order" id="now" class="order" value="now">실시간</a></label></li>
+								<li><label for="week"><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=week" class="order" ><input type="radio" name="order" class="order" id="week" value="week">주간</a></label></li>
+								<li><label for="month"><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=month" class="order" ><input type="radio" name="order" class="order" id="month" value="month">월간</a></label></li>
 							</ul>
 						</div>
 					</div>

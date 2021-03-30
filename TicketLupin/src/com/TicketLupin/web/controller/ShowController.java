@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ShowDao;
@@ -211,6 +214,64 @@ public class ShowController extends HttpServlet{
 			request.setAttribute("list", list);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ranking_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Show/RankingListAJAX.do")) {
+
+			//정렬 값 받아오기
+			String order_ = request.getParameter("order");
+			
+			String order = "now";
+			if(order_ != null && !order_.equals("")) {
+				order = order_;
+			}
+
+//==============================================================================================================================//			
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
+			Calendar start = Calendar.getInstance();
+			
+			String startdate = "0000-00-00";
+			if(order.equals("week")) {
+				start.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				startdate = formatter.format(start.getTime());
+				System.out.println(startdate);
+			}else if(order.equals("month")) {
+				String startdate_ = formatter.format(start.getTime());
+				int month = (start.get(Calendar.MONTH)) +1;
+				startdate = start.get(Calendar.YEAR) + "-" + month + "-" + 1;
+				System.out.println(startdate);
+			}else if(order.equals("now")) {
+				startdate = formatter.format(start.getTime());
+				System.out.println("startdate 테스트: " + startdate);
+			}
+			
+//==============================================================================================================================//
+			
+			System.out.println("startdate: " + startdate);
+			ShowDao sd = new ShowDao();
+			ArrayList<ShowRankingVo> list = sd.getShowRankingList(startdate);
+			System.out.println(list);
+			
+			JSONObject obj = new JSONObject();
+			JSONArray objList = new JSONArray();
+			for (int i = 0 ; i < list.size() ; i++) {
+				
+				JSONObject obj_ = new JSONObject();
+				obj_.put("sidx", list.get(i).getSidx());
+				obj_.put("stitle", list.get(i).getStitle());
+				obj_.put("sopendate", list.get(i).getSopendate());
+				obj_.put("senddate", list.get(i).getSenddate());
+				obj_.put("ssdetailaddress", list.get(i).getSdetailaddress());
+				obj_.put("sstitleimage", list.get(i).getStitleimage());
+
+				objList.add(obj_);
+			}
+			
+			System.out.println("objList 테스트: " + objList);
+			System.out.println("넘어온 order 값: " + order);
+			
+			response.setContentType("application/x-json; charset=UTF-8");
+			response.getWriter().print(objList); //{"result":1}
 			
 		}else if(str.equals("/Show/ShowDelete.do")) {
 

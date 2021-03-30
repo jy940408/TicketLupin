@@ -60,7 +60,8 @@ public class MyticketController extends HttpServlet{
 			int count = rd.getReservationCount(midx);
 			System.out.println("list 확인: " + list);
 			System.out.println("count 확인: " + count);
-			ArrayList<ReservationShowVo> dList = rd.getDelReservationList(midx, dPage);
+			ArrayList<ReservationListVo> dList = rd.getReservationIdxDelList(midx, dPage);
+			int dCount = rd.getDelReservationCount(midx);
 			
 			System.out.println("dList target midx: " + midx);
 			System.out.println("dList page: " + dPage);
@@ -69,6 +70,7 @@ public class MyticketController extends HttpServlet{
 			request.setAttribute("list", list);
 			request.setAttribute("dList", dList);
 			request.setAttribute("count", count);
+			request.setAttribute("dCount", dCount);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_list.jsp").forward(request, response);
 			
 		}else if(str.equals("/Myticket/MyticketDetail.do")) {
@@ -106,7 +108,6 @@ public class MyticketController extends HttpServlet{
 			ReservationDao rd = new ReservationDao();
 			ArrayList<ReservationShowVo> detail = rd.getReservationDetail(midx, riidx);
 			System.out.println("detail 확인: " + detail);
-			System.out.println("제목확인 한번 해보자: " + detail.get(0).getStitle());
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_cancel_detail.jsp").forward(request, response);

@@ -34,7 +34,7 @@
 					<div class="box">
 						<div class="box_how">
 							<div class="select_tit" style="font-size:15px; display:inline-block;">수령방법:&nbsp;</div>
-							<div style="display:inline-block; font-size:15px;">${detail[0].rpaymethod }</div>
+							<div style="display:inline-block; font-size:15px;">${detail[0].rpick }</div>
 							<div class="txt">
 								<span style="font-size:12px">공연 당일 현장 교부처에서 예매번호 및 본인 확인 후 티켓을 수령하여 입장이 가능합니다.</span>
 							</div>

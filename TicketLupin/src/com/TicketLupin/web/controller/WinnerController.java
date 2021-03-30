@@ -53,9 +53,10 @@ public class WinnerController extends HttpServlet{
 			WinnerDao wd = new WinnerDao();
 			
 			List<WinnerVo> list = wd.getWinnerList(query, page);
-			int count = wd.getWinnerListCount(query, page);
+			int count = wd.getWinnerListCount(query);
 			
-			System.out.println(request.getContextPath());
+			System.out.println("winner count test: " + count);
+			
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_list.jsp").forward(request, response);

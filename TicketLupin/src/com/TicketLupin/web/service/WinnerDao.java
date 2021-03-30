@@ -14,12 +14,10 @@ public class WinnerDao {
 
 	private	Connection conn;
 	private PreparedStatement pstmt;
-	private ResultSet rs;
 	
 	public WinnerDao() {
 		DBconn dbconn = new DBconn();
 		this.conn = dbconn.getConnection();
-		ResultSet rs;
 	}
 	
 	public List<WinnerVo> getWinnerList(String query, int page){
@@ -61,22 +59,16 @@ public class WinnerDao {
 
 		}catch (SQLException e) {
 				e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return list;
 	}		
 	
-	public int getWinnerListCount(String query, int p){
+	public int getWinnerListCount(String query){
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(IIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM WINNER WHERE ITITLE LIKE ? ORDER BY IREGDATE DESC) N)";
+		String sql = "SELECT COUNT(IIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM WINNER WHERE ITITLE LIKE ?  AND IDELYN = 'N' ORDER BY IREGDATE DESC) N)";
 		
 		try {
 		
@@ -94,13 +86,6 @@ public class WinnerDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return count;
@@ -139,13 +124,6 @@ public class WinnerDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return winnervo;
@@ -170,13 +148,6 @@ public class WinnerDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -201,13 +172,6 @@ public class WinnerDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -227,13 +191,6 @@ public class WinnerDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -258,13 +215,6 @@ public class WinnerDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;

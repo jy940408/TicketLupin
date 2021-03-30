@@ -173,7 +173,8 @@
 					$("#paymentAmountP").val(paymentAmount);
 					$("#priceSumP").val(priceSum);
 					
-					alert((aYouth*(saprice*0.8)));
+					alert("paymentSum: " + paymentAmount);
+					alert("paymentAmount: " + $("#paymentAmountP").val());
 				})
 				
 			});

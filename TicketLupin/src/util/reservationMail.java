@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -9,10 +10,15 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
+
+import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationShowVo;
 
 public class reservationMail {
 
 	public static void naverMailSend() { 
+		
 		String host = "smtp.naver.com"; 
 		String user = "junyoung940408@naver.com"; // 네이버일 경우 네이버 계정, gmail경우 gmail 계정 
 		String password = "s!160331"; // 패스워드     

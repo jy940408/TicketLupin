@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,17 +17,14 @@
 					<div class="step">
 						<ul class="step_ul">
 							<li>
-								<a href="#" class="step1" style="font-weight:bold;">나의 예매내역 확인하기</a>
+								<a href="#" class="step1" style="font-weight:bold;">나의 예매 취소 내역 확인하기</a>
 							</li>
 						</ul>
 					</div>
 					<div class="box">
 						<div class="box_how">
 							<div class="select_tit" style="font-size:15px; display:inline-block;">수령방법:&nbsp;</div>
-							<div style="display:inline-block; font-size:15px;">모바일 티켓</div>
-							<div class="txt">
-								<span style="font-size:12px">공연 당일 현장 교부처에서 예매번호 및 본인 확인 후 티켓을 수령하여 입장이 가능합니다.</span>
-							</div>
+							<div style="display:inline-block; font-size:15px;">${detail[0].rpick }</div>
 							<div class="box_info_use box_gray">
 								<h3 class="tit_receipt" style="font-weight:bold;">주문자정보</h3>
 								<div class="box_inp_opt">
@@ -43,45 +41,61 @@
 											<th class="txt_gray" style="font-weight:bold;">이름: </th>
 											<td>
 												<div class="wrap_form_input">
-													${detail.rname}
+													${detail[0].rname}
 												</div>
 											</td>
 											<th class="txt_gray" style="font-weight:bold;">연락처: </th>
 											<td>
 											<div class="wrap_form_input">
-												${detail.rtel}
+												${detail[0].rtel}
 											</div>
 											</td>
 											<th class="txt_gray" style="font-weight:bold;">이메일: </th>
 											<td>
 											<div class="wrap_form_input">
-												${detail.remail }
+												${detail[0].remail }
 											</div>
 										</td>
 										</tr>
 									</table>
-									<p class="txt_more txt_gray">입력하신 정보는 공연장에서 예매확인을 위해 사용될 수 있습니다.</p>
 								</div>
 							</div>
 						</div>
 						<div class="box_payment">
 							<div class="select_tit" style="font-size:15px; display:inline-block; font-weight:bold;">결제 방법:&nbsp;</div>
-							<span class="list_receipt_how" style="display:inline-block; font-size:15px;">${detail.rpaymethod}</span>
-							<c:if test="${detail.rpaymethod eq '신용카드'}">
+							<span class="list_receipt_how" style="display:inline-block; font-size:15px;">${detail[0].rpaymethod}</span>
+							<c:if test="${detail[0].rpaymethod eq '신용카드'}">
 								<div class="box_card box_gray">
 									<div class="txt_gray" style="font-weight:bold; display:inline-block;">결제 카드:&nbsp;</div>
-									<div class="wrap_form_input" style="display:inline-block;">${detail.rcard}</div>
+									<div class="wrap_form_input" style="display:inline-block;">${detail[0].rcard}</div>
 									<div class="txt_gray" style="margin-left:150px; font-weight:bold; display:inline-block;">할부:&nbsp;</div>
 									<c:choose>
-										<c:when test="${detail.rquota eq '00'}">
+										<c:when test="${detail[0].rquota eq '00'}">
 											<div class="wrap_form_input" style="display:inline-block;">일시불</div>
 										</c:when>
 										<c:otherwise>
-											<div class="wrap_form_input" style="display:inline-block;">${detail.rquota}개월</div>
+											<div class="wrap_form_input" style="display:inline-block;">${detail[0].rquota}개월</div>
 										</c:otherwise>
 									</c:choose>
 								</div>
 							</c:if>
+						</div>
+						<div class="box_payment">
+							<div class="select_tit" style="font-size:15px; display:inline-block; font-weight:bold;">총 취소 금액:&nbsp;</div>
+							<span class="list_receipt_how" style="display:inline-block; font-size:15px;"><fmt:formatNumber value="${detail[0].ripayment}" pattern="#,###" />원</span>
+							<div class="box_card box_gray">
+								<div class="txt_gray" style="font-weight:bold; display:inline-block;">기본가:&nbsp;</div>
+								<div class="wrap_form_input" style="display:inline-block;"><fmt:formatNumber value="${detail[0].ribasic}" pattern="#,###" />원</div>
+								<div class="txt_gray" style="margin-left:200px; font-weight:bold; display:inline-block;">할인가:&nbsp;</div>
+								<div class="wrap_form_input" style="display:inline-block;"><fmt:formatNumber value="${detail[0].ridiscount}" pattern="#,###" />원</div><br>
+								<div class="txt_gray" style="font-weight:bold; display:inline-block;">예매 수수료:&nbsp;</div>
+								<div class="wrap_form_input" style="display:inline-block;"><fmt:formatNumber value="${detail[0].rivat}" pattern="#,###" />원</div>
+								<c:if test="${detail[0].ridelivery == 0}">
+									<div class="txt_gray" style="margin-left:177px; font-weight:bold; display:inline-block;">배송료:&nbsp;</div>
+									<div class="wrap_form_input" style="display:inline-block;"><fmt:formatNumber value="${detail[0].ridelivery}" pattern="#,###" />원</div><br>
+								</c:if>
+								<c:if test="${detail[0].ridelivery != 0}"></c:if>
+							</div>
 						</div>
 					</div>
 				</div>	
@@ -92,22 +106,27 @@
 						</a>
 					</h2>
 					<div class="box_info">
-						<img src="${pageContext.request.contextPath}/poster/${detail.stitleimage}" style="width:245px; height:350px;">
+						<img src="${pageContext.request.contextPath}/poster/${detail[0].stitleimage}" style="width:245px; height:350px;">
 					</div>
 					<div class="box_info" style="background-color:#fff; border:1px solid #eeeeee; padding:10px;">
-						<div><h2 style="font-weight:bold;">${detail.stitle}</h2></div>
+						<div><h2 style="font-weight:bold;">${detail[0].stitle}</h2></div>
 						<hr style="border:1px solid #eeeeee;">
-						회차: ${detail.srdate} ${detail.srround }<br>
-						좌석: ${detail.rseat}석
+						회차: ${detail[0].srdate} ${detail[0].srround }<br>
+						좌석:
+						<c:forEach var="d" items="${detail}" varStatus="i" begin="0">
+							<c:if test="${!i.last}">
+								${detail[i.index].rseat},&nbsp;
+							</c:if>
+							<c:if test="${i.last}">
+								${detail[i.index].rseat}석
+							</c:if>
+						</c:forEach>
 					</div>
 					<div class="box_info_bm">
 						<div class="box_info_list">
 							<ul class="dotlist1x1 one_list">
 								<li style="padding:0;">
-									취소기한: <span class="txt_og txt_cancel_close_dt">2021년 2월 9일(화) 17:00 까지</span>
-								</li>
-								<li style="padding:0;">
-									취소수수료: <span class="txt_og txt_cancel_fee_info">티켓금액의 0~30%</span>
+									취소 날짜:&nbsp;<span class="txt_og txt_cancel_close_dt">${detail[0].rideldate}</span>
 								</li>
 							</ul>
 						</div>

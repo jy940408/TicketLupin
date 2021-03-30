@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ReservationIdxVo;
+import com.TicketLupin.web.service.ReservationListVo;
 import com.TicketLupin.web.service.ReservationShowVo;
 import com.TicketLupin.web.service.ReservationVo;
 import com.TicketLupin.web.service.ShowDao;
@@ -448,10 +449,7 @@ public class ReservationController extends HttpServlet{
 			String comDate = request.getParameter("comDate");
 			String round = request.getParameter("round");
 			
-			
 			System.out.println("round 확인: " + round);
-			
-			
 			
 			String sidx_ = request.getParameter("sidx");
 			int sidx = 0;
@@ -622,13 +620,13 @@ public class ReservationController extends HttpServlet{
 			
 		}else if(str.equals("/Reservation/deleteReservation.do")) {
 			
-			String ridx_ = request.getParameter("ridx");
-			int ridx = 0;
-			if(ridx_ != null && !ridx_.equals("")) {
-				ridx = Integer.parseInt(ridx_);
+			String riidx_ = request.getParameter("riidx");
+			int riidx = 0;
+			if(riidx_ != null && !riidx_.equals("")) {
+				riidx = Integer.parseInt(riidx_);
 			}
 			
-			System.out.println("delete부분 ridx: " + ridx);
+			System.out.println("delete부분 ridx: " + riidx);
 			
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
@@ -636,7 +634,7 @@ public class ReservationController extends HttpServlet{
 			System.out.println("delete부분 midx: " + midx);
 			
 			ReservationDao rd = new ReservationDao();
-			rd.deleteReservation(ridx, midx);
+			rd.deleteReservation(riidx, midx);
 			System.out.println("rd: " + rd);
 			
 			PrintWriter pt = response.getWriter();

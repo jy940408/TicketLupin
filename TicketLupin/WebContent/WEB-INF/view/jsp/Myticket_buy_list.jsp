@@ -225,8 +225,8 @@
 								<tr>
 									<th width="10%"></th>
 									<th width="40%">공연 제목</th>
-									<th width="10%">좌석</th>
 									<th width="10%">공연날짜</th>
+									<th width="10%">회차</th>
 									<th width="15%"></th>
 								</tr>
 							</thead>
@@ -234,12 +234,11 @@
 								<c:forEach var="dl" items="${dList}">
 								<tr>
 									<td>${dl.num}</td>
-									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketCancelDetail.do?ridx=${dl.ridx}" onclick="window.open(this.href,'popup','width=955px, height=654px'); return false;">${dl.stitle }</a></td>
+									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketCancelDetail.do?riidx=${dl.riidx}" onclick="window.open(this.href,'popup','width=955px, height=654px'); return false;">${dl.stitle }</a></td>
 									<td>
-										${dl.rseat}
+										${dl.srdate}
 									</td>
 									<td>
-										${dl.srdate}<br>
 										${dl.srround}
 									</td>
 									<td>
@@ -251,9 +250,9 @@
 						</table>
 <!--------------------------------------------------------------------------------------------------------------------->
 		
-				<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+				<c:set var="page" value="${(param.dp == null)?1:param.p}"/>
 				<c:set var="startNum" value="${page-(page-1)%5}"/>
-				<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/15),'.')}"/>
+				<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(dCount/15),'.')}"/>
 
 <!--------------------------------------------------------------------------------------------------------------------->
 					
@@ -285,7 +284,7 @@
 								<c:forEach var="i" begin="0" end="4">
 									<c:if test="${(startNum+i) <= lastNum}">
 										<div class="main_news_page_button_page">
-											<a style="color: ${(page==(startNum+i))?'red':'black'}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}" >${startNum+i}</a>
+											<a style="color: ${(page==(startNum+i))?'red':'black'}; font-weight:${(page==(startNum+i))?'bold':''};" href="?dp=${startNum+i}" >${startNum+i}</a>
 										</div>
 									</c:if>
 								</c:forEach>

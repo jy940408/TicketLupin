@@ -109,11 +109,15 @@
 		<section>
 			<article>
 				<div id="main_eventlist_all">
-					
 					<div id="manage_write_div">
-						<a href="<%=request.getContextPath()%>/Event/EventWrite.do" id="manage_write">작성하기</a>
+						<c:choose>
+							<c:when test="${sessionScope.mgrade eq 'M' }">
+								<a href="<%=request.getContextPath()%>/Event/EventWrite.do" id="manage_write">작성하기</a>
+							</c:when>
+							<c:otherwise></c:otherwise>
+						</c:choose>
 					</div>
-					
+				
 					<div id="main_banner_set">
 				
 				<% 

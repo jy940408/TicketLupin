@@ -165,7 +165,6 @@
 					</div>
 					<div id="main_concert_musical_list_all">
 						<div id="main_concert_musical_list_order">
-							<a href="?q=&s=shit&=p="><div>인기순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 							<a href="?q=&s=sopendate&p="><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
 							<a href="?q=&s=sregdate&p="><div>최신순</div></a>
 						</div>

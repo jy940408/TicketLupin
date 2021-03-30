@@ -34,19 +34,18 @@
 					success:function(data){
 						
 						var output = "";
-							$.each(data, function(key, value){
-							 
-							  
-								output += "		<tr>";
-								output += "			<td>"+value.ridx+"</td>";
-								output += "			<td>"+value.mname+"</td>";
-								output += "			<td>"+value.mid+"</td>";
-								output += "			<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
-								output += "		</tr>"; 
-							  
-							});	
+						$.each(data, function(key, value){
+						 
+							output += "		<tr>";
+							output += "			<td>"+value.ridx+"</td>";
+							output += "			<td>"+value.mname+"</td>";
+							output += "			<td>"+value.mid+"</td>";
+							output += "			<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
+							output += "		</tr>"; 
+						  
+						});	
 						
-							$(".userList_").html(output);
+						$(".userList_").html(output);
 					}
 				});
 			}

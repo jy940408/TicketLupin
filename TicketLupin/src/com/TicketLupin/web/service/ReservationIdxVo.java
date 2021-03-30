@@ -15,6 +15,7 @@ public class ReservationIdxVo extends ReservationVo{
 	private int rivat;
 	private int ridelivery;
 	private int ripayment;
+	private Date rideldate;
 	
 	public ReservationIdxVo() {
 		super();
@@ -22,7 +23,7 @@ public class ReservationIdxVo extends ReservationVo{
 	}
 
 	public ReservationIdxVo(int riidx, int sidx, int midx, Date riregdate, String srdate, String srround, int ribasic,
-			int ridiscount, int rivat, int ridelivery, int ripayment) {
+			int ridiscount, int rivat, int ridelivery, int ripayment, Date rideldate) {
 		super();
 		this.riidx = riidx;
 		this.sidx = sidx;
@@ -35,6 +36,7 @@ public class ReservationIdxVo extends ReservationVo{
 		this.rivat = rivat;
 		this.ridelivery = ridelivery;
 		this.ripayment = ripayment;
+		this.rideldate = rideldate;
 	}
 
 	public int getRiidx() {
@@ -124,12 +126,19 @@ public class ReservationIdxVo extends ReservationVo{
 	public void setRipayment(int ripayment) {
 		this.ripayment = ripayment;
 	}
+	public Date getRideldate() {
+		return rideldate;
+	}
+
+	public void setRideldate(Date rideldate) {
+		this.rideldate = rideldate;
+	}
 
 	@Override
 	public String toString() {
 		return "ReservationIdxVo [riidx=" + riidx + ", sidx=" + sidx + ", midx=" + midx + ", riregdate=" + riregdate
 				+ ", srdate=" + srdate + ", srround=" + srround + ", ribasic=" + ribasic + ", ridiscount=" + ridiscount
-				+ ", rivat=" + rivat + ", ridelivery=" + ridelivery + ", ripayment=" + ripayment + "]";
+				+ ", rivat=" + rivat + ", ridelivery=" + ridelivery + ", ripayment=" + ripayment + ", rideldate=" + rideldate + "]";
 	}
 
 	
