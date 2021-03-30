@@ -21,6 +21,27 @@
 					}
 				});
 				
+				var deliverySum = 0;
+				var paymentSum = 0;
+				$("input:radio[name='pick']").on("change", function(){
+					if($(this).val() == "delivery"){
+						$("#deliveryCost").html((2800).toLocaleString());
+						$("#paymentAmount").html((${paymentAmount}+2800).toLocaleString());
+						deliverySum = 2800;
+						paymentSum = ${paymentAmount} + 2800;
+						$("#deliverySum").val(deliverySum);
+						$("#paymentSum").val(paymentSum);
+					}else{
+						$("#deliveryCost").html(0);
+						$("#paymentAmount").html((${paymentAmount}).toLocaleString());
+						deliverySum = 0;
+						paymentSum = ${paymentAmount};
+						$("#deliverySum").val(deliverySum);
+						$("#paymentSum").val(paymentSum);
+					}
+				});
+				
+				
 			});
 		
 			function paymentSubmit(){
@@ -441,7 +462,7 @@
 								<p class="tk_b">
 									<span class="tk_tit">티켓금액</span>
 									<span class="pay pay_comp">
-										<span><fmt:formatNumber value="${priceSum}" pattern="#,###" /></span>원
+										<span class="paySum"><fmt:formatNumber value="${priceSum}" pattern="#,###" /></span>원
 									</span>
 								</p>
 								<ul class="list_tkpay">
@@ -464,7 +485,7 @@
 									<span class="tk_tit tk_tit_b">예매수수료</span>
 									<span class="pay pay_comp">
 										<span class="txt_vip" style="display:none">멜론VIP혜택★</span>
-										<span>0</span>원
+										<span><fmt:formatNumber value="${basicSumVAT + discountSumVAT }" pattern="#,###" /></span>원
 									</span>
 								</p>
 							</div>
@@ -479,7 +500,7 @@
 							<div class="box_total_inner box_result">
 								<span class="tk_tit tot_tit">총 결제금액</span>
 								<strong class="pay tot_pay">
-									<span id="paymentAmount"><fmt:formatNumber value="${priceSum}" pattern="#,###" /></span>원
+									<span id="paymentAmount"><fmt:formatNumber value="${paymentAmount}" pattern="#,###" /></span>원
 								</strong>
 							</div>
 						</div>
@@ -523,6 +544,13 @@
 			<input type="hidden" name="sidx" value="${sidx}">
 			<input type="hidden" name="comDate" value="${comDate}">
 			<input type="hidden" name="round" value="${round}">
+			<input type="hidden" name="basicSum" value="${basicSum}">
+			<input type="hidden" name="basicSumVAT" value="${basicSumVAT}">
+			<input type="hidden" name="discountSum" value="${discountSum}">
+			<input type="hidden" name="discountSumVAT" value="${discountSumVAT}">
+			<input type="hidden" name="priceSum" value="${priceSum}">
+			<input type="hidden" name="deliverySum" id="deliverySum" value="">
+			<input type="hidden" name="paymentSum" id="paymentSum" value="">
 		</form>
 	</body>
 </html>

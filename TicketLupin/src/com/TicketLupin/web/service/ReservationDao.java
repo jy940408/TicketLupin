@@ -22,18 +22,23 @@ public class ReservationDao {
 		this.conn = dbconn.getConnection();		
 	}
 	
-	public int insertReservationIdx(ReservationVo rv) {
+	public int insertReservationIdx(ReservationIdxVo riv) {
 		int value = 0;
 		
-		String sql = "INSERT INTO RESERVATIONIDX VALUES(RESERVATIONIDX_SEQUENCE.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
+		String sql = "INSERT INTO RESERVATIONIDX VALUES(RESERVATIONIDX_SEQUENCE.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?, ?, ?, ?, ?, ?, 'N')";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, rv.getSidx());
-			pstmt.setInt(2, rv.getMidx());
-			pstmt.setString(3, rv.getSrdate());
-			pstmt.setString(4, rv.getSrround());
+			pstmt.setInt(1, riv.getSidx());
+			pstmt.setInt(2, riv.getMidx());
+			pstmt.setString(3, riv.getSrdate());
+			pstmt.setString(4, riv.getSrround());
+			pstmt.setInt(5, riv.getRibasic());
+			pstmt.setInt(6, riv.getRidiscount());
+			pstmt.setInt(7, riv.getRivat());
+			pstmt.setInt(8, riv.getRidelivery());
+			pstmt.setInt(9, riv.getRipayment());
 			
 			value = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -76,8 +81,8 @@ public class ReservationDao {
 		int value = 0;
 		
 		String sql = "INSERT INTO RESERVATION(RIDX, SIDX, MIDX, RSEAT, RPRICE, RDISCOUNT, SRDATE, SRROUND, RREGDATE, RDELYN, "
-				+ "RPICK, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RQUOTA)"
-					+"VALUES(RESERVATION_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, SYSTIMESTAMP, 'N', ?, ?, ?, ?, ?, ?, ?)";
+				+ "RPICK, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RQUOTA, RIIDX)"
+					+"VALUES(RESERVATION_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, SYSTIMESTAMP, 'N', ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			
@@ -97,6 +102,7 @@ public class ReservationDao {
 			pstmt.setString(12, rv.getRpaymethod());
 			pstmt.setString(13, rv.getRcard());
 			pstmt.setString(14, rv.getRquota());
+			pstmt.setInt(15, rv.getRiidx());
 			
 			value = pstmt.executeUpdate();
 			
@@ -137,6 +143,51 @@ public class ReservationDao {
 				rsv.setNum(rs.getInt("NUM"));
 				
 				list.add(rsv);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return list;
+	}
+	
+	//마이티켓 예매목록 리스트 불러오기
+	public ArrayList<ReservationListVo> getReservationIdxList(int idx, int page){
+		ArrayList<ReservationListVo> list = new ArrayList<>();
+
+		String sql = "SELECT COMINFO.* FROM "
+				+ "(SELECT ROWNUM PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
+				+ "(SELECT ROWNUM NUM, RESERVATIONIDX.* FROM "
+				+ "RESERVATIONIDX WHERE MIDX = ? ORDER BY NUM DESC) MAININFO "
+				+ "INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX "
+				+ "WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N') COMINFO "
+				+ "WHERE COMINFO.PAGENUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.setInt(2, 1+(page-1)*15);
+			pstmt.setInt(3, page*15);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ReservationListVo rlv = new ReservationListVo();
+				
+				rlv.setRiidx(rs.getInt("RIIDX"));
+				rlv.setStitle(rs.getString("STITLE"));
+				rlv.setSidx(rs.getInt("SIDX"));
+				rlv.setMidx(rs.getInt("MIDX"));
+				rlv.setSrdate(rs.getString("SRDATE"));
+				rlv.setSrround(rs.getString("SRROUND"));
+				rlv.setRiregdate(rs.getDate("RIREGDATE"));
+				rlv.setPagenum(rs.getInt("PAGENUM"));
+				rlv.setNum(rs.getInt("NUM"));
+				
+				list.add(rlv);
 				
 			}
 		} catch (SQLException e) {
@@ -207,7 +258,13 @@ public class ReservationDao {
 	public ArrayList<ReservationShowVo> getDelReservationList(int idx, int page){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
-		String sql = "SELECT NUM, SHOW1.STITLE, MYLIST.* FROM (SELECT ROWNUM NUM, RESERVATION.* FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'Y' ORDER BY RREGDATE DESC) MYLIST INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT COMINFO.* FROM "
+				+ "(SELECT ROWNUM PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
+				+ "(SELECT ROWNUM NUM, RESERVATIONIDX.* FROM "
+				+ "RESERVATIONIDX WHERE MIDX = ? ORDER BY NUM DESC) MAININFO "
+				+ "INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX "
+				+ "WHERE MAININFO.RIDELYN = 'Y') COMINFO "
+				+ "WHERE COMINFO.PAGENUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -265,43 +322,59 @@ public class ReservationDao {
 		return count;
 	}
 	
-	public ReservationShowVo getReservationDetail(int ridx, int midx) {
-		ReservationShowVo rsv = new ReservationShowVo();
-		String sql = "SELECT R_TITLE.*, SHOW2.STITLEIMAGE FROM (SELECT RESERVATION.*, SHOW1.STITLE FROM RESERVATION INNER JOIN SHOW1 ON RESERVATION.SIDX = SHOW1.SIDX WHERE RESERVATION.RIDX = ? AND RESERVATION.MIDX = ? ORDER BY RESERVATION.RREGDATE DESC) R_TITLE INNER JOIN SHOW2 ON R_TITLE.SIDX = SHOW2.SIDX";
+	public ArrayList<ReservationShowVo> getReservationDetail(int midx, int riidx) {
+		ArrayList<ReservationShowVo> list = new ArrayList<>();
+		String sql = "SELECT * FROM RESERVATIONIDX " + 
+				"INNER JOIN RESERVATION ON RESERVATIONIDX.RIIDX = RESERVATION.RIIDX " + 
+				"INNER JOIN SHOW1 ON RESERVATION.SIDX = SHOW1.SIDX " + 
+				"INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " + 
+				"WHERE RESERVATION.MIDX = ? AND RESERVATION.RIIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, ridx);
-			pstmt.setInt(2, midx);
+			pstmt.setInt(1, midx);
+			pstmt.setInt(2, riidx);
 			ResultSet rs = pstmt.executeQuery();
 			
-			rs.next();
+			while(rs.next()) {
 			
-			rsv.setRidx(rs.getInt("RIDX"));
-			rsv.setSidx(rs.getInt("SIDX"));
-			rsv.setMidx(rs.getInt("MIDX"));
-			rsv.setRseat(rs.getString("RSEAT"));
-			rsv.setRprice(rs.getInt("RPRICE"));
-			rsv.setRdiscount(rs.getString("RDISCOUNT"));
-			rsv.setSrdate(rs.getString("SRDATE"));
-			rsv.setSrround(rs.getString("SRROUND"));
-			rsv.setRregdate(rs.getDate("RREGDATE"));
-			rsv.setStitle(rs.getNString("STITLE"));
-			rsv.setStitleimage(rs.getString("STITLEIMAGE"));
-			rsv.setRpick(rs.getString("RPICK"));
-			rsv.setRname(rs.getString("RNAME"));
-			rsv.setRtel(rs.getString("RTEL"));
-			rsv.setRemail(rs.getString("REMAIL"));
-			rsv.setRpaymethod(rs.getString("RPAYMETHOD"));
-			rsv.setRcard(rs.getString("RCARD"));
-			rsv.setRquota(rs.getString("RQUOTA"));
+				ReservationShowVo rsv = new ReservationShowVo();
+					
+				rsv.setRiidx(rs.getInt("RIIDX"));
+				rsv.setRidx(rs.getInt("RIDX"));
+				rsv.setSidx(rs.getInt("SIDX"));
+				rsv.setMidx(rs.getInt("MIDX"));
+				rsv.setSrdate(rs.getString("SRDATE"));
+				rsv.setSrround(rs.getString("SRROUND"));
+				rsv.setRregdate(rs.getDate("RREGDATE"));
+				rsv.setRseat(rs.getString("RSEAT"));
+				rsv.setStitle(rs.getNString("STITLE"));
+				rsv.setStitleimage(rs.getString("STITLEIMAGE"));
+				rsv.setRpick(rs.getString("RPICK"));
+				rsv.setRname(rs.getString("RNAME"));
+				rsv.setRtel(rs.getString("RTEL"));
+				rsv.setRemail(rs.getString("REMAIL"));
+				rsv.setRpaymethod(rs.getString("RPAYMETHOD"));
+				rsv.setRcard(rs.getString("RCARD"));
+				rsv.setRquota(rs.getString("RQUOTA"));
+				rsv.setRiregdate(rs.getDate("RIREGDATE"));
+				rsv.setRibasic(rs.getInt("RIBASIC"));
+				rsv.setRidiscount(rs.getInt("RIDISCOUNT"));
+				rsv.setRivat(rs.getInt("RIVAT"));
+				rsv.setRidelivery(rs.getInt("RIDELIVERY"));
+				rsv.setRipayment(rs.getInt("RIPAYMENT"));
+				rsv.setRseat(rs.getString("RSEAT"));
+				rsv.setRdiscount(rs.getString("RDISCOUNT"));
 			
+				list.add(rsv);
+				
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return rsv;
+		return list;
 	}
 	
 	

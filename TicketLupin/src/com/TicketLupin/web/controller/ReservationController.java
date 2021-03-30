@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationIdxVo;
 import com.TicketLupin.web.service.ReservationShowVo;
 import com.TicketLupin.web.service.ReservationVo;
 import com.TicketLupin.web.service.ShowDao;
@@ -236,20 +237,37 @@ public class ReservationController extends HttpServlet{
 			}
 			
 			String basicSum_ = request.getParameter("basicSum");
+			String basicSumVAT_ = request.getParameter("basicSumVAT");
 			String discountSum_ = request.getParameter("discountSum");
+			String discountSumVAT_ = request.getParameter("discountSumVAT");
 			String priceSum_ = request.getParameter("priceSum");
+			String paymentAmount_ = request.getParameter("paymentAmount");
+			
+			System.out.println("priceSum_ 제대로 받는지 확인: " + priceSum_);
 			
 			int basicSum = 0;
 			if(basicSum_ != null && !basicSum_.equals("")) {
 				basicSum = Integer.parseInt(basicSum_);
 			}
+			int basicSumVAT = 0;
+			if(basicSumVAT_ != null && !basicSumVAT_.equals("")) {
+				basicSumVAT = Integer.parseInt(basicSumVAT_);
+			}
 			int discountSum = 0;
 			if(discountSum_ != null && !discountSum_.equals("")) {
 				discountSum = Integer.parseInt(discountSum_);
 			}
+			int discountSumVAT = 0;
+			if(discountSumVAT_ != null && !discountSumVAT_.equals("")) {
+				discountSumVAT = Integer.parseInt(discountSumVAT_);
+			}
 			int priceSum = 0;
 			if(priceSum_ != null && !priceSum_.equals("")) {
 				priceSum = Integer.parseInt(priceSum_);
+			}
+			int paymentAmount = 0;
+			if(paymentAmount_ != null && !paymentAmount_.equals("")) {
+				paymentAmount = Integer.parseInt(paymentAmount_);
 			}
 			System.out.println("basicSum 테스트: " + basicSum);
 			System.out.println("discountSum 테스트: " + discountSum);
@@ -278,14 +296,66 @@ public class ReservationController extends HttpServlet{
 			request.setAttribute("discountParameter", discountParameter);
 			
 			request.setAttribute("basicSum", basicSum);
+			request.setAttribute("basicSumVAT", basicSumVAT);
 			request.setAttribute("discountSum", discountSum);
+			request.setAttribute("discountSumVAT", discountSumVAT);
 			request.setAttribute("priceSum", priceSum);
+			request.setAttribute("paymentAmount", paymentAmount);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Pay_step3.jsp").forward(request, response);
 			
 //==============================================================================================================================//
 		
 		}else if(str.equals("/Reservation/ReservationStep4.do")) {
+
+//==============================================================================================================================//
+
+			//결제 금액 가져오기
+			String basicSum_ = request.getParameter("basicSum");
+			String basicSumVAT_ = request.getParameter("basicSumVAT");
+			String discountSum_ = request.getParameter("discountSum");
+			String discountSumVAT_ = request.getParameter("discountSumVAT");
+			String priceSum_ = request.getParameter("priceSum");
+			String deliverySum_ = request.getParameter("deliverySum");
+			String paymentSum_ = request.getParameter("paymentSum");
+			
+			System.out.println("basicSum_ 확인: " + basicSum_);
+			System.out.println("basicSumVAT_ 확인: " + basicSumVAT_);
+			System.out.println("discountSum_ 확인: " + discountSum_);
+			System.out.println("discountSumVAT_ 확인: " + discountSumVAT_);
+			System.out.println("priceSum_ 확인: " + priceSum_);
+			System.out.println("deliverySum_ 확인: " + deliverySum_);
+			System.out.println("paymentSum_ 확인: " + paymentSum_);
+			
+			int basicSum = 0;
+			if(basicSum_ != null && !basicSum_.equals("")) {
+				basicSum = Integer.parseInt(basicSum_);
+			}
+			int basicSumVAT = 0;
+			if(basicSumVAT_ != null && !basicSumVAT_.equals("")) {
+				basicSumVAT = Integer.parseInt(basicSumVAT_);
+			}
+			int discountSum = 0;
+			if(discountSum_ != null && !discountSum_.equals("")) {
+				discountSum = Integer.parseInt(discountSum_);
+			}
+			int discountSumVAT = 0;
+			if(discountSumVAT_ != null && !discountSumVAT_.equals("")) {
+				discountSumVAT = Integer.parseInt(discountSumVAT_);
+			}
+			int priceSum = 0;
+			if(priceSum_ != null && !priceSum_.equals("")) {
+				priceSum = Integer.parseInt(priceSum_);
+			}
+			int deliverySum = 0;
+			if(deliverySum_ != null && !deliverySum_.equals("")) {
+				deliverySum = Integer.parseInt(deliverySum_);
+			}
+			int paymentSum = 0;
+			if(paymentSum_ != null && !paymentSum_.equals("")) {
+				paymentSum = Integer.parseInt(paymentSum_);
+			}
+//==============================================================================================================================//
 			
 			//결제 정보 가져오기
 			String pick_ = request.getParameter("pick");
@@ -377,6 +447,11 @@ public class ReservationController extends HttpServlet{
 			//기본 정보 가져오기
 			String comDate = request.getParameter("comDate");
 			String round = request.getParameter("round");
+			
+			
+			System.out.println("round 확인: " + round);
+			
+			
 			
 			String sidx_ = request.getParameter("sidx");
 			int sidx = 0;
@@ -471,14 +546,26 @@ public class ReservationController extends HttpServlet{
 			//구분해서 DB에 집어넣기
 			ReservationDao rd = new ReservationDao();
 			ReservationVo rv = new ReservationVo();
+			ReservationIdxVo riv = new ReservationIdxVo();
+			
+			riv.setSidx(sidx);
+			riv.setMidx(midx);
+			riv.setSrdate(comDate);
+			riv.setSrround(round);
+			riv.setRibasic(basicSum);
+			riv.setRidiscount(discountSum);
+			riv.setRivat(basicSumVAT + discountSumVAT);
+			riv.setRidelivery(deliverySum);
+			riv.setRipayment(paymentSum);
+			
+			rd.insertReservationIdx(riv);
+			int riidx = rd.getReservaionRecentIdx(sidx, midx);
+			System.out.println("riv 테스트: " + riv);
+			
 			rv.setSidx(sidx);
 			rv.setMidx(midx);
 			rv.setSrdate(comDate);
 			rv.setSrround(round);
-			
-			rd.insertReservationIdx(rv);
-			int riidx = rd.getReservaionRecentIdx(sidx, midx);
-			
 			rv.setRpick(pick);
 			rv.setRname(name);
 			rv.setRtel(tel);
@@ -487,6 +574,8 @@ public class ReservationController extends HttpServlet{
 			rv.setRcard(card);
 			rv.setRquota(quota);
 			rv.setRiidx(riidx);
+			System.out.println("rv 테스트: " + rv);
+			
 			
 			if(vipDiscount != null) {
 				for(int i = 0 ; i < vipDiscount.size() ; i++) {

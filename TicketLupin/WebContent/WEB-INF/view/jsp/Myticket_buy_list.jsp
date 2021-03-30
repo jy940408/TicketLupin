@@ -132,8 +132,8 @@
 								<tr>
 									<th width="10%"></th>
 									<th width="40%">공연 제목</th>
-									<th width="10%">좌석</th>
 									<th width="10%">공연날짜</th>
+									<th width="10%">회차</th>
 									<th width="15%"></th>
 								</tr>
 							</thead>
@@ -141,12 +141,11 @@
 								<c:forEach var="l" items="${list}">
 								<tr>
 									<td>${l.num}</td>
-									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketDetail.do?ridx=${l.ridx}" onclick="window.open(this.href,'popup','width=955px, height=654px'); return false;">${l.stitle }</a></td>
+									<td class="td_"><a href="${pageContext.request.contextPath}/Myticket/MyticketDetail.do?riidx=${l.riidx}" onclick="window.open(this.href,'popup','width=955px, height=654px'); return false;">${l.stitle }</a></td>
 									<td>
-										${l.rseat}
+										${l.srdate}
 									</td>
 									<td>
-										${l.srdate}<br>
 										${l.srround}
 									</td>
 									<td>

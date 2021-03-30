@@ -146,21 +146,31 @@
 						saprice = ${detail.saprice};
 					}
 					
-					var basicSum = (vipBasic*svipprice) + (rBasic*srprice) + (sBasic*ssprice) + (aBasic*saprice); 
-					var discountSum = (vipSpecial*(svipprice*0.7)) +(vip3Package*18000) + (vip4Package*27000) + (vipYouth*(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
+					var basicSum_ = (vipBasic*svipprice) + (rBasic*srprice) + (sBasic*ssprice) + (aBasic*saprice);
+					var basicSum = basicSum_*0.9;
+					var basicSumVAT = basicSum_*0.1;
+					var discountSum_ = (vipSpecial*(svipprice*0.7)) +(vip3Package*18000) + (vip4Package*27000) + (vipYouth*(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
 									(rSpecial*(srprice*0.7)) + (r3Package*18000) + (r4Package*27000) + (rYouth*(srprice*0.8)) + (r4to6*(srprice*0.8)) + (r1to3*(srprice*0.8)) + (rVeterans*(srprice*0.7)) +
 									(sSpecial*(ssprice*0.7)) + (s3Package*18000) + (s4Package*27000) + (sYouth*(ssprice*0.8)) + (s4to6*(ssprice*0.8)) + (s1to3*(ssprice*0.8)) + (sVeterans*(ssprice*0.7)) +
 									(aSpecial*(saprice*0.7)) + (a3Package*18000) + (a4Package*27000) + (aYouth*(saprice*0.8)) + (a4to6*(saprice*0.8)) + (a1to3*(saprice*0.8)) + (aVeterans*(saprice*0.7));
-					var priceSum = basicSum + discountSum
+					var discountSum = discountSum_*0.9;
+					var discountSumVAT = discountSum_*0.1;
+					var VATSum = basicSumVAT + discountSumVAT;
+					var priceSum = basicSum + discountSum;
+					var paymentAmount = priceSum + VATSum;
 					
-					$("#priceSum").html(priceSum.toLocaleString());
 					$("#priceSum").html(priceSum.toLocaleString());
 					$("#basicSum").html(basicSum.toLocaleString());
 					$("#discountSum").html(discountSum.toLocaleString());
-					$("#paymentAmount").html(priceSum.toLocaleString());
+					$("#VAT").html(VATSum.toLocaleString());
+					$("#paymentAmount").html(paymentAmount.toLocaleString());
+					
 					
 					$("#basicSumP").val(basicSum);
+					$("#basicSumVATP").val(basicSumVAT);
 					$("#discountSumP").val(discountSum);
+					$("#discountSumVATP").val(discountSumVAT);
+					$("#paymentAmountP").val(paymentAmount);
 					$("#priceSumP").val(priceSum);
 					
 					alert((aYouth*(saprice*0.8)));
@@ -737,7 +747,7 @@
 								<span class="tk_tit tk_tit_b">예매수수료</span>
 								<span class="pay pay_comp">
 									<span class="txt_vip" style="display:none">멜론VIP혜택★</span>
-									<span>0</span>원
+									<span id="VAT">0</span>원
 								</span>
 							</p>
 						</div>
@@ -793,10 +803,11 @@
 			<input type="hidden" name="title" value="${title}">
 			<input type="hidden" name="comDate" value="${comDate}">
 			<input type="hidden" name="round" value="${round}">
-			<input type="hidden" name="priceSum" id="priceSumP" value="">
 			<input type="hidden" name="basicSum" id="basicSumP" value="">
+			<input type="hidden" name="basicSumVAT" id="basicSumVATP" value="">
 			<input type="hidden" name="discountSum" id="discountSumP" value="">
-			<input type="hidden" name="couponSum" id="couponSumP" value="">
+			<input type="hidden" name="discountSumVAT" id="discountSumVATP" value="">
+			<input type="hidden" name="priceSum" id="priceSumP" value="">
 			<input type="hidden" name="paymentAmount" id="paymentAmountP" value="">
 			</form>
 		</div>

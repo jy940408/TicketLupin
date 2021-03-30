@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationListVo;
 import com.TicketLupin.web.service.ReservationShowVo;
 
 @WebServlet("/MyticketController")
@@ -55,7 +56,7 @@ public class MyticketController extends HttpServlet{
 			int midx = (int)session.getAttribute("midx");
 			
 			ReservationDao rd = new ReservationDao();
-			ArrayList<ReservationShowVo> list = rd.getReservationList(midx, page);
+			ArrayList<ReservationListVo> list = rd.getReservationIdxList(midx, page);
 			int count = rd.getReservationCount(midx);
 			System.out.println("list 확인: " + list);
 			System.out.println("count 확인: " + count);
@@ -72,41 +73,40 @@ public class MyticketController extends HttpServlet{
 			
 		}else if(str.equals("/Myticket/MyticketDetail.do")) {
 			
-			String ridx_ = request.getParameter("ridx");
-			int ridx = 0;
-			if(ridx_ != null && !ridx_.equals("")) {
-				ridx = Integer.parseInt(ridx_);
+			String riidx_ = request.getParameter("riidx");
+			int riidx = 0;
+			if(riidx_ != null && !riidx_.equals("")) {
+				riidx = Integer.parseInt(riidx_);
 			}
 			
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
 			
 			ReservationDao rd = new ReservationDao();
-			ReservationShowVo detail = rd.getReservationDetail(ridx, midx);
+			ArrayList<ReservationShowVo> detail = rd.getReservationDetail(midx, riidx);
 			System.out.println("detail 확인: " + detail);
-			System.out.println(detail.getRcard());
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_detail.jsp").forward(request, response);
 			
 		}else if(str.equals("/Myticket/MyticketCancelDetail.do")) {
 			
-			String ridx_ = request.getParameter("ridx");
-			int ridx = 0;
-			if(ridx_ != null && !ridx_.equals("")) {
-				ridx = Integer.parseInt(ridx_);
+			String riidx_ = request.getParameter("riidx");
+			int riidx = 0;
+			if(riidx_ != null && !riidx_.equals("")) {
+				riidx = Integer.parseInt(riidx_);
 			}
 			
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
 			
-			System.out.println("ridx: " + ridx);
+			System.out.println("ridx: " + riidx);
 			System.out.println("midx: " + midx);
 			
 			ReservationDao rd = new ReservationDao();
-			ReservationShowVo detail = rd.getReservationDetail(ridx, midx);
+			ArrayList<ReservationShowVo> detail = rd.getReservationDetail(midx, riidx);
 			System.out.println("detail 확인: " + detail);
-			System.out.println(detail.getRcard());
+			System.out.println("제목확인 한번 해보자: " + detail.get(0).getStitle());
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_cancel_detail.jsp").forward(request, response);
