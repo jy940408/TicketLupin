@@ -610,7 +610,7 @@ public class ReservationController extends HttpServlet{
 //==============================================================================================================================//	
 			
 			reservationMail mail = new reservationMail();
-			mail.naverMailSend();
+			mail.naverMailSend(sidx, comDate, round, name, tel, email, pick, payMethod, paymentSum, basicSum, discountSum, basicSumVAT + discountSumVAT, deliverySum);
 			
 			//팝업창 종료해주기
 			PrintWriter pt = response.getWriter();

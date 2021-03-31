@@ -26,21 +26,60 @@
 						order = "month";
 					}
 					
-					alert("order 확인: " + order);
-					
 					$.ajax({
 						type:"get",
 						url:"${pageContext.request.contextPath}/Show/RankingListAJAX.do",
 						data:{"order": order},
 						success: function(data){
 							
-							alert("왜 안되지?");
-							
-						}
+							var output = "";
+							if(jQuery.isEmptyObject(data) == false){
+								for(var i = 0 ; i < data.length ; i++){
+									
+									output += "<tr>";
+									output += "	<td class='num' style='font-weight: bold;'>" + (i+1) + "</td>";
+									output += "	<td class='td_'>";
+									output += "		<div class='show_info'>";
+									output += "			<span class='show_poster'>";
+									output += "				<a href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=" + data[i].sidx + "'>";
+									output += "				<img src='${pageContext.request.contextPath}/poster/" + data[i].sstitleimage + "' class='rank_poster'>";
+									output += "				</a>";
+									output += "			</span>";
+									output += "			<span class='show_title'>";
+									output += "				<a href='#'>" + data[i].stitle +"</a>";
+									output += "			</span>";
+									output += "		</div>";
+									output += "	</td>";
+									output += "	<td>" + data[i].sopendate + "-" + data[i].senddate + "</td>";
+									output += "	<td>" + data[i].ssdetailaddress + "</td>";
+									output += "	<td>";
+									output += "		<button type='button' class='btn_rank'>예매하기</button>";
+									output += "	</td>";
+									output += "</tr>";
+									
+								}
+								
+								$("#tablebody").html(output);
+								
+								if(order == "now"){
+									$("#rankingOrderTitle").contents()[0].textContent="실시간 랭킹     ▼";
+								}else if(order == "week"){
+									$("#rankingOrderTitle").contents()[0].textContent="주간 랭킹    ▼";
+								}else if(order == "month"){
+									$("#rankingOrderTitle").contents()[0].textContent="월간 랭킹    ▼";
+								}
+								
+							}else{
+								alert("현재 순위가 제공되지 않고 있습니다");
+								return;
+							}
+						},
+						error:function(request,status,error){
+					        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					    }
+
 					});
 				});
-				
-				
 				
 			});
 			
@@ -125,14 +164,14 @@
 					<div class="wrap_rank_date">
 						<div id="wrap_select_drop_on">
 							<div class="tit_rank_date">
-								<button type="button" value="realtime" onclick="nowranking()" class="rankbtn">
-									실시간 랭킹 - 2021.03.04(목) 현재 &nbsp;&nbsp; ∨
+								<button type="button" value="realtime" onclick="nowranking()" id="rankingOrderTitle" class="rankbtn">
+									실시간 랭킹     ▼
 								</button>
 							</div>
 							<ul class="select_list" id="ul_list" style="display:none">
-								<li><label for="now"><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=now"><input type="radio" name="order" id="now" class="order" value="now">실시간</a></label></li>
-								<li><label for="week"><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=week" class="order" ><input type="radio" name="order" class="order" id="week" value="week">주간</a></label></li>
-								<li><label for="month"><a href="${pageContext.request.contextPath}/Show/RankingList.do?order=month" class="order" ><input type="radio" name="order" class="order" id="month" value="month">월간</a></label></li>
+								<li><label for="now"><input type="radio" name="order" id="now" class="order" value="now">실시간</label></li>
+								<li><label for="week"><input type="radio" name="order" class="order" id="week" value="week">주간</label></li>
+								<li><label for="month"><input type="radio" name="order" class="order" id="month" value="month">월간</label></li>
 							</ul>
 						</div>
 					</div>
@@ -148,7 +187,7 @@
 								<th width="150">예매</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="tablebody">
 							<c:forEach var="l" items="${list}" varStatus="status" begin="0" end="10" step="1">
 							<tr>
 								<td class="num" style="font-weight: bold;">${status.count }</td>

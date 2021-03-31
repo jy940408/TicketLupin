@@ -17,36 +17,76 @@ import com.TicketLupin.web.service.ReservationShowVo;
 
 public class reservationMail {
 
-	public static void naverMailSend() { 
+	public static void naverMailSend(int sidx, String comDate, String round, String name, String tel, String email, String pick, String payMethod, int paymentSum, int basicSum, int discountSum, int VAT, int deliverySum) { 
 		
 		String host = "smtp.naver.com"; 
 		String user = "junyoung940408@naver.com"; // 네이버일 경우 네이버 계정, gmail경우 gmail 계정 
-		String password = "s!160331"; // 패스워드     
+		String password = "GXL5WKYJWDQT"; // 패스워드     
 		
-		String title = "티켓루팡에서 알려드립니다";
+		String title = "티켓루팡에서 예매 정보를 알려드립니다";
 		
 		String content = null;
+		
 		content = "<h2>예매 완료를 알려드립니다</h2>";
-		content += "제목 ";
-		content += "<table>";
+		content += "<table border=\"1\">";
+		content += "	<colgroup>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "		<col width='50px'/>";
+		content += "	</colgroup>";
 		content += "	<tr>";
-		content += "		<td>";
-		content += "			내용이 제대로 나오려나";
-		content += "		</td>";
-		content += "		<td>";
-		content += "			두번째 제대로 나오려나";
-		content += "		</td>";
+		content += "		<th colspan=\"2\">공연 명</th>";
+		content += "		<td colspan=\"10\">" + sidx + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<td>";
-		content += "			내용이 또 제대로 나오려나";
-		content += "		</td>";
-		content += "		<td>";
-		content += "			흠...이 제대로 나오려나";
-		content += "		</td>";
+		content += "		<th colspan=\"2\">공연 날짜</th>";
+		content += "		<td colspan=\"4\">" + comDate + "</td>";
+		content += "		<th colspan=\"2\">공연 회차</th>";
+		content += "		<td colspan=\"4\">" + round + "</td>";
+		content += "	</tr>";
+		content += "	<tr>";
+		content += "		<th colspan=\"2\">좌석</th>";
+		content += "		<td colspan=\"10\">01-19,  01-18석</td>";
+		content += "	</tr>";
+		content += "	<tr>";
+		content += "		<th colspan=\"1\">이름</th>";
+		content += "		<td colspan=\"2\">" + name + "</td>";
+		content += "		<th colspan=\"2\">연락처</th>";
+		content += "		<td colspan=\"3\">" + tel + "</td>";
+		content += "		<th colspan=\"2\">이메일</th>";
+		content += "		<td colspan=\"2\">" + email + "</td>";
+		content += "	</tr>";
+		content += "	<tr>";
+		content += "		<th colspan=\"2\">수령 방법</th>";
+		content += "		<td colspan=\"4\">" + pick + "</td>";
+		content += "		<th colspan=\"2\">결제 방법</th>";
+		content += "		<td colspan=\"4\">" + payMethod + "</td>";
+		content += "	</tr>";
+		content += "	<tr>";
+		content += "		<th colspan=\"2\">총 결제 금액</th>";
+		content += "		<td colspan=\"2\">" + paymentSum + "</td>";
+		content += "		<th colspan=\"2\">기본 금액</th>";
+		content += "		<td colspan=\"2\">" + basicSum + "</td>";
+		content += "		<th colspan=\"2\">할인 금액</th>";
+		content += "		<td colspan=\"2\">" + discountSum + "</td>";
+		content += "	</tr>";
+		content += "	<tr>";
+		content += "		<th colspan=\"2\">예매 수수료</th>";
+		content += "		<td colspan=\"4\">" + VAT + "</td>";
+		content += "		<th colspan=\"2\">배송료</th>";
+		content += "		<td colspan=\"4\">" + deliverySum + "</td>";
 		content += "	</tr>";
 		content += "</table>";
-		content += "<img src=''>";
 		
 		
 		// SMTP 서버 정보를 설정한다. 

@@ -254,13 +254,15 @@ public class ShowController extends HttpServlet{
 			
 			JSONObject obj = new JSONObject();
 			JSONArray objList = new JSONArray();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 			for (int i = 0 ; i < list.size() ; i++) {
 				
 				JSONObject obj_ = new JSONObject();
 				obj_.put("sidx", list.get(i).getSidx());
 				obj_.put("stitle", list.get(i).getStitle());
-				obj_.put("sopendate", list.get(i).getSopendate());
-				obj_.put("senddate", list.get(i).getSenddate());
+				obj_.put("sopendate", transFormat.format(list.get(i).getSopendate()));
+				obj_.put("senddate", transFormat.format(list.get(i).getSenddate()));
 				obj_.put("ssdetailaddress", list.get(i).getSdetailaddress());
 				obj_.put("sstitleimage", list.get(i).getStitleimage());
 
@@ -270,7 +272,7 @@ public class ShowController extends HttpServlet{
 			System.out.println("objList 테스트: " + objList);
 			System.out.println("넘어온 order 값: " + order);
 			
-			response.setContentType("application/x-json; charset=UTF-8");
+			response.setContentType("application/json; charset=UTF-8");
 			response.getWriter().print(objList); //{"result":1}
 			
 		}else if(str.equals("/Show/ShowDelete.do")) {
