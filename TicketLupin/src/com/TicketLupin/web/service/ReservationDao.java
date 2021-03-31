@@ -26,7 +26,7 @@ public class ReservationDao {
 	public int insertReservationIdx(ReservationIdxVo riv) {
 		int value = 0;
 		
-		String sql = "INSERT INTO RESERVATIONIDX VALUES(RESERVATIONIDX_SEQUENCE.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?, ?, ?, ?, ?, ?, 'N')";
+		String sql = "INSERT INTO RESERVATIONIDX VALUES(RESERVATIONIDX_SEQUENCE.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?, ?, ?, ?, ?, ?, 'N', '')";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -386,7 +386,7 @@ public class ReservationDao {
 	
 	
 	//예매 취소하기
-	public int deleteReservation(int riidx, int midx) {
+	public int deleteReservationIDX(int riidx, int midx) {
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = SYSTIMESTAMP WHERE RIIDX = ? AND MIDX = ?";
 		
@@ -405,8 +405,79 @@ public class ReservationDao {
 		return value;
 	}
 	
+	public int deleteReservation(int riidx, int midx) {
+		int value = 0;
+		String sql = "UPDATE RESERVATION SET RDELYN = 'Y' WHERE RIIDX = ? AND MIDX = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, riidx);
+			pstmt.setInt(2, midx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
+	
+	//날짜가 달라진 자리별 예매내역 삭제
 	public int deleteUpdateReservation1(int sidx) {
-		System.out.println("deleteUpdateReservation이 받는 sidx: " + sidx);
+		int value = 0;
+		String sql = "MERGE INTO RESERVATION USING "
+				+ "(SELECT * FROM RESERVATION R INNER JOIN SHOW1 S "
+				+ "ON R.SIDX = S.SIDX "
+				+ "AND R.SIDX = ? "
+				+ "WHERE TO_DATE(R.SRDATE, 'YYYY-MM-DD') < S.SOPENDATE "
+				+ "OR TO_DATE(R.SRDATE, 'YYYY-MM-DD') > S.SENDDATE) "
+				+ "RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
+				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
+	
+	//날짜가 달라진 예매내역 묶음 삭제
+	public int deleteUpdateReservationIDX1(int sidx) {
+		int value = 0;
+		String sql = "MERGE INTO RESERVATIONIDX USING "
+				+ "(SELECT * FROM RESERVATIONIDX R INNER JOIN SHOW1 S "
+				+ "ON R.SIDX = S.SIDX " 
+				+ "AND R.SIDX = ? " 
+				+ "WHERE TO_DATE(R.SRDATE, 'YYYY-MM-DD') < S.SOPENDATE " 
+				+ "OR TO_DATE(R.SRDATE, 'YYYY-MM-DD') > S.SENDDATE) "
+				+ "RTABLE ON(RESERVATIONIDX.RIIDX = RTABLE.RIIDX) "
+				+ "WHEN MATCHED THEN UPDATE SET RESERVATIONIDX.RIDELYN = 'Y', RESERVATIONIDX.RIDELDATE = SYSTIMESTAMP";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
+	
+	//회차가 달라진 자리별 예매내역 삭제
+	public int deleteUpdateReservation2(int sidx) {
 		int value = 0;
 		String sql = "MERGE INTO RESERVATION USING "
 				+ "(SELECT * FROM RESERVATION R INNER JOIN SHOWROUND S "
@@ -432,6 +503,78 @@ public class ReservationDao {
 		}
 		
 		return value;
+	}
+	
+	//회차가 달라진 예매내역 묶음 삭제
+	public int deleteUpdateReservationIDX2(int sidx) {
+		int value = 0;
+		String sql = "MERGE INTO RESERVATIONIDX USING "
+				+ "(SELECT * FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
+				+ "ON R.SIDX = S.SIDX "
+				+ "AND R.SIDX = ? "
+				+ "AND R.SRDATE = S.SRDATE "
+				+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
+				+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
+				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
+				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)) "
+				+ "RTABLE ON(RESERVATIONIDX.RIIDX = RTABLE.RIIDX) "
+				+ "WHEN MATCHED THEN UPDATE SET RESERVATIONIDX.RIDELYN = 'Y', RESERVATIONIDX.RIDELDATE = SYSTIMESTAMP";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
+	
+	public ArrayList<ReservationIdxVo> deleteUpdateReservationIDX2List(int sidx){
+		
+		ArrayList<ReservationIdxVo> list = new ArrayList<ReservationIdxVo>();
+		String sql = "SELECT * FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
+				+ "ON R.SIDX = S.SIDX "
+				+ "AND R.SIDX = 364 "
+				+ "AND R.SRDATE = S.SRDATE "
+				+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
+				+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
+				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
+				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ReservationShowVo rsv = new ReservationShowVo();
+				
+				rsv.setStitle(rs.getString("STITLE"));
+				rsv.setRidx(rs.getInt("RIDX"));
+				rsv.setSidx(rs.getInt("SIDX"));
+				rsv.setMidx(rs.getInt("MIDX"));
+				rsv.setRseat(rs.getString("RSEAT"));
+				rsv.setRprice(rs.getInt("RPRICE"));
+				rsv.setRdiscount(rs.getNString("RDISCOUNT"));
+				rsv.setSrdate(rs.getString("SRDATE"));
+				rsv.setSrround(rs.getString("SRROUND"));
+				rsv.setRregdate(rs.getDate("RREGDATE"));
+				rsv.setNum(rs.getInt("NUM"));
+				
+				list.add(rsv);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+		
 	}
 	
 	public int deleteCancelReservation(int sidx) {

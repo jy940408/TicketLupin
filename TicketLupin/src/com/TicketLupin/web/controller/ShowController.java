@@ -22,6 +22,7 @@ import org.json.simple.JSONObject;
 
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ReservationDao;
+import com.TicketLupin.web.service.ReservationIdxVo;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRankingVo;
 import com.TicketLupin.web.service.ShowRoundDao;
@@ -33,6 +34,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import domain.PageMaker;
 import domain.SearchCriteria;
+import util.deleteReservationMail;
 
 @WebServlet("/ShowController")
 public class ShowController extends HttpServlet{
@@ -761,8 +763,11 @@ public class ShowController extends HttpServlet{
 			
 			sd.modifyShow(sv);
 			
-			Show1Vo sv2 = sd.getShowDetail(sidx);
+			ReservationDao rd = new ReservationDao();
+			rd.deleteUpdateReservation1(sidx);
+			rd.deleteUpdateReservationIDX1(sidx);
 			
+			Show1Vo sv2 = sd.getShowDetail(sidx);
 			System.out.println("show1 테스트: " + sv2);
 
 
@@ -999,9 +1004,16 @@ public class ShowController extends HttpServlet{
 				
 			}
 			
-			//기존 공연 회차 예매내역 삭제하기
+			//기존 공연 회차 예매했던 회원들 불러오기
 			ReservationDao rd = new ReservationDao();
-			rd.deleteUpdateReservation1(sidx);
+			ArrayList<ReservationIdxVo> list = rd.deleteUpdateReservationIDX2List(sidx);
+			deleteReservationMail drm = new deleteReservationMail();
+			drm.naverMailSend(list);
+			
+			
+			//기존 공연 회차 예매내역 삭제하기(수정중)
+			//rd.deleteUpdateReservation2(sidx);
+			//rd.deleteUpdateReservationIDX2(sidx);
 			
 			System.out.println(roundlist);
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");

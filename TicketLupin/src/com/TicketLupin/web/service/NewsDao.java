@@ -25,7 +25,7 @@ public class NewsDao {
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WPUB = 'Y' AND WDELYN = 'N' ORDER BY " + setting + " DESC) W) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WDELYN = 'N' ORDER BY " + setting + " DESC) W) WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 		
@@ -65,13 +65,6 @@ public class NewsDao {
 			
 		}catch (SQLException e) {
 				e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return list;
@@ -81,7 +74,7 @@ public class NewsDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(WIDX) COUNT FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WTITLE LIKE ? ORDER BY ? DESC) W)";
+		String sql = "SELECT COUNT(WIDX) COUNT FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WDELYN = 'N' AND WTITLE LIKE ? ORDER BY ? DESC) W)";
 		
 		try {
 		
@@ -100,13 +93,6 @@ public class NewsDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return count;
@@ -150,15 +136,7 @@ public class NewsDao {
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		System.out.println("dao: " + newsvo);
 		return newsvo;
 	}		
 	
@@ -186,13 +164,6 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -212,13 +183,6 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -247,13 +211,6 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;
@@ -276,13 +233,6 @@ public class NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		return result;

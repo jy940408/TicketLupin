@@ -184,7 +184,7 @@
 								<th width="424">공연명</th>
 								<th width="128">공연일시</th>
 								<th width="168">공연장소</th>
-								<th width="150">예매</th>
+								<th width="150">자세히 보기</th>
 							</tr>
 						</thead>
 						<tbody id="tablebody">
@@ -199,14 +199,14 @@
 											</a>
 										</span>
 										<span class="show_title">
-											<a href="#">${l.stitle}</a>
+											<a href="${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}">${l.stitle}</a>
 										</span>
 									</div>
 								</td>
 								<td>${l.sopendate} - ${l.senddate}</td>
 								<td>${l.sdetailaddress}</td>
 								<td>
-									<button type="button" class="btn_rank">예매하기</button>
+									<button type="button" class="btn_rank" onclick="location.href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}'">보러가기</button>
 								</td>
 							</tr>
 							</c:forEach>

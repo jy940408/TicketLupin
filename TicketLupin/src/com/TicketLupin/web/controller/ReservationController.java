@@ -446,6 +446,8 @@ public class ReservationController extends HttpServlet{
 //==============================================================================================================================//				
 			
 			//기본 정보 가져오기
+			
+			String title = request.getParameter("title");
 			String comDate = request.getParameter("comDate");
 			String round = request.getParameter("round");
 			
@@ -557,9 +559,8 @@ public class ReservationController extends HttpServlet{
 			riv.setRipayment(paymentSum);
 			
 			rd.insertReservationIdx(riv);
-			int riidx = rd.getReservaionRecentIdx(sidx, midx);
-			System.out.println("riv 테스트: " + riv);
 			
+			int riidx = rd.getReservaionRecentIdx(sidx, midx);
 			rv.setSidx(sidx);
 			rv.setMidx(midx);
 			rv.setSrdate(comDate);
@@ -573,7 +574,7 @@ public class ReservationController extends HttpServlet{
 			rv.setRquota(quota);
 			rv.setRiidx(riidx);
 			System.out.println("rv 테스트: " + rv);
-			
+			System.out.println("테스트: " + rv.getRseat());
 			
 			if(vipDiscount != null) {
 				for(int i = 0 ; i < vipDiscount.size() ; i++) {
@@ -610,7 +611,7 @@ public class ReservationController extends HttpServlet{
 //==============================================================================================================================//	
 			
 			reservationMail mail = new reservationMail();
-			mail.naverMailSend(sidx, comDate, round, name, tel, email, pick, payMethod, paymentSum, basicSum, discountSum, basicSumVAT + discountSumVAT, deliverySum);
+			mail.naverMailSend(title, arraySeat, sidx, comDate, round, name, tel, email, pick, payMethod, paymentSum, basicSum, discountSum, basicSumVAT + discountSumVAT, deliverySum);
 			
 			//팝업창 종료해주기
 			PrintWriter pt = response.getWriter();
@@ -634,6 +635,7 @@ public class ReservationController extends HttpServlet{
 			System.out.println("delete부분 midx: " + midx);
 			
 			ReservationDao rd = new ReservationDao();
+			rd.deleteReservationIDX(riidx, midx);
 			rd.deleteReservation(riidx, midx);
 			System.out.println("rd: " + rd);
 			
