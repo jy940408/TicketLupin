@@ -299,30 +299,6 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >3인 패키지</td>
-										<td>18,000원&nbsp;할인</td>
-										<td>72,000원</td>
-										<td>
-											<select name="discount1_3" id="vip3Package" class="3package vip discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(vip/3),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >4인 패키지</td>
-										<td>27,000원&nbsp;할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="discount1_4" id="vip4Package" class="4package vip discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(vip/4),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
 										<td class="txt_left" >청소년 할인(본인에 한함)20%</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
@@ -335,7 +311,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(4~6급,경증,본인만) 20%</td>
+										<td class="txt_left" >복지할인(4~6급,경증) 20%</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -347,7 +323,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(1~3급,중증,1인2매) 20%</td>
+										<td class="txt_left" >복지할인(1~3급,중증) 20%</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -359,7 +335,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td  class="txt_left">국가유공자(본인만) 30%</td>
+										<td  class="txt_left">국가유공자 30%</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.7}" pattern="#,###" />원</td>
 										<td>
@@ -406,31 +382,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >3인 패키지</td>
-										<td>18,000원&nbsp;할인</td>
-										<td>72,000원</td>
-										<td>
-											<select name="discount2_3" id="r3Package" class="3package r discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(r/3),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >4인 패키지</td>
-										<td>27,000원&nbsp;할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="discount2_4" id="r4Package" class="4package r discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(r/4),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >청소년 할인(본인에 한함) 20%</td>
+										<td class="txt_left" >청소년 할인 20%</td>
 										<td><fmt:formatNumber value="${detail.srprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.srprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -442,7 +394,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(4~6급,경증,본인만) 20%</td>
+										<td class="txt_left" >복지할인(4~6급,경증) 20%</td>
 										<td><fmt:formatNumber value="${detail.srprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.srprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -454,7 +406,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(1~3급,중증,1인2매) 20%</td>
+										<td class="txt_left" >복지할인(1~3급,중증) 20%</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -466,7 +418,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td  class="txt_left">국가유공자(본인만) 30%</td>
+										<td  class="txt_left">국가유공자 30%</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.7}" pattern="#,###" />원</td>
 										<td>
@@ -513,31 +465,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >3인 패키지</td>
-										<td>18,000원&nbsp;할인</td>
-										<td>72,000원</td>
-										<td>
-											<select name="discount3_3" id="s3Package" class="3package s discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/3),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >4인 패키지</td>
-										<td>27,000원&nbsp;할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="discount3_4" id="s4Package" class="4package s discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/4),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >청소년 할인(본인에 한함) 20%</td>
+										<td class="txt_left" >청소년 할인 20%</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -549,7 +477,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(4~6급,경증,본인만) 20%</td>
+										<td class="txt_left" >복지할인(4~6급,경증) 20%</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -561,7 +489,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(1~3급,중증,1인2매) 20%</td>
+										<td class="txt_left" >복지할인(1~3급,중증) 20%</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -573,7 +501,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td  class="txt_left">국가유공자(본인만) 30%</td>
+										<td  class="txt_left">국가유공자 30%</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.7}" pattern="#,###" />원</td>
 										<td>
@@ -620,31 +548,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >3인 패키지</td>
-										<td>18,000원&nbsp;할인</td>
-										<td>72,000원</td>
-										<td>
-											<select name="discount4_3" id="a3Package" class="3package a discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(a/3),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >4인 패키지</td>
-										<td>27,000원&nbsp;할인</td>
-										<td>63,000원</td>
-										<td>
-											<select name="discount4_4" id="a4Package" class="4package a discount">
-												<c:forEach var="i" begin="0" end="${fn:substringBefore(Math.floor(s/4),'.')}">
-													<option value="${i}">${i}매</option>
-												</c:forEach>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="txt_left" >청소년 할인(본인에 한함) 20%</td>
+										<td class="txt_left" >청소년 할인 20%</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -656,7 +560,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(4~6급,경증,본인만) 20%</td>
+										<td class="txt_left" >복지할인(4~6급,경증) 20%</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -668,7 +572,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="txt_left" >복지할인(1~3급,중증,1인2매) 20%</td>
+										<td class="txt_left" >복지할인(1~3급,중증) 20%</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.8}" pattern="#,###" />원</td>
 										<td>
@@ -680,7 +584,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td  class="txt_left">국가유공자(본인만) 30%</td>
+										<td  class="txt_left">국가유공자 30%</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.7}" pattern="#,###" />원</td>
 										<td>

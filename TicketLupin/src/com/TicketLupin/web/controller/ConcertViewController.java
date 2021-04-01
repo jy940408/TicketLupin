@@ -168,6 +168,12 @@ public class ConcertViewController extends HttpServlet{
 			request.setAttribute("roundCheck", roundCheck);
 			System.out.println(srv);
 			System.out.println("roundCheck: " + roundCheck);
+			
+//==============================================================================================================================//	
+
+			Show1Vo sv = sd.getShowDetail(sidx);
+			request.setAttribute("contentsDetail", sv);
+			
 //==============================================================================================================================//	
 			
 			//상세 정보 받아오기

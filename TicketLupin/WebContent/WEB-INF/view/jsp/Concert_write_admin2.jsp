@@ -20,8 +20,30 @@
 		
 		<script type="text/javascript">
 			
+		alert("왜 안뜨지?");
+		
+			$(document).ready(function(){
+				var imgValue = "";
+				var imgList = new Array();
+				$(".file").on("change",function(){
+					imgValue = "";
+					imgList = [];
+					for(var i = 1 ; i <= 7 ; i++){
+						$("#imageList").val('');
+						imgValue = $('input[name="image' + i + '"]')[0].files;
+						if(imgValue[0] == null){
+							imgList.push("0");
+						}else{
+							imgList.push(imgValue[0].name);
+						}
+						alert("테스트3: " + imgList);
+						$("#imageList").val(imgList);
+					}
+				})
+			});
 		
 			function submitShow(){
+				
 				
 				alert("공연을 등록합니다!");
 				
@@ -32,6 +54,8 @@
 				return;
 				
 			}
+			
+			
 		</script>
 	</head>
 	<body>
@@ -147,7 +171,7 @@
 									제목 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="titleImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image1" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -165,7 +189,7 @@
 									공연시간 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="roundImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image2" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -183,7 +207,7 @@
 									가격정보 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="priceImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image3" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -201,7 +225,7 @@
 									예매공지 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="noticeImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image4" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -220,7 +244,7 @@
 									테스트 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="discountImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image5" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -238,7 +262,7 @@
 									작품정보 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="infoImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image6" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -257,11 +281,12 @@
 									기획사 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="companyImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image7" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 						</table>
 						<input type="hidden" name="sidx" value="${sidx}">
+						<input type="hidden" name="imageList" id="imageList" value="">
 						<div class="reg">
 							<button class="reg_btn" type="button" onclick="submitShow()">
 								다음

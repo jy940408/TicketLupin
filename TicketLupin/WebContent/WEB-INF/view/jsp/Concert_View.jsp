@@ -128,7 +128,7 @@
 	
 //-------------------------------------------------------------------------------------------------------------------------------------//
 		
-		/*---------------댓글 삭제---------------------------------------------------------------------------*/
+/*---------------댓글 삭제---------------------------------------------------------------------------*/
 			
 		    function removeCheck(test) {
 
@@ -804,49 +804,41 @@
 						<div id="main_concert_detail_playtime">  
 							<p>공연시간</p>
 							<div>
-								월, 화, 목, 금 오후 5시/토, 일 오후 3시<br>
-								*수요일 공연 없음<br>
-								*2월 11일 3시<br>
-								*2월 12일 공연 없음
+								<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sroundimage}"><br>
+								${contentsDetail.sround}
 							</div>
 						</div>
 						<div id="main_concert_detail_pay" class="main_concert_detail_all">
 							<p>가격정보</p>
+							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.spriceimage}"><br>
+							${contentsDetail.sprice}
 						</div>
 						<div id="main_concert_detail_notice" class="main_concert_detail_all">
 							<p>예매 공지사항</p>
-							<img src="../content/content1.jpg">
-							<img src="../content/content2.jpg">
+							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.snoticeimage}"><br>
+							${contentsDetail.snotice}
 						</div>
 						<div id="main_concert_detail_discount" class="main_concert_detail_all">
 							<p>할인정보</p>
-							<img src="../content/content3.jpg">
-							<img src="../content/content4.jpg">
-							<img src="../content/content5.jpg">
+							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sdiscountimage}"><br>
+							${contentsDetail.sdiscount}
 						</div>
 						<div id="main_concert_detail_content" class="main_concert_detail_all">
 							<p>작품정보</p>
-							<img src="../content/content6.jpg">
+							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sinfoimage}"><br>
+							${contentsDetail.sinfo}
 						</div>
 						<div id="main_concert_detail_company" class="main_concert_detail_all">
 							<p>기획사 정보</p>
+							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.scompanyimage}"><br>
 							<div>
-								주최/주관: 위로컴퍼니<br>
-								문의: 070-4792-8342
+								${contentsDetail.scompany}
 							</div>
 						</div>
 						<div id="main_concert_detail_info" class="main_concert_detail_all">
 							<p>상품정보제공 고시</p>
 							<div>
 								<table style="border:1px solid black;">
-									<tr>
-										<td style="background-color:rgba(0,0,0,0.1);">주최/기획</td>
-										<td>위로컴퍼니</td>
-									</tr>
-									<tr>
-										<td style="background-color:rgba(0,0,0,0.1);">공연 관련 문의</td>
-										<td>070-4792-8342</td>
-									</tr>
 									<tr>
 										<td style="background-color:rgba(0,0,0,0.1);">예매 관련 문의</td>
 										<td>1899-0042</td>
