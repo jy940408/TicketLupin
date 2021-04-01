@@ -456,61 +456,23 @@ public class ShowController extends HttpServlet{
 			//이미지 이름 받아오기   
 			Enumeration files = multi.getFileNames();
 			ArrayList image = new ArrayList();
-			for(int i = 1 ; i <= 7 ; i++) {
+			for(int i = 0 ; i <= 6 ; i++) {
 				image.add((String)files.nextElement());
-				System.out.println(image.get(i-1));
+				System.out.println(image.get(i));
+				System.out.println(multi.getFilesystemName((String)image.get(i)));
 			}
-			String list = multi.getParameter("imageList");
 			
-		
-			
-			System.out.println("리스트 전체목록 확인: " + list);
-			String[] listArray = {"0", "0", "0", "0", "0", "0", "0"};
-			if(list != null && !list.equals("")) {
-				listArray = list.split(",");
-			}
-			System.out.println(listArray[0]);
-			System.out.println(listArray[1]);
-			System.out.println(listArray[2]);
-			System.out.println(listArray[3]);
-			System.out.println(listArray[4]);
-			System.out.println(listArray[5]);
-			System.out.println(listArray[6]);
-			
+			//이미지 정렬 제대로 해주기
+			ArrayList imageList = new ArrayList();
 			for(int i = 0 ; i < 7 ; i++) {
-				if(((String)image.get(i)) != null) {
-					for(int j = 0 ; j < 7 ; j++) {
-						if(((String)image.get(i)).equals(listArray[j])) {
-							listArray[j] = (String)image.get(i);
-							System.out.println("여기까지 들어오는지 확인: " + listArray[j]);
-						}
+				for(int j = 0 ; j < 7 ; j++) {
+					if(((String)image.get(j)).equals("image" + (i+1))) {
+						imageList.add(multi.getFilesystemName((String)image.get(j)));
 					}
+					
 				}
 				
 			}
-			
-			String tfile = multi.getFilesystemName(listArray[0]);
-			String toriginalFile = multi.getOriginalFileName(listArray[0]);
-			String rifile = multi.getFilesystemName(listArray[1]);
-			String rioriginalFile = multi.getOriginalFileName(listArray[1]);
-			String pifile = multi.getFilesystemName(listArray[2]);
-			String pioriginalFile = multi.getOriginalFileName(listArray[2]);
-			String nifile = multi.getFilesystemName(listArray[3]);
-			String nioriginalFile = multi.getOriginalFileName(listArray[3]);
-			String difile = multi.getFilesystemName(listArray[4]);
-			String dioriginalFile = multi.getOriginalFileName(listArray[4]);
-			String iifile = multi.getFilesystemName(listArray[5]);
-			String iioriginalFile = multi.getOriginalFileName(listArray[5]);
-			String cifile = multi.getFilesystemName(listArray[6]);
-			String cioriginalFile = multi.getOriginalFileName(listArray[6]);
-			
-			System.out.println("제목사진 받아오는지 테스트: " + toriginalFile);
-			System.out.println("공연시간 사진 받아오는지 테스트: " + rioriginalFile);
-			System.out.println("가격사진 받아오는지 테스트: " + pioriginalFile);
-			System.out.println("공지사진 받아오는지 테스트: " + nioriginalFile);
-			System.out.println("할인사진 받아오는지 테스트: " + dioriginalFile);
-			System.out.println("정보사진 받아오는지 테스트: " + iioriginalFile);
-			System.out.println("회사사진 받아오는지 테스트: " + cioriginalFile);
 			
 //==============================================================================================================================//
 			
@@ -524,13 +486,13 @@ public class ShowController extends HttpServlet{
 			sv.setSdiscount(discount);
 			sv.setSinfo(info);
 			sv.setScompany(company);
-			sv.setStitleimage(listArray[0]);
-			sv.setSroundimage(listArray[1]);
-			sv.setSpriceimage(listArray[2]);
-			sv.setSnoticeimage(listArray[3]);
-			sv.setSdiscountimage(listArray[4]);
-			sv.setSinfoimage(listArray[5]);
-			sv.setScompanyimage(listArray[6]);
+			sv.setStitleimage((String)imageList.get(0));
+			sv.setSroundimage((String)imageList.get(1));
+			sv.setSpriceimage((String)imageList.get(2));
+			sv.setSnoticeimage((String)imageList.get(3));
+			sv.setSdiscountimage((String)imageList.get(4));
+			sv.setSinfoimage((String)imageList.get(5));
+			sv.setScompanyimage((String)imageList.get(6));
 			
 			sd.insertShow2(sv);
 
@@ -821,38 +783,24 @@ public class ShowController extends HttpServlet{
 //==============================================================================================================================//
 			//이미지 이름 받아오기   
 			Enumeration files = multi.getFileNames();
-			String titleImage = (String)files.nextElement();
-			String roundImage = (String)files.nextElement();
-			String priceImage = (String)files.nextElement();
-			String noticeImage = (String)files.nextElement();
-			String discountImage = (String)files.nextElement();
-			String infoImage = (String)files.nextElement();
-			String companyImage = (String)files.nextElement();
+			ArrayList image = new ArrayList();
+			for(int i = 0 ; i <= 6 ; i++) {
+				image.add((String)files.nextElement());
+				System.out.println(image.get(i));
+				System.out.println(multi.getFilesystemName((String)image.get(i)));
+			}
 			
-			String tfile = multi.getFilesystemName(titleImage);
-			String toriginalFile = multi.getOriginalFileName(titleImage);
-			String rifile = multi.getFilesystemName(roundImage);
-			String rioriginalFile = multi.getOriginalFileName(roundImage);
-			String pifile = multi.getFilesystemName(priceImage);
-			String pioriginalFile = multi.getOriginalFileName(priceImage);
-			String nifile = multi.getFilesystemName(noticeImage);
-			String nioriginalFile = multi.getOriginalFileName(noticeImage);
-			String difile = multi.getFilesystemName(discountImage);
-			String dioriginalFile = multi.getOriginalFileName(discountImage);
-			String iifile = multi.getFilesystemName(infoImage);
-			String iioriginalFile = multi.getOriginalFileName(infoImage);
-			String cifile = multi.getFilesystemName(companyImage);
-			String cioriginalFile = multi.getOriginalFileName(companyImage);
-			
-			System.out.println("타이틀 이미지 제발..." + titleImage);
-			
-			System.out.println("제목사진 받아오는지 테스트: " + toriginalFile);
-			System.out.println("공연시간 사진 받아오는지 테스트: " + rioriginalFile);
-			System.out.println("가격사진 받아오는지 테스트: " + pioriginalFile);
-			System.out.println("공지사진 받아오는지 테스트: " + nioriginalFile);
-			System.out.println("할인사진 받아오는지 테스트: " + dioriginalFile);
-			System.out.println("정보사진 받아오는지 테스트: " + iioriginalFile);
-			System.out.println("회사사진 받아오는지 테스트: " + cioriginalFile);
+			//이미지 정렬 제대로 해주기
+			ArrayList imageList = new ArrayList();
+			for(int i = 0 ; i < 7 ; i++) {
+				for(int j = 0 ; j < 7 ; j++) {
+					if(((String)image.get(j)).equals("image" + (i+1))) {
+						imageList.add(multi.getFilesystemName((String)image.get(j)));
+					}
+					
+				}
+				
+			}
 			
 //==============================================================================================================================//
 			
@@ -866,13 +814,13 @@ public class ShowController extends HttpServlet{
 			sv.setSdiscount(discount);
 			sv.setSinfo(info);
 			sv.setScompany(company);
-			sv.setStitleimage(toriginalFile);
-			sv.setSroundimage(rioriginalFile);
-			sv.setSpriceimage(pioriginalFile);
-			sv.setSnoticeimage(nioriginalFile);
-			sv.setSdiscountimage(dioriginalFile);
-			sv.setSinfoimage(iioriginalFile);
-			sv.setScompanyimage(cioriginalFile);
+			sv.setStitleimage((String)imageList.get(0));
+			sv.setSroundimage((String)imageList.get(1));
+			sv.setSpriceimage((String)imageList.get(2));
+			sv.setSnoticeimage((String)imageList.get(3));
+			sv.setSdiscountimage((String)imageList.get(4));
+			sv.setSinfoimage((String)imageList.get(5));
+			sv.setScompanyimage((String)imageList.get(6));
 			
 			sd.modifyShow2(sv);
 			

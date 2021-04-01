@@ -132,7 +132,7 @@ public class WinnerDao {
 	public int insertWinner(WinnerVo wv) {
 		int result = 0;
 		//인덱스, 타이틀, 내용, 작성자인덱스, 작성일, 조회수, 이미지 첨부, 파일 첨부, 공개여부, 좋아요, 삭제여부, 시작 날짜, 끝 날짜
-		String sql = "INSERT INTO WINNER VALUES('', ?, ?, ?, SYSDATE, 1, ?, '123', ?, 1, 'N', ?, ?)";
+		String sql = "INSERT INTO WINNER VALUES(WINNER_SEQUENCE.NEXTVAL, ?, ?, ?, SYSDATE, 1, ?, '123', ?, 1, 'N', ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

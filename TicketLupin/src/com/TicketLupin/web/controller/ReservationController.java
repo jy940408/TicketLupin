@@ -231,7 +231,7 @@ public class ReservationController extends HttpServlet{
 			ArrayList discountParameter = new ArrayList();
 			String strDiscountParam = null;
 			for(int i = 1 ; i <= 4 ; i ++) {
-				for(int j = 1 ; j <= 8 ; j++) {
+				for(int j = 1 ; j <= 6 ; j++) {
 					strDiscountParam = request.getParameter("discount" + i + "_" + j);
 					discountParameter.add("discount" + i + "_" + j + "/" + strDiscountParam);
 				}

@@ -42,8 +42,7 @@ public class MainController extends HttpServlet{
 			ShowDao sd = new ShowDao();
 			ArrayList<Show1Vo> showList = sd.getShowList(query, ssetting, array, page);
 			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
-			System.out.println("이미지 나오는지 테스트: " + showList.get(0));
-			System.out.println("이미지 나오는지 테스트: " + showList.get(0).getStitleimage());
+			
 			
 			NewsDao nd = new NewsDao();
 			List<NewsVo> newsList = nd.getNewsList(query, nsetting, page);

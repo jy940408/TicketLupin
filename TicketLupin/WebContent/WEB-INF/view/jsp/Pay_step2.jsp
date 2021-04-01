@@ -19,7 +19,7 @@
 				$(".vip").on("change", function(){
 					vipCount = 0;
 					
-					for(var j = 0 ; j < 8 ; j++){
+					for(var j = 0 ; j < 6 ; j++){
 						vipCount += Number($(".vip").eq(j).val());
 					}
 					
@@ -35,7 +35,7 @@
 				$(".r").on("change", function(){
 					rCount = 0;
 					
-					for(var j = 0 ; j < 8 ; j++){
+					for(var j = 0 ; j < 6 ; j++){
 						rCount += Number($(".r").eq(j).val());
 					}
 					
@@ -51,7 +51,7 @@
 				$(".s").on("change", function(){
 					sCount = 0;
 					
-					for(var j = 0 ; j < 8 ; j++){
+					for(var j = 0 ; j < 6 ; j++){
 						sCount += Number($(".s").eq(j).val());
 					}
 					
@@ -67,7 +67,7 @@
 				var aCount = 0;
 				$(".a").on("change", function(){
 					aCount = 0;
-					for(var j = 0 ; j < 8 ; j++){
+					for(var j = 0 ; j < 6 ; j++){
 						aCount += Number($(".a").eq(j).val());
 					}
 					
@@ -85,8 +85,6 @@
 					
 					var vipBasic = $("#vipBasic").val(); if($("#vipBasic").val() === undefined){vipBasic = Number(0);}
 					var vipSpecial = $("#vipSpecial").val(); if($("#vipSpecial").val() === undefined){vipSpecial = Number(0);}
-					var vip3Package = $("#vip3Package").val(); if($("#vip3Package").val() === undefined){vip3Package = Number(0);}
-					var vip4Package = $("#vip4Package").val(); if($("#vip4Package").val() === undefined){vip4Package = Number(0);}
 					var vipYouth = $("#vipYouth").val(); if($("#vipYouth").val() === undefined){vipYouth = Number(0);}
 					var vip4to6 = $("#vip4to6").val(); if($("#vip4to6").val() === undefined){vip4to6 = Number(0);}
 					var vip1to3 = $("#vip1to3").val(); if($("#vip1to3").val() === undefined){vip1to3 = Number(0);}
@@ -94,8 +92,6 @@
 					
 					var rBasic = $("#rBasic").val(); if($("#rBasic").val() === undefined){rBasic = Number(0);}
 					var rSpecial = $("#rSpecial").val(); if($("#rSpecial").val() === undefined){rSpecial = Number(0);}
-					var r3Package = $("#r3Package").val(); if($("#r3Package").val() === undefined){r3Package = Number(0);}
-					var r4Package = $("#r4Package").val(); if($("#r4Package").val() === undefined){r4Package = Number(0);}
 					var rYouth = $("#rYouth").val(); if($("#rYouth").val() === undefined){rYouth = Number(0);}
 					var r4to6 = $("#r4to6").val(); if($("#r4to6").val() === undefined){r4to6 = Number(0);}
 					var r1to3 = $("#r1to3").val(); if($("#r1to3").val() === undefined){r1to3 = Number(0);}
@@ -103,8 +99,6 @@
 					
 					var sBasic = $("#sBasic").val(); if($("#sBasic").val() === undefined){sBasic = Number(0);}
 					var sSpecial = $("#sSpecial").val(); if($("#sSpecial").val() === undefined){sSpecial = Number(0);}
-					var s3Package = $("#s3Package").val(); if($("#s3Package").val() === undefined){s3Package = Number(0);}
-					var s4Package = $("#s4Package").val(); if($("#s4Package").val() === undefined){s4Package = Number(0);}
 					var sYouth = $("#sYouth").val(); if($("#sYouth").val() === undefined){sYouth = Number(0);}
 					var s4to6 = $("#s4to6").val(); if($("#s4to6").val() === undefined){s4to6 = Number(0);}
 					var s1to3 = $("#s1to3").val(); if($("#s1to3").val() === undefined){s1to3 = Number(0);}
@@ -112,8 +106,6 @@
 					
 					var aBasic = $("#aBasic").val(); if($("#aBasic").val() === undefined){aBasic = Number(0);}
 					var aSpecial = $("#aSpecial").val(); if($("#aSpecial").val() === undefined){aSpecial = Number(0);}
-					var a3Package = $("#a3Package").val(); if($("#a3Package").val() === undefined){a3Package = Number(0);}
-					var a4Package = $("#a4Package").val(); if($("#a4Package").val() === undefined){a4Package = Number(0);}
 					var aYouth = $("#aYouth").val(); if($("#aYouth").val() === undefined){aYouth = Number(0);}
 					var a4to6 = $("#a4to6").val(); if($("#a4to6").val() === undefined){a4to6 = Number(0);}
 					var a1to3 = $("#a1to3").val(); if($("#a1to3").val() === undefined){a1to3 = Number(0);}
@@ -149,10 +141,10 @@
 					var basicSum_ = (vipBasic*svipprice) + (rBasic*srprice) + (sBasic*ssprice) + (aBasic*saprice);
 					var basicSum = basicSum_*0.9;
 					var basicSumVAT = basicSum_*0.1;
-					var discountSum_ = (vipSpecial*(svipprice*0.7)) +(vip3Package*18000) + (vip4Package*27000) + (vipYouth*(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
-									(rSpecial*(srprice*0.7)) + (r3Package*18000) + (r4Package*27000) + (rYouth*(srprice*0.8)) + (r4to6*(srprice*0.8)) + (r1to3*(srprice*0.8)) + (rVeterans*(srprice*0.7)) +
-									(sSpecial*(ssprice*0.7)) + (s3Package*18000) + (s4Package*27000) + (sYouth*(ssprice*0.8)) + (s4to6*(ssprice*0.8)) + (s1to3*(ssprice*0.8)) + (sVeterans*(ssprice*0.7)) +
-									(aSpecial*(saprice*0.7)) + (a3Package*18000) + (a4Package*27000) + (aYouth*(saprice*0.8)) + (a4to6*(saprice*0.8)) + (a1to3*(saprice*0.8)) + (aVeterans*(saprice*0.7));
+					var discountSum_ = (vipSpecial*(svipprice*0.7)) + (vipYouth*(svipprice*0.8)) + (vip4to6*(svipprice*0.8)) + (vip1to3*(svipprice*0.8)) + (vipVeterans*(svipprice*0.7)) +
+									(rSpecial*(srprice*0.7)) + (rYouth*(srprice*0.8)) + (r4to6*(srprice*0.8)) + (r1to3*(srprice*0.8)) + (rVeterans*(srprice*0.7)) +
+									(sSpecial*(ssprice*0.7)) + (sYouth*(ssprice*0.8)) + (s4to6*(ssprice*0.8)) + (s1to3*(ssprice*0.8)) + (sVeterans*(ssprice*0.7)) +
+									(aSpecial*(saprice*0.7)) + (aYouth*(saprice*0.8)) + (a4to6*(saprice*0.8)) + (a1to3*(saprice*0.8)) + (aVeterans*(saprice*0.7));
 					var discountSum = discountSum_*0.9;
 					var discountSumVAT = discountSum_*0.1;
 					var VATSum = basicSumVAT + discountSumVAT;
@@ -303,7 +295,7 @@
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount1_5" id="vipYouth" class="Youth vip discount">
+											<select name="discount1_3" id="vipYouth" class="Youth vip discount">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -315,7 +307,7 @@
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount1_6" id="vip4to6" class="4to6 vip discount">
+											<select name="discount1_4" id="vip4to6" class="4to6 vip discount">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -327,7 +319,7 @@
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount1_7" id="vip1to3" class="1to3 vip discount">
+											<select name="discount1_5" id="vip1to3" class="1to3 vip discount">
 												<c:forEach var="i" begin="0" end="${vip}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -339,7 +331,7 @@
 										<td><fmt:formatNumber value="${detail.svipprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.7}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount1_8" id="vipVeterans" class="Veterans vip discount">
+											<select name="discount1_6" id="vipVeterans" class="Veterans vip discount">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -386,7 +378,7 @@
 										<td><fmt:formatNumber value="${detail.srprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.srprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount2_5" id="rYouth" class="Youth r discount">
+											<select name="discount2_3" id="rYouth" class="Youth r discount">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -398,7 +390,7 @@
 										<td><fmt:formatNumber value="${detail.srprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.srprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount2_6" id="r4to6" class="4to6 r discount">
+											<select name="discount2_4" id="r4to6" class="4to6 r discount">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -410,7 +402,7 @@
 										<td><fmt:formatNumber value="${detail.svipprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount2_7" id="r1to3" class="1to3 r discount">
+											<select name="discount2_5" id="r1to3" class="1to3 r discount">
 												<c:forEach var="i" begin="0" end="${r}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -422,7 +414,7 @@
 										<td><fmt:formatNumber value="${detail.svipprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.svipprice*0.7}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount2_8" id="rVeterans" class="Veterans r discount">
+											<select name="discount2_6" id="rVeterans" class="Veterans r discount">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -469,7 +461,7 @@
 										<td><fmt:formatNumber value="${detail.ssprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount3_5" id="sYouth" class="Youth s discount">
+											<select name="discount3_3" id="sYouth" class="Youth s discount">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -481,7 +473,7 @@
 										<td><fmt:formatNumber value="${detail.ssprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount3_6" id="s4to6" class="4to6 s discount">
+											<select name="discount3_4" id="s4to6" class="4to6 s discount">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -493,7 +485,7 @@
 										<td><fmt:formatNumber value="${detail.ssprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount3_7" id="s1to3" class="1to3 s discount">
+											<select name="discount3_5" id="s1to3" class="1to3 s discount">
 												<c:forEach var="i" begin="0" end="${s}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -505,7 +497,7 @@
 										<td><fmt:formatNumber value="${detail.ssprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.ssprice*0.7}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount3_8" id="sVeterans" class="Veterans s discount">
+											<select name="discount3_6" id="sVeterans" class="Veterans s discount">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>
@@ -552,7 +544,7 @@
 										<td><fmt:formatNumber value="${detail.saprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount4_5" id="aYouth" class="Youth a discount">
+											<select name="discount4_3" id="aYouth" class="Youth a discount">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -564,7 +556,7 @@
 										<td><fmt:formatNumber value="${detail.saprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount4_6" id="a4to6" class="4to6 a discount">
+											<select name="discount4_4" id="a4to6" class="4to6 a discount">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -576,7 +568,7 @@
 										<td><fmt:formatNumber value="${detail.saprice*0.2}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.8}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount4_7" id="a1to3" class="1to3 a discount">
+											<select name="discount4_5" id="a1to3" class="1to3 a discount">
 												<c:forEach var="i" begin="0" end="${a}">
 													<option value="${i}">${i}매</option>
 												</c:forEach>
@@ -588,7 +580,7 @@
 										<td><fmt:formatNumber value="${detail.saprice*0.3}" pattern="#,###" />원&nbsp;할인</td>
 										<td><fmt:formatNumber value="${detail.saprice*0.7}" pattern="#,###" />원</td>
 										<td>
-											<select name="discount4_8" id="aVeterans" class="Veterans a discount">
+											<select name="discount4_6" id="aVeterans" class="Veterans a discount">
 												<option value="0" selected>0매</option>
 												<option value="1">1매</option>
 											</select>

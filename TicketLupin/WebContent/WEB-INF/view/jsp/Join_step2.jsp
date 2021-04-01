@@ -37,7 +37,7 @@
 			  		alert("주소를 입력해주세요.");
 			  		document.frm.mdetailaddress.focus();
 			  		return;
-			  	}else if(document.frm.meamil.value == ""){
+			  	}else if(document.frm.memail.value == ""){
 			  		alert("이메일을 입력해주세요.");
 			  		document.frm.memail.focus();
 			  		return;

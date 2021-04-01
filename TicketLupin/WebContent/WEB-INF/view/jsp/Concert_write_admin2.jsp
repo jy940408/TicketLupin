@@ -19,28 +19,6 @@
 		<link rel="stylesheet" href="../css/Concert_write_admin.css">
 		
 		<script type="text/javascript">
-			
-		alert("왜 안뜨지?");
-		
-			$(document).ready(function(){
-				var imgValue = "";
-				var imgList = new Array();
-				$(".file").on("change",function(){
-					imgValue = "";
-					imgList = [];
-					for(var i = 1 ; i <= 7 ; i++){
-						$("#imageList").val('');
-						imgValue = $('input[name="image' + i + '"]')[0].files;
-						if(imgValue[0] == null){
-							imgList.push("0");
-						}else{
-							imgList.push(imgValue[0].name);
-						}
-						alert("테스트3: " + imgList);
-						$("#imageList").val(imgList);
-					}
-				})
-			});
 		
 			function submitShow(){
 				

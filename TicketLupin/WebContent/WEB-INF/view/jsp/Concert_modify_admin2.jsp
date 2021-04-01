@@ -147,7 +147,7 @@
 									제목 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="titleImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image1" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -165,7 +165,7 @@
 									공연시간 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="roundImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image2" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -183,7 +183,7 @@
 									가격정보 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="priceImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image3" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -201,7 +201,7 @@
 									예매공지 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="noticeImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image4" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -220,7 +220,7 @@
 									할인정보 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="discountImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image5" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -238,7 +238,7 @@
 									작품정보 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="infoImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image6" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 							<tr>
@@ -257,7 +257,7 @@
 									기획사 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
-									<input type="file" class="file" name="companyImage" style="border:0px; font-size:14px;" required>
+									<input type="file" class="file" name="image7" style="border:0px; font-size:14px;" required>
 								</td>
 							</tr>
 						</table>
