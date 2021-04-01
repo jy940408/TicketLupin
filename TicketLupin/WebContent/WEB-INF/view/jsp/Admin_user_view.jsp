@@ -64,9 +64,7 @@
 					
 					<!-- JOIN BTN-->
 					<div class="btn_area">
-						<button type="button" id="btnJoin" onclick="userDelete()">
-							<span>회원정지</span>
-						</button>
+						
 						<button type="button" id="btnJoin2" onclick="location='<%=request.getContextPath()%>/Manager/UserBuyList.do?midx=<%=mv.getMidx()%>'">
 							<span>예매내역</span>
 						</button>

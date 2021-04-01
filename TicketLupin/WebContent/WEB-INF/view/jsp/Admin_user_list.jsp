@@ -3,12 +3,13 @@
 <%@ page import="domain.*"%>
 <%@ page import="com.TicketLupin.web.service.*"%>
 <%@ page import="java.util.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%                                                  
 	ArrayList<MemberVo> alist = (ArrayList<MemberVo>)request.getAttribute("alist");
 	PageMaker pm = (PageMaker)request.getAttribute("pm");
 	MemberDao md = new MemberDao();
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,9 @@
 					$(".div").html(text+", "+phone+", "+mssn);
 					$("#chMID").val(idx);
 				});
-				
+					
+
+
 			});
 		</script>
 	</head>
@@ -65,40 +68,55 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="<%=request.getContextPath() %>/Main/MainPage.do" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
-				<a href="<%=request.getContextPath()%>/Event/EventMain.do" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_admin">관리자</a>
+				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
+				<a href="${pageContext.request.contextPath}/Event/EventMain.do" id="main_nav_event">이벤트</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
 		
-		
-		
-		<div class="wrap_nav" id="wrap_nav" style="display:none;">
-			<div id="nav_menu_sub_div" class="main_nav_all">
-				<ul id="nav_menu_sub">
-					<li><a href="<%=request.getContextPath()%>/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="<%=request.getContextPath()%>/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+<!------------------------------------------------------------------------------------------------------------------------------------->			
+		<div id="nav_menu_sub_event_div" class="main_nav_all">
+			<ul id="nav_menu_sub_event" style="margin:0px;">
+				<li><a href="${pageContext.request.contextPath}/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
-		<div class="wrap_nav"  id="wrap_nav2" style="display:none;">
-			<div id="nav_menu_sub_div" class="main_nav_event">
-				<ul id="nav_menu_sub2">
-					<li><a href="<%=request.getContextPath()%>/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-					<li><a href="#">참여이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				</ul>
-			</div>
-			<hr id="nav_bar_sub"/>
+		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
+			<ul id="nav_menu_sub_myticket" style="margin:0px;">
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+			<hr id="nav_bar_sub">
 		</div>
+		
+<!------------------------------------------------------------------------------------------------------------------------------------->		
+	
 		
 		<script type="text/javascript">
 			function search(){
@@ -121,17 +139,15 @@
 			}
 		</script>
 		
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+		
 		<section>
 			<article>
 				<div class="tit">
 					<span class="label">|&nbsp;&nbsp;회원관리</span>
 					<hr/>
 				</div>
-				
-			
-			
 				<div>
-					
 					<div class="wrap_keyword">
 						
 						<div class="userinfo">
@@ -149,17 +165,7 @@
 							<input type="hidden" id="chMID">
 						</div>
 					</div>
-					
-					<div class="btns">
-						<span><button type="button" onclick="memberinfo(chMID)">회원정보</button></span>
-						<span><button type="button" onclick="location='<%=request.getContextPath()%>/Manager/UserBuyList.do'">예매내역</button></span>
-						<span><button type="button" onclick="location='<%=request.getContextPath()%>/Manager/UserQnaList.do'">문의내역</button></span>
-						<span><button type="button">댓글내역</button></span>
-					</div>
 				</div>
-			
-			
-			
 				<hr/>
 				<div class="list_table">
 					<table class="table2">
@@ -188,6 +194,7 @@
 											</a>
 										</td>
 										<td class="td_">
+											
 											<input type="hidden" class="mphone" value="<%=mv.getMphone()%>">
 											<input type="hidden" class="mssn" value="<%=mv.getMssn()%>">
 										</td>
@@ -202,21 +209,20 @@
 					<div class="paging">
 						<div id="main_event_page">
 							<div id="main_event_page_set">
+								<div class="main_event_page_button main_event_page_bn">
+									<div class="main_event_page_button_llgg">&lt;&lt;</div>
+								</div>
 								
-									<div class="main_event_page_button main_event_page_bn">
-										<div class="main_event_page_button_llgg">&lt;&lt;</div>
+								<div class="main_event_page_button main_event_page_bn">
+									<%if (pm.isPrev() == true) { %>
+									<div class="main_event_page_button_lg">
+										<a href="<%=request.getContextPath()%>/Manager/MemberList.do?page=<%=pm.getStartPage()-1%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+											&lt;
+										</a>
 									</div>
-									
-									<div class="main_event_page_button main_event_page_bn">
-										<%if (pm.isPrev() == true) { %>
-										<div class="main_event_page_button_lg">
-											<a href="<%=request.getContextPath()%>/Manager/MemberList.do?page=<%=pm.getStartPage()-1%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
-												&lt;
-											</a>
-										</div>
-										<% } %>
-									</div>
-								
+									<% } %>
+								</div>
+							
 								<a href="#">
 									<div class="main_event_page_bn">
 										<div class="main_event_page_button_page">
@@ -226,20 +232,20 @@
 										</div>
 									</div>
 								</a>
+							
+								<div class="main_event_page_button main_event_page_bn">
+									<%if (pm.isNext() && pm.getEndPage()>0) { %>
+									<div class="main_event_page_button_lg">
+										<a href="<%=request.getContextPath()%>/Manager/MemberList.do?page=<%=pm.getEndPage()+1%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+											&gt;
+										</a>
+									</div>
+									<% } %>
+								</div>
 								
-									<div class="main_event_page_button main_event_page_bn">
-										<%if (pm.isNext() && pm.getEndPage() >0) { %>
-										<div class="main_event_page_button_lg">
-											<a href="<%=request.getContextPath()%>/Manager/MemberList.do?page=<%=pm.getEndPage()+1%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
-												&gt;
-											</a>
-										</div>
-										<% } %>
-									</div>
-									
-									<div class="main_event_page_button main_event_page_bn">
-										<div class="main_event_page_button_llgg">&gt;&gt;</div>
-									</div>
+								<div class="main_event_page_button main_event_page_bn">
+									<div class="main_event_page_button_llgg">&gt;&gt;</div>
+								</div>
 								
 							</div>
 						</div>
@@ -248,17 +254,20 @@
 				</div>
 			</article>
 		</section>
+		
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
 		<footer>
-				<hr class="f_bar" id="f_bar_bottom">
-				<div id="f_last">
-					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
-					<span class="f_bottom_ment">
-						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
-						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>
-						<a href="#" class="f_bottom_tagset">예매가이드&nbsp;&nbsp;&nbsp;&nbsp;</a>
-					</span>
-				</div>
-				<hr class="f_bar" id="f_bar_bottom">
+			<hr class="f_bar" id="f_bar_bottom">
+			<div id="f_last">
+				<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
+				<span class="f_bottom_ment">
+					<span class="f_bottom_tagset">예매문의(1234-1234)</span>
+					<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<a href="#" class="f_bottom_tagset">예매가이드&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</span>
+			</div>
+			<hr class="f_bar" id="f_bar_bottom">
 			<div class="f_title_inner">
 				<span id="f_menu_contract_span">
 					<ul id="f_menu_contract">

@@ -1,11 +1,10 @@
-<%@page import="com.TicketLupin.web.service.EventVo"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page import="com.TicketLupin.web.service.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% EventVo ev = (EventVo)request.getAttribute("ev"); %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>이벤트 상세</title>
+		<title>티켓루팡</title>
 		<script src="<%=request.getContextPath() %>/js/Event_view.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Event_view.css">
 		<script>
@@ -80,7 +79,7 @@
 					</div>
 					<div class="view_mid">
 						<center>
-							<img src="<%=request.getContextPath()%>/image/<%=ev.getEfiles()%>"/>
+							<img src="<%=request.getContextPath()%>/image/<%=ev.getEfiles()%>">
 							<div style="font-size:20px;"><%=ev.getEcontent()%></div>
 						</center>
 					</div>

@@ -1,8 +1,7 @@
 <%@ page import="com.TicketLupin.web.service.*"%>
 <%@ page import="domain.*"%>
 <%@ page import="java.util.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% 
 	ArrayList<EventVo> alist = (ArrayList<EventVo>) request.getAttribute("alist"); 
@@ -18,7 +17,7 @@
 <html>
 	<head>
 		<title>티켓 루팡</title>
-		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Event_list.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/Event_list.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Event_list.js"></script>
 	</head>
@@ -69,6 +68,7 @@
 		</div>
 		<hr id="nav_bar_bottom">
 		
+<!------------------------------------------------------------------------------------------------------------------------------------->			
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="${pageContext.request.contextPath}/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -99,6 +99,7 @@
 		</div>
 		
 <!------------------------------------------------------------------------------------------------------------------------------------->		
+		
 		<script>
 			function search(){
 				frm.action="<%=request.getContextPath()%>/Event/EventMain.do";
@@ -109,14 +110,20 @@
 		<section>
 			<article>
 				<div id="main_eventlist_all">
-					<div id="manage_write_div">
-						<c:choose>
-							<c:when test="${sessionScope.mgrade eq 'M' }">
-								<a href="<%=request.getContextPath()%>/Event/EventWrite.do" id="manage_write">작성하기</a>
-							</c:when>
-							<c:otherwise></c:otherwise>
-						</c:choose>
-					</div>
+					
+					<c:if test="${sessionScope.mgrade eq 'M'}">
+						<div id="manage_write_div">
+							<a href="<%=request.getContextPath()%>/Event/EventWrite.do" id="manage_write">작성하기</a>
+						</div>
+					</c:if>
+					<c:if test="${sessionScope.mgrade eq 'G'}">
+						<div id="manage_write_div">
+						</div>
+					</c:if>
+					<c:if test="${empty sessionScope.mgrade}">
+						<div id="manage_write_div">
+						</div>
+					</c:if>
 				
 					<div id="main_banner_set">
 				
@@ -161,6 +168,8 @@
 				<% } %>
 					
 					</div>
+					
+					
 					<div id="main_search_set">
 						<form id="main_search_form" name="frm">
 							<input type="text" name="keyword" id="main_search_text" placeholder="&nbsp;&nbsp;이벤트 검색">

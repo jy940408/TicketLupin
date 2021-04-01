@@ -537,35 +537,57 @@ public class ReservationDao {
 	public ArrayList<ReservationIdxVo> deleteUpdateReservationIDX2List(int sidx){
 		
 		ArrayList<ReservationIdxVo> list = new ArrayList<ReservationIdxVo>();
-		String sql = "SELECT * FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
-				+ "ON R.SIDX = S.SIDX "
-				+ "AND R.SIDX = 364 "
+		String sql = "SELECT DELRES.RIIDX, DELRES.SIDX, DELRES.MIDX, DELRES.SRDATE, DELRES.SRROUND, DELRES.RIBASIC, "
+				+ "DELRES.RIDISCOUNT, DELRES.RIVAT, DELRES.RIDELIVERY, "
+				+ "DELRES.RIPAYMENT, DELRES.RIDELDATE, DELRES.RNAME, DELRES.RTEL, DELRES.REMAIL, DELRES.RPAYMETHOD, "
+				+ "SHOW1.STITLE FROM "
+				+ "(SELECT ALLRES.RIIDX, ALLRES.SIDX, ALLRES.MIDX, ALLRES.SRDATE, ALLRES.SRROUND, ALLRES.RIBASIC, "
+				+ "ALLRES.RIDISCOUNT, ALLRES.RIVAT, ALLRES.RIPAYMENT, ALLRES.RIDELIVERY, ALLRES.RIDELDATE, RESGROUP.RNAME, RESGROUP.RTEL, " 
+				+ "RESGROUP.REMAIL, RESGROUP.RPAYMETHOD FROM "
+				+ "(SELECT R.RIIDX, R.SIDX, R.MIDX, R.SRDATE, R.SRROUND, R.RIBASIC, R.RIDISCOUNT, R.RIVAT, R.RIDELIVERY, R.RIPAYMENT, RIDELDATE "
+				+ "FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
+				+ "ON R.SIDX = S.SIDX " 
+				+ "AND R.SIDX = ? "
 				+ "AND R.SRDATE = S.SRDATE "
+				+ "AND R.RIDELYN = 'Y' "
 				+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
 				+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
 				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
-				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)";
+				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4) "
+				+ "WHERE R.RIDELDATE = (SELECT MAX(RIDELDATE) FROM RESERVATIONIDX)) ALLRES "
+				+ "INNER JOIN (SELECT SIDX, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RIIDX  "
+				+ "FROM RESERVATION "
+				+ "GROUP BY RIIDX, SIDX, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RIIDX) RESGROUP "
+				+ "ON ALLRES.RIIDX = RESGROUP.RIIDX) DELRES "
+				+ "INNER JOIN SHOW1 ON DELRES.SIDX = SHOW1.SIDX";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 				ReservationShowVo rsv = new ReservationShowVo();
 				
-				rsv.setStitle(rs.getString("STITLE"));
-				rsv.setRidx(rs.getInt("RIDX"));
+				rsv.setRidx(rs.getInt("RIIDX"));
 				rsv.setSidx(rs.getInt("SIDX"));
 				rsv.setMidx(rs.getInt("MIDX"));
-				rsv.setRseat(rs.getString("RSEAT"));
-				rsv.setRprice(rs.getInt("RPRICE"));
-				rsv.setRdiscount(rs.getNString("RDISCOUNT"));
 				rsv.setSrdate(rs.getString("SRDATE"));
 				rsv.setSrround(rs.getString("SRROUND"));
-				rsv.setRregdate(rs.getDate("RREGDATE"));
-				rsv.setNum(rs.getInt("NUM"));
-				
+				rsv.setRibasic(rs.getInt("RIBASIC"));
+				rsv.setRidiscount(rs.getInt("RIDISCOUNT"));
+				rsv.setRivat(rs.getInt("RIVAT"));
+				rsv.setRidelivery(rs.getInt("RIDELIVERY"));
+				rsv.setRipayment(rs.getInt("RIPAYMENT"));
+				rsv.setStitle(rs.getString("STITLE"));
+				rsv.setRname(rs.getString("RNAME"));
+				rsv.setRtel(rs.getString("RTEL"));
+				rsv.setRemail(rs.getString("REMAIL"));
+				rsv.setRpaymethod(rs.getString("RPAYMETHOD"));
+				rsv.setStitle(rs.getString("STITLE"));
 				list.add(rsv);
 				
 			}

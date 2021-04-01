@@ -29,7 +29,7 @@
 			</table>
 
 				<table class="type02">
-					<tr>
+					<tr style="text-align:center">
 						<th class="t1">no</th>
 						<th class="t3">유형</th>
 						<th class="t2">댓글내용</th>
@@ -52,20 +52,7 @@
 				</table>
 				<br>
 				<div id="num">
-					<a href="#"><<</a>&nbsp;
-					<a href="#"><</a>&nbsp;
-					<a href="#">1</a>&nbsp;
-					<a href="#">2</a>&nbsp;
-					<a href="#">3</a>&nbsp;
-					<a href="#">4</a>&nbsp;
-					<a href="#">5</a>&nbsp;
-					<a href="#">6</a>&nbsp;
-					<a href="#">7</a>&nbsp;
-					<a href="#">8</a>&nbsp;
-					<a href="#">9</a>&nbsp;
-					<a href="#">10</a>&nbsp;
-					<a href="#">></a>&nbsp;
-					<a href="#">>></a>
+					
 				</div>
 				<div>
 					<button type="button" id="rainisback" onclick="history.back()">뒤로가기</button>

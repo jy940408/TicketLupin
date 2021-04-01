@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -69,7 +68,7 @@
 		<section>
 			<article>
 				<div class="event">
-					<h2>티켓 루팡</h2>
+					<h2>티켓루팡</h2>
 					<form name="frm">
 					<table class="event_table" style="border:1px solid; border-collapse:collapse;">
 						<colgroup>

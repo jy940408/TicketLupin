@@ -19,7 +19,7 @@
         <meta charset="UTF-8">
         <title>티켓루팡 : 비밀번호 변경</title>
         <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
-        <script src="<%=request.getContextPath() %>/js/Find_pwd_step2.js"></script>
+        
         <script type="text/javascript">
        		function pwdChange(){
        			if (document.frm.mpwd.value ==""){
@@ -111,6 +111,6 @@
         <!-- wrapper -->
         </form>
         <% } %>
-		
+		<script src="<%=request.getContextPath() %>/js/Find_pwd_step2.js"></script>
     </body>
 </html>

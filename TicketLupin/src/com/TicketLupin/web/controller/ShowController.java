@@ -1004,16 +1004,19 @@ public class ShowController extends HttpServlet{
 				
 			}
 			
-			//기존 공연 회차 예매했던 회원들 불러오기
 			ReservationDao rd = new ReservationDao();
-			ArrayList<ReservationIdxVo> list = rd.deleteUpdateReservationIDX2List(sidx);
-			deleteReservationMail drm = new deleteReservationMail();
-			drm.naverMailSend(list);
 			
+			//deleteReservationMail drm = new deleteReservationMail();
+			//drm.naverMailSend(list);
 			
 			//기존 공연 회차 예매내역 삭제하기(수정중)
-			//rd.deleteUpdateReservation2(sidx);
-			//rd.deleteUpdateReservationIDX2(sidx);
+			rd.deleteUpdateReservation2(sidx);
+			rd.deleteUpdateReservationIDX2(sidx);
+			
+			//기존 공연 회차 예매했던 회원들 불러오기
+			ArrayList<ReservationIdxVo> list = rd.deleteUpdateReservationIDX2List(sidx);
+			System.out.println("회차 삭제된 회원 목록: " + list);
+			
 			
 			System.out.println(roundlist);
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");

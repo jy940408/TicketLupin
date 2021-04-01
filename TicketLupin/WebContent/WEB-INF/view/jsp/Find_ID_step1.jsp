@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lnag="ko">
+<html lang="ko">
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입 인증</title>
@@ -59,9 +59,11 @@
                 <!-- EMAIL -->
                 <div>
                     <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
-                    <button type="button" id="btninzung">
+            <!--    
+            		<button type="button" id="btninzung">
                         <span>인증</span>
 					</button>
+			-->
 					<span class="box int_email" id= "emailbox1" >
                         <input type="text" id="email" class="int" maxlength="100" placeholder="이메일 입력" name="memail">
                     </span>

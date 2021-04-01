@@ -19,7 +19,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>티켓 루팡 : 아이디 찾기</title>
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
 	</head>
 	<body>
 		<div style="text-align:center">

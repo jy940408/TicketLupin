@@ -2,16 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입</title>
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Login_FI_FP_Join__.css">
-        <script type="text/javascript" src="<%=request.getContextPath()%>/js/Join_step2.js"></script>
+        
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
         	
@@ -34,7 +31,7 @@
 				  	return;
 			  	}
 			  
-			  	alert("전송");
+			  	alert("가입합니다.");
 			  	document.frm.action ="<%=request.getContextPath()%>/Member/MemberJoinAction.do";
 			  	document.frm.method = "POST";
 			  	document.frm.submit(); 
@@ -169,7 +166,7 @@
 	                <div>
 	                    <h3 class="join_title"><label for="gender">성별</label></h3>
 	                    <span class="box gender_code">
-	                        <select id="gender" class="sel">
+	                        <select id="gender" class="sel" name="mgender">
 	                            <option>성별</option>
 	                            <option value="M">남자</option>
 	                            <option value="F">여자</option>
@@ -184,11 +181,11 @@
 						<label for="address">주소</label >
 					</h3>
 					
-					<input type="text" id="sample6_postcode" placeholder="우편번호" style="height:25px" >
+					<input type="text" id="sample6_postcode" placeholder="우편번호" style="height:25px" name="mpostcode">
 					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="height:25px"><br>
 					<input type="text" id="sample6_address" placeholder="주소" style="width:100%; height:25px" name="maddress"><br>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:45%; height:25px" name="maddress">
-					<input type="text" id="sample6_extraAddress" placeholder="참고항목" style="width:45%; height:25px">
+					<input type="text" id="sample6_detailAddress" placeholder="상세주소" style="width:45%; height:25px" name="mdetailaddress">
+					<input type="text" id="sample6_extraAddress" placeholder="참고항목" style="width:45%; height:25px" name="mextraaddress">
 					
 					
 					<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -246,7 +243,7 @@
 					
 	                <!-- EMAIL -->
 	                <div>
-	                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
+	                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
 	                    <span class="box int_email">
 	                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력" name="memail">
 	                    </span>
@@ -278,6 +275,6 @@
 	        </div> 
 	        <!-- wrapper -->
         </form>
-		
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/Join_step2.js"></script>
     </body>
 </html>
