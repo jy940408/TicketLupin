@@ -1,6 +1,7 @@
 package com.TicketLupin.web.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class CustomerController extends HttpServlet{
 			
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
+			request.setAttribute("keyword", keyword);
 			request.setAttribute("searchType", searchType);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Notice_list.jsp").forward(request, response);
@@ -90,28 +92,37 @@ public class CustomerController extends HttpServlet{
 			
 		}else if(str.equals("/Customer/NoticeView.do")) {
 			
-			String nidx_ = request.getParameter("nidx");
-			int nidx = Integer.parseInt(nidx_);
+			String keyword_ = request.getParameter("keyword");
+			String searchType_ = request.getParameter("searchType");
+			String num_ = request.getParameter("num");
+			int num = Integer.parseInt(num_);
 			
-			String page_ = request.getParameter("p");
+			String keyword = "";
 			
-			int page = 1;
-			
-			if(page_ != null && !page_.equals("")) {
-				page = Integer.parseInt(page_);
+			if(keyword_ != null && !keyword_.equals("")) {
+				keyword = keyword_;
 			}
+			
+			String searchType = "";
+			
+			if(searchType_ != null && !searchType_.equals("")) {
+				searchType = searchType_;
+			}
+			
 			
 			NoticeDao nd = new NoticeDao();
 			
-			NoticeVo nv = nd.getNoticeListOne(nidx);
-			NoticeVo pnv = nd.getNoticeListOnePrev(nidx);
-			NoticeVo nnv = nd.getNoticeListOneNext(nidx);
+			NoticeVo nv = nd.getNoticeListOne(keyword, searchType, num);
+			NoticeVo pnv = nd.getNoticeListOnePrev(keyword, searchType, num);
+			NoticeVo nnv = nd.getNoticeListOneNext(keyword, searchType, num);
 			
-			int count = nd.getNoticeListCountAll(page);
+			int count = nd.getNoticeListCountAll(keyword, searchType);
 			
 			request.setAttribute("nv", nv);
 			request.setAttribute("pnv", pnv);
 			request.setAttribute("nnv", nnv);
+			request.setAttribute("keyword", keyword);
+			request.setAttribute("searchType", searchType);
 			request.setAttribute("count", count);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Notice_view.jsp").forward(request, response);
@@ -121,9 +132,8 @@ public class CustomerController extends HttpServlet{
 			String nidx_ = request.getParameter("nidx");
 			int nidx = Integer.parseInt(nidx_);
 			
-			NoticeDao nd = new NoticeDao();
-			
-			NoticeVo nv = nd.getNoticeListOne(nidx);
+			NoticeDao nd = new NoticeDao();	
+			NoticeVo nv = nd.getNoticeOne(nidx);
 			
 			request.setAttribute("nv", nv);
 			
@@ -133,15 +143,14 @@ public class CustomerController extends HttpServlet{
 			
 			String ntitle = request.getParameter("ntitle");
 			String ncontent = request.getParameter("ncontent");
-			String ncategory = request.getParameter("ncategory");
+			String ncategory = request.getParameter("ncategory");	
 			String nidx_ = request.getParameter("nidx");
-			int nidx = Integer.parseInt(nidx_);
+			int nidx = Integer.parseInt(nidx_);	
 			
 			NoticeDao nd = new NoticeDao();
-			
 			nd.noticeModify(nidx, ntitle, ncontent, ncategory);
 			
-			response.sendRedirect("../Customer/NoticeView.do?nidx="+nidx);			
+			response.sendRedirect("../Customer/NoticeList.do");			
 			
 		}else if(str.equals("/Customer/NoticeDeleteAction.do")) {
 			
@@ -261,21 +270,21 @@ public class CustomerController extends HttpServlet{
 		
 		else if(str.equals("/Customer/QuestionList.do")) {
 			
-			String state_ = request.getParameter("state");
 			String page_ = request.getParameter("p");
+			String state_ = request.getParameter("state");
 			int midx = (Integer)request.getSession().getAttribute("midx");
-			
-			String state = "";
-			
-			if(state_ != null && !state_.equals("")) {
-				state = state_;
-			}
 			
 			int page = 1;
 			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
+			
+			String state = "";
+			
+			if(state_ != null && !state_.equals("")) {
+				state = state_;
+			}		
 			
 			QuestionDao qd = new QuestionDao();		
 				
@@ -312,7 +321,7 @@ public class CustomerController extends HttpServlet{
 			
 			QuestionDao qd = new QuestionDao();
 			
-			QuestionVo qv = qd.getQuestionListOne(qidx, midx);
+			QuestionVo qv = qd.getQuestionOne(qidx, midx);
 			
 			request.setAttribute("qv", qv);
 			
@@ -320,6 +329,10 @@ public class CustomerController extends HttpServlet{
 			
 		}else if(str.equals("/Customer/QuestionModifyAction.do")) {
 			
+			String num_ = request.getParameter("num");
+			int num = Integer.parseInt(num_);
+			String state_ = request.getParameter("state");
+			state_ = URLEncoder.encode(state_, "UTF-8");
 			String qtitle = request.getParameter("qtitle");
 			String qcontent = request.getParameter("qcontent");
 			String qtype = request.getParameter("qtype");
@@ -327,17 +340,25 @@ public class CustomerController extends HttpServlet{
 			int qidx = Integer.parseInt(qidx_);
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
+			String state = "";
+			
+			if(state_ != null && !state_.equals("")) {
+				state = state_;
+			}	
+			
 			QuestionDao qd = new QuestionDao();
 			
 			qd.modifyQuestion(qtitle, qcontent, qtype, qidx, midx);
-
-			response.sendRedirect("../Customer/QuestionView.do?qidx="+qidx);
+			
+			response.sendRedirect("../Customer/QuestionView.do?num="+num+"&qidx="+qidx+"&state="+state);
 			
 		}else if(str.equals("/Customer/QuestionView.do")) {
 			
-			String qidx_ = request.getParameter("qidx");
-			int qidx = Integer.parseInt(qidx_);		
 			String page_ = request.getParameter("p");
+			String qidx_ = request.getParameter("qidx");
+			String state_ = request.getParameter("state");
+			String num_ = request.getParameter("num");
+			int num = Integer.parseInt(num_);
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			int page = 1;
@@ -346,50 +367,77 @@ public class CustomerController extends HttpServlet{
 				page = Integer.parseInt(page_);
 			}
 			
+			int qidx = 0;
+			
+			if(qidx_ != null && !qidx_.equals("")) {
+				qidx = Integer.parseInt(qidx_);
+			}
+			
+			String state = "";
+			
+			if(state_ != null && !state_.equals("")) {
+				state = state_;
+			}
+			
 			QuestionDao qd = new QuestionDao();
 			
-			QuestionVo qv = qd.getQuestionListOne(qidx, midx);
-			QuestionVo pqv = qd.getQuestionListOnePrev(qidx, midx);
-			QuestionVo nqv = qd.getQuestionListOneNext(qidx, midx);
+			QuestionVo qv = qd.getQuestionListOne(state, num, midx);
+			QuestionVo pqv = qd.getQuestionListOnePrev(state, num, midx);
+			QuestionVo nqv = qd.getQuestionListOneNext(state, num, midx);
 			
-			int count = qd.getQuestionListCountAll(page, midx);
+			int count = qd.getQuestionListCount(state, page, midx);
 			
 			request.setAttribute("qv", qv);
 			request.setAttribute("pqv", pqv);
 			request.setAttribute("nqv", nqv);
 			request.setAttribute("count", count);
+			request.setAttribute("state", state);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myask_view.jsp").forward(request, response);
 			
 		}else if(str.equals("/Customer/QuestionView2.do")) {
 			
-			String qidx_ = request.getParameter("qidx");
-			int qidx = Integer.parseInt(qidx_);
-			String acontent = request.getParameter("acontent");
 			String page_ = request.getParameter("p");
+			String qidx_ = request.getParameter("qidx");
+			String state_ = request.getParameter("state");
+			String num_ = request.getParameter("num");
+			int num = Integer.parseInt(num_);
 			int midx = (Integer)request.getSession().getAttribute("midx");
-			
+
 			int page = 1;
 			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
 			
+			int qidx = 0;
+			
+			if(qidx_ != null && !qidx_.equals("")) {
+				qidx = Integer.parseInt(qidx_);
+			}
+			
+			String state = "";
+			
+			if(state_ != null && !state_.equals("")) {
+				state = state_;
+			}
+			
 			QuestionDao qd = new QuestionDao();
 			AnswerDao ad = new AnswerDao();
 			
-			QuestionVo qv = qd.getQuestionListOne(qidx, midx);
-			QuestionVo pqv = qd.getQuestionListOnePrev(qidx, midx);
-			QuestionVo nqv = qd.getQuestionListOneNext(qidx, midx);
+			QuestionVo qv = qd.getQuestionListOne(state, num, midx);
+			QuestionVo pqv = qd.getQuestionListOnePrev(state, num, midx);
+			QuestionVo nqv = qd.getQuestionListOneNext(state, num, midx);
 			
 			AnswerVo av = ad.getAnswerListOne(qidx, midx);
 			
-			int count = qd.getQuestionListCountAll(page, midx);
+			int count = qd.getQuestionListCount(state, page, midx);
 			
 			request.setAttribute("qv", qv);
 			request.setAttribute("pqv", pqv);
 			request.setAttribute("nqv", nqv);
 			request.setAttribute("count", count);
+			request.setAttribute("state", state);
 			
 			request.setAttribute("av", av);
 			

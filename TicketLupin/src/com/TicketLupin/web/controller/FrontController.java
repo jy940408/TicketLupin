@@ -49,9 +49,6 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Soldout")) {			
 			SoldoutController soldoutc = new SoldoutController();
 			soldoutc.doGet(request, response);			
-		}else if (hc.equals("Actor")) {			
-			ActorController actorc = new ActorController();
-			actorc.doGet(request, response);			
 		}else if (hc.equals("Pay")) {			
 			PayController payc = new PayController();
 			payc.doGet(request, response);			
@@ -91,34 +88,9 @@ public class FrontController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		//�����ο� ������ Ȯ���Ѵ�
-				String uri = request.getRequestURI();
-				String projectname = request.getContextPath();
-				int jarinum = projectname.length();
-				String str = uri.substring(jarinum);
-				System.out.println("post" + uri);
-				// /board/boardList.do
-				
-				String[] po = str.split("/");
-				String hc = po[1];
-		
-		if (hc.equals("Member")) {
-			MemberController memberc = new MemberController();
-			memberc.doPost(request, response);			
-		}else if (hc.equals("News")) {			
-			NewsController newsc = new NewsController();
-			newsc.doPost(request, response);
-		}else if (hc.equals("Winner")) {			
-			WinnerController winnerc = new WinnerController();
-			winnerc.doPost(request, response);			
-		}else if (hc.equals("Show")) {			
-			ShowController showc = new ShowController();
-			showc.doPost(request, response);		
-		}else if (hc.equals("Event")) {			
-			EventController eventc = new EventController();
-			eventc.doPost(request, response);			
-		}
+
+	doGet(request, response);
+
 		
 	}
 	

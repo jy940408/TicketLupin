@@ -126,7 +126,6 @@ public class NoticeDao {
 			
 			ResultSet rs = pstmt.executeQuery();
 		
-
 			while(rs.next()) {
 				
 				NoticeVo nv = new NoticeVo();
@@ -164,7 +163,7 @@ public class NoticeDao {
 	}
 	
 	
-	public NoticeVo getNoticeListOne(int nidx) {
+	public NoticeVo getNoticeOne(int nidx) {
 		
 		NoticeVo nv = null;
 		ResultSet rs = null;
@@ -209,108 +208,13 @@ public class NoticeDao {
 		}
 		
 		return nv;
-	}
-	
-	public NoticeVo getNoticeListOnePrev(int nidx){
-		
-		NoticeVo nv = null;
-		ResultSet rs = null;
-		
-		String sql = "SELECT * FROM NOTICE WHERE NDELYN = 'N' AND NIDX = ?";
-		
-		try {
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, nidx-1);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				nv = new NoticeVo();
-				
-				nv.setNidx(rs.getInt("NIDX"));
-				nv.setNtitle(rs.getString("NTITLE"));
-				nv.setNcontent(rs.getString("NCONTENT"));
-				nv.setMidx(rs.getInt("MIDX"));
-				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
-				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
-			}
-			
-		}catch(SQLException e) {
-			
-			e.printStackTrace();
-			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
-		}
-		
-		return nv;
-	}
-	
-	public NoticeVo getNoticeListOneNext(int nidx){
-		
-		NoticeVo nv = null;
-		ResultSet rs = null;
-		
-		String sql = "SELECT * FROM NOTICE WHERE NDELYN = 'N' AND NIDX = ?";
-		
-		try {
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, nidx+1);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				nv = new NoticeVo();
-				
-				nv.setNidx(rs.getInt("NIDX"));
-				nv.setNtitle(rs.getString("NTITLE"));
-				nv.setNcontent(rs.getString("NCONTENT"));
-				nv.setMidx(rs.getInt("MIDX"));
-				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
-				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
-			}
-			
-		}catch(SQLException e) {
-			
-			e.printStackTrace();
-			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
-		}
-		
-		return nv;
-	}
-	
+	}	
 	
 	public int getNoticeListCount(int page, String keyword, String ncategory){
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(NIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
 		
 		try {
 		
@@ -340,15 +244,168 @@ public class NoticeDao {
 		return count;
 	}	
 	
-	public int getNoticeListCountAll(int page){
+	public NoticeVo getNoticeListOne(String keyword, String searchType, int num) {
+		
+		NoticeVo nv = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(2, "%"+searchType+"%");
+			pstmt.setInt(3, num);
+			
+			rs  = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				
+				nv = new NoticeVo();
+				
+				nv.setNum(rs.getInt("NUM"));
+				nv.setNidx(rs.getInt("NIDX"));
+				nv.setNtitle(rs.getString("NTITLE"));
+				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setMidx(rs.getInt("MIDX"));
+				nv.setNregdate(rs.getDate("NREGDATE"));
+				nv.setNhit(rs.getInt("NHIT"));
+				nv.setNimage(rs.getString("NIMAGE"));
+				nv.setNfiles(rs.getString("NFILES"));
+				nv.setNpub(rs.getString("NPUB"));
+				nv.setNgood(rs.getInt("NGOOD"));
+				nv.setNdelyn(rs.getString("NDELYN"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
+			}					
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+			
+			if (rs != null) try { rs.close(); } catch(Exception e) {}
+			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
+			if (conn != null) try { rs.close(); } catch(Exception e) {}
+		}
+		
+		return nv;
+	}
+	
+	public NoticeVo getNoticeListOnePrev(String keyword, String searchType, int num){
+		
+		NoticeVo nv = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(2, "%"+searchType+"%");
+			pstmt.setInt(3, num+1);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				nv = new NoticeVo();
+				
+				nv.setNum(rs.getInt("NUM"));
+				nv.setNidx(rs.getInt("NIDX"));
+				nv.setNtitle(rs.getString("NTITLE"));
+				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setMidx(rs.getInt("MIDX"));
+				nv.setNregdate(rs.getDate("NREGDATE"));
+				nv.setNhit(rs.getInt("NHIT"));
+				nv.setNimage(rs.getString("NIMAGE"));
+				nv.setNfiles(rs.getString("NFILES"));
+				nv.setNpub(rs.getString("NPUB"));
+				nv.setNgood(rs.getInt("NGOOD"));
+				nv.setNdelyn(rs.getString("NDELYN"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
+			}
+			
+		}catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+			
+			if (rs != null) try { rs.close(); } catch(Exception e) {}
+			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
+			if (conn != null) try { rs.close(); } catch(Exception e) {}
+		}
+		
+		return nv;
+	}
+	
+	public NoticeVo getNoticeListOneNext(String keyword, String searchType, int num){
+		
+		NoticeVo nv = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+					
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(2, "%"+searchType+"%");
+			pstmt.setInt(3, num-1);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				nv = new NoticeVo();
+				
+				nv.setNum(rs.getInt("NUM"));
+				nv.setNidx(rs.getInt("NIDX"));
+				nv.setNtitle(rs.getString("NTITLE"));
+				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setMidx(rs.getInt("MIDX"));
+				nv.setNregdate(rs.getDate("NREGDATE"));
+				nv.setNhit(rs.getInt("NHIT"));
+				nv.setNimage(rs.getString("NIMAGE"));
+				nv.setNfiles(rs.getString("NFILES"));
+				nv.setNpub(rs.getString("NPUB"));
+				nv.setNgood(rs.getInt("NGOOD"));
+				nv.setNdelyn(rs.getString("NDELYN"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
+			}
+			
+		}catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+			
+			if (rs != null) try { rs.close(); } catch(Exception e) {}
+			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
+			if (conn != null) try { rs.close(); } catch(Exception e) {}
+		}
+		
+		return nv;
+	}
+	
+	public int getNoticeListCountAll(String keyword, String searchType){
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(NIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(2, "%"+searchType+"%");
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -371,5 +428,5 @@ public class NoticeDao {
 		
 		return count;
 	}
-
+	
 }

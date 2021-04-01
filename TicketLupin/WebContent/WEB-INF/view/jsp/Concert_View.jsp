@@ -3,10 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<% String tab = (String)request.getAttribute("tab"); %>
 <!DOCTYPE html>
 <html>
 	<head>
+	<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript"></script>
 	<script>
 		function insertDibs(){
@@ -127,10 +128,434 @@
 	
 //-------------------------------------------------------------------------------------------------------------------------------------//
 		
+		/*---------------댓글 삭제---------------------------------------------------------------------------*/
+			
+		    function removeCheck(test) {
+
+	        	 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+						var url=window.location.search.replaceAll("?","");
+						var paramArray = url.split("&");
+						var tab = "";
+						for(var i=0; i<paramArray.length; i++){
+	 						var param = paramArray[i].split("=");
+							if(param[0] == "tab"){
+								tab = param[1];
+								break;
+							}
+						}
+						var form = $('<form></form>');
+						form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectDeleteAction.do');
+						form.attr('method','post');
+						form.appendTo('body');
+						form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
+						form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+						form.submit();
+
+	        	 }else{   //취소
+
+	        	     return false;
+	        	 }
+			}
+		    function removeCheck2(test) {
+
+	        	 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+						var url=window.location.search.replaceAll("?","");
+						var paramArray = url.split("&");
+						var tab = "";
+						for(var i=0; i<paramArray.length; i++){
+	 						var param = paramArray[i].split("=");
+							if(param[0] == "tab"){
+								tab = param[1];
+								break;
+							}
+						}
+						var form = $('<form></form>');
+						form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectDeleteAction.do');
+						form.attr('method','post');
+						form.appendTo('body');
+						form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+						form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+						form.submit();
+
+	        	 }else{   //취소
+
+	        	     return false;
+	        	 }
+			}
+/*---------------댓글 보기---------------------------------------------------------------------------*/	  
+
+		$(document).ready(function(){
+			 $(".test").click(function(){
+				var test = $(this).attr("id");
+				var tagName = "reypleR_"+test+"_W";
+				$("#main_concert_expect_content_list li").each(function(){
+					var classV = String($(this).attr("class")).split("_");
+					console.log(classV);	
+					
+					if(classV.length==3 && classV[2] == "W"){
+						if($(this).attr("class") == tagName){
+							$(this).toggle();
+						}else{
+							$(this).hide();
+						}
+					}
+					
+				});
+			 });
+
+			 $(".test1").click(function(){
+				var test = $(this).attr("id");
+				var tagName = "reypleR1_"+test+"_W";
+				$("#main_concert_review_content_list li").each(function(){
+					var classV = String($(this).attr("class")).split("_");
+					console.log(classV);	
+					
+					if(classV.length==3 && classV[2] == "W"){
+						if($(this).attr("class") == tagName){
+							$(this).toggle();
+						}else{
+							$(this).hide();
+						}
+					}
+					
+				});
+			 });
+			 $(".test2").click(function(){
+					var test = $(this).attr("id");
+					var tagName = "reypleR2_"+test+"_W";
+					$("#main_concert_question_content_list li").each(function(){
+						var classV = String($(this).attr("class")).split("_");
+						console.log(classV);	
+						
+						if(classV.length==3 && classV[2] == "W"){
+							if($(this).attr("class") == tagName){
+								$(this).toggle();
+							}else{
+								$(this).hide();
+							}
+						}
+						
+					});
+				 });	
+
+
+ 			
+/*-------------댓글입력-----------------------------------------------------------------------------*/
+			$(".writeaction").click(function(){
+					var midx ='<%=session.getAttribute("midx")%>';
+					var test = $(this).attr("id");
+					var value= $("#"+test+"_action").val();
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var tab = "";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "tab"){
+							tab = param[1];
+							break;
+						}
+					}
+
+					if (midx == 'null') {
+						alert("로그인 후 입력 가능합니다.");
+						return;
+					}
+					alert(value+","+tab);
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectWriteAction.do');
+					form.attr('method','post');
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+value+'"name="content">'));
+					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+					form.submit();
+					
+			 }); 
+			 
+/*---------------대댓글 입력---------------------------------------------------------------------------*/	 			 
+ 			$(".comment").click(function(){
+ 					var midx ='<%=session.getAttribute("midx")%>';
+					var test = $(this).attr("id");
+					var value= $(".comment_"+test).val();
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var tab = "";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "tab"){
+							tab = param[1];
+							break;
+						}
+					}
+					if (midx == 'null') {
+						alert("로그인 후 입력 가능합니다.");
+						return;
+					}
+					
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectCommentWriteAction.do');
+					form.attr('method','post');
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+value+'"name="content">'));
+					form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
+					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+					form.submit();
+					
+			 });
+ 			$(".comment1").click(function(){
+				var midx ='<%=session.getAttribute("midx")%>';
+				var test = $(this).attr("id");
+				var value= $(".comment1_"+test).val();
+				var url=window.location.search.replaceAll("?","");
+				var paramArray = url.split("&");
+				var tab = "";
+				for(var i=0; i<paramArray.length; i++){
+						var param = paramArray[i].split("=");
+					if(param[0] == "tab"){
+						tab = param[1];
+						break;
+					}
+				}
+				if (midx == 'null') {
+					alert("로그인 후 입력 가능합니다.");
+					return;
+				}
+				
+				var form = $('<form></form>');
+				form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectCommentWriteAction.do');
+				form.attr('method','post');
+				form.appendTo('body');
+				form.append($('<input type="hidden" value="'+value+'"name="content">'));
+				form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
+				form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+				form.submit();
+				
+			 });
+ 			$(".comment2").click(function(){
+					var midx ='<%=session.getAttribute("midx")%>';
+				var test = $(this).attr("id");
+				var value= $(".comment2_"+test).val();
+				var url=window.location.search.replaceAll("?","");
+				var paramArray = url.split("&");
+				var tab = "";
+				for(var i=0; i<paramArray.length; i++){
+						var param = paramArray[i].split("=");
+					if(param[0] == "tab"){
+						tab = param[1];
+						break;
+					}
+				}
+				if (midx == 'null') {
+					alert("로그인 후 입력 가능합니다.");
+					return;
+				}
+				var form = $('<form></form>');
+				form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectCommentWriteAction.do');
+				form.attr('method','post');
+				form.appendTo('body');
+				form.append($('<input type="hidden" value="'+value+'"name="content">'));
+				form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
+				form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+				form.submit();
+			
+			 });
+/*---------------댓글 수정---------------------------------------------------------------------------*/	
+ 			 $(".expecptmodify").click(function(){
+					var test = $(this).attr("id");
+					var value= $(".modfiy_"+test).val();
+					var value2= (".modfiy_"+test);
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var tab = "";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "tab"){
+							tab = param[1];
+							break;
+						}
+					}
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectModifyWriteAction.do');
+					form.attr('method','post');
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+value+'"name="content">'));
+					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+					form.submit();
+			 });
+ 			 $(".expecptmodify1").click(function(){
+					var test = $(this).attr("id");
+					var value= $(".modify1_"+test).val();
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var tab = "";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "tab"){
+							tab = param[1];
+							break;
+						}
+					}
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectModifyWriteAction.do');
+					form.attr('method','post');
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+value+'"name="content">'));
+					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+					form.submit();
+			 });
+ 			 $(".expecptmodify2").click(function(){
+					var test = $(this).attr("id");
+					var value= $(".modify2_"+test).val();
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var tab = "";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "tab"){
+							tab = param[1];
+							break;
+						}
+					}
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectModifyWriteAction.do');
+					form.attr('method','post');
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+value+'"name="content">'));
+					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
+					form.submit();
+			 });
+/*---------------댓글 수정페이지 이동---------------------------------------------------------------------------*/	
+ 			$(".modify").click(function(){
+				var test = $(this).attr("id");
+				var tagName = "reypleR_"+test+"_W";
+				var modify = "modify_"+test+"_e";
+				var modifyc = "modifyc_"+test+"_c";
+				$("#main_concert_expect_content_list li").each(function(){
+					var classV = String($(this).attr("class")).split("_");
+					if(classV.length==3 && classV[2] == "e"){
+						if($(this).attr("class") == modify){
+							$(this).toggle();	
+					
+						}else{
+							$(this).hide();
+						}
+					}else if(classV.length==3 && classV[2] == "c"){
+						if($(this).attr("class") == modifyc){
+							$(this).toggle();
+						}
+					}else if(classV.length==3 && classV[2] == "W"){
+						if($(this).attr("class") == tagName){
+							$(this).hide();
+						}else{
+							$(this).hide();
+							
+						}
+					}			
+				});
+			});
+ 			$(".modify1").click(function(){
+				var test = $(this).attr("id");
+				var tagName = "reypleR1_"+test+"_W";
+				var modify = "modify1_"+test+"_e";
+				var modifyc = "modifyc1_"+test+"_c";
+				$("#main_concert_review_content_list li").each(function(){
+					var classV = String($(this).attr("class")).split("_");
+					if(classV.length==3 && classV[2] == "e"){
+						if($(this).attr("class") == modify){
+							$(this).toggle();	
+					
+						}else{
+							$(this).hide();
+						}
+					}else if(classV.length==3 && classV[2] == "c"){
+						if($(this).attr("class") == modifyc){
+							$(this).toggle();
+						}
+					}else if(classV.length==3 && classV[2] == "W"){
+						if($(this).attr("class") == tagName){
+							$(this).hide();
+						}else{
+							$(this).hide();
+							
+						}
+					}			
+				});
+			});
+ 			$(".modify2").click(function(){
+				var test = $(this).attr("id");
+				var tagName = "reypleR2_"+test+"_W";
+				var modify = "modify2_"+test+"_e";
+				var modifyc = "modifyc2_"+test+"_c";
+				$("#main_concert_question_content_list li").each(function(){
+					var classV = String($(this).attr("class")).split("_");
+					if(classV.length==3 && classV[2] == "e"){
+						if($(this).attr("class") == modify){
+							$(this).toggle();	
+					
+						}else{
+							$(this).hide();
+						}
+					}else if(classV.length==3 && classV[2] == "c"){
+						if($(this).attr("class") == modifyc){
+							$(this).toggle();
+						}
+					}else if(classV.length==3 && classV[2] == "W"){
+						if($(this).attr("class") == tagName){
+							$(this).hide();
+						}else{
+							$(this).hide();
+							
+						}
+					}			
+				});
+			});
+ 			
+/*---------------탭---------------------------------------------------------------------------*/	   			
+			var tab = '<%= tab%>';
+			var obj1 = document.getElementById("main_concert_detail_content_all");
+			var obj2 = document.getElementById("main_concert_expect_all");
+			var obj3 = document.getElementById("main_concert_review_all");
+			var obj4 = document.getElementById("main_concert_question_all");
+			var obj5 = document.getElementById("main_concert_place_all");
+			var obj6 = document.getElementById("main_concert_info_all");
+			
+			obj1.style.display="none";
+			obj2.style.display="none";
+			obj3.style.display="none";
+			obj4.style.display="none";
+			obj5.style.display="none";
+			obj6.style.display="none";
+			
+			if(tab == "main_concert_detail_content_all"){
+				$("#main_concert_detail_content_all").show();
+			}else if(tab == "main_concert_expect_all"){
+				$("#main_concert_expect_all").show();
+			}else if(tab == "main_concert_review_all"){
+				$("#main_concert_review_all").show();
+			}else if(tab == "main_concert_review_all"){
+				$("#main_concert_review_all").show();
+			}else if(tab == "main_concert_question_all"){
+				$("#main_concert_question_all").show();
+			}else if(tab == "main_concert_place_all"){
+				$("#main_concert_place_all").show();
+			}else if(tab == "main_concert_info_all"){
+				$("#main_concert_info_all").show();
+			}
+		});
+/*---------------신고 팝업---------------------------------------------------------------------------*/	  	
+		function reportCheck(c_idx){
+			var url = "<%=request.getContextPath() %>/ConcertView/Commentreport.do?c_idx="+c_idx;
+            var name = "popup test";
+            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+		}
+		
 	</script>
 		<title>티켓 루팡</title>
 		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Concert_view.css">
-		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
+		
 		<script src="<%=request.getContextPath() %>/js/Concert_view.js"></script>
 		<script src="${pageContext.request.contextPath}/js/Nav_all.js"></script>
 
@@ -495,70 +920,161 @@
 						</div>
 					</div>
 					<div id="main_concert_expect_content">
-						<form action="<%=request.getContextPath()%>/Review/ExpectWriteAction.do" method="post">
 						<div id="main_concert_expect_content_write_div">
 							<img src="../icon/person.png" class="main_concert_expect_content_write_all">
 							<div class="main_concert_expect_content_write_all">
-								<textarea name="content" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>
+								<textarea name="content" id="main_concert_expect_content_write_button_action" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>
 							</div>
-							<button type="submit" id="main_concert_expect_content_write_button">등록</button>
+							<input type="button" class="writeaction" id="main_concert_expect_content_write_button" value="등록">
 						</div>
-						</form>
 						<div id="main_concert_expect_content_number_all">
 							<div id="main_concert_expect_content_number_order">
-								<div id="main_concert_expect_content_number">총 ${ecount}개</div>
+								<div id="main_concert_expect_content_number">총 ${count}개</div>
 								<div id="main_concert_expect_content_list_order">
 									<ul>
-										<li><a href="#">최신순</a></li>&nbsp;&nbsp;|&nbsp;
-										<li><a href="#">추천순</a></li>
+										<li><a href="?od=latest&tab=main_concert_expect_all">최신순</a></li>&nbsp;&nbsp;|&nbsp;
+										<li><a href="?od=recommended&tab=main_concert_expect_all">추천순</a></li></li>&nbsp;&nbsp;|&nbsp;
+										<li><a href="?od=comments&tab=main_concert_expect_all">댓글순</a></li>
 									</ul>
 								</div>
 							</div>
 						</div>
 						<div id="main_concert_expect_content_list">
-							<ul>
-								<hr id="main_concert_expect_content_list_bar_first">
-								<c:forEach var="bb" items="${elist}">
-								<li>
-									<div id="main_concert_expect_content_list_id_set" class="main_concert_expect_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_expect_content_list_id_all">
-										<div id="main_concert_expect_content_list_id" class="main_concert_expect_content_list_id_all">
-											${bb.midx}
+						<ul>
+							<c:forEach var="cc" items="${elist}">
+							<c:choose>
+							<c:when test="${cc.c_depth == 0}">
+								<hr id="main_concert_question_content_list_bar_first">
+								<li class="modifyc_${cc.origin_c_idx}_c" >
+									<div>
+										<div class="main_concert_question_content_list_id_div">
+											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
+											<div class="main_concert_question_content_list_id">
+												${cc.mid}
+											</div>
+										</div>
+										<div class="main_concert_question_content_list_text_div">
+											<div class="main_concert_question_content_list_text">
+												${cc.c_content}
+											</div>
+											<div class="main_concert_question_content_list_date">
+												${cc.c_regdate}
+											</div>
+											<div class="main_concert_question_content_list_content_good">
+												<ul>
+												<c:choose>
+													<c:when test ="${sessionScope.midx == null}">
+														<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👍</a>${cc.origin_good}</li>	
+														<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👎</a>${cc.origin_bad}</li>	
+													</c:when>
+													<c:when test ="${sessionScope.midx == cc.midx}">
+														<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👍</a>${cc.origin_good}</li>	
+														<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👎</a>${cc.origin_bad}</li>	
+													</c:when>
+													<c:when test ="${sessionScope.midx != null}">
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?origin_c_idx=${cc.origin_c_idx}&good=G&tab=main_concert_expect_all">👍</a>${cc.origin_good}</li>
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?origin_c_idx=${cc.origin_c_idx}&good=B&tab=main_concert_expect_all">👎</a>${cc.origin_bad}</li>	
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when test="${cc.midx == sessionScope.midx}">							                     
+							                   			<li>|</li>
+							                    		<li><a href="#" id="${cc.origin_c_idx}" class="modify">수정</a></li>
+
+							                   			<li>|</li>
+							                   			<li><a href="#" onclick="removeCheck('${cc.origin_c_idx}')">삭제</a></li>
+							                   		</c:when>
+	                								<c:when test="${cc.midx != sessionScope.midx}">							                     
+							                   			<li>|</li>
+							                   			<li><a href="#" onclick="reportCheck('${cc.c_idx}')">신고</a></li>
+	                								</c:when>
+												</c:choose>                  							
+                  								</ul>
+											</div>
+											<a href="javascript:void(0);" id="${cc.origin_c_idx}" class="main_concert_question_content_list_more test">댓글 ${cc.cnt}개</a>
 										</div>
 									</div>
-									<div id="main_concert_expect_content_list_content_set" class="main_concert_expect_content_list_set_all">
-										<div id="main_concert_expect_content_list_content_main" class="main_concert_expect_content_list_content_all">
-											${bb.xcontent}
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_date" class="main_concert_expect_content_list_content_all">
-											${bb.xregdate}
-										</div>
-										<br>
-										<div id="main_concert_expect_content_list_content_good" class="main_concert_expect_content_list_content_all">
-											<ul>
-												<li>👍${bb.xgood}</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_expect_content_list_bar_bottom">
 								</li>
-								</c:forEach>
-							</ul>
+								<li class="modify_${cc.origin_c_idx}_e" >
+									<div>				
+										<form>
+											<textarea class="modfiy_${cc.c_idx}">
+												${cc.c_content}
+											</textarea>
+										</form>
+										<input type="button"  id="${cc.c_idx}"  class="expecptmodify" value="등록">
+										<input type="button" id="${cc.origin_c_idx}" class="modify"value="취소">
+									</div>
+								</li>
+								<li class="reypleR_${cc.origin_c_idx}_W">							
+									<input type="text" size="100" name="content" class="comment_${cc.origin_c_idx}">
+									<input type="button"  id="${cc.origin_c_idx}" class="comment" value="등록">		
+								</li>
+								</c:when>
+								<c:when test="${cc.c_depth == 1}">
+									<li class="reypleR_${cc.origin_c_idx}_W">
+										<div>
+											<div class="main_concert_question_content_list_id_div">
+												<div class="main_concert_question_content_list_id">
+													${cc.mid}
+												</div>
+											</div>
+											<div class="main_concert_question_content_list_text_div">
+												<div class="main_concert_question_content_list_text">
+													${cc.c_content}
+												</div>
+												<div class="main_concert_question_content_list_date">
+													${cc.c_regdate}
+												</div>
+												<div class="main_concert_question_content_list_content_good">
+													<ul>
+													<c:choose>
+														<c:when test ="${sessionScope.midx == null}">
+														<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👍</a>${cc.good}</li>	
+														<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👎</a>${cc.bad}</li>	
+														</c:when>
+														<c:when test ="${sessionScope.midx == cc.midx}">
+														<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👍</a>${cc.good}</li>	
+														<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👎</a>${cc.bad}</li>	
+														</c:when>
+														<c:when test ="${sessionScope.midx != null}">
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GooConcertViewn.do?c_idx=${cc.c_idx}&good=G&tab=main_concert_expect_all">👍</a>${cc.good}</li>
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?c_idx=${cc.c_idx}&good=B&tab=main_concert_expect_all">👎</a>${cc.bad}</li>	
+														</c:when>
+													</c:choose>
+													
+													<c:choose>
+														<c:when test="${cc.midx == sessionScope.midx}">
+								                   			<li>|</li>
+								                   			<li><a href="#" onclick="removeCheck2('${cc.c_idx}')">삭제</a></li>
+								                   		</c:when>
+		                								<c:when test="${cc.midx != sessionScope.midx}">							                     
+								                   			<li>|</li>
+								                   			<li><a href="#" onclick="reportCheck('${cc.c_idx}')">신고</a></li>
+		                								</c:when>
+													</c:choose>                  							
+	                  								</ul>
+												</div>
+											</div>
+										</div>
+									</li>
+									</c:when>
+							</c:choose>
+							</c:forEach>
+							<hr class="main_concert_question_content_list_bar_bottom">	
+						</ul>	
 				
-					<c:set var="page" value="${(param.ep == null)?1:param.ep}"/>
+					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
 					<c:set var="startNum" value="${page-(page-1)%5}"/>
-					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(ecount/10),'.')}"/>
+					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
 							<div id="main_page_button_set">
-								<a href="?ep=1&q=">
+								<a href="?p=1&q=&tab=<%=tab%>">
 								<div class="main_page_button main_page_bn">
 								<div class="main_page_button_llgg">&lt;&lt;</div>
 								</div>
 							</a>
 							<c:if test= "${startNum>1}">
-								<a href= "?ep=${startNum-1}&q=">
+								<a href= "?p=${startNum-1}&q=">
 									<div class="main_page_button main_page_bn">
 										<div class="main_page_button_lg">&lt;</div>
 									</div>
@@ -576,13 +1092,13 @@
 									<c:forEach var="i" begin="0" end= "4">
 										<c:if test ="${(startNum+i) <= lastNum}">
 											<div class="main_page_button_page">
-												<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?ep=${startNum+i}&q=${param.q}" >${startNum+i}</a>
+												<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&q=${param.q}" >${startNum+i}</a>
 											</div>
 										</c:if>
 									</c:forEach>
 								</div>
 								<c:if test="${startNum+4<lastNum}">
-									<a href="?ep=${startNum+5}&q=">
+									<a href="?p=${startNum+5}&q=">
 										<div class="main_page_button main_event_page_bn">
 											<div class="main_page_button_lg">&gt;</div>
 										</div>	
@@ -597,7 +1113,7 @@
 								</c:if>
 										
 								<div class="main_page_button main_event_page_bn">
-									<a href="?ep${lastNum}&q="><div class="main_page_button_llgg">&gt;&gt;</div></a>
+									<a href="?p${lastNum}&q="><div class="main_page_button_llgg">&gt;&gt;</div></a>
 								</div>
 							</div>
 						</div>
@@ -621,13 +1137,13 @@
 						</div>
 					</div>
 					<div id="main_concert_review_content">
-						<form action="<%=request.getContextPath()%>/Review/ReviewWriteAction.do" method="post">
+						<form name="rev">
 						<div id="main_concert_review_content_write_div">
 								<img src="../icon/person.png" class="main_concert_review_content_write_all">
 							<div class="main_concert_review_content_write_all">
-								<textarea name="content"  placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>	
+								<textarea name="content" id="main_concert_review_content_write_button_action" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다"></textarea>	
 							</div>
-							<button type="submit" id="main_concert_review_content_write_button" value="submit">등록</button>
+							<input type="button" class="writeaction" id="main_concert_review_content_write_button" value="등록">
 						</div>
 						</form>
 						<div id="main_concert_review_content_number_all">
@@ -635,45 +1151,138 @@
 								<div id="main_concert_review_content_number">총 ${count}개</div>
 								<div id="main_concert_review_content_list_order">
 									<ul>
-										<li><a href="#">최신순</a></li>&nbsp;&nbsp;|&nbsp;
-										<li><a href="#">추천순</a></li>
+										<li><a href="?od=latest&tab=main_concert_review_all">최신순</a></li>&nbsp;&nbsp;|&nbsp;
+										<li><a href="?od=recommended&tab=main_concert_review_all">추천순</a></li></li>&nbsp;&nbsp;|&nbsp;
+										<li><a href="?od=comments&tab=main_concert_review_all">댓글순</a></li>
 									</ul>
 								</div>
 							</div>
 						</div>
 						<div id="main_concert_review_content_list">
 							<ul>
+								<c:forEach var="aa" items="${elist}">
+								<c:choose>
+								<c:when test="${aa.c_depth==0 }">
 								<hr id="main_concert_review_content_list_bar_first">
-								<c:forEach var="aa" items="${list}">
-								<li>
-									<div id="main_concert_review_content_list_id_set" class="main_concert_review_content_list_set_all">
-										<img src="../icon/person.png" class="main_concert_review_content_list_id_all">
-										<div id="main_concert_review_content_list_id" class="main_concert_review_content_list_id_all">
-											${aa.midx}
+								<li class="modifyc_${aa.origin_c_idx}_c" >
+									<div>
+										<div class="main_concert_question_content_list_id_div">
+											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
+											<div class="main_concert_question_content_list_id">
+												${aa.mid}
+											</div>
+										</div>
+										<div class="main_concert_question_content_list_text_div">
+											<div class="main_concert_question_content_list_text">
+												${aa.c_content}
+											</div>
+											<div class="main_concert_question_content_list_date">
+												${aa.c_regdate}
+											</div>
+											<div class="main_concert_question_content_list_content_good">
+												<ul>
+												<c:choose>
+													<c:when test ="${sessionScope.midx == null}">
+														<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👍</a>${aa.origin_good}</li>	
+														<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👎</a>${aa.origin_bad}</li>	
+													</c:when>
+													<c:when test ="${sessionScope.midx == aa.midx}">
+														<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👍</a>${aa.origin_good}</li>	
+														<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👎</a>${aa.origin_bad}</li>	
+													</c:when>
+													<c:when test ="${sessionScope.midx != null}">
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?origin_c_idx=${aa.origin_c_idx}&good=G&tab=main_concert_expect_all">👍</a>${aa.origin_good}</li>
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?origin_c_idx=${aa.origin_c_idx}&good=B&tab=main_concert_expect_all">👎</a>${aa.origin_bad}</li>	
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when test="${aa.midx == sessionScope.midx}">							                     
+							                   			<li>|</li>
+							                    		<li><a href="#" id="${aa.origin_c_idx}" class="modify">수정</a></li>
+
+							                   			<li>|</li>
+							                   			<li><a href="#" onclick="removeCheck('${aa.origin_c_idx}')">삭제</a></li>
+							                   		</c:when>
+	                								<c:when test="${aa.midx != sessionScope.midx}">							                     
+							                   			<li>|</li>
+							                   			<li><a href="#" onclick="reportCheck('${aa.c_idx}')">신고</a></li>
+	                								</c:when>
+												</c:choose>                  							
+                  								</ul>
+											</div>
+											<a href="javascript:void(0);" id="${aa.origin_c_idx}" class="main_concert_question_content_list_more test1">댓글 ${aa.cnt}개</a>
 										</div>
 									</div>
-									<div id="main_concert_review_content_list_content_set" class="main_concert_review_content_list_set_all">
-										<div id="main_concert_review_content_list_content_main" class="main_concert_review_content_list_content_all">
-											${aa.vcontent}
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_date" class="main_concert_review_content_list_content_all">
-											${aa.vregdate}
-										</div>
-										<br>
-										<div id="main_concert_review_content_list_content_good" class="main_concert_review_content_list_content_all">
-											<ul>
-												<li>👍${aa.vgood}</li>
-												<li>👎20</li>
-												<li>신고</li>
-											</ul>
-										</div>
-									</div>
-									<hr class="main_concert_review_content_list_bar_bottom">
 								</li>
-								</c:forEach>
-								</ul>
-			
+							<li class="modify1_${aa.origin_c_idx}_e">
+								<div>
+									<form>
+										<textarea class="modify1_${aa.c_idx}">
+											${aa.c_content}
+										</textarea>
+									</form>
+									<input type="button"  id="${aa.c_idx}"  class="expecptmodify1" value="등록">
+									<input type="button" id="${aa.origin_c_idx}" class="modify1"value="취소">
+								</div>
+							</li>
+							<li class="reypleR1_${aa.origin_c_idx}_W">							
+								<input type="text" size="100" name="content" class="comment1_${aa.origin_c_idx}">
+								<input type="button"  id="${aa.origin_c_idx}" class="comment1" value="등록">		
+							</li>
+						</c:when>
+						<c:when test="${aa.c_depth == 1}">	
+							<li class="reypleR1_${aa.origin_c_idx}_W">
+								<div>
+									<div class="main_concert_question_content_list_id_div">
+										<div class="main_concert_question_content_list_id">
+											${aa.mid}
+										</div>
+									</div>
+									<div class="main_concert_question_content_list_text_div">
+										<div class="main_concert_question_content_list_text">
+											${aa.c_content}
+										</div>
+										<div class="main_concert_question_content_list_date">
+											${aa.c_regdate}
+										</div>
+										<div class="main_concert_question_content_list_content_good">
+											<ul>
+											<c:choose>
+												<c:when test ="${sessionScope.midx == null}">
+												<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👍</a>${aa.good}</li>	
+												<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👎</a>${aa.bad}</li>	
+												</c:when>
+												<c:when test ="${sessionScope.midx == aa.midx}">
+												<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👍</a>${aa.good}</li>	
+												<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👎</a>${aa.bad}</li>	
+												</c:when>
+												<c:when test ="${sessionScope.midx != null}">
+												<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?c_idx=${aa.c_idx}&good=G&tab=main_concert_review_all">👍</a>${aa.good}</li>
+												<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?c_idx=${aa.c_idx}&good=B&tab=main_concert_review_all">👎</a>${aa.bad}</li>	
+												</c:when>
+											</c:choose>
+											
+											<c:choose>
+												<c:when test="${aa.midx == sessionScope.midx}">	
+						                   			<li>|</li>
+						                   			<li><a href="#" onclick="removeCheck2('${aa.c_idx}')">삭제</a></li>
+						                   		</c:when>
+	               								<c:when test="${aa.midx != sessionScope.midx}">							                     
+						                   			<li>|</li>
+						                   			<li><a href="#" onclick="reportCheck('${aa.c_idx}')">신고</a></li>
+	               								</c:when>
+											</c:choose>                  							
+               								</ul>
+										</div>
+									</div>
+								</div>
+							</li>
+							</c:when>
+						</c:choose>
+						</c:forEach>
+						<hr class="main_concert_review_content_list_bar_bottom">
+					</ul>
+								
 					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
 					<c:set var="startNum" value="${page-(page-1)%5}"/>
 					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
@@ -747,70 +1356,152 @@
 						</div>
 					</div>
 					<div id="main_concert_question_content">
-						<form action="<%=request.getContextPath()%>/Review/CquestionWriteAction.do" method="post">
+						<form name="qna">
 						<div id="main_concert_question_content_write_div">
 							<div class="main_concert_question_content_write_all">
-								<textarea name="content" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다
-* 게시판에 고객님의 연락처, 주소 등의 개인정보가 포함된 글을 올리실 경우에는 타인에게 해당 정보가 노출될 수 있으니 게재를 삼가하여 주시기 바랍니다."></textarea>
+								<textarea name="content" id="main_concert_question_content_write_button_action" placeholder="* 게시된 글의 저작권을 글을 작성한 회원에게 있으며 게시물로 인해 발생하는 문제는 게시자 본인에게 책임이 있습니다
+								* 게시판에 고객님의 연락처, 주소 등의 개인정보가 포함된 글을 올리실 경우에는 타인에게 해당 정보가 노출될 수 있으니 게재를 삼가하여 주시기 바랍니다."></textarea>
 							</div>
-							<button type="submit" id="main_concert_question_content_write_button">등록</button>
+							<input type="button" class="writeaction" id="main_concert_question_content_write_button" value="등록">
 						</div>
 						</form>
 						<div id="main_concert_question_content_number_all">
 							<div id="main_concert_question_content_number_order">
-								<div id="main_concert_question_content_number">총 ${cqcount}개</div>
+								<div id="main_concert_question_content_number">총 ${count}개</div>
 								<div id="main_concert_question_content_list_order">
 									<ul>
-										<li><a href="#">최신순</a></li>&nbsp;&nbsp;|&nbsp;
-										<li><a href="#">추천순</a></li>
+										<li><a href="?od=latest&tab=main_concert_question_all">최신순</a></li>&nbsp;&nbsp;|&nbsp;
+										<li><a href="?od=recommended&tab=main_concert_question_all">추천순</a></li></li>&nbsp;&nbsp;|&nbsp;
+										<li><a href="?od=comments&tab=main_concert_question_all">댓글순</a></li>
 									</ul>
 								</div>
 							</div>
 						</div>
 						<div id="main_concert_question_content_list">
 							<ul>
+								<c:forEach var="cc" items="${elist}">
+								<c:choose>
+								<c:when test="${cc.c_depth == 0}">
 								<hr id="main_concert_question_content_list_bar_first">
-								<c:forEach var="aa" items="${cqlist}">
-								<li>
+								<li class="modifyc2_${cc.origin_c_idx}_c">
 									<div>
 										<div class="main_concert_question_content_list_id_div">
 											<img src="../icon/person.png" class="main_concert_question_content_list_id_all">
 											<div class="main_concert_question_content_list_id">
-												${aa.midx}
+												${cc.mid}
 											</div>
 										</div>
 										<div class="main_concert_question_content_list_text_div">
 											<div class="main_concert_question_content_list_text">
-												${aa.cqcontent}
+												${cc.c_content}
 											</div>
 											<div class="main_concert_question_content_list_date">
-												${aa.cqregdate}
+												${cc.c_regdate}
 											</div>
 											<div class="main_concert_question_content_list_content_good">
 												<ul>
-													<li>👍${aa.cqgood}</li>
-													<li>👎20</li>
-													<li>신고</li>
+													<c:choose>
+														<c:when test ="${sessionScope.midx == null}">
+															<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👍</a>${cc.origin_good}</li>	
+															<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👎</a>${cc.origin_bad}</li>	
+														</c:when>
+														<c:when test ="${sessionScope.midx == cc.midx}">
+															<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👍</a>${cc.origin_good}</li>	
+															<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👎</a>${cc.origin_bad}</li>	
+														</c:when>
+														<c:when test ="${sessionScope.midx != null}">
+															<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?origin_c_idx=${cc.origin_c_idx}&good=G&tab=main_concert_question_all">👍</a>${cc.origin_good}</li>
+															<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?origin_c_idx=${cc.origin_c_idx}&good=B&tab=main_concert_question_all">👎</a>${cc.origin_bad}</li>	
+														</c:when>
+													</c:choose>
+													<c:choose>
+														<c:when test="${cc.midx == sessionScope.midx}">							                     
+								                   			<li>|</li>
+								                    		<li><a href="#" id="${cc.origin_c_idx}" class="modify2">수정</a></li>
+								                   			<li>|</li>
+								                   			<li><a href="#" onclick="removeCheck('${cc.origin_c_idx}')">삭제</a></li>
+								                   		</c:when>
+		                								<c:when test="${cc.midx != sessionScope.midx}">							                     
+								                   			<li>|</li>
+								                   			<li><a href="#" onclick="reportCheck('${cc.c_idx}')">신고</a></li>
+		                								</c:when>
+													</c:choose>   
 												</ul>
 											</div>
-											<a href="javascript:void(0);" onclick="showAnswerTab('main_concert_question_content_list_answer_1');" class="main_concert_question_content_list_more">답변 보기</a>
-											<div class="main_concert_question_content_list_answer_all" id="main_concert_question_content_list_answer_1" style="display:none;">
-												<div class="main_concert_question_content_list_answer">
-													대충 여기 답변 올라오는 곳이라는 뜻
-												</div>
-												<div class="main_concert_question_content_list_answer_date">
-													2020.02.08
-												</div>
+											<a href="javascript:void(0);" id="${cc.origin_c_idx}" class="main_concert_question_content_list_more test2">댓글 ${cc.cnt}개</a>
+										</div>
+									</div>
+								</li>
+								<li class="modify2_${cc.origin_c_idx}_e" >
+									<div>				
+										<form>
+											<textarea class="modify2_${cc.c_idx}">
+												${cc.c_content}
+											</textarea>
+										</form>
+										<input type="button"  id="${cc.c_idx}"  class="expecptmodify2" value="등록">
+										<input type="button" id="${cc.origin_c_idx}" class="modify2"value="취소">
+									</div>
+								</li>
+								<li class="reypleR2_${cc.origin_c_idx}_W">							
+									<input type="text" size="100" name="content" class="comment2_${cc.origin_c_idx}">
+									<input type="button"  id="${cc.origin_c_idx}" class="comment2" value="등록">		
+								</li>
+							</c:when>
+							<c:when test="${cc.c_depth == 1}">
+								<li class="reypleR2_${cc.origin_c_idx}_W">
+									<div>
+										<div class="main_concert_question_content_list_id_div">
+											<div class="main_concert_question_content_list_id">
+												${cc.mid}
+											</div>
+										</div>
+										<div class="main_concert_question_content_list_text_div">
+											<div class="main_concert_question_content_list_text">
+												${cc.c_content}
+											</div>
+											<div class="main_concert_question_content_list_date">
+												${cc.c_regdate}
+											</div>
+											<div class="main_concert_question_content_list_content_good">
+												<ul>
+												<c:choose>
+													<c:when test ="${sessionScope.midx == null}">
+													<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👍</a>${cc.good}</li>	
+													<li><a href=# onclick="alert('로그인 후 이용 가능합니다.');">👎</a>${cc.bad}</li>	
+													</c:when>
+													<c:when test ="${sessionScope.midx == cc.midx}">
+													<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👍</a>${cc.good}</li>	
+													<li><a href=# onclick="alert('본인이 작성하신 글에는 이용 불가합니다.');">👎</a>${cc.bad}</li>	
+													</c:when>
+													<c:when test ="${sessionScope.midx != null}">
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?c_idx=${cc.c_idx}&good=G&tab=main_concert_question_all">👍</a>${cc.good}</li>
+														<li><a href="<%=request.getContextPath() %>/ConcertView/GoodAction.do?c_idx=${cc.c_idx}&good=B&tab=main_concert_question_all">👎</a>${cc.bad}</li>	
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when test="${cc.midx == sessionScope.midx}">	
+							                   			<li>|</li>
+							                   			<li><a href="#" onclick="removeCheck2('${cc.c_idx}')">삭제</a></li>
+							                   		</c:when>
+	                								<c:when test="${cc.midx != sessionScope.midx}">							                     
+							                   			<li>|</li>
+							                   			<li><a href="#" onclick="reportCheck('${cc.c_idx}')">신고</a></li>
+	                								</c:when>
+												</c:choose>                  							
+                  								</ul>
 											</div>
 										</div>
 									</div>
-									<hr class="main_concert_question_content_list_bar_bottom">
 								</li>
-								</c:forEach>
-							</ul>
-					<c:set var="page" value="${(param.cqp == null)?1:param.cqp}"/>
+								</c:when>
+							</c:choose>
+							</c:forEach>
+							<hr class="main_concert_question_content_list_bar_bottom">	
+						</ul>	
+					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
 					<c:set var="startNum" value="${page-(page-1)%5}"/>
-					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(cqcount/10),'.')}"/>
+					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
 							<div id="main_page_button_set">
 								<a href="?cqp=1&q=">
 								<div class="main_page_button main_page_bn">

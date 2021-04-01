@@ -23,7 +23,7 @@
 				/* var mname = $('.mname').find('input').val();
 				var midx = $('.midx').val();
 				 */
-				$(".mname").click(function(){
+				/* $(".mname").click(function(){
 					var text = $(this).text();
 					var phone = $(this).next().next(".td_").find('.mphone').val();
 					var mssn = $(this).next().next(".td_").find('.mssn').val();
@@ -31,7 +31,7 @@
 					
 					$(".div").html(text+", "+phone+", "+mssn);
 					$("#chMID").val(idx);
-				});
+				}); */
 					
 
 

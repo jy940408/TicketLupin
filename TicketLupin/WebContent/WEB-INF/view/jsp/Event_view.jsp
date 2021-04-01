@@ -1,5 +1,6 @@
 <%@ page import="com.TicketLupin.web.service.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% EventVo ev = (EventVo)request.getAttribute("ev"); %>
 <!DOCTYPE html>
 <html>
@@ -21,10 +22,16 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+							<c:if test="${not empty sessionScope.mid}">
+							 <li><a href="${pageContext.request.contextPath}/Member/MemberModifyForm.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							 <li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							</c:if>
+							<c:if test="${empty sessionScope.mid}">
+							 <li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							 <li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							</c:if>
+							 <li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							 <li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -84,10 +91,12 @@
 						</center>
 					</div>
 					
-					<div class="modify">
-						<button class="remove_btn" onclick="edelete()">제거하기</button>
-						<button class="modify_btn" onclick="location='<%=request.getContextPath()%>/Event/EventModify.do?eidx=<%=ev.getEidx()%>'">수정</button>
-					</div>
+					<c:if test="${sessionScope.mgrade eq 'M'}">
+						<div class="modify">
+							<button class="remove_btn" onclick="edelete()">제거하기</button>
+							<button class="modify_btn" onclick="location='<%=request.getContextPath()%>/Event/EventModify.do?eidx=<%=ev.getEidx()%>'">수정</button>
+						</div>
+					</c:if>
 					<div class="list">
 						<button class="list_btn" onclick="location='<%=request.getContextPath()%>/Event/EventMain.do'">목록으로</button>
 					</div>					

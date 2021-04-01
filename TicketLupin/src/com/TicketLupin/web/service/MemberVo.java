@@ -18,28 +18,53 @@ public class MemberVo extends ReservationVo{
 	private String msecessionyn;
 	private String mgrade;
 	private String memailchecked;
-	private Boolean SHA256;
 	private String mbirthmonth;
 	private String mbirthday;
+	private String mpostcode;
+	private String mdetailaddress;
+	private String mextraaddress;
+	private String mgender;
+	private String stitle;
 	
+	public String getStitle() {
+		return stitle;
+	}
+	public void setStitle(String stitle) {
+		this.stitle = stitle;
+	}
+	public String getMpostcode() {
+		return mpostcode;
+	}
+	public void setMpostcode(String mpostcode) {
+		this.mpostcode = mpostcode;
+	}
+	public String getMdetailaddress() {
+		return mdetailaddress;
+	}
+	public void setMdetailaddress(String mdetailaddress) {
+		this.mdetailaddress = mdetailaddress;
+	}
+	public String getMextraaddress() {
+		return mextraaddress;
+	}
+	public void setMextraaddress(String mextraaddress) {
+		this.mextraaddress = mextraaddress;
+	}
+	public String getMgender() {
+		return mgender;
+	}
+	public void setMgender(String mgender) {
+		this.mgender = mgender;
+	}
 	public String getMbirthmonth() {
 		return mbirthmonth;
 	}
-
-
-
 	public void setMbirthmonth(String mbirthmonth) {
 		this.mbirthmonth = mbirthmonth;
 	}
-
-
-
 	public String getMbirthday() {
 		return mbirthday;
 	}
-
-
-
 	public void setMbirthday(String mbirthday) {
 		this.mbirthday = mbirthday;
 	}
@@ -53,12 +78,7 @@ public class MemberVo extends ReservationVo{
 	
 	
 	
-	public Boolean getSHA256() {
-		return SHA256;
-	}
-	public void setSHA256(Boolean sHA256) {
-		SHA256 = sHA256;
-	}
+	
 	public String getMemailchecked() {
 		return memailchecked;
 	}
@@ -144,31 +164,10 @@ public class MemberVo extends ReservationVo{
 		this.mgrade = mgrade;
 	}
 	
-	
-	public MemberVo(int midx, String mid, String mname, String mpwd, String mssn, String maddress, String memail,
-			String mphone, int maccount, Date msignindate, Date msecessiondate, String msecessionyn, String mgrade, String memailchecked) {
-		super();
-		this.midx = midx;
-		this.mid = mid;
-		this.mname = mname;
-		this.mpwd = mpwd;
-		this.mssn = mssn;
-		this.maddress = maddress;
-		this.memail = memail;
-		this.mphone = mphone;
-		this.maccount = maccount;
-		this.msignindate = msignindate;
-		this.msecessiondate = msecessiondate;
-		this.msecessionyn = msecessionyn;
-		this.mgrade = mgrade;
-		this.memailchecked = memailchecked;
-	}
-
-
-
 	public MemberVo(int midx, String mid, String mname, String mpwd, String mssn, String maddress, String memail,
 			String mphone, int maccount, Date msignindate, Date msecessiondate, String msecessionyn, String mgrade,
-			String memailchecked,  String mbirthmonth, String mbirthday) {
+			String memailchecked, String mbirthmonth, String mbirthday, String mpostcode,
+			String mdetailaddress, String mextraaddress, String mgender) {
 		super();
 		this.midx = midx;
 		this.mid = mid;
@@ -186,8 +185,14 @@ public class MemberVo extends ReservationVo{
 		this.memailchecked = memailchecked;
 		this.mbirthmonth = mbirthmonth;
 		this.mbirthday = mbirthday;
+		this.mpostcode = mpostcode;
+		this.mdetailaddress = mdetailaddress;
+		this.mextraaddress = mextraaddress;
+		this.mgender = mgender;
 	}
-
+	
+	
+	
 
 	
 	

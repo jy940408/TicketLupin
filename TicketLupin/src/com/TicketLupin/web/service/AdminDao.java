@@ -2,6 +2,8 @@ package com.TicketLupin.web.service;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.TicketLupin.web.DBconn.DBconn;
 
 
@@ -21,8 +23,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 		
 		ArrayList<Show1Vo> alist = new ArrayList<Show1Vo>();
 		
-		String sql= "SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX "
-				+ "WHERE SHOW1.SDELYN='N' AND STITLE LIKE ? ORDER BY SHOW1.SIDX DESC";
+		String sql= "select * from show1 inner join show2 on show1.sidx=show2.sidx where show1.sdelyn='N' and show1.stitle like ? order by show1.sidx desc";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -34,7 +35,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 				Show1Vo sv = new Show1Vo();
 				
 				sv.setSidx(rs.getInt("sidx"));
-				sv.setStitleimage(rs.getString("simage"));
+				sv.setStitleimage(rs.getString("stitleimage"));
 				sv.setStitle(rs.getString("stitle"));
 				sv.setSopendate(rs.getDate("sopendate"));
 				sv.setSenddate(rs.getDate("senddate"));
@@ -53,11 +54,14 @@ import com.TicketLupin.web.DBconn.DBconn;
 	}
 	
 	
-	public ArrayList<MemberVo> getUserList(int sidx){
+	
+	
+	public ArrayList<MemberVo> getUserBuyList(int sidx){
 		
 		ArrayList<MemberVo> list = new ArrayList<MemberVo>();
 		
-		String sql = "select r.ridx, m.mname, m.mid, r.sidx, m.midx from member m inner join reservation r on m.midx=r.midx where sidx=?";
+		String sql = "select reservationidx.riidx, member.mname, member.mid, reservationidx.sidx, member.midx from member inner join reservationidx "
+				+ "on member.midx=reservationidx.midx where reservationidx.ridelyn = 'N' AND sidx=?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -67,7 +71,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 			while(rs.next()) {
 				MemberVo mv = new MemberVo();
 				
-				mv.setRidx(rs.getInt("ridx"));
+				mv.setRidx(rs.getInt("riidx"));
 				mv.setMname(rs.getString("mname"));
 				mv.setMid(rs.getString("mid"));
 				mv.setSidx(rs.getInt("sidx"));
@@ -97,7 +101,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 		ArrayList<ReservationVo> alist = new ArrayList<>();
 		
 		String sql = "SELECT R.RIDX, R.SRDATE, R.RREGDATE, S.STITLE, R.RSEAT, R.RPRICE " 
-				+ "FROM RESERVATION R INNER JOIN SHOW S ON R.SIDX=S.SIDX WHERE R.MIDX=?";
+				+ "FROM RESERVATION R INNER JOIN SHOW1 S ON R.SIDX=S.SIDX WHERE R.MIDX=?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -206,10 +210,24 @@ import com.TicketLupin.web.DBconn.DBconn;
 		return alist;
 	}
 	
-	
-	
-
-
-	
+	public int getShowtitle(int sidx_, String stitle) {
+		
+		int value = 0;
+		
+		String sql = "select show1.stitle from reservation inner join show1 on reservation.sidx=show1.sidx where sidx = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sidx_);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				value = rs.getInt("value");
+			}
+		}catch(SQLException e ) {
+			e.printStackTrace();
+		}
+		return value;
+	}
 	
 }

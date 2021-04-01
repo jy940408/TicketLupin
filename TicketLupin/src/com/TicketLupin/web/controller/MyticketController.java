@@ -1,11 +1,14 @@
 package com.TicketLupin.web.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
+import com.TicketLupin.web.service.MyticketDao;
+import com.TicketLupin.web.service.MyticketVo;
 import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ReservationListVo;
 import com.TicketLupin.web.service.ReservationShowVo;
@@ -111,6 +114,18 @@ public class MyticketController extends HttpServlet{
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_cancel_detail.jsp").forward(request, response);
+			
+		}else if(str.equals("/Myticket/Main.do")) {
+			
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			MyticketDao md = new MyticketDao();
+			List<MyticketVo> clist = md.getMycommentList(midx); 
+			request.setAttribute("clist", clist);
+			
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
 			
 		}
 		

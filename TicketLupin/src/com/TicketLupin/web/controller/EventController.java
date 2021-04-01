@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
@@ -37,6 +38,7 @@ public class EventController extends HttpServlet{
 			
 			String keyword = request.getParameter("keyword");
 			if(keyword == null) keyword = "";
+			
 			
 			SearchCriteria scri = new SearchCriteria();
 			scri.setPage(pagex);
@@ -95,23 +97,21 @@ public class EventController extends HttpServlet{
 		
 		}else if(str.equals("/Event/EventModify.do")) {
 			
-			String eidx2 = request.getParameter("eidx");
-			
-			int eidx = 0;
-			if(eidx2 != null && !eidx2.equals("")) {
-				eidx = Integer.parseInt(eidx2);
-			}
+			String eidx = request.getParameter("eidx");
+			int eidx2 = Integer.parseInt(eidx);
 			
 			EventDao ed = new EventDao();
-			EventVo ev = ed.eventSelectOne(eidx);
+			EventVo ev = ed.eventSelectOne(eidx2);
 			
 			request.setAttribute("ev", ev);
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_modify_admin.jsp").forward(request, response);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/jsp/Event_modify_admin.jsp");
+			rd.forward(request, response);
 			
 		}else if(str.equals("/Event/EventDeleteAction.do")) {
 			
 			String eidx2 = request.getParameter("eidx");
-			System.out.println("»èÁ¦µÈ eidx : "+eidx2);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ eidx : "+eidx2);
 			
 			int eidx = 0;
 			if(eidx2 != null && !eidx2.equals("")) {
@@ -121,25 +121,7 @@ public class EventController extends HttpServlet{
 			EventDao ed = new EventDao();
 			ed.EventDelete(eidx);
 			response.sendRedirect("../Event/EventMain.do");
-		}
-		
-	}
-	
-	
-	@Override
-	protected void doPost(javax.servlet.http.HttpServletRequest request,  javax.servlet.http.HttpServletResponse response)  throws javax.servlet.ServletException ,java.io.IOException{
-		//doGet(request, response);
-		
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		String uri = request.getRequestURI();
-		int len = request.getContextPath().length();
-		String str = uri.substring(len);
-		System.out.println("str"+str);
-		
-		
-		if(str.equals("/Event/EventWriteAction.do")) {
+		}else if(str.equals("/Event/EventWriteAction.do")) {
 			
 			String uploadPath = request.getSession().getServletContext().getRealPath("image");
 			int sizeLimit = 1024*1024*15;
@@ -203,6 +185,7 @@ public class EventController extends HttpServlet{
 			
 		}else if(str.equals("/Event/EventModifyAction.do")) {
 			
+			
 			String uploadPath = request.getSession().getServletContext().getRealPath("image");
 			int sizeLimit = 1024*1024*15;
 			String efiles = "";
@@ -213,18 +196,14 @@ public class EventController extends HttpServlet{
 			
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
-			String etitle = request.getParameter("etitle");
-			String econtent = request.getParameter("econtent");
-			String estart=request.getParameter("estart");
-			String eend = request.getParameter("eend");
-			String eidx2 = request.getParameter("eidx");
-			String ecategory = request.getParameter("ecategory");
+			String etitle = multi.getParameter("etitle");
+			String econtent = multi.getParameter("econtent");
+			String estart = multi.getParameter("estart");
+			String eend = multi.getParameter("eend");
+			String ecategory = multi.getParameter("ecategory");
+			String eidx = multi.getParameter("eidx");
+			int eidx2 = Integer.parseInt(eidx);
 			
-			int eidx = 0;
-			
-			if(eidx2 != null && !eidx2.trim().equals("")) {
-				eidx = Integer.parseInt(eidx2);
-			}
 			
 			Enumeration files = multi.getFileNames();
 			String file = (String)files.nextElement();
@@ -238,32 +217,25 @@ public class EventController extends HttpServlet{
 			
 			HttpSession session = request.getSession();
 			
-			String getid = (String) session.getAttribute("mid");
 			
 			EventVo ev = new EventVo();
-			ev.setEtitle(etitle);
-			ev.setEcontent(econtent);
+			ev.setEcategory(ecategory);
 			ev.setEstart(estart);
 			ev.setEend(eend);
-			ev.setEfiles(originFileName);
-			ev.setEidx(eidx);
-			ev.setEthumbnail(originThumb);
-			ev.setEcategory(ecategory);
-			
+			ev.setEtitle(etitle);
+			ev.setEcontent(econtent);
+			ev.setEfiles(efiles);
+			ev.setEthumbnail(ethumbnail);
+			ev.setEidx(eidx2);
 			EventDao ed = new EventDao();
-			boolean result = ed.EventModify(eidx, etitle, econtent, estart, eend, efiles, ethumbnail, ecategory);
+			ed.EventModify(etitle, econtent, estart, eend, efiles, ethumbnail, ecategory, eidx2);
 			
-			System.out.println(result);
+			
+			System.out.println("test->>>>>>>>>>"+ev.toString());
 			
 			response.sendRedirect("../Event/EventMain.do");
 		
 		}
+		
 	}
-	
-	
-	
-	
-
-	
-	
 }

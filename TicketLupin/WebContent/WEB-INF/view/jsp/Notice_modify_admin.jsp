@@ -106,7 +106,7 @@
 						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="../Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -166,11 +166,11 @@
 							<td style="border:1px solid;">
 								<center>
 									<select class="type" style="border:0px; font-size:15px;" name="ncategory">
-										<option name="ncategory">서비스 소식</option>
-										<option name="ncategory">서비스 오픈</option>
-										<option name="ncategory">서비스 종료</option>
-										<option name="ncategory">서비스 점검</option>
-										<option name="ncategory">안내</option>
+										<option name="ncategory" ${nv.ncategory == '서비스 소식' ? 'selected="selected"' : '' }>서비스 소식</option>
+										<option name="ncategory" ${nv.ncategory == '서비스 오픈' ? 'selected="selected"' : '' }>서비스 오픈</option>
+										<option name="ncategory" ${nv.ncategory == '서비스 종료' ? 'selected="selected"' : '' }>서비스 종료</option>
+										<option name="ncategory" ${nv.ncategory == '서비스 점검' ? 'selected="selected"' : '' }>서비스 점검</option>
+										<option name="ncategory" ${nv.ncategory == '안내' ? 'selected="selected"' : '' }>안내</option>
 									</select>
 								</center>
 							</td>

@@ -1,12 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>티켓 루팡</title>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>./css/Admin_comment_list.css">
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Admin_comment_list.css">
 		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
+		<script type = "text/javascript">
+		
+		
+		$(document).ready(function(){
+			$(".delete").click(function(){
+				var testV = 1;
+				var test = $(this).attr("id");
+				var form = $('<form></form>');
+				form.attr('action','<%=request.getContextPath() %>/Manager/CommentDeleteAction.do');
+				form.attr('method','post');	
+				form.appendTo('body');
+				form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+				form.submit();
+				alert('해당 댓글을 삭제하였습니다.');
+			});
+		});
+		
+
+		</script>
 	</head>
 	<body>
 		<header>
@@ -71,16 +92,19 @@
 					<hr/>
 				</div>
 				<div class="wrap_search">
-					<select name="searchType">
-						<option value="total" selected>전체</option>
-						<option value="id">아이디</option>
-						<option value="name">성함</option>
-						<option value="contets">내용</option>
-					</select>
-					<span class="wrap_input">
-						<input type="text" name="schText">
-						<button type="button" class="body_button">검색</button>
-					</span>
+					<form action="<%=request.getContextPath() %>/Manager/comment.do">
+						<select name="s">
+							<option value="a.c_content" selected>내용</option>
+							<option value="c.stitle" >공연</option>
+							<option value="b.mid">아이디</option>
+							<option value="b.mname">성함</option>
+							
+						</select>
+						<span class="wrap_input">
+							<input type="text" name="q">
+							<button type="submit" class="body_button find">검색</button>
+						</span>
+					</form>
 				</div>
 				<div class="wrap_keyword">
 					<span class="keyword_label">부적절한 키워드</span>
@@ -89,6 +113,7 @@
 						<button type="button" class="body_button" style="margin-left:10px;">등록</button>
 						<button type="button" class="body_button">해제</button>
 						<button type="button" class="body_button">목록</button>
+						<button type="button" class="body_button">글삭제</button>			
 					</span>
 				</div>
 				<div class="listorder">
@@ -102,93 +127,158 @@
 								<th width="5%">No.</th>
 								<th width="10%">성함</th>
 								<th width="10%">아이디</th>
-								<th width="45%" colspan="2">댓글내용</th>
+								<th width="40%">댓글내용</th>
+								<th width="15%">게시물</th>
+								<th width="10%">삭제</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>99</td>
-								<td>홍길동</td>
-								<td>Hong10</td>
-								<td class="td_"><a href="#">와 너무 재밌어요ㅎㅎㅎㅎ</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>98</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">오늘 너무나 감동폭풍!!! 흐엉어</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>97</td>
-								<td>홍길동8</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">내일 공연도 예매했어요!!! 너무 재밌어요</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>96</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">다음에도 이런공연 나왔으면…</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>95</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">예전에 봤던 기대만큼은 아니라 아쉬웠습니다</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>94</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">굿굿!!</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>93</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">내일도 보러갑니다. 파이팅!!!</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>92</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">껄껄껄 겁나 웃었습니다.</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>91</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">부모님과 즐거운 시간이 되어 너무 기쁩니다.</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>90</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">ㅎㅎㅎㅎㅎㅎㅎㅎ</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
-							<tr>
-								<td>89</td>
-								<td>홍길동</td>
-								<td>Hong9</td>
-								<td class="td_"><a href="#">ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</a></td>
-								<td><button type="button" class="body_button">삭제</button></td>
-							</tr>
+							<c:forEach var="aa" items="${clist}">
+								<c:choose>
+									<c:when test="${aa.c_depth==0 and aa.c_sort eq 'E' and  aa.c_content.length()>=27}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[기대평]&nbsp;&nbsp;${aa.c_content}...
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}" class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+										<c:when test="${aa.c_depth==0 and aa.c_sort eq 'E' and  aa.c_content.length()<27}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[기대평]&nbsp;&nbsp;${aa.c_content}
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}" class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+									
+									<c:when test="${aa.c_depth==0 and aa.c_sort eq 'R'}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[리뷰평]&nbsp;&nbsp;${aa.c_content}
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+									<c:when test="${aa.c_depth==0 and aa.c_sort eq 'Q'}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[QNA]&nbsp;&nbsp;${aa.c_content}
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+									<c:when test="${aa.c_depth==1 and aa.c_sort eq 'E'}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[기대평 대댓글]&nbsp;&nbsp;${aa.c_content}
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+									<c:when test="${aa.c_depth==1 and aa.c_sort eq 'R'}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[리뷰평 대댓글]&nbsp;&nbsp;${aa.c_content}
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+									<c:when test="${aa.c_depth==1 and aa.c_sort eq 'Q'}">
+										<tr>
+											<td>${aa.num}</td>
+											<td>${aa.mname}</td>
+											<td>${aa.mid}</td>
+											<td class="td_">
+												<a href="#">
+													[QNA 대댓글]&nbsp;&nbsp;${aa.c_content}
+												</a>
+											</td>
+											<td>${aa.stitle}</td>
+											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
+										</tr>
+									</c:when>
+									
+									
+								
+								</c:choose>
+							</c:forEach>
 						</tbody>
 					</table>
+					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
+					<c:set var="startNum" value="${page-(page-1)%5}"/>
+					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
 					<div class="paging">
-						<a href="#"> << </a>&nbsp;&nbsp;<a href="#"> < </a>&nbsp;<span>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; </span>&nbsp;<a href="#"> > </a>&nbsp;&nbsp;<a href="#"> >> </a>
+						<a href="?p=1&q="> 
+							<<
+						</a>&nbsp;&nbsp;
+					<c:if test= "${startNum>1}">
+						<a href= "?p=${startNum-1}&q=">
+							< 
+						</a>
+					</c:if>
+					<c:if test= "${startNum<=1}">
+						<a href= "#" onclick="alert('이전 페이지가 없습니다.');">
+							<
+						</a>
+					</c:if>
+					&nbsp;&nbsp;	
+					<c:forEach var="i" begin="0" end= "4">
+						<c:if test ="${(startNum+i) <= lastNum}">
+							<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&q=${param.q}" >${startNum+i}</a>					
+						</c:if>
+						&nbsp;&nbsp;
+					</c:forEach>
+					<c:if test="${startNum+4<lastNum}">
+						<a href="?p=${startNum+5}&q=">
+							>
+						</a>
+					</c:if>
+					<c:if test="${startNum+4>=lastNum}">
+						<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+							>
+						</a>	
+					</c:if>
+					&nbsp;&nbsp;
+					<a href="?p${lastNum}&q=">>></a>
+					
 					</div>
-				</div>
 			</article>
 		</section>
 		<footer>

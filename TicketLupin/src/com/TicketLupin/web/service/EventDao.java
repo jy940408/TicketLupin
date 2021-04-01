@@ -152,29 +152,31 @@ public class EventDao {
 		return ev;
 	}
 	
-	public boolean EventModify(int eidx, String etitle, String econtent, String estart, String eend, String efiles, String ethumbnail, String ecategory) {
+	public int EventModify(String etitle, String econtent, String estart, String eend, String efiles, String ethumbnail, String ecategory, int eidx) {
 		
-		boolean result = false;
-		String sql = "update event set etitle=?, econtent=?, estart=?, eend=?, efiles=?, ethumbnail=?, ecategory=?"
-				+ "where eidx=?";
+		int value = 0;
+		
+		String sql = "update event set etitle=?, econtent=?, estart=?, eend=?, efiles=?, ethumbnail=?, ecategory=? where eidx=?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			
+			
 			pstmt.setString(1, etitle);
 			pstmt.setString(2, econtent);
 			pstmt.setString(3, estart);
 			pstmt.setString(4, eend);
 			pstmt.setString(5, efiles);
 			pstmt.setString(6, ethumbnail);
-			pstmt.setInt(7, eidx);
-			pstmt.setString(8, ecategory);
+			pstmt.setString(7, ecategory);
+			pstmt.setInt(8, eidx);
 			
-			int flag = pstmt.executeUpdate();
-			if(flag > 0 ) {
-				result = true;
-			}
+			value = pstmt.executeUpdate();
+			
+			
 		}catch(SQLException e) { 
 			e.printStackTrace();
+			
 		}finally {
 			try {
 				
@@ -185,7 +187,8 @@ public class EventDao {
 			}
 		}
 		
-		return result;
+		System.out.println(value);
+		return value;
 	}
 	
 	

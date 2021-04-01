@@ -130,20 +130,7 @@ public class NewsController extends HttpServlet{
 			nd.deleteNews(widx);
 			System.out.println("���� widx Ȯ��: " + widx);
 			response.sendRedirect("../News/NewsList.do");
-		}
-		
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		String uri = request.getRequestURI();
-		int len = request.getContextPath().length();
-		String str = uri.substring(len);
-		System.out.println("str"+str); 
-		
-		if(str.equals("/News/NewsWriteAction.do")) {
+		}else if(str.equals("/News/NewsWriteAction.do")) {
 			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
@@ -295,7 +282,6 @@ public class NewsController extends HttpServlet{
 			response.sendRedirect("../News/NewsList.do");
 			
 		}
-		
 		
 	}
 }

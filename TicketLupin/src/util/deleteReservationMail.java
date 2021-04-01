@@ -26,69 +26,77 @@ public class deleteReservationMail {
 		
 		String title = "티켓루팡에서 예매 취소를 알려드립니다";
 		
+		ArrayList setList = new ArrayList();
 		String content = null;
-		
-		content = "<h2>예매 취소를 알려드립니다</h2>";
-		content += "<table border=\"1\">";
-		content += "	<colgroup>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "		<col width='50px'/>";
-		content += "	</colgroup>";
-		content += "	<tr>";
-		content += "		<th colspan=\"2\">공연 명</th>";
-		content += "		<td colspan=\"10\">" + "test" + "</td>";
-		content += "	</tr>";
-		content += "	<tr>";
-		content += "		<th colspan=\"2\">공연 날짜</th>";
-		content += "		<td colspan=\"4\">" + "test" + "</td>";
-		content += "		<th colspan=\"2\">공연 회차</th>";
-		content += "		<td colspan=\"4\">" + list.get(0).getSrround() + "</td>";
-		content += "	</tr>";
-		content += "	<tr>";
-		content += "		<th colspan=\"1\">이름</th>";
-		content += "		<td colspan=\"2\">" + "test" + "</td>";
-		content += "		<th colspan=\"2\">연락처</th>";
-		content += "		<td colspan=\"3\">" + "test" + "</td>";
-		content += "		<th colspan=\"2\">이메일</th>";
-		content += "		<td colspan=\"2\">" + "test" + "</td>";
-		content += "	</tr>";
-		content += "	<tr>";
-		content += "		<th colspan=\"2\">수령 방법</th>";
-		content += "		<td colspan=\"4\">" + "test" + "</td>";
-		content += "		<th colspan=\"2\">결제 방법</th>";
-		content += "		<td colspan=\"4\">" + "test" + "</td>";
-		content += "	</tr>";
-		content += "	<tr>";
-		content += "		<th colspan=\"2\">총 결제 금액</th>";
-		content += "		<td colspan=\"2\">" + list.get(0).getRipayment() + "</td>";
-		content += "		<th colspan=\"2\">기본 금액</th>";
-		content += "		<td colspan=\"2\">" + list.get(0).getRibasic() + "</td>";
-		content += "		<th colspan=\"2\">할인 금액</th>";
-		content += "		<td colspan=\"2\">" + list.get(0).getRidiscount() + "</td>";
-		content += "	</tr>";
-		content += "	<tr>";
-		content += "		<th colspan=\"2\">예매 수수료</th>";
-		content += "		<td colspan=\"4\">" + list.get(0).getRivat() + "</td>";
-		content += "		<th colspan=\"2\">배송료</th>";
-		content += "		<td colspan=\"4\">" + list.get(0).getRidelivery() + "</td>";
-		content += "	</tr>";
-		content += "</table>";
-		content += "<br>";
-		content += "<h2>회사 내부 사정에 따라 해당 공연이 취소되고 예매 내역이 환불되었습니다.</h2>";
-		content += "<h2>양해부탁드립니다.</h2>";
-		
-		
+		for(int i = 0 ; i < list.size() ; i++) {
+			content = "<h2>예매 취소를 알려드립니다</h2>";
+			content += "<table border=\"1\">";
+			content += "	<colgroup>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "		<col width='50px'/>";
+			content += "	</colgroup>";
+			content += "	<tr>";
+			content += "		<th colspan=\"2\">공연 명</th>";
+			content += "		<td colspan=\"10\">" + list.get(i).getStitle() + "</td>";
+			content += "	</tr>";
+			content += "	<tr>";
+			content += "		<th colspan=\"2\">공연 날짜</th>";
+			content += "		<td colspan=\"4\">" + "test" + "</td>";
+			content += "		<th colspan=\"2\">공연 회차</th>";
+			content += "		<td colspan=\"4\">" + list.get(i).getSrround() + "</td>";
+			content += "	</tr>";
+			content += "	<tr>";
+			content += "		<th colspan=\"1\">이름</th>";
+			content += "		<td colspan=\"2\">" + list.get(i).getRname() + "</td>";
+			content += "		<th colspan=\"2\">연락처</th>";
+			content += "		<td colspan=\"3\">" + list.get(i).getRtel() + "</td>";
+			content += "		<th colspan=\"2\">이메일</th>";
+			content += "		<td colspan=\"2\">" + list.get(i).getRemail() + "</td>";
+			content += "	</tr>";
+			content += "	<tr>";
+			content += "		<th colspan=\"3\">결제 방법</th>";
+			content += "		<td colspan=\"9\">" + list.get(i).getRpaymethod() + "</td>";
+			content += "	</tr>";
+			content += "	<tr>";
+			content += "		<th colspan=\"2\">총 결제 금액</th>";
+			content += "		<td colspan=\"2\">" + list.get(i).getRipayment() + "</td>";
+			content += "		<th colspan=\"2\">기본 금액</th>";
+			content += "		<td colspan=\"2\">" + list.get(i).getRibasic() + "</td>";
+			content += "		<th colspan=\"2\">할인 금액</th>";
+			content += "		<td colspan=\"2\">" + list.get(i).getRidiscount() + "</td>";
+			content += "	</tr>";
+			content += "	<tr>";
+			content += "		<th colspan=\"2\">예매 수수료</th>";
+			content += "		<td colspan=\"4\">" + list.get(i).getRivat() + "</td>";
+			content += "		<th colspan=\"2\">배송료</th>";
+			content += "		<td colspan=\"4\">" + list.get(i).getRidelivery() + "</td>";
+			content += "	</tr>";
+			content += "</table>";
+			content += "<br>";
+			content += "<h2>회사 내부 사정에 따라 해당 공연이 취소되고 예매 내역이 환불되었습니다.</h2>";
+			content += "<h2>양해부탁드립니다.</h2>";
+			content += "<h2>자세한 사항은 티켓루팡 공지사항을 참조해주시기 바랍니다.</h2>";
+			setList.add(content);
+		}
+		System.out.println("내용 리스트 확인: " + setList);
+		ArrayList emailList = new ArrayList();
+		String email = null;
+		for(int i = 0 ; i < list.size() ; i++) {
+			email = list.get(i).getRemail();
+			emailList.add(email);
+		}
+		System.out.println("메일 리스트 확인: " + emailList);
 		// SMTP 서버 정보를 설정한다. 
 		Properties props = new Properties(); 
 		props.put("mail.smtp.host", host); 
@@ -102,16 +110,18 @@ public class deleteReservationMail {
 		}); 
 		
 		try { 
-			MimeMessage message = new MimeMessage(session); 
-			message.setFrom(new InternetAddress(user)); 
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("junyoung940408@gmail.com")); 
-			// 메일 제목
-			message.setSubject(title); 
-			// 메일 내용 
-			message.setContent(content, "text/html;charset=UTF-8"); 
-			// send the message 
-			Transport.send(message); 
-			System.out.println("Success Message Send"); 
+			for(int i = 0 ; i < list.size() ; i++) {
+				MimeMessage message = new MimeMessage(session); 
+				message.setFrom(new InternetAddress(user)); 
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress((String)emailList.get(i))); 
+				// 메일 제목
+				message.setSubject(title); 
+				// 메일 내용 
+				message.setContent((String)setList.get(i), "text/html;charset=UTF-8"); 
+				// send the message 
+				Transport.send(message); 
+				System.out.println("Success Message Send"); 
+			}
 		} catch (MessagingException e) { 
 			e.printStackTrace(); 
 		} 

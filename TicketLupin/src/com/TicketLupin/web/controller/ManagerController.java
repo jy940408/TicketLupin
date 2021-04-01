@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -49,7 +50,6 @@ public class ManagerController extends HttpServlet{
 			
 			PageMaker pm = new PageMaker();
 			pm.setScri(scri);
-			
 			MemberDao md = new MemberDao();
 			int cnt = md.memberTotal(keyword);
 			
@@ -60,8 +60,9 @@ public class ManagerController extends HttpServlet{
 			request.setAttribute("alist", alist);
 			request.setAttribute("pm", pm);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_list.jsp");
-			rd.forward(request, response);
+						
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_list.jsp").forward(request, response);
+			
 			
 		}else if(str.equals("/Manager/Memberinfo.do")) {
 			
@@ -79,7 +80,7 @@ public class ManagerController extends HttpServlet{
 		}else if(str.equals("/Manager/MemberDeleteAction.do")) {
 			
 			String midx2 = request.getParameter("midx");
-			System.out.println("»èÁ¦µÈ ¹øÈ£ : "+midx2);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ : "+midx2);
 			
 			int midx = 0 ;
 			if(midx2 != null && !midx2.equals("")) {
@@ -125,7 +126,6 @@ public class ManagerController extends HttpServlet{
 			request.setAttribute("mv", mv);
 			request.setAttribute("alist", alist);
 			
-			System.out.println("mv : "+mv);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_qna_list.jsp").forward(request, response);
 			
@@ -143,9 +143,7 @@ public class ManagerController extends HttpServlet{
 			AdminDao ad = new AdminDao();
 			ArrayList<Show1Vo> alist = ad.ShowSelectAll(query);
 			
-			
 			request.setAttribute("alist", alist);
-			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_concert_list.jsp").forward(request, response);
 		
 			
@@ -161,9 +159,8 @@ public class ManagerController extends HttpServlet{
 			JSONObject obj = new JSONObject();
 			
 			AdminDao ad = new AdminDao();
-			ArrayList<MemberVo> list = ad.getUserList(sidx2);
+			ArrayList<MemberVo> list = ad.getUserBuyList(sidx2);
 			
-			System.out.println("list : "+list);
 			
 			for(int i=0; i < list.size(); i++) {
 				JSONObject jobj = new JSONObject();
@@ -178,8 +175,6 @@ public class ManagerController extends HttpServlet{
 			}
 			
 			obj.put("list", arr);
-			System.out.println(arr);
-			
 			
 //			PrintWriter out = response.getWriter();
 //			out.println("{\"ridx\":\"1\"}");
@@ -204,7 +199,105 @@ public class ManagerController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_comment_list.jsp").forward(request, response);
 			
+		}else if(str.equals("/Manager/Main.do")) {
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			
+			ManagerDao ed = new ManagerDao();
+			List<ManagerVo> mlist = ed.getmemberAMainList(); 
+			List<ManagerVo> plist = ed.getPayAMainList();
+			List<ManagerVo> clist = ed.getCommentAMainList();
+			List<ManagerVo> qlist = ed.getQnaAMainList();
+			String name = ed.getName(midx);
+			request.setAttribute("mlist", mlist); 
+			request.setAttribute("plist", plist); 
+			request.setAttribute("clist", clist); 
+			request.setAttribute("qlist", qlist); 
+			request.setAttribute("name", name);
+			
+			
+			
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_main.jsp").forward(request, response);
+			
+		}else if(str.equals("/Manager/comment.do")) {
+			String page_ = request.getParameter("p");
+			String query_ = request.getParameter("q");
+			String setting_ = request.getParameter("s");
+
+			String setting = "a.c_content";
+				if (setting_ != null && !setting_.equals("")) {	
+					setting = setting_;
+				}
+			
+			String query ="";
+			if(query_ != null && !query_.equals("")) {
+				query =query_;
+			}
+			
+			int page = 1;
+			  
+			  if (page_ != null && !page_.equals("")) { 
+				  page = Integer.parseInt(page_);
+			  }
+			  
+			  
+			
+			CommentADao cad =new CommentADao();
+			List<CommentAVo> clist= cad.getCommentAList(setting,query,page);
+			
+			int count = cad.getCommentListCount(page,setting,query );
+			request.setAttribute("clist", clist);
+			request.setAttribute("count", count);
+			  
+			
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_comment_list.jsp").forward(request, response);
+				
+		} else if (str.equals("/Manager/CommentDeleteAction.do")) {
+
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+
+			int c_idx = Integer.parseInt(request.getParameter("c_idx"));
+			CommentADao ca = new CommentADao();
+			ca.deleteComment(c_idx);
+			response.sendRedirect(request.getContextPath() + "/Manager/comment.do");
+		
+		} else if (str.equals("/Manager/CommentDeleteAllAction.do")) {
+
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+
+			String keyword = request.getParameter("keyword");
+			CommentADao ca = new CommentADao();
+			ca.deleteCommentall(keyword);
+			response.sendRedirect(request.getContextPath() + "/Manager/comment.do");
+		
+		
+		
+		
+		
+		
+		} else if (str.equals("/Manager/Memberlist.do")) {
+
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_list.jsp").forward(request, response);
+				
+		} else if (str.equals("/Manager/Paylist.do")) {
+
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_concert_list.jsp").forward(request, response);
+				
+				
+		} else if (str.equals("/Manager/Qnalist.do")) {
+
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_qna_list.jsp").forward(request, response);
+				
 		}
+		
+				
 		
 	};
 	

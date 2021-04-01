@@ -151,10 +151,10 @@
 										<td style="width:50%;" class="td_">
 											<c:choose>
 												<c:when test="${list.qstate == '대기'}">
-													<a href="../Customer/QuestionView.do?qidx=${list.qidx}">${list.qtitle}</a>
+													<a href="../Customer/QuestionView.do?num=${list.num}&qidx=${list.qidx}&state=${state}">${list.qtitle}</a>
 												</c:when>
 												<c:otherwise>
-													<a href="../Customer/QuestionView2.do?qidx=${list.qidx}">${list.qtitle}</a>
+													<a href="../Customer/QuestionView2.do?num=${list.num}&qidx=${list.qidx}&state=${state}">${list.qtitle}</a>
 												</c:otherwise>
 											</c:choose>
 										</td>

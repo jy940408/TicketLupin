@@ -3,8 +3,9 @@
 <% 
 	request.setCharacterEncoding("UTF-8");
 	String mid = (String) session.getAttribute("mid");
+	String mpwd = (String)session.getAttribute("mpwd");
 	MemberDao md = new MemberDao();
-	MemberVo mv = md.getMember(mid);
+	MemberVo mv = md.getMember(mid, mpwd);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,17 +17,20 @@
         <script type="text/javascript">
         	
 			function check(){
-				alert("수정합니다!");
 				
 				
-				if (document.frm.mpwd.value != document.frm.mPwd2.value){
-				  	alert("비밀번호를 다시 입력해주세요.");
+				if(document.frm.mname.value == ""){
+					alert("이름을 입력해주세요.")
+					document.frm.mname.focus();
+					return;
+				}else if (document.frm.mpwd.value == ""){
+				  	alert("비밀번호를 입력해주세요.");
 				  	document.frm.mpwd.focus();
 				  	return;
-			  	}
+				}
 			  
-			  	alert("전송");
-			  	document.frm.action ="<%=request.getContextPath()%>/Member/MemberModifyAction.do";
+				alert("수정합니다!");
+			  	document.frm.action ="<%=request.getContextPath()%>/Member/MemberModifyAction.do?mid=<%=mv.getMid()%>";
 			  	document.frm.method = "POST";
 			  	document.frm.submit(); 
 			  	return;
@@ -54,8 +58,8 @@
 	                    <h3 class="join_title">
 	                        <label for="id">아이디</label>
 	                    </h3>
-	                    <span class="box int_id">
-	                        <input type="text"  class="int" id="id" maxlength="20" name="mid" value="<%=mv.getMid()%>" readonly="readonly">
+	                    <span style="padding:20px;">
+	                        <strong style="font-size:20px;"><%=mv.getMid()%></strong>
 	                    </span>
 	                    <span class="error_next_box"></span>
 	                    <div id="checkMsg"></div>

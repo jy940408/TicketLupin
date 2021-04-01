@@ -108,7 +108,7 @@
 						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="../Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -170,19 +170,19 @@
 							<td style="border:1px solid;">
 								<center>
 									<select class="type" name="ftype" style="border:0px; font-size:15px; text-align-last:center;">
-										<option>
+										<option ${fv.ftype == '티켓예매' ? 'selected="selected"' : '' }>
 											티켓예매
 										</option>
-										<option>
+										<option ${fv.ftype == '취소/환불' ? 'selected="selected"' : '' }>
 											취소/환불
 										</option>
-										<option>
+										<option ${fv.ftype == '티켓수령' ? 'selected="selected"' : '' }>
 											티켓수령
 										</option>
-										<option>
+										<option ${fv.ftype == '회원' ? 'selected="selected"' : '' }>
 											회원
 										</option>
-										<option>
+										<option ${fv.ftype == '이벤트' ? 'selected="selected"' : '' }>
 											이벤트
 										</option>
 									</select>

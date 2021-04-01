@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -18,10 +17,23 @@
 					
 					$(".showname").html(text);
 					$(".sidx_").val(sidx);
-					
-					
 				});
 				
+				$(".clickposter").click(function(){
+					var src_ = $(this).attr("src");
+					$("#imgview").attr("src",src_);
+					
+					//var src_ = this.getAttribute("src");
+					//$("#imgview").setAttribute("src",src_);
+				});
+			
+				$(".hi").click(function(){
+					var title = $(this).find(".show_title").val();
+					var sidx = $(this).find(".sidx").val();
+					
+					$(".showname").html(title);
+					$(".sidx_").val(sidx);
+				});
 			});
 			
 			
@@ -34,20 +46,27 @@
 					success:function(data){
 						
 						var output = "";
-						$.each(data, function(key, value){
-						 
-							output += "		<tr>";
-							output += "			<td>"+value.ridx+"</td>";
-							output += "			<td>"+value.mname+"</td>";
-							output += "			<td>"+value.mid+"</td>";
-							output += "			<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
-							output += "		</tr>"; 
-						  
-						});	
+							$.each(data, function(key, value){
+							 
+							  
+								output += "		<tr>";
+								output += "			<td>"+value.ridx+"</td>";
+								output += "			<td>"+value.mname+"</td>";
+								output += "			<td>"+value.mid+"</td>";
+								output += "			<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
+								output += "		</tr>"; 
+							  
+							});	
 						
-						$(".userList_").html(output);
+							$(".userList_").html(output);
 					}
 				});
+			}
+			
+			function showdetail(){
+				var sidx = $(".sidx_").val();
+				
+				location.href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=" + sidx;
 			}
 		</script>
 	</head>
@@ -68,9 +87,13 @@
 							 <li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							 <li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
-						<img src="../ads/musicalads.png" id="h_ads">
+						<a href="<%=request.getContextPath()%>/Main/MainPage.do">
+							<img src="../ads/musicalads.png" id="h_ads" style="width:221px; height:40px; float:right;">
+						</a>
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo" style="width:300px;">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath() %>/Main/MainPage.do" id="main_nav_home">
+						<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					</a>
 					<input type="text" id="h_search" style="width:214px;" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
@@ -131,14 +154,16 @@
 				<div class="tit">
 					<span class="label">|&nbsp;&nbsp;공연관리</span>
 					<span class="btn">
-						<button type="button" class="qwrite">공연 등록</button>
+						<button type="button" class="qwrite" onclick="location.href='<%=request.getContextPath()%>/Show/ShowWriteStep1.do'">공연 등록</button>
 					</span>
 					<hr style="margin:10px 0 20px 0;"/>
 				</div>
 				<div class="wrap_search">
 					<span class="wrap_input">
-						<input type="text" name="q">
-						<button type="submit" >검색</button>
+						<form>
+							<input type="text" name="q">
+							<button type="submit">검색</button>
+						</form>	
 					</span>
 				</div>
 				<div>
@@ -150,33 +175,17 @@
 				<div class="mid">
 					<div class="posterlist">
 						<div class="posterlist_ul" style="display:none;">
-							<ul>
-								<li>
-									<a href="#"><img src="../poster/openposter8.jpg"></a>
-									<input type="hidden">
-								</li>
-								<li><a href="#"><img src="../poster/musicalposter9.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter4.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter8.jpg"></a></li>
-							</ul>
-							<ul>
-								<li><a href="#"><img src="../poster/musicalposter5.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter1.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter10.jpg"></a></li>
-								<li><a href="#"><img src="../poster/openposter2.jpg"></a></li>
-							</ul>
-							<ul>
-								<li><a href="#"><img src="../poster/openposter3.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter6.jpg"></a></li>
-								<li><a href="#"><img src="../poster/openposter7.jpg"></a></li>
-								<li><a href="#"><img src="../poster/openposter1.jpg"></a></li>
-							</ul> 
-							<ul>
-								<li><a href="#"><img src="../poster/openposter8.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter9.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter4.jpg"></a></li>
-								<li><a href="#"><img src="../poster/musicalposter8.jpg"></a></li>
-							</ul>
+							<c:forEach var = "s" items ="${alist}">
+								<ul style="display:inline;">
+									<li class="hi">
+										<a href="#" class="li_img">
+											<img onclick="userList(${s.sidx})" class="clickposter" src="<%=request.getContextPath() %>/poster/${s.stitleimage}">
+										</a>
+										<input type="hidden" class="sidx" value="${s.sidx }">
+										<input type="hidden" class="show_title" value="${s.stitle }">
+									</li>
+								</ul>
+							</c:forEach>
 						</div>
 						<div class="posterlist_ul2" style="display:block;">
 							<table class="tb1">
@@ -189,17 +198,19 @@
 								</thead>
 								<tbody>
 								
-								<c:forEach var = "s" items ="${alist }">
+								<c:forEach var = "s" items ="${alist}">
 									<tr>
-										<td class="td_">
+										<td class="td_" onclick="userList(${s.sidx})">
 											<div class="show_info">
 												<span class="show_poster">
-													<a href="#" onclick="userList(${s.sidx})"><img src="../poster/openposter8.jpg"></a>
+													<a href="#" onclick="userList(${s.sidx})" >
+														<img class="clickposter" src="<%=request.getContextPath() %>/poster/${s.stitleimage}">
+													</a>
 												</span>
 												<span class="show_title">
-													<a href="#" onclick="userList(${s.sidx})">${s.stitle }</a>
+													<a href="#" onclick="userList(${s.sidx})">${s.stitle}</a>
 												</span>
-												<input type="hidden" value="${s.sidx }" class="sidx">
+												<input type="hidden" value="${s.sidx}" class="sidx">
 											</div>
 										</td>
 										<td>
@@ -219,17 +230,15 @@
 					<div class="bigposter">
 						<div class="bigposter_">
 							<div id="p1">
-								<div style="border:2px solid gray; width:184px; height:255px; position:center;" >
-									<img src="../poster/openposter8.jpg" id="imgview">
+								<div style="border:0.5px solid gray; width:184px; height:255px; position:center;" >
+									<img id="imgview">
 								</div>
 								<p class="showname" style="height:24px;"></p>
 								<input type="hidden" class="sidx_">
 							</div>
 						</div>
 						<div class="posterbtn" style="padding-top:9px;">
-							<span><button>바로가기</button></span>
-							<span><button>좌석현황</button></span>
-							<span><button>공지하기</button></span>
+							<span><button onclick="showdetail()">바로가기</button></span>
 						</div>
 					</div>
 				</div>

@@ -572,7 +572,7 @@ public class ReservationDao {
 				
 				ReservationShowVo rsv = new ReservationShowVo();
 				
-				rsv.setRidx(rs.getInt("RIIDX"));
+				rsv.setRiidx(rs.getInt("RIIDX"));
 				rsv.setSidx(rs.getInt("SIDX"));
 				rsv.setMidx(rs.getInt("MIDX"));
 				rsv.setSrdate(rs.getString("SRDATE"));

@@ -1,6 +1,5 @@
 package com.TicketLupin.web.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -54,20 +53,18 @@ public class MemberController extends HttpServlet{
 			
 		}else if(str.equals("/Member/pwdChange.do")) {
 			
-			String mid2 = request.getParameter("mid");
+			String mid = request.getParameter("mid");
+			String mpwd = request.getParameter("mpwd");
 			
 			MemberDao md = new MemberDao();
-			MemberVo mv = md.getMember(mid2);
+			MemberVo mv = md.getMember(mid, mpwd);
 			
 			request.setAttribute("mv", mv);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Find_pwd_step3.jsp").forward(request, response);
 			
 		}else if(str.equals("/Member/joinIdCheck.do")) {
 			
-			
-			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/ID_Check.jsp").forward(request, response);
-			
 			
 		}else if(str.equals("/Member/findPwdAction.do")) {
 			
@@ -105,63 +102,76 @@ public class MemberController extends HttpServlet{
 			try {
 				md.changePwd(mpwd, mid);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 		
-		}
-		
-	}
-	
-	
-	
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		String uri = request.getRequestURI();
-		int len = request.getContextPath().length();
-		String str = uri.substring(len);
-		System.out.println("str"+str);	
-		
-		
-		if(str.equals("/Member/MemberLoginAction.do")) {
+		}else if(str.equals("/Member/Member_Modify_PwdCheck.do")) {
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Check_user.jsp").forward(request, response);
+			
+		}else if(str.equals("/Member/UserDelete.do")) {
+			
+			String mid = request.getParameter("mid");
+			
+			request.setAttribute("mid", mid);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/jsp/Member_PwdCheck.jsp");
+			rd.forward(request, response);
+			
+		}else if(str.equals("/Member/MemberLoginAction.do")) {
 			
 			String mid = request.getParameter("mid");
 	        String mpwd = request.getParameter("mpwd");
-	         
-	        System.out.println("mid:"+mid);
-	        System.out.println("mpwd:"+mpwd);
-	         
-	        MemberDao md = new MemberDao();
-	        ArrayList value = md.memberLogin(mid, mpwd);
-	        System.out.println("value:"+value);
-	         
-	        HttpSession session = request.getSession();
-	         
-	        if(value.get(0).equals("M")) {
-	             
-	            session.setAttribute("mid", mid);
-	            session.setAttribute("mpwd", mpwd);
-	            session.setAttribute("mgrade", value.get(0));
-	            session.setAttribute("midx", value.get(1));
-	            response.sendRedirect("../Main/MainPage.do");
-				System.out.println("�α��� ���� �� �ޱ�");
-	             
-	        }else if(value.get(0).equals("G")){
-	        	session.setAttribute("mid", mid);
-	            session.setAttribute("mpwd", mpwd);
-	            session.setAttribute("mgrade", value.get(0));
-	            session.setAttribute("midx", value.get(1));
-	            response.sendRedirect("../Main/MainPage.do");
-				System.out.println("�α��� ���� �� �ޱ�");
-	        }else {
-	            response.sendRedirect(request.getContextPath()+"/Member/MemberLogin.do");
-	        }
 	        
+	        MemberDao md = new MemberDao();
+	        int value_ = md.LoginCnt(mid, mpwd);
+	        HttpSession session = request.getSession();
+	        
+	        if (value_ > 0) {
+	        	
+	        	MemberDao md_ = new MemberDao();
+	        	ArrayList value = md_.memberLogin(mid, mpwd);
+	            System.out.println(value);
+	        	
+	        	 if(value.get(0).equals("M") && value.get(2).equals("N")) {
+	 	            
+	 	            session.setAttribute("mid", mid);
+	 	            session.setAttribute("mpwd", mpwd);
+	 	            session.setAttribute("mgrade", value.get(0));
+	 	            session.setAttribute("midx", value.get(1));
+	 	            
+	 	            response.sendRedirect("../Main/MainPage.do");
+	 	            System.out.println("manager");
+	 	             
+	 	        }else if(value.get(0).equals("G") && value.get(2).equals("N")){
+	 	        	session.setAttribute("mid", mid);
+	 	            session.setAttribute("mpwd", mpwd);
+	 	            session.setAttribute("mgrade", value.get(0));
+	 	            session.setAttribute("midx", value.get(1));
+	 	           
+	 	           response.sendRedirect("../Main/MainPage.do");
+	 	            System.out.println("user");
+	 	           	
+	 			}else if(value.get(2).equals("Y") ) {
+					session.invalidate();
+					request.setAttribute("err_message", "등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+					RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Login.jsp");
+		            dis.forward(request, response);
+		            System.out.println("로그인안됨");
+				}
+	        }else {
+	        	
+	        	session.invalidate();
+				request.setAttribute("err_message", "등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+				RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/view/jsp/Login.jsp");
+	            dis.forward(request, response);
+	            System.out.println("로그인안됨");
+	        }	
+			
+			
 		}else if(str.equals("/Member/MemberJoinAction.do")) {
 			
 			
@@ -174,9 +184,13 @@ public class MemberController extends HttpServlet{
 			String mssn = request.getParameter("mssn");
 			String mbirthmonth= request.getParameter("mbirthmonth");
 			String mbirthday = request.getParameter("mbirthday");
+			String mpostcode = request.getParameter("mpostcode");
+			String mdetailaddress = request.getParameter("mdetailaddress");
+			String mextraaddress = request.getParameter("mextraaddress");
+			String mgender = request.getParameter("mgender");
 		
 			MemberDao md = new MemberDao();
-			md.insertMember(mid, mpwd, mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday);
+			md.insertMember(mid, mpwd, mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender);
 			
 			
 			response.sendRedirect(request.getContextPath()+"/");
@@ -185,6 +199,7 @@ public class MemberController extends HttpServlet{
 			
 			String mname = request.getParameter("mname");
 			String memail = request.getParameter("memail");
+			String msecessionyn = request.getParameter("msecessionyn");
 			
 			System.out.println("mname:"+mname);
 			System.out.println("memail:"+memail);
@@ -202,7 +217,49 @@ public class MemberController extends HttpServlet{
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Find_Id.jsp").forward(request, response);
 			
+		}else if(str.equals("/Member/MemberModifyForm.do")) {
+			
+			String mid = request.getParameter("mid");
+			
+			MemberDao md = new MemberDao();
+			MemberVo mv = md.memberSelectOne2(mid);
+			
+			request.setAttribute("mv", mv);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/MemberModifyForm.jsp").forward(request, response);
+		
+		}else if(str.equals("/Member/MemberModifyAction.do")) {
+			
+			String mid = request.getParameter("mid");
+			String mname = request.getParameter("mname");
+			String mssn = request.getParameter("mssn");
+			String mbirthmonth = request.getParameter("mbirthmonth");
+			String mbirthday = request.getParameter("mbirthday");
+			String mpostcode = request.getParameter("mpostcode");
+			String maddress = request.getParameter("maddress");
+			String mdetailaddress = request.getParameter("mdetailaddress");
+			String mextraaddress = request.getParameter("mextraaddress");
+			String mgender = request.getParameter("mgender");
+			String memail = request.getParameter("memail");
+			String mphone = request.getParameter("mphone");
+			String mpwd = request.getParameter("mpwd");
+			
+			MemberDao md = new MemberDao();
+			int value = md.MemberModify(mid, mpwd, mname, mssn, mbirthmonth, mbirthday, mpostcode, maddress, mdetailaddress, mextraaddress, mgender, memail, mphone);
+			
+			System.out.println(mid);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);		
+			
+		}else if(str.equals("/Member/UserDeleteAction.do")) {
+			
+			String mpwd = request.getParameter("mpwd");
+			
+			MemberDao md = new MemberDao();
+			md.userDelete(mpwd);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);		
 		}
+		
 	}
 	
 }

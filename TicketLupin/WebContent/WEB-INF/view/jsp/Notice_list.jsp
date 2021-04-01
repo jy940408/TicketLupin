@@ -88,7 +88,7 @@
 						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="../Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -164,7 +164,7 @@
 							</form>						
 						</div>
 						<c:set var = "page" value = "${(param.p==null)? 1: param.p}"/>
-	          			<c:set var ="startNum" value = "${page-(page-1)%5}"/>    
+	          			<c:set var ="startNum" value = "${page-(page-1)%5}"/> 
 	           			<c:set var ="lastNum" value = "${fn:substringBefore(Math.ceil(count/10), '.')}"/>					
 						<table class="table2" style="width:100%">
 							<tbody>
@@ -173,13 +173,13 @@
 									<th style="width:10%;">분류</th>
 									<th style="width:45%;">제목</th>
 									<th style="width:10%;">등록일</th>
-								</tr>		
+								</tr>
 								<c:forEach var="list" items="${list}">
 								<tr>
 									<td style="width:10%;">${list.num}</td>
 									<td style="width:20%;">${list.ncategory}</td>
 									<td style="width:50%;" class="td_">
-										<a href="../Customer/NoticeView.do?nidx=${list.nidx}">${list.ntitle}</a>
+										<a href="../Customer/NoticeView.do?num=${list.num}&keyword=${keyword}&searchType=${searchType}">${list.ntitle}</a>
 									</td>
 									<td style="width:20%;">${list.nregdate}</td>
 								</tr>

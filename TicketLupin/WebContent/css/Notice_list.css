@@ -49,9 +49,8 @@ a{
 #h_logo{
 	position:relative;
 	top:10px;
-	height:80px;
+	height:70px;
 	margin:10px 0;
-	width:300px;
 }
 #h_search{
 	border-style:solid;
@@ -59,7 +58,7 @@ a{
 	background:transparent;
 	border-color:black;
 	font-size:20px;
-	width:210px;
+	width:200px;
 }
 #h_search_button{
 	background-color:transparent;

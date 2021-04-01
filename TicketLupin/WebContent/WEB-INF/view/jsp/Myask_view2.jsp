@@ -122,10 +122,11 @@
 							<c:set var="pqv" value="${pqv}"/>
 							<c:set var="nqv" value="${nqv}"/>	
 							<c:set var="count" value="${count}"/>
+							<c:set var="state" value="${state}"/>
 							<c:set var="av" value="${av}"/>
 							<tr class="notice_table1_tr">
 								<td style="text-align:center">
-									${qv.qidx}
+									${qv.num}
 								</td>
 								<td style="text-align:center">
 									${qv.qstate}
@@ -166,7 +167,7 @@
 								<col style="width:70px">
 								<col style="width:140px">												
 							</colgroup>
-							<c:if test="${qv.qidx > 1}">
+							<c:if test="${qv.num < count}">
 								<tr>
 									<td style="text-align:center">
 										이전글
@@ -177,12 +178,12 @@
 									<td>
 										<c:choose>
 											<c:when test="${pqv.qstate == '대기'}">
-												<a href="../Customer/QuestionView.do?qidx=${pqv.qidx}" style="text-decoration:none; color:black;">
+												<a href="../Customer/QuestionView.do?num=${pqv.num}&qidx=${pqv.qidx}&state=${state}" style="text-decoration:none; color:black;">
 													&nbsp; ${pqv.qtitle}
 												</a>
 											</c:when>
 											<c:otherwise>
-												<a href="../Customer/QuestionView2.do?qidx=${pqv.qidx}" style="text-decoration:none; color:black;">
+												<a href="../Customer/QuestionView2.do?num=${pqv.num}&qidx=${pqv.qidx}&state=${state}" style="text-decoration:none; color:black;">
 													&nbsp; ${pqv.qtitle}
 												</a>
 											</c:otherwise>
@@ -195,7 +196,7 @@
 									</td>
 								</tr>
 							</c:if>
-							<c:if test="${qv.qidx < count}">
+							<c:if test="${qv.num > 1}">
 								<tr>
 									<td style="text-align:center">
 										다음글
@@ -206,12 +207,12 @@
 									<td>
 										<c:choose>
 											<c:when test="${nqv.qstate == '대기'}">
-												<a href="../Customer/QuestionView.do?qidx=${nqv.qidx}" style="text-decoration:none; color:black;">
+												<a href="../Customer/QuestionView.do?num=${nqv.num}&qidx=${nqv.qidx}&state=${state}" style="text-decoration:none; color:black;">
 													&nbsp; ${nqv.qtitle}
 												</a>
 											</c:when>
 											<c:otherwise>
-												<a href="../Customer/QuestionView2.do?qidx=${nqv.qidx}" style="text-decoration:none; color:black;">
+												<a href="../Customer/QuestionView2.do?num=${nqv.num}&qidx=${nqv.qidx}&state=${state}" style="text-decoration:none; color:black;">
 													&nbsp; ${nqv.qtitle}
 												</a>
 											</c:otherwise>

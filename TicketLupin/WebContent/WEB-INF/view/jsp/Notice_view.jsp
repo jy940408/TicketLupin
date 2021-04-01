@@ -84,7 +84,7 @@
 						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="../Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -132,12 +132,12 @@
 								<col style="width:800px">
 								<col style="width:140px">							
 							</colgroup>
-							<c:set var="nv" value="${nv}"/>		
+							<c:set var="nv" value="${nv}"/>	
 							<c:set var="pnv" value="${pnv}"/>
 							<c:set var="nnv" value="${nnv}"/>
 							<c:set var="count" value="${count}"/>
 							<tr class="notice_table1_tr">
-								<td style="text-align:center">${nv.nidx}</td>
+								<td style="text-align:center">${nv.num}</td>
 								<td style="text-align:center">${nv.ncategory}</td>
 								<td>${nv.ntitle}</td>
 								<td style="text-align:center">${nv.nregdate}</td>
@@ -158,26 +158,26 @@
 								<col style="width:70px">
 								<col style="width:140px">												
 							</colgroup>
-							<c:if test="${nv.nidx > 1}">
+							<c:if test="${nv.num < count}">
 							<tr>
 								<td style="text-align:center">이전글</td>
 								<td style="text-align:center">${pnv.ncategory}</td>
 								<td>
-									<a href="../Customer/NoticeView.do?nidx=${pnv.nidx}" style="text-decoration:none; color:black;">
-										&nbsp; ${pnv.ncontent}
+									<a href="../Customer/NoticeView.do?num=${pnv.num}&keyword=${keyword}&searchType=${searchType}" style="text-decoration:none; color:black;">
+										&nbsp; ${pnv.ntitle}
 									</a>
 								</td>
 								<td></td>
 								<td style="text-align:center">${pnv.nregdate}</td>
 							</tr>
 							</c:if>
-							<c:if test="${nv.nidx < count}">
+							<c:if test="${nv.num > 1}">
 							<tr>
 								<td style="text-align:center">다음글</td>
 								<td style="text-align:center">${nnv.ncategory}</td>
 								<td>
-									<a href="../Customer/NoticeView.do?nidx=${nnv.nidx}" style="text-decoration:none; color:black;">
-										&nbsp; ${nnv.ncontent}
+									<a href="../Customer/NoticeView.do?num=${nnv.num}&keyword=${keyword}&searchType=${searchType}" style="text-decoration:none; color:black;">
+										&nbsp; ${nnv.ntitle}
 									</a>
 								</td>
 								<td></td>
@@ -188,7 +188,7 @@
 					</div>
 					<c:if test="${sessionScope.mgrade eq 'M'}">
 						<div class="modify">
-							<button class="modify_btn" onclick="location='../Customer/NoticeModify.do?nidx=${nv.nidx}'">수정하기</button>
+							<button class="modify_btn" onclick="location='../Customer/NoticeModify.do?num=${nv.num}&nidx=${nv.nidx}&keyword=${keyword}&searchType=${searchType}'">수정하기</button>
 							<button class="remove_btn" onclick="deleteNotice();">삭제하기</button>
 						</div>
 					</c:if>

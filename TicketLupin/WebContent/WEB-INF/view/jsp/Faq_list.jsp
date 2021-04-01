@@ -99,7 +99,7 @@
 						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="../Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -130,10 +130,10 @@
 								<td width="140px"><a href="../Customer/FaqList.do">FAQ</a></td>
 								<td width="140px">
 									<c:choose>
-										<c:when test="${not empty sessionScope.mid}">
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'G'}">
 											<a href="../Customer/QuestionList.do">나의 문의 내역</a>
 										</c:when>
-										<c:when test="${sessionScope.mgrade eq 'M'}">
+										<c:when test="${not empty sessionScope.mid && sessionScope.mgrade eq 'M'}">
 											<a href="../Customer/AnswerMain.do">문의 관리</a>
 										</c:when>
 										<c:otherwise>

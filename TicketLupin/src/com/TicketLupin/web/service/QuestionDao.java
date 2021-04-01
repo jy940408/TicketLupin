@@ -165,7 +165,42 @@ public class QuestionDao {
 		return list;
 	}
 	
-	public QuestionVo getQuestionListOne(int qidx, int midx){
+	public int getQuestionListCount(String state, int page, int midx){
+		
+		int count = 0;
+		
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		
+		try {
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+state+"%");
+			pstmt.setInt(2, midx);
+			
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				
+				count = rs.getInt("COUNT");
+							
+			}
+		
+		}catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+			
+			if (rs != null) try { rs.close(); } catch(Exception e) {}
+			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
+			if (conn != null) try { rs.close(); } catch(Exception e) {}
+		}
+		
+		return count;
+	}
+	
+	public QuestionVo getQuestionOne(int qidx, int midx){
 		
 		QuestionVo qv = null;
 		ResultSet rs = null;
@@ -213,124 +248,51 @@ public class QuestionDao {
 		return qv;
 	}
 
-	public QuestionVo getQuestionListOnePrev(int qidx, int midx){
+	
+	
+	
+	
+	
+	
+	
+	public QuestionVo getQuestionListOne(String state, int num, int midx) {
 		
 		QuestionVo qv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM QUESTION WHERE QDELYN = 'N' AND QIDX = ? AND MIDX = ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
 		
 		try {
 			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, qidx-1);
-			pstmt.setInt(2, midx);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				qv = new QuestionVo();
-				
-				qv.setQidx(rs.getInt("QIDX"));
-				qv.setQtitle(rs.getString("QTITLE"));
-				qv.setQcontent(rs.getString("QCONTENT"));
-				qv.setQtype(rs.getString("QTYPE"));
-				qv.setMidx(rs.getInt("MIDX"));
-				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
-				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
-			}
-			
-		}catch(SQLException e) {
-			
-			e.printStackTrace();
-			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
-		}
-		
-		return qv;
-	}
-	
-	public QuestionVo getQuestionListOneNext(int qidx, int midx){
-		
-		QuestionVo qv = null;
-		ResultSet rs = null;
-		
-		String sql = "SELECT * FROM QUESTION WHERE QDELYN = 'N' AND QIDX = ? AND MIDX = ?";
-		
-		try {
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, qidx+1);
-			pstmt.setInt(2, midx);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				qv = new QuestionVo();
-				
-				qv.setQidx(rs.getInt("QIDX"));
-				qv.setQtitle(rs.getString("QTITLE"));
-				qv.setQcontent(rs.getString("QCONTENT"));
-				qv.setQtype(rs.getString("QTYPE"));
-				qv.setMidx(rs.getInt("MIDX"));
-				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
-				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
-			}
-			
-		}catch(SQLException e) {
-			
-			e.printStackTrace();
-			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
-		}
-		
-		return qv;
-	}
-	
-	public int getQuestionListCount(String state, int page, int midx){
-		
-		int count = 0;
-		
-		String sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
-		
-		try {
-		
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+state+"%");
 			pstmt.setInt(2, midx);
+			pstmt.setInt(3, num);
 			
-			ResultSet rs = pstmt.executeQuery();
-
-			while(rs.next()) {
+			
+			rs  = pstmt.executeQuery();
+			
+			if (rs.next()) {
 				
-				count = rs.getInt("COUNT");
+				qv = new QuestionVo();
 							
-			}
-		
-		}catch (SQLException e) {
+				qv.setNum(rs.getInt("NUM"));
+				qv.setQidx(rs.getInt("QIDX"));
+				qv.setQtitle(rs.getString("QTITLE"));
+				qv.setQcontent(rs.getString("QCONTENT"));
+				qv.setQtype(rs.getString("QTYPE"));
+				qv.setMidx(rs.getInt("MIDX"));
+				qv.setQregdate(rs.getDate("QREGDATE"));
+				qv.setQhit(rs.getInt("QHIT"));
+				qv.setQimage(rs.getString("QIMAGE"));
+				qv.setQfiles(rs.getString("QFILES"));
+				qv.setQpub(rs.getString("QPUB"));
+				qv.setQdelyn(rs.getString("QDELYN"));
+				qv.setQstate(rs.getString("QSTATE"));
+			}					
+			
+		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
@@ -341,14 +303,116 @@ public class QuestionDao {
 			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
-		return count;
+		return qv;
+	}
+	
+	public QuestionVo getQuestionListOnePrev(String state, int num, int midx){
+		
+		QuestionVo qv = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+state+"%");
+			pstmt.setInt(2, midx);
+			pstmt.setInt(3, num+1);
+			
+			
+			rs  = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				
+				qv = new QuestionVo();
+							
+				qv.setNum(rs.getInt("NUM"));
+				qv.setQidx(rs.getInt("QIDX"));
+				qv.setQtitle(rs.getString("QTITLE"));
+				qv.setQcontent(rs.getString("QCONTENT"));
+				qv.setQtype(rs.getString("QTYPE"));
+				qv.setMidx(rs.getInt("MIDX"));
+				qv.setQregdate(rs.getDate("QREGDATE"));
+				qv.setQhit(rs.getInt("QHIT"));
+				qv.setQimage(rs.getString("QIMAGE"));
+				qv.setQfiles(rs.getString("QFILES"));
+				qv.setQpub(rs.getString("QPUB"));
+				qv.setQdelyn(rs.getString("QDELYN"));
+				qv.setQstate(rs.getString("QSTATE"));
+			}					
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+			
+			if (rs != null) try { rs.close(); } catch(Exception e) {}
+			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
+			if (conn != null) try { rs.close(); } catch(Exception e) {}
+		}
+		
+		return qv;
+	}
+	
+	public QuestionVo getQuestionListOneNext(String state, int num, int midx){
+		
+		QuestionVo qv = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+state+"%");
+			pstmt.setInt(2, midx);
+			pstmt.setInt(3, num-1);
+		
+			
+			rs  = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				
+				qv = new QuestionVo();
+							
+				qv.setNum(rs.getInt("NUM"));
+				qv.setQidx(rs.getInt("QIDX"));
+				qv.setQtitle(rs.getString("QTITLE"));
+				qv.setQcontent(rs.getString("QCONTENT"));
+				qv.setQtype(rs.getString("QTYPE"));
+				qv.setMidx(rs.getInt("MIDX"));
+				qv.setQregdate(rs.getDate("QREGDATE"));
+				qv.setQhit(rs.getInt("QHIT"));
+				qv.setQimage(rs.getString("QIMAGE"));
+				qv.setQfiles(rs.getString("QFILES"));
+				qv.setQpub(rs.getString("QPUB"));
+				qv.setQdelyn(rs.getString("QDELYN"));
+				qv.setQstate(rs.getString("QSTATE"));
+			}					
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+			
+			if (rs != null) try { rs.close(); } catch(Exception e) {}
+			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
+			if (conn != null) try { rs.close(); } catch(Exception e) {}
+		}
+		
+		return qv;
 	}
 	
 	public int getQuestionListCountAll(int page, int midx){
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
 		
 		try {
 		

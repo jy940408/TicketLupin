@@ -1,18 +1,28 @@
 package com.TicketLupin.web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import com.TicketLupin.web.service.CommentADao;
 import com.TicketLupin.web.service.DibsDao;
+import com.TicketLupin.web.service.ExpectDao;
+import com.TicketLupin.web.service.ExpectVo;
+import com.TicketLupin.web.service.GoodbadDao;
 import com.TicketLupin.web.service.ShowDao;
 import com.TicketLupin.web.service.ShowRoundDao;
 import com.TicketLupin.web.service.ShowRoundVo;
@@ -160,6 +170,61 @@ public class ConcertViewController extends HttpServlet{
 			System.out.println("roundCheck: " + roundCheck);
 //==============================================================================================================================//	
 			
+			//상세 정보 받아오기
+			String page_ = request.getParameter("p");
+			String tab = request.getParameter("tab");
+			String od = request.getParameter("od");
+			System.out.println("OD"+od);
+			if (od == ""||od == null)
+				od = "";
+			
+			String setting3="E";
+			 
+			if (tab == null || tab.equals("")) {
+				tab = "main_concert_detail_content_all";
+			}else if (tab.equals("main_concert_expect_all")) {
+				setting3 = "E";
+			}else if (tab.equals("main_concert_review_all")) {
+				setting3 = "R";
+			}else if (tab.equals("main_concert_question_all")) {
+				setting3 = "Q";
+			}
+		
+			
+			String setting = "";
+			String setting2 = "";
+			 if (od.equals("")) {
+				setting = "";
+				setting2 = "";
+		
+			}else if (od.equals("latest")) {
+				setting = "";
+				setting2 = "";
+			}else if (od.equals("recommended")) {
+				setting = "ORIGIN_GOOD DESC,";
+				setting2 = "GOOD DESC,";
+			}else if (od.equals("comments")) {
+				setting = "CNT DESC,";
+				setting2 = "";
+			}
+			 
+			 
+			 
+			  int page = 1;
+			  
+			  if (page_ != null && !page_.equals("")) { 
+				  page = Integer.parseInt(page_);
+			  }
+			  
+			  ExpectDao ed = new ExpectDao();
+			  List<ExpectVo> elist = ed.getExpectList(setting, setting2,setting3, page); 
+			
+			  int count = ed.getExpectListCount(setting3,page);
+			  
+			  request.setAttribute("elist", elist);  
+			  request.setAttribute("count",count);
+			  request.setAttribute("tab", tab);
+			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			
 //==============================================================================================================================//				
@@ -250,8 +315,192 @@ public class ConcertViewController extends HttpServlet{
 			response.setContentType("application/x-json; charset=UTF-8");
 			response.getWriter().print(obj); //{"result":1}
 			
-		}
+			
+//==============================================================================================================================//				
+			
+		}else if(str.equals("/ConcertView/Commentreport.do")){
+			request.getRequestDispatcher("/WEB-INF/view/jsp/comment_report.jsp").forward(request, response);
+			
+	}else if(str.equals("/ConcertView/Commentreportaction.do")){ 	
+			
+		HttpSession session = request.getSession();
+			int midx = (int) session.getAttribute("midx");
+			int c_idx= Integer.parseInt(request.getParameter("c_idx"));
+			String sort = request.getParameter("radioval");
+			String etcval = request.getParameter("etcval");
+			
+			if (etcval  == ""||etcval  == null)
+				etcval  = "NULL";
+			
+			CommentADao cd = new CommentADao();
+			cd.insertReport(midx,c_idx,sort,etcval);
+
+			PrintWriter pt = response.getWriter();
+	         pt.write("<script>self.close();</script>");
+	         pt.flush();
+	         pt.close();
+			
+	} else if (str.equals("/ConcertView/ExpectWriteAction.do")) {
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+	
+		
+			
+			HttpSession session = request.getSession();
+			int midx = (int) session.getAttribute("midx");
+			String c_content = request.getParameter("content");
+			String tab = request.getParameter("tab");
+			
+			
+			String sort="E";
+			 
+			if (tab == null || tab.equals("")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_expect_all")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_review_all")) {
+				sort = "R";
+			}else if (tab.equals("main_concert_question_all")) {
+				sort = "Q";
+			}
+			
+		
+			ExpectDao rd = new ExpectDao();
+	
+			rd.insertExpect(midx, c_content,sort);
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+			
+		} else if (str.equals("/ConcertView/ExpectModifyWriteAction.do")) {
+			
+			  response.setCharacterEncoding("UTF-8");
+			  response.setContentType("text/html; charset=UTF-8");
+			  request.setCharacterEncoding("UTF-8");
+			  
+			  HttpSession session = request.getSession();
+			  int midx = (int)session.getAttribute("midx");
+			  int c_idx = Integer.parseInt(request.getParameter("c_idx")); 
+			  String c_content = request.getParameter("content");
+			  String tab = request.getParameter("tab");
+
+			  
+			  ExpectDao ed = new ExpectDao();
+			  
+			  ed.Expectupdate(midx,c_idx,c_content);
+			  
+
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+				
+			 
+
+		
+
+		} else if (str.equals("/ConcertView/ExpectCommentWriteAction.do")) {
+			
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+
+			HttpSession session = request.getSession();
+			int midx = (int) session.getAttribute("midx");
+			int origin_c_idx = Integer.parseInt(request.getParameter("origin_c_idx"));
+			String c_content = request.getParameter("content");
+			String tab	= request.getParameter("tab");
+			ExpectDao ed = new ExpectDao();
+			
+			String sort="E";
+			 
+			if (tab == null || tab.equals("")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_expect_all")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_review_all")) {
+				sort = "R";
+			}else if (tab.equals("main_concert_question_all")) {
+				sort = "Q";
+			}
+
+			ed.insertExpectComment(midx,origin_c_idx, c_content,sort);
+		
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+
+			
+		} else if (str.equals("/ConcertView/ExpectDeleteAction.do")) {
+
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");		
+			
+			String tab	= request.getParameter("tab");
+			String c_idx_ = request.getParameter("c_idx");
+			String origin_c_idx_ = request.getParameter("origin_c_idx");
+
+			int idx = 0;
+			String setting = "";
+			if (origin_c_idx_ != null && !origin_c_idx_.equals("")) {
+				idx = Integer.parseInt(origin_c_idx_);
+				setting = "origin_c_idx";
+			}else if(c_idx_ != null && !c_idx_.equals("")) {
+				idx = Integer.parseInt(c_idx_);
+				setting = "c_idx";
+			}
+			
+			
+			
+			
+			System.out.println("idx->"+ idx+"/"+setting );
+			ExpectDao rd = new ExpectDao();
+			rd.deleteExpect(idx, setting);
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+			
+		
+			/* 좋아요 */
+		} else if (str.equals("/ConcertView/GoodAction.do")) {
+
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+
+			PrintWriter out = response.getWriter();
+
+			HttpSession session = request.getSession();
+			int midx = (int) session.getAttribute("midx");
+			String c_idx_ = request.getParameter("c_idx");
+			String lsort = request.getParameter("good");
+			String tab	= request.getParameter("tab");
+			String origin_c_idx_ = request.getParameter("origin_c_idx");
+
+
+			int c_idx = 0;
+			if (c_idx_ != null && !c_idx_.equals("")) {
+				c_idx = Integer.parseInt(c_idx_);
+			}
+
+
+			int origin_c_idx = 0;
+			if (origin_c_idx_ != null && !origin_c_idx_.equals("")) {
+				origin_c_idx = Integer.parseInt(origin_c_idx_);
+			}
+
+			GoodbadDao gd = new GoodbadDao();
+			int check = gd.checkGood(midx, c_idx, origin_c_idx);
+
+			if (check == 0) {
+				gd.insertgoodbad(midx,c_idx, lsort, origin_c_idx);
+				response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+			} else {
+				out.println("<script>alert('이미 좋아요를 하셨습니다.'); history.go(-1);</script>");
+			}
+		}	  
 		
 	};
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		doGet(request, response);
+	}
+
 	
 }

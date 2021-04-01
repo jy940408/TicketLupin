@@ -119,20 +119,7 @@ public class WinnerController extends HttpServlet{
 			wd.deleteWinner(iidx);
 			System.out.println("삭제 iidx 확인: " + iidx);
 			response.sendRedirect("../Winner/WinnerList.do");
-		}
-		
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		String uri = request.getRequestURI();
-		int len = request.getContextPath().length();
-		String str = uri.substring(len);
-		System.out.println("str"+str);
-		
-		if(str.equals("/Winner/WinnerWriteAction.do")) {
+		}else if(str.equals("/Winner/WinnerWriteAction.do")) {
 			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");

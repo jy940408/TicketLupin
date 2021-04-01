@@ -11,6 +11,7 @@
         
         <link rel="stylesheet" href="<%=request.getContextPath() %>/css/Login_FI_FP_Join__.css">
         <script>
+        
 	        function check(){
 	        	if (document.frm.mid.value == ""){
 					alert("아이디를 입력해주세요");

@@ -26,9 +26,21 @@
 				  	document.frm.mPwd2.focus();
 				  	return;
 			  	}else if (document.frm.mname.value ==""){
-				  	alert("이름을 입력해주세요");
+				  	alert("이름을 입력해주세요.");
 				  	document.frm.mname.focus();
 				  	return;
+			  	}else if(document.frm.mssn.value == "" && document.frm.mbirhday.value == ""){
+			  		alert("생년월일을 입력해주세요.");
+			  		document.frm.mssn.focus();
+			  		return;
+			  	}else if(document.frm.mpostcode.value == "" && document.frm.maddress.value == "" && document.frm.mdetailaddress == ""){
+			  		alert("주소를 입력해주세요.");
+			  		document.frm.mdetailaddress.focus();
+			  		return;
+			  	}else if(document.frm.meamil.value == ""){
+			  		alert("이메일을 입력해주세요.");
+			  		document.frm.memail.focus();
+			  		return;
 			  	}
 			  
 			  	alert("가입합니다.");

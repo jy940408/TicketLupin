@@ -7,10 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
-
 import com.TicketLupin.web.DBconn.DBconn;
 
 import domain.SearchCriteria;
@@ -30,7 +26,7 @@ public class MemberDao {
 	
 	public ArrayList memberLogin(String mid, String mpwd) {
 	      
-	      String sql = "SELECT MGRADE, MIDX FROM MEMBER WHERE MID = ? AND MPWD = ?";
+	      String sql = "SELECT MGRADE, MIDX, MSECESSIONYN FROM MEMBER WHERE MID = ? AND MPWD = ?";
 	      ArrayList value = new ArrayList();
 	      
 	      try {
@@ -42,33 +38,78 @@ public class MemberDao {
 	         if (rs.next()) {
 	            value.add(rs.getString("MGRADE"));
 	            value.add(rs.getInt("MIDX"));
+	            value.add(rs.getString("msecessionyn"));
+
 	         }   
 	         
 	      }catch(Exception e) {
 	         e.printStackTrace();
-	      }
+	      }finally {
+				
+				try {
+					if(pstmt != null) {pstmt.close(); pstmt=null;}
+					if(conn != null) {conn.close(); conn=null;}
+				}catch(Exception e) {
+					throw new RuntimeException(e.getMessage());
+				}
+			}
 	      
 	      return value; 
 	      
 	   }
+	
+	public int LoginCnt(String mid, String mpwd) {
+	      
+	      String sql = "SELECT count(*) as cnt FROM MEMBER WHERE MID = ? AND MPWD = ?";
+	      int value_ = 0;
+	      
+	      try {
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, mid);
+	         pstmt.setString(2, mpwd);
+	         ResultSet rs = pstmt.executeQuery();
+	         
+	         if (rs.next()) {
+	        	 value_ = rs.getInt("cnt");
+	         }   
+	         
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	      }finally {
+				
+				try {
+					if(pstmt != null) {pstmt.close(); pstmt=null;}
+					if(conn != null) {conn.close(); conn=null;}
+				}catch(Exception e) {
+					throw new RuntimeException(e.getMessage());
+				}
+	      }
+	      
+	      return value_; 
+	      
+	   }
 
 	
-	public int insertMember(String MID,  String MPWD, String MNAME, String MADDRESS, String MEMAIL, String MPHONE, String MSSN, String MBIRTHMONTH, String MBIRTHDAY) {
+	public int insertMember(String mid,  String mpwd, String mname, String maddress, String memail, String mphone, String mssn, String mbirthmonth, String mbirthday, String mpostcode, String mdetailaddress, String mextraaddress, String mgender) {
 		int exec = 0;
 		
 		try {
-			String sql = "insert into member(midx, MID, MPWD,  MNAME, MADDRESS, MEMAIL, MPHONE, MSSN, MBIRTHMONTH, MBIRTHDAY)"
-					+ "values(midx_seq.nextval,?,?,?,?,?,?, ?,?,?)";
+			String sql = "insert into member(midx, mid, mpwd,  mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender)"
+					+ "values(midx_seq.nextval,?,?,?,?,?,?, ?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, MID);
-				pstmt.setString(2, MPWD);
-				pstmt.setString(3, MNAME);
-				pstmt.setString(4, MADDRESS);
-				pstmt.setString(5, MEMAIL);
-				pstmt.setString(6, MPHONE);
-				pstmt.setString(7, MSSN);
-				pstmt.setString(8, MBIRTHMONTH);
-				pstmt.setString(9, MBIRTHDAY);
+				pstmt.setString(1, mid);
+				pstmt.setString(2, mpwd);
+				pstmt.setString(3, mname);
+				pstmt.setString(4, maddress);
+				pstmt.setString(5, memail);
+				pstmt.setString(6, mphone);
+				pstmt.setString(7, mssn);
+				pstmt.setString(8, mbirthmonth);
+				pstmt.setString(9, mbirthday);
+				pstmt.setString(10, mpostcode);
+				pstmt.setString(11, mdetailaddress);
+				pstmt.setString(12, mextraaddress);
+				pstmt.setString(13, mgender);
 			exec = pstmt.executeUpdate();
 			
 			//conn.commit();
@@ -94,7 +135,7 @@ public class MemberDao {
 		
 		String mid = null;
 		
-		String sql = "select mid from member where mname=? and memail=?";
+		String sql = "select mid from member where mname=? and memail=? and MSECESSIONYN = 'N' ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -127,7 +168,7 @@ public class MemberDao {
 		
 		String mpwd = null;
 		
-		String sql = "select mpwd from member where mname=? and mid=? and memail=?";
+		String sql = "select mpwd from member where mname=? and mid=? and memail=?  and MSECESSIONYN = 'N' ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -185,28 +226,34 @@ public class MemberDao {
 		
 	}
 	
-	public MemberVo getMember(String mid) {
+	public MemberVo getMember(String mid, String mpwd) {
 		
 		MemberVo mv = null;
 		ResultSet rs = null;
 		
-		String sql = "select * from member where mid = ?";
+		String sql = "select * from member where mid = ? and mpwd = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
+			pstmt.setString(2, mpwd);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				mv = new MemberVo();
 				mv.setMid(rs.getString("mid"));
 				mv.setMpwd(rs.getString("mpwd"));
+				mv.setMpostcode(rs.getString("mpostcode"));
 				mv.setMaddress(rs.getString("maddress"));
+				mv.setMdetailaddress(rs.getString("mdetailaddress"));
+				mv.setMextraaddress(rs.getString("mextraaddress"));
 				mv.setMemail(rs.getString("memail"));
 				mv.setMphone(rs.getString("mphone"));
 				mv.setMname(rs.getString("mname"));
 				mv.setMgrade(rs.getString("mgrade"));
 				mv.setMssn(rs.getString("mssn"));
+				mv.setMbirthmonth(rs.getString("mbirthmonth"));
+				mv.setMbirthday(rs.getString("mbirthday"));
 				mv.setMidx(rs.getInt("midx"));
 			}
 		
@@ -334,7 +381,7 @@ public class MemberDao {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("��� : "+b);
+		System.out.println("��� : "+b);
 		return b;
 	}
 	
@@ -343,7 +390,6 @@ public class MemberDao {
 		
 		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();
 		
-		//String sql = "select * from member where mgrade='A' order by midx desc";
 		String sql = "select B.* from (select rownum as rnum, A.* from  ("
 				+ "select * from member where mgrade='A' and msecessionyn='N' and "
 				+ "(mname like ? or mid like ? or mphone like ? or mssn like ?)"
@@ -370,6 +416,7 @@ public class MemberDao {
 			}
 		}catch(SQLException e) {
 				e.printStackTrace();
+				
 		}finally {
 			try {
 				if(pstmt != null) pstmt.close();
@@ -381,6 +428,7 @@ public class MemberDao {
 		}
 			return alist;
 	}
+	
 	
 	public int memberTotal(String keyword) {
 		
@@ -406,6 +454,7 @@ public class MemberDao {
 		return cnt;		
 	}
 	
+	//관리자-회원관리-회원클릭시
 	public MemberVo memberSelectOne(int midx) {
 		
 		MemberVo mv = null;
@@ -429,7 +478,10 @@ public class MemberDao {
 				mv.setMbirthday(rs.getString("mbirthday"));
 				mv.setMaddress(rs.getString("maddress"));
 				mv.setMemail(rs.getString("memail"));
-				
+				mv.setMpostcode(rs.getString("mpostcode"));
+				mv.setMdetailaddress(rs.getString("mdetailaddress"));
+				mv.setMextraaddress(rs.getString("mextraaddress"));
+				mv.setMgender(rs.getString("mgender"));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -446,11 +498,12 @@ public class MemberDao {
 		return mv;
 	}
 	
+	//관리자가 회원정지 시킬 때
 	public int MemberDelete(int midx) {
 		
 		int result = 0;
 		
-		String sql = "update member set MSECESSIONYN = 'Y' where midx=?";
+		String sql = "update member set MSECESSIONYN = 'Y' , MSECESSIONDATE = sysdate where midx=?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -467,14 +520,106 @@ public class MemberDao {
 		return result;
 	}
 	
+	public int MemberModify(String mid, String mpwd, String mname, String mssn, String mbirthmonth, String mbirthday, String mpostcode, String maddress, String mdetailaddress, String mextraaddress, String mgender, String memail, String mphone) {
+		
+		int value = 0;
+		
+		String sql = "update member set mname=?, mssn=?, mbirthmonth=?, mbirthday=?, mpostcode=?, maddress=?, mdetailaddress=?, mextraaddress=?, mgender=?, memail=?, mphone=?, mpwd=? where mid=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, mname);
+			pstmt.setString(2, mssn);
+			pstmt.setString(3, mbirthmonth);
+			pstmt.setString(4, mbirthday);
+			pstmt.setString(5, mpostcode);
+			pstmt.setString(6, maddress);
+			pstmt.setString(7, mdetailaddress);
+			pstmt.setString(8, mextraaddress);
+			pstmt.setString(9, mgender);
+			pstmt.setString(10, memail);
+			pstmt.setString(11, mphone);
+			pstmt.setString(12, mpwd);
+			pstmt.setString(13, mid);
+			value = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return value;
+	}
 	
-
-
+	//본인이 탈퇴할 때
+	public int userDelete(String mpwd) {
+					
+		int value = 0;
+		
+		String sql = "update member set MSECESSIONYN = 'Y', MSECESSIONDATE = sysdate where mpwd = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mpwd);
+			value = pstmt.executeUpdate();
+					
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return value;
+	}
 	
-	
-	
-	
-	
+	public MemberVo memberSelectOne2(String mid) {
+		
+		MemberVo mv = null;
+		ResultSet rs = null;
+		
+		String sql = "select * from member where mid=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				mv = new MemberVo();
+				mv.setMidx(rs.getInt("midx"));
+				mv.setMid(rs.getString("mid"));
+				mv.setMname(rs.getString("mname"));
+				mv.setMphone(rs.getString("mphone"));
+				mv.setMssn(rs.getString("mssn"));
+				mv.setMbirthmonth(rs.getString("mbirthmonth"));
+				mv.setMbirthday(rs.getString("mbirthday"));
+				mv.setMaddress(rs.getString("maddress"));
+				mv.setMemail(rs.getString("memail"));
+				mv.setMpostcode(rs.getString("mpostcode"));
+				mv.setMdetailaddress(rs.getString("mdetailaddress"));
+				mv.setMextraaddress(rs.getString("mextraaddress"));
+				mv.setMgender(rs.getString("mgender"));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return mv;
+	}
 	
 	
 }

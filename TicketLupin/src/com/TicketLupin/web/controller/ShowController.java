@@ -295,19 +295,7 @@ public class ShowController extends HttpServlet{
 			System.out.println("공연 삭제 성공");
 			
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");
-		}
-	}
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		request.setCharacterEncoding("UTF-8");
-		String uri = request.getRequestURI();
-		int len = request.getContextPath().length();
-		String str = uri.substring(len);
-		System.out.println("str"+str);
-		
-		if(str.equals("/Show/ShowWriteStep1Action.do")) {
+		}else if(str.equals("/Show/ShowWriteStep1Action.do")) {
 			
 //==============================================================================================================================//
 			
@@ -1006,9 +994,6 @@ public class ShowController extends HttpServlet{
 			
 			ReservationDao rd = new ReservationDao();
 			
-			//deleteReservationMail drm = new deleteReservationMail();
-			//drm.naverMailSend(list);
-			
 			//기존 공연 회차 예매내역 삭제하기(수정중)
 			rd.deleteUpdateReservation2(sidx);
 			rd.deleteUpdateReservationIDX2(sidx);
@@ -1017,12 +1002,13 @@ public class ShowController extends HttpServlet{
 			ArrayList<ReservationIdxVo> list = rd.deleteUpdateReservationIDX2List(sidx);
 			System.out.println("회차 삭제된 회원 목록: " + list);
 			
+			//기존 공연 회차 삭제된 회원 공지메일 보내주기
+			deleteReservationMail drm = new deleteReservationMail();
+			drm.naverMailSend(list);
 			
 			System.out.println(roundlist);
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");
 		
 		}
-		
-		
 	}
 }

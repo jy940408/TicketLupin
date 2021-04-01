@@ -32,7 +32,7 @@
 						
 						if(conf == true){
 				
-							document.frm.action = "../Customer/QuestionModifyAction.do?qidx=${param.qidx}";
+							document.frm.action = "../Customer/QuestionModifyAction.do";
 							document.frm.method = "get";
 							document.frm.submit();
 							return;
@@ -170,8 +170,17 @@
 							<td style="border:1px solid;">
 								<center>
 									<select name="qtype" class="type" style="border:0px; font-size:15px;">
-										<option value="예매/취소" ${qv.qtype == '예매/취소' ? 'selected="selected"' : '' }>
-											예매/취소
+										<option value="예매/결제" ${qv.qtype == '예매/결제' ? 'selected="selected"' : '' }>
+											예매/결제
+										</option>
+										<option value="취소/환불" ${qv.qtype == '취소/환불' ? 'selected="selected"' : '' }>
+											취소/환불
+										</option>
+										<option value="발권/배송" ${qv.qtype == '발권/배송' ? 'selected="selected"' : '' }>
+											발권/배송
+										</option>
+										<option value="일정/마감" ${qv.qtype == '일정/마감' ? 'selected="selected"' : '' }>
+											일정/마감
 										</option>
 										<option value="이벤트" ${qv.qtype == '이벤트' ? 'selected="selected"' : '' }>
 											이벤트
@@ -191,7 +200,9 @@
 							</td>
 						</tr>
 					</table>
-					<input type="text" name="qidx" value="${param.qidx}" style="display:none;">
+					<input type="text" name="num" value="${param.num}" style="display:none;">
+					<input type="text" name="state" value="${param.state}" style="display:none;">
+					<input type="text" name="qidx" value="${qv.qidx}" style="display:none;">		
 					<div class="reg">
 						<button class="reg_btn" onclick="questionModify(); return false;">
 							등록
