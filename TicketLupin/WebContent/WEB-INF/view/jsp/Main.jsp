@@ -59,7 +59,6 @@
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -67,11 +66,10 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Manager/QnaList.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
@@ -79,13 +77,11 @@
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:when>
 							<c:otherwise>
 								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>
@@ -217,12 +213,6 @@
 						<div class="main_pick_place">신한카드 FAN(판)스퀘어 라...</div>
 						<div class="main_pick_date">2020.11.11-2021.01.31</div>
 					</div>
-				</div>
-				<hr class="main_bar" id="main_bar_top">
-				<div id="main_notice">
-					<span class="main_notice_ment">공지사항</span>
-					<span class="main_notice_ment"><a href="#" id="main_notice_title">[시스템작업] 01.24(일) 현대카드 전산시스템 작업 안내</a></span>
-					<span class="main_notice_ment">2021.01.22</span>
 				</div>
 				<hr class="main_bar" id="main_bar_bottom">
 				<div id="main_last">

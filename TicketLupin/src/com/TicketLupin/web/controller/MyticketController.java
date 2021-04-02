@@ -7,8 +7,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
+import com.TicketLupin.web.service.MemberVo;
 import com.TicketLupin.web.service.MyticketDao;
 import com.TicketLupin.web.service.MyticketVo;
+import com.TicketLupin.web.service.QuestionVo;
 import com.TicketLupin.web.service.ReservationDao;
 import com.TicketLupin.web.service.ReservationListVo;
 import com.TicketLupin.web.service.ReservationShowVo;
@@ -26,20 +28,35 @@ public class MyticketController extends HttpServlet{
 		
 		if(str.equals("/Myticket/MyticketMain.do")) {
 			
-			String page_ = request.getParameter("p");
-			int page = 1;
-			if(page_ != null && !page_.equals("")) {
-				page = Integer.parseInt(page_);
-			}
-			
-			HttpSession session = request.getSession();
-			int midx = (int)session.getAttribute("midx");
-			
-			ReservationDao rd = new ReservationDao();
-			ArrayList<ReservationShowVo> list = rd.getReservationList(midx, page);
-			
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
+			if(str.equals("/Myticket/MyticketMain.do")) {
+		         
+		         HttpSession session = request.getSession();
+		         int midx = (int)session.getAttribute("midx");
+		         
+		         String page_ = request.getParameter("p");
+		         int page = 1;
+		         
+		         if(page_ != null && !page_.equals("")) {
+		            page = Integer.parseInt(page_);
+		         }
+		         
+		         ReservationDao rd = new ReservationDao();
+		         ArrayList<ReservationListVo> rlist = rd.getReservationIdxList(midx, page);
+		         
+		         
+		         MyticketDao md = new MyticketDao();
+		         List<MyticketVo> elist = md.getMyeventList(midx);
+		         MemberVo mv = md.getName(midx);
+		         List<QuestionVo> qlist = md.getQuestionList(midx);      
+		         
+		         request.setAttribute("rlist", rlist);
+		         request.setAttribute("elist", elist);
+		         request.setAttribute("qlist", qlist);
+		         request.setAttribute("mv", mv);
+		         
+		         request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
+		         
+		      }
 			
 		}else if(str.equals("/Myticket/MyticketReservation.do")) {
 			
@@ -114,18 +131,6 @@ public class MyticketController extends HttpServlet{
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_cancel_detail.jsp").forward(request, response);
-			
-		}else if(str.equals("/Myticket/Main.do")) {
-			
-			HttpSession session = request.getSession();
-			int midx = (int)session.getAttribute("midx");
-			
-			MyticketDao md = new MyticketDao();
-			List<MyticketVo> clist = md.getMycommentList(midx); 
-			request.setAttribute("clist", clist);
-			
-			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
 			
 		}
 		

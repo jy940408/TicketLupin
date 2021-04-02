@@ -35,11 +35,11 @@
     <!--좌석선택  영역-->
     <div class="wrap_select">
         <div class="box_seat_top">
-            <h3 class="tit_seat">좌석 선택<span class="tit_s txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">${title}</span></h3>
+            <h3 class="tit_seat">좌석 선택<span class="tit_s txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">${detail.stitle}</span></h3>
         </div>
         <!-- 좌석영역-->
         <div class="wrap_seat">
-            <div class="btn_extension"><a href="#" class="btn_plus" id="btn_map_p">확대</a><a href="#" class="btn_minus" id="btn_map_m">축소</a></div>
+            <div class="btn_extension"><a href="#" class="btn_plus" id="btn_map_p"></a><a href="#" class="btn_minus" id="btn_map_m"></a></div>
 			  <iframe src="${pageContext.request.contextPath}/Reservation/ReservationStep1Seat.do?sidx=${sidx}&srdate=${comDate}&srround=${round}" id="seatIframe" name="seatIframe" style="width:100%; height:90%"></iframe>
 			<div class="wrap_seat_box">
 				<div class="seat_box "><!-- on class 컨트롤 -->
@@ -58,8 +58,18 @@
         	<h2 class="logo_onestop"><a href="#none"><img src="../icon/lupinlogo.png" style="width:116px; height:22px;" alt="티켓루팡 로고"></a></h2>
         <div class="box_info box_map">
 			<div class="minimap_scroller" id="minimap_scroller">
-				<div class="map_seat">
-				<iframe src="../image/pay_step1_seat.svg" style="width:245px; height:180px;"></iframe>
+				<div class="box_info">
+					<h3 class="select_tit select_t txt_prod_name" title="뮤지컬 〈몬테크리스토〉 10주년 기념 공연">
+						${detail.stitle}
+					</h3>
+					<div class="box_ticket" style="background-color:white; border: 1px solid #eeeeee;">
+						<ul class="box_ticket_list">
+							<li class="nth nth1 txt_prod_schedule">
+								${comDate} ${round}
+							</li>
+						
+						</ul>
+					</div>
 				</div>
 			</div>
 			<div>
@@ -71,7 +81,7 @@
         <div class="wrap_seat_list ">
             <!-- 기본 좌석등급/잔여석-->
             <div class="seat_list">
-                <h3 class="select_tit">좌석등급/잔여석<span class="ico_info" onmouseover="toolTip('layer_ticket');">유의사항</span><a href="#none" id="btnReloadSchedule" class="btn_flexible btn_flexible_ico2 btn_detail"><span>새로고침</span></a></h3>
+                <h3 class="select_tit">좌석등급/잔여석<span class="ico_info" onmouseover="toolTip('layer_ticket');">유의사항</span></h3>
                     <div class="box_seat">
                         <div class="box_seat_inner box_seat_area">
                         <table class="tbl">
@@ -85,27 +95,23 @@
                                 <tbody id="partSeatGrade">
 									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#BEA886"></em></th>
-										<td class="seat_name">VIP석(금,토,일,공휴일)</td>
-										<td class="price">150,000원</td>
-										<td class="seat_remain">0석</td>
+										<td class="seat_name">VIP석</td>
+										<td class="price">${detail.svipprice}원</td>
 									</tr>
 									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#9076FF"></em></th>
-										<td class="seat_name">R석(금,토,일,공휴일)</td>
-										<td class="price">130,000원</td>
-										<td class="seat_remain">2석</td>
+										<td class="seat_name">R석</td>
+										<td class="price">${detail.srprice}원</td>
 									</tr>
 									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#FF8AB4"></em></th>
-										<td class="seat_name">S석(금,토,일,공휴일)</td>
-										<td class="price">100,000원</td>
-										<td class="seat_remain">0석</td>
+										<td class="seat_name">S석</td>
+										<td class="price">${detail.ssprice}원</td>
 									</tr>
 									<tr>
 										<th class="seat_color"><em class="seat_color seat_vip" style="background-color:#70D0EA"></em></th>
-										<td class="seat_name">A석(금,토,일,공휴일)</td>
-										<td class="price">70,000원</td>
-										<td class="seat_remain">0석</td>
+										<td class="seat_name">A석</td>
+										<td class="price">${detail.saprice}원</td>
 									</tr>
 								</tbody>
                             </table>

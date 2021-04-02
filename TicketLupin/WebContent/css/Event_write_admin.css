@@ -41,13 +41,13 @@ body{
 }
 #h_ads{
 	margin-left:50px;
+	float:right;
 }
 #h_logo{
 	position:relative;
 	top:10px;
-	height:80px;
+	height:70px;
 	margin:10px 0;
-	width:300px;
 }
 #h_search{
 	border-style:solid;
@@ -55,7 +55,7 @@ body{
 	background:transparent;
 	border-color:black;
 	font-size:20px;
-	width:210px;
+	width:200px;
 }
 #h_search_button{
 	background-color:transparent;
@@ -78,9 +78,53 @@ body{
 	text-decoration:none;
 	color:black;
 	font-size:20px;
-	margin:45px;
+	margin:53px;
 	font-weight:bold;
 }
+#nav_menu_sub_event_div{
+	max-width:1000px;
+	min-width:1000px;
+	margin:auto;
+}
+#nav_menu_sub_event{
+	padding:0px;
+	text-align:right;	
+	margin:5px 60px 10px 10px;
+	padding:0 100px;
+}
+#nav_menu_sub_event a{
+	text-decoration:none;
+	color:rgba(0,0,0,0.5);
+	font-size:16px;
+	font-weight:bold;
+}
+#nav_menu_sub_event li{
+	color:black;
+	display:inline;
+	text-decoration:none;
+}
+#nav_menu_sub_myticket_div{
+	max-width:1000px;
+	min-width:1000px;
+	margin:auto;
+}
+#nav_menu_sub_myticket{
+	padding:0px;
+	text-align:right;
+	margin:5px 40px 10px 10px;
+}
+#nav_menu_sub_myticket a{
+	text-decoration:none;
+	color:rgba(0,0,0,0.5);
+	font-size:16px;
+	font-weight:bold;
+}
+#nav_menu_sub_myticket li{
+	color:black;
+	display:inline;
+	text-decoration:none;
+}
+
 #nav_menu_sub_div{
 	max-width:1000px;
 	min-width:1000px;
@@ -111,8 +155,8 @@ body{
 	display:inline;
 	text-decoration:none;
 }
-#nav_bar_sub{
-	margin-top:10px;
+.main_nav_all ul{
+	margin:0px;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
 section{

@@ -27,22 +27,20 @@
 				
 				var arraySeat = new Array();
 				$("input[name=seat]").on("change", function(){
-					alert("들어오긴 함");
+			
 					if($(this).is(":checked")){
-						alert("체크 됨");
+					
 						checked = "";
-						alert("들어가기 전 checked 값 test: " + checked);
 						$("input[name=seat]:checked").each(function(){
 							checked += $(this).val() + "/";
-							alert(checked);
+				
 						})
 					}else{
-						alert("체크 해제 됨");
+				
 						checked = "";
-						alert("들어가기 전 checked 값 test: " + checked);
 						$("input[name=seat]:checked").each(function(){
 							checked += $(this).val() + "/";
-							alert(checked);
+	
 						})
 					}
 					$("#checkInput").val(checked);

@@ -25,15 +25,28 @@ public class ManagerVo {
 	private String stitle;
 	private Date pdate;
 	private int ppay;
+	private Date riregdate;
+	private int riidx;
+	
+	
+	
+	
+	
+	public int getRiidx() {
+		return riidx;
+	}
+	public void setRiidx(int riidx) {
+		this.riidx = riidx;
+	}
+	public Date getRiregdate() {
+		return riregdate;
+	}
+	public void setRiregdate(Date riregdate) {
+		this.riregdate = riregdate;
+	}
 	public int getNum() {
 		return num;
 	}
-	
-	
-	
-	
-	
-	
 	public String getQtype() {
 		return qtype;
 	}

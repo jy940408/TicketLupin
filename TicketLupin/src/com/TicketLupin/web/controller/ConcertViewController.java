@@ -223,12 +223,7 @@ public class ConcertViewController extends HttpServlet{
 			  }
 			  
 			  ExpectDao ed = new ExpectDao();
-			  List<ExpectVo> elist = ed.getExpectList(setting, setting2,setting3, page); 
-			
-			  int count = ed.getExpectListCount(setting3,page);
 			  
-			  request.setAttribute("elist", elist);  
-			  request.setAttribute("count",count);
 			  request.setAttribute("tab", tab);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
@@ -346,38 +341,7 @@ public class ConcertViewController extends HttpServlet{
 	         pt.flush();
 	         pt.close();
 			
-	} else if (str.equals("/ConcertView/ExpectWriteAction.do")) {
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8");
-			request.setCharacterEncoding("UTF-8");
-	
-		
-			
-			HttpSession session = request.getSession();
-			int midx = (int) session.getAttribute("midx");
-			String c_content = request.getParameter("content");
-			String tab = request.getParameter("tab");
-			
-			
-			String sort="E";
-			 
-			if (tab == null || tab.equals("")) {
-				sort = "E";
-			}else if (tab.equals("main_concert_expect_all")) {
-				sort = "E";
-			}else if (tab.equals("main_concert_review_all")) {
-				sort = "R";
-			}else if (tab.equals("main_concert_question_all")) {
-				sort = "Q";
-			}
-			
-		
-			ExpectDao rd = new ExpectDao();
-	
-			rd.insertExpect(midx, c_content,sort);
-			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
-			
-		} else if (str.equals("/ConcertView/ExpectModifyWriteAction.do")) {
+		}  else if (str.equals("/ConcertView/ExpectModifyWriteAction.do")) {
 			
 			  response.setCharacterEncoding("UTF-8");
 			  response.setContentType("text/html; charset=UTF-8");
@@ -401,37 +365,7 @@ public class ConcertViewController extends HttpServlet{
 
 		
 
-		} else if (str.equals("/ConcertView/ExpectCommentWriteAction.do")) {
-			
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8");
-			request.setCharacterEncoding("UTF-8");
-
-			HttpSession session = request.getSession();
-			int midx = (int) session.getAttribute("midx");
-			int origin_c_idx = Integer.parseInt(request.getParameter("origin_c_idx"));
-			String c_content = request.getParameter("content");
-			String tab	= request.getParameter("tab");
-			ExpectDao ed = new ExpectDao();
-			
-			String sort="E";
-			 
-			if (tab == null || tab.equals("")) {
-				sort = "E";
-			}else if (tab.equals("main_concert_expect_all")) {
-				sort = "E";
-			}else if (tab.equals("main_concert_review_all")) {
-				sort = "R";
-			}else if (tab.equals("main_concert_question_all")) {
-				sort = "Q";
-			}
-
-			ed.insertExpectComment(midx,origin_c_idx, c_content,sort);
-		
-			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
-
-			
-		} else if (str.equals("/ConcertView/ExpectDeleteAction.do")) {
+		}else if (str.equals("/ConcertView/ExpectDeleteAction.do")) {
 
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
@@ -497,8 +431,7 @@ public class ConcertViewController extends HttpServlet{
 			} else {
 				out.println("<script>alert('이미 좋아요를 하셨습니다.'); history.go(-1);</script>");
 			}
-		}	  
-		
+		}  
 	};
 	
 	@Override

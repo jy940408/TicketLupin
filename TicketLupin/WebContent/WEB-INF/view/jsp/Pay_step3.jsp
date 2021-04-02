@@ -511,17 +511,7 @@
 					<div class="box_info_bm">
 						<div class="box_info_list">
 							<ul class="dotlist1x1 one_list">
-								<li>
-									취소기한: 
-									<span class="txt_og txt_cancel_close_dt">2021년 2월 9일(화) 17:00 까지</span>
-								</li>
-								<li>
-									취소수수료:
-									<span class="txt_og txt_cancel_fee_info">티켓금액의 0~30%</span>
-									<a href="#" class="btn_flexible btn_flexible_ico2 btn_detail specCancel">
-										<span>상세보기</span>
-									</a>
-								</li>
+								
 							</ul>
 						</div>
 						<div class="btn_onestop">

@@ -20,14 +20,14 @@
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
 						<c:if test="${empty sessionScope.mid}">
 							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
@@ -61,7 +61,6 @@
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -69,11 +68,10 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
@@ -81,13 +79,11 @@
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:when>
 							<c:otherwise>
 								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>
@@ -120,47 +116,6 @@
 							<div id="main_concert_list_search_manage_write" class="main_concert_list_search_top">
 							</div>
 							</c:if>
-						</div>
-						<div id="main_concert_list_search_tag">
-							<div id="main_concert_list_search_tag_genre" class="main_concert_list_search_tag_sector">
-								<div>
-									장르별
-								</div>
-								<ul>
-									<li><input type="checkbox" name="genre" value="genreall" onclick="getCheckboxValue('genre')"><span id="genreall">전체</span></li>
-									<li><input type="checkbox" name="genre" value="original" onclick="getCheckboxValue('genre')"><span id="original">오리지널/내한공연</span></li>
-									<li><input type="checkbox" name="genre" value="license" onclick="getCheckboxValue('genre')"><span id="license">라이선스</span></li>
-									<li><input type="checkbox" name="genre" value="creation" onclick="getCheckboxValue('genre')"><span id="creation">창작뮤지컬</span></li>
-									<li><input type="checkbox" name="genre" value="nonverbal" onclick="getCheckboxValue('genre')"><span id="nonverbal">넌버벌 퍼포먼스</span></li>
-									<li><input type="checkbox" name="genre" value="package" onclick="getCheckboxValue('genre')"><span id="package">패키지공연</span></li>
-								</ul>
-							</div>
-							<div id="main_concert_list_search_tag_place" class="main_concert_list_search_tag_sector">
-								<div>
-									지역별
-								</div>
-								<ul>
-									<li><input type="checkbox" name="place" value="placeall" onclick="getCheckboxValue('place')"><span id="placeall">전체</span></li>
-									<li><input type="checkbox" name="place" value="seoul" onclick="getCheckboxValue('place')"><span id="seoul">서울</span></li>
-									<li><input type="checkbox" name="place" value="incheon" onclick="getCheckboxValue('place')"><span id="incheon">경기/인천</span></li>
-									<li><input type="checkbox" name="place" value="daejeon" onclick="getCheckboxValue('place')"><span id="daejeon">대전/충청/강원</span></li>
-									<li><input type="checkbox" name="place" value="busan" onclick="getCheckboxValue('place')"><span id="busan">부산/대구/경상</span></li>
-									<li><input type="checkbox" name="place" value="gwangju" onclick="getCheckboxValue('place')"><span id="gwangju">광주/전라/제주</span></li>
-								</ul>
-							</div>
-							<div id="main_concert_list_search_tag_sold" class="main_concert_list_search_tag_sector">
-								<div>
-									판매상태
-								</div>
-								<ul>
-									<li><input type="checkbox" name="sold" value="soldall" onclick="getCheckboxValue('sold')"><span id="soldall">전체</span></li>
-									<li><input type="checkbox" name="sold" value="now" onclick="getCheckboxValue('sold')"><span id="now">판매 중</span></li>
-									<li><input type="checkbox" name="sold" value="soon" onclick="getCheckboxValue('sold')"><span id="soon">판매 예정</span></li>
-								</ul>
-							</div>
-						</div>
-						<div id="main_concert_list_search_tag_checked">
-							
 						</div>
 					</div>
 					<div id="main_concert_musical_list_all">

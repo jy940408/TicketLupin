@@ -45,6 +45,7 @@ a{
 }
 #h_ads{
 	margin-left:50px;
+	float:right;
 }
 #h_logo{
 	position:relative;
@@ -67,7 +68,6 @@ a{
 #h_search_img{
 	width:25px;
 }
-
 /*------------------------------------------------------------------------------------------------------------------------*/
 #nav_bar_top{
 	margin-top:70px;
@@ -90,7 +90,6 @@ a{
 	min-width:1000px;
 	margin:auto;
 }
-
 #nav_menu_sub_event{
 	padding:0px;
 	text-align:right;	
@@ -125,6 +124,37 @@ a{
 	font-weight:bold;
 }
 #nav_menu_sub_myticket li{
+	color:black;
+	display:inline;
+	text-decoration:none;
+}
+
+#nav_menu_sub_div{
+	max-width:1000px;
+	min-width:1000px;
+	margin:auto;
+}
+
+#nav_menu_sub{
+	padding:0px;
+	position:relative;	
+	text-align:right;
+	margin:0;
+}
+#nav_menu_sub2{
+	padding:0px;
+	position:relative;	
+	text-align:right;
+	padding-right:13%;
+	margin:0;
+}
+#nav_menu_sub a, #nav_menu_sub2 a{
+	text-decoration:none;
+	color:rgba(0,0,0,0.5);
+	font-size:16px;
+	font-weight:bold;
+}
+#nav_menu_sub li, #nav_menu_sub2 li{
 	color:black;
 	display:inline;
 	text-decoration:none;

@@ -391,7 +391,7 @@ public class MemberDao {
 		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();
 		
 		String sql = "select B.* from (select rownum as rnum, A.* from  ("
-				+ "select * from member where mgrade='A' and msecessionyn='N' and "
+				+ "select * from member where mgrade='G' and msecessionyn='N' and "
 				+ "(mname like ? or mid like ? or mphone like ? or mssn like ?)"
 				+ "order by midx desc) A where rownum <= ?) B where B.rnum >= ?";
 		

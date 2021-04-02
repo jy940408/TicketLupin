@@ -82,7 +82,8 @@ public class ReservationController extends HttpServlet{
 			ShowDao sd = new ShowDao();
 			Show1Vo sv = sd.getShowDetail(sidx);
 			
-			request.setAttribute("title", sv.getStitle());
+			System.out.println(sv);
+			request.setAttribute("detail", sv);
 			request.setAttribute("sidx", sidx);
 			request.setAttribute("comDate", comDate);
 			request.setAttribute("round", round);

@@ -20,7 +20,7 @@ public class ExpectDao {
 		this.conn = dbconn.getConnection();
 	}
 	
-	public List<ExpectVo> getExpectList(String setting, String setting2, String setting3, int page){
+	public List<ExpectVo> getExpectList(String setting, String setting2, String setting3, int page,int sidx_){
 		
 		List<ExpectVo> elist = new ArrayList<ExpectVo>();
 		ResultSet rs = null;
@@ -28,7 +28,7 @@ public class ExpectDao {
 		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT AA.C_IDX , AA.ORIGIN_C_IDX , AA.SIDX , AA.MIDX , AA.C_CONTENT , AA.C_REGDATE , AA.C_DELYN , AA.MID , AA.C_DEPTH ,"+
 				"COUNT(DISTINCT BB.MIDX) AS ORIGIN_GOOD, COUNT(DISTINCT CC.MIDX) AS ORIGIN_BAD, COUNT(DISTINCT DD.C_IDX) AS CNT, COUNT(DISTINCT EE.MIDX) AS GOOD, COUNT(DISTINCT FF.MIDX) AS BAD" +
 				" FROM (SELECT B.MIDX , ORIGIN_C_IDX , SIDX , C_IDX , MID , C_CONTENT , C_REGDATE , C_DELYN , C_DEPTH FROM MEMBER A , C_COMMENT B "+
-				" WHERE A.MIDX = B.MIDX(+) AND C_DELYN = 'N' AND C_SORT=? ) AA,(SELECT * FROM C_LIKE WHERE LSORT='G') BB,(SELECT * FROM C_LIKE WHERE LSORT='B') CC,"+
+				" WHERE A.MIDX = B.MIDX(+) AND C_DELYN = 'N' AND C_SORT=? and sidx=? ) AA,(SELECT * FROM C_LIKE WHERE LSORT='G') BB,(SELECT * FROM C_LIKE WHERE LSORT='B') CC,"+
 				" (SELECT * FROM C_COMMENT WHERE C_DEPTH>0 AND C_DELYN='N') DD , (SELECT * FROM C_LIKE WHERE LSORT='G') EE , (SELECT * FROM C_LIKE WHERE LSORT='B') FF"+
 				" WHERE AA.ORIGIN_C_IDX = BB.ORIGIN_C_IDX(+) AND AA.ORIGIN_C_IDX = CC.ORIGIN_C_IDX(+) AND"+
 				" AA.ORIGIN_C_IDX = DD.ORIGIN_C_IDX(+) AND AA.C_IDX = EE.C_IDX(+) AND AA.C_IDX = FF.C_IDX(+) "+ 
@@ -37,8 +37,9 @@ public class ExpectDao {
 			try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, setting3);
-			pstmt.setInt(2, 1+(page-1)*10);
-			pstmt.setInt(3, page*10);
+			pstmt.setInt(2, sidx_);
+			pstmt.setInt(3, 1+(page-1)*10);
+			pstmt.setInt(4, page*10);
 			
 			
 			rs = pstmt.executeQuery();
@@ -81,14 +82,15 @@ public class ExpectDao {
 		return elist;
 	}
 	
-	public int getExpectListCount(String setting3,  int p){
+	public int getExpectListCount(String setting3,int sidx,  int p){
 		
 		int count = 0;
 		
-		String sql =  "SELECT COUNT(C_IDX) COUNT FROM (SELECT * FROM C_COMMENT WHERE C_DEPTH=0 AND C_SORT=? AND C_DELYN='N')";
+		String sql =  "SELECT COUNT(C_IDX) COUNT FROM (SELECT * FROM C_COMMENT WHERE C_DEPTH=0 AND C_SORT=? AND SIDX =? AND C_DELYN='N')";
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, setting3);						
+			pstmt.setString(1, setting3);
+			pstmt.setInt(2, sidx);
 			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -104,16 +106,17 @@ public class ExpectDao {
 	}		
 
 		
-	public int insertExpect(int midx, String c_content, String sort) {
+	public int insertExpect(int midx, String c_content, String sort ,int sidx_) {
 		int value = 0;
 		String sql ="INSERT INTO C_COMMENT(C_IDX,ORIGIN_C_IDX,SIDX,EIDX,MIDX,C_CONTENT,C_REGDATE,C_DELYN,C_DEPTH,C_SORT)"+
-					"VALUES(C_IDX_SEQ.NEXTVAL,ORIGIN_C_IDX_SEQ.NEXTVAL,1,0,?,?,SYSDATE,'N',0,?)";
+					"VALUES(C_IDX_SEQ.NEXTVAL,ORIGIN_C_IDX_SEQ.NEXTVAL,?,0,?,?,SYSDATE,'N',0,?)";
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, midx);
-			pstmt.setString(2,c_content);
-			pstmt.setString(3,sort);
+			pstmt.setInt(1, sidx_);
+			pstmt.setInt(2, midx);
+			pstmt.setString(3,c_content);
+			pstmt.setString(4,sort);
 			value = pstmt.executeUpdate();	
 			
 			
@@ -148,17 +151,18 @@ public class ExpectDao {
 		return value;
 	}
 	
-	public int insertExpectComment(int midx, int origin_c_idx, String c_content,String sort) {
+	public int insertExpectComment(int midx, int origin_c_idx, String c_content,String sort,int sidx_) {
 		int value = 0;
 		String sql ="INSERT INTO C_COMMENT(C_IDX,ORIGIN_C_IDX,SIDX,EIDX,MIDX,C_CONTENT,C_REGDATE,C_DELYN,C_DEPTH,C_SORT)"+
-				"VALUES(C_IDX_SEQ.NEXTVAL,?,1,0,?,?,SYSDATE,'N',1,?)";
+				"VALUES(C_IDX_SEQ.NEXTVAL,?,?,0,?,?,SYSDATE,'N',1,?)";
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, origin_c_idx);
-			pstmt.setInt(2, midx);
-			pstmt.setString(3,c_content);
-			pstmt.setString(4,sort);
+			pstmt.setInt(2, sidx_);
+			pstmt.setInt(3, midx);
+			pstmt.setString(4,c_content);
+			pstmt.setString(5,sort);
 			value = pstmt.executeUpdate();	
 			
 			

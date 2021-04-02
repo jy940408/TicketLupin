@@ -1,4 +1,6 @@
-﻿$(function(){
+﻿
+
+$(function(){
 	$('.btn_rsrv').click(function(){
 		$('.btn_rsrv').css("background-color", "#A6A6A6");
 		$('.btn_cancel').css("background-color", "white");

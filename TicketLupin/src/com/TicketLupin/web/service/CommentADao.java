@@ -107,12 +107,11 @@ public class CommentADao {
 	}
 	public int deleteCommentall(String keyword) {
 		int value= 0;
-		String sql ="update c_comment set c_delyn = 'y' where c_idx = ?";
-		
+		String sql = "update  C_comment set c_delyn = 'Y'   where c_content like ?";   
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, keyword);
+			pstmt.setString(1, "%"+keyword+"%");
 			value = pstmt.executeUpdate();	
 			
 			

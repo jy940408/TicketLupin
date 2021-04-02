@@ -57,6 +57,8 @@ public class ManagerController extends HttpServlet{
 			
 			ArrayList<MemberVo> alist = md.memberSelectAll(scri);
 			
+			System.out.println(alist);
+			
 			request.setAttribute("alist", alist);
 			request.setAttribute("pm", pm);
 			
@@ -203,19 +205,20 @@ public class ManagerController extends HttpServlet{
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
 			
-			
 			ManagerDao ed = new ManagerDao();
 			List<ManagerVo> mlist = ed.getmemberAMainList(); 
 			List<ManagerVo> plist = ed.getPayAMainList();
 			List<ManagerVo> clist = ed.getCommentAMainList();
 			List<ManagerVo> qlist = ed.getQnaAMainList();
 			String name = ed.getName(midx);
+			int count = ed.getCount();
 			request.setAttribute("mlist", mlist); 
 			request.setAttribute("plist", plist); 
 			request.setAttribute("clist", clist); 
 			request.setAttribute("qlist", qlist); 
 			request.setAttribute("name", name);
-			
+			request.setAttribute("count", count);
+		
 			
 			
 			

@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/Myticket_main.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Myticket_main.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
 	</head>
 	<body>
 		<header>
@@ -16,10 +17,16 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-							<li><a href="#">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+						<c:if test="${not empty sessionScope.mid}">
+							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+						</c:if>
+							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -32,29 +39,53 @@
 		<hr id="nav_bar_top">
 		<div id="n_nav_div">
 			<nav id="main_nav">
-				<a href="#" id="main_nav_home">홈</a>
-				<a href="#" id="main_nav_concert">공연</a>
-				<a href="#" id="main_nav_ranking">랭킹</a>
-				<a href="#" id="main_nav_news">티켓오픈소식</a>
+				<a href="${pageContext.request.contextPath}/Main/MainPage.do" id="main_nav_home">홈</a>
+				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
+				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
+				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
 				<a href="#" id="main_nav_event">이벤트</a>
-				<a href="#" id="main_nav_myticket">마이 티켓</a>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<a href="#" id="main_nav_myticket">관리자</a>
+					</c:when>
+					<c:otherwise>
+						<a href="#" id="main_nav_myticket">마이티켓</a>
+					</c:otherwise>
+				</c:choose>
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="#">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
 		<div id="nav_menu_sub_myticket_div" class="main_nav_all">
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
-				<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<c:choose>
+					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${not empty sessionScope.mid}">
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:when>
+							<c:otherwise>
+								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -75,16 +106,16 @@
 							<a href="#" id="main_myticket_amount_number1_set">
 								<div>
 									<div class="main_myticket_amount_number">0</div><br>
-									<div>예매내역</div>
+									<div></div>
 								</div>
 							</a>
 							<a href="#" id="main_myticket_amount_number2_set">
-								<div class="main_myticket_amount_number">0</div><br>
-								<div>할인쿠폰</div>
+								<div class="main_myticket_amount_number"></div><br>
+								<div></div>
 							</a>
 							<a href="#" id="main_myticket_amount_number3_set">
-								<div class="main_myticket_amount_number">0</div><br>
-								<div>공연예매권</div>
+								<div class="main_myticket_amount_number"> ${count}</div><br>
+								<div>미답변 문의내역</div>
 							</a>
 						</div>
 					</div>
@@ -112,23 +143,26 @@
 							<a href="<%=request.getContextPath() %>/Manager/Paylist.do" class="main_myticket_more_set">더보기 ></a>
 							<div id="main_myticket_question_list">
 								<table width="450" height="100" >
-									<c:forEach var="cc" items="${plist}">
+									<c:forEach var="a" items="${plist}">
+							
 										<c:choose>
-											<c:when test="${cc.c_content.length()>17}">
+											<c:when test="${a.stitle.length()>17}">
 												<tr height="24" style="cursor:pointer;" onClick="location.href='링크주소'">
-													<td width="30">${cc.no}</td>
-													<td width="60">${cc.c_content}</td>
-													<td width="30" align=right>${cc.c_regdate}</td>
+													<td width="20">${a.no}</td>
+													<td width="60">${a.stitle} ...</td>
+													<td width="10">${a.mid} ...</td>
+													<td width="30" align=right>${a.riregdate}</td>
 												<tr>
 											</c:when>
-											<c:when test="${cc.c_content.length()<=17}">
+											<c:when test="${a.stitle.length()<= 17}">
 												<tr height="24" style="cursor:pointer;" onClick="location.href='링크주소'">
-													<td width="30">${cc.no}</td>
-													<td width="60">${cc.c_content}</td>
-													<td width="30" align=right>${cc.c_regdate}</td>
+													<td width="20">${a.no}</td>
+													<td width="60">${a.stitle}</td>
+													<td width="10">${a.mid}</td>
+													<td width="30" align=right>${a.rirregdate}</td>
 												<tr>
 											</c:when>
-										</c:choose>	
+										</c:choose>
 									</c:forEach>
 								</table>					
 							</div>
@@ -137,7 +171,7 @@
 						<div id="main_myticket_event">
 							<div class="main_myticket_sub_title_set">
 								<div class="main_myticket_title_set">댓글 내역</div>
-								<a href="<%=request.getContextPath() %>/Manager/comment.do" class="main_myticket_more_set">더보기 ></a>
+								<a href="<%=request.getContextPath() %>/Manager/Commentlist.do" class="main_myticket_more_set">더보기 ></a>
 								<div id="main_myticket_event_list">
 									<table width="450" height="100" >
 										<c:forEach var="cc" items="${clist}">
@@ -146,14 +180,14 @@
 													<tr height="24" style="cursor:pointer;" onClick="location.href='링크주소'">
 														<td width="30">${cc.no}</td>
 														<td width="60" >${cc.c_content}...</td>
-														<td width="30" align=right>${cc.c_regdate}</td>
+														<td width="50" align=right>${cc.c_regdate}</td>
 													<tr>
 												</c:when>
 												<c:when test="${cc.c_content.length()<= 17}">
 													<tr height="24" style="cursor:pointer;" onClick="location.href='링크주소'">
 														<td width="30">${cc.no}</td>
 														<td width="60">${cc.c_content}</td>
-														<td width="30" align=right>${cc.c_regdate}</td>
+														<td width="50" align=right>${cc.c_regdate}</td>
 													<tr>
 												</c:when>
 											</c:choose>	

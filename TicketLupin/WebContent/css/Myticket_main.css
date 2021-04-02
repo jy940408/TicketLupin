@@ -8,8 +8,12 @@ body{
 	font-family:³ª´®½ºÄù¾î Regular;
 	margin:0;
 }
+a{
+	text-decoration:none;
+	color:black;
+}
 /*------------------------------------------------------------------------------------------------------------------------*/
-#h_title{
+			#h_title{
 	height:50px;
 	line-height:50px;
 }
@@ -173,7 +177,7 @@ body{
 	background-color:rgba(0,0,0,0.05);
 }
 #main_myticket_member{
-	width:500px;
+	width:798px;
 	height:102px;
 	padding:24px;
 	background-color:white;
@@ -213,7 +217,7 @@ body{
 	display:inline-block;
 }
 #main_myticket_amount{
-	width:448px;
+	width:150px;
 	height:102px;
 	padding:24px 0;
 }
@@ -235,12 +239,6 @@ body{
 .main_myticket_member_set{
 	display:inline-block;
 	vertical-align:top;
-}
-#main_myticket_amount_number1_set{
-	border-right:1px solid rgba(0,0,0,0.1);
-}
-#main_myticket_amount_number2_set{
-	border-right:1px solid rgba(0,0,0,0.1);
 }
 .main_myticket_amount_number{
 	font-size:30px;
@@ -283,7 +281,8 @@ body{
 }
 #main_myticket_ticketing_list_ul li{
 	display:inline-block;
-	margin:8px 0;
+	padding:8px 0;
+	border-bottom: 1px solid #e3e3e3;
 }
 #main_myticket_ticketing_list_ul li div{
 	display:inline-block;
@@ -293,6 +292,9 @@ body{
 }
 .main_myticket_ticketing_list_title{
 	width:450px;
+}
+.main_myticket_ticketing_list_title_{
+	width:700px;
 }
 .main_myticket_ticketing_list_title a{
 	text-decoration:none;
@@ -327,6 +329,12 @@ body{
 	padding:6px 23px 8px;
 	margin-top:17px;
 }
+#main_myticket_question_list>table{
+	width:100%;
+	table-layout:fixed;
+	border-collapse:separate;
+	border-spacing:0px 10px;
+}
 .main_myticket_sub_content_set{
 	padding:0;
 }
@@ -343,8 +351,6 @@ body{
 .main_myticket_sub_content_title{
 	width:310px;
 }
-
-
 .main_myticket_question_list li div{
 	display:inline-block;
 }
@@ -354,8 +360,6 @@ body{
 .main_myticket_question_list_title{
 	width:310px;
 }
-
-
 /*------------------------------------------------------------------------------------------------------------------------*/
 #f_last{
 	max-width:1000px;

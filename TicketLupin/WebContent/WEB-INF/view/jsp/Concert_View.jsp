@@ -3,559 +3,130 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<% String tab = (String)request.getAttribute("tab"); %>
+
 <!DOCTYPE html>
 <html>
 	<head>
 	<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 	<script type="text/javascript"></script>
 	<script>
-		function insertDibs(){
-			
-			alert("보내기 시작");
+	function insertDibs(){
 		
-			$.ajax({
-				type:"get",
-				url:"${pageContext.request.contextPath}/Dibs/DibsAction.do",
-				data:{"sidx": '${detail.sidx}'},
-				success: function(data){
-					if(data.result == 1){
-						$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
-					}else if(data.result == 0){
-						$("#main_concert_process_dibs").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
-					}
-				}
-			});
-		}
-		
-		function deleteDibs(){
-			
-			alert("삭제 시작");
-			
-			$.ajax({
-				type:"get",
-				url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
-				data:{"sidx": "${detail.sidx}"},
-				success: function(data){
-					if(data.result == 1){
-						$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
-					}else if(data.result == 0){
-						$("#main_concert_process_dibs").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
-					}
-				}
-			});
-		}
-		
-//-------------------------------------------------------------------------------------------------------------------------------------//
-
-		function selectDate(i){
-			
-			$.ajax({
-				
-				type:"get",
-				url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
-				data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
-				success: function(data){
-					
-					
-					var output = "";
-					
-					output += "<div style='display:none;'>";
-					for(var j = 1 ; j <= 4 ; j++){
-						if(eval("data.srround" + j) != null){
-							output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + j) + "'>";
-						}
-					}
-					output += "</div>";
-					for(var j = 1 ; j <= 4 ; j++){
-						if(eval("data.srround" + j) != null){
-							output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + j) + "</div></label><br>";
-						}
-					}
-					
-					var output2 = "";
-					
-					output += "<input type='hidden' name='sidx' value='${detail.sidx}'>";
-					output += "<input type='hidden' name='year' value='${year}'>";
-					output += "<input type='hidden' name='month' value='${month}'>";
-					output += "<input type='hidden' name='date' value='" + i + "'>";
-					
-					$("#main_concert_process_time_calender").html(output);
-					$("#dateRedirect").html(output2);
-				}
-			});
-		
-		}
-		
-//-------------------------------------------------------------------------------------------------------------------------------------//
-
-		function submitReservation(){
-			
-			if(${empty sessionScope.mid}){
-				alert("로그인이 필요한 서비스입니다");
-				location.href="${pageContext.request.contextPath}/Member/MemberLogin.do";
-			  	return;
-			}
-			
-			var checkRadio = document.getElementsByName("round");
-			var radioLength = $("input:radio[name='round']").length;
-			var radioChecked = $("input:radio[name='round']").is(':checked');
-			var checkCount = 0;
-			if(radioChecked == true){
-				checkCount = 1;
-			}
-			
-			if(checkCount < 1){
-				alert("회차를 선택해주세요");
-				return;
-			}
+		alert("보내기 시작");
 	
-			var srWin = window.open("about:blank", "winName", "width=955px, height=647px");
-			document.concertReservation.action = "${pageContext.request.contextPath}/Reservation/ReservationStep1.do";
-			document.concertReservation.method = "get";
-			document.concertReservation.target = "winName";
-			document.concertReservation.submit();
+		$.ajax({
+			type:"get",
+			url:"${pageContext.request.contextPath}/Dibs/DibsAction.do",
+			data:{"sidx": '${detail.sidx}'},
+			success: function(data){
+				if(data.result == 1){
+					$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
+				}else if(data.result == 0){
+					$("#main_concert_process_dibs").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
+				}
+			}
+		});
+	}
+	
+	function deleteDibs(){
+		
+		alert("삭제 시작");
+		
+		$.ajax({
+			type:"get",
+			url:"${pageContext.request.contextPath}/Dibs/DibsDeleteAction.do",
+			data:{"sidx": "${detail.sidx}"},
+			success: function(data){
+				if(data.result == 1){
+					$("#main_concert_process_dibs").html("<a onclick='deleteDibs()'><div>✓찜하기 취소</div></a>");
+				}else if(data.result == 0){
+					$("#main_concert_process_dibs").html("<a onclick='insertDibs()'><div>✓찜하기 목록 담기</div></a>");
+				}
+			}
+		});
+	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------//
+	function selectDate(i){
+		
+		$.ajax({
+			
+			type:"get",
+			url:"${pageContext.request.contextPath}/ConcertView/ConcertViewDateAJAX.do",
+			data:{"sidx": "${detail.sidx}", "month": "${month}", "year": "${year}", "date": i},
+			success: function(data){
+				
+				
+				var output = "";
+				
+				output += "<div style='display:none;'>";
+				for(var j = 1 ; j <= 4 ; j++){
+					if(eval("data.srround" + j) != null){
+						output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + j) + "'>";
+					}
+				}
+				output += "</div>";
+				for(var j = 1 ; j <= 4 ; j++){
+					if(eval("data.srround" + j) != null){
+						output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + j) + "</div></label><br>";
+					}
+				}
+				
+				var output2 = "";
+				
+				output += "<input type='hidden' name='sidx' value='${detail.sidx}'>";
+				output += "<input type='hidden' name='year' value='${year}'>";
+				output += "<input type='hidden' name='month' value='${month}'>";
+				output += "<input type='hidden' name='date' value='" + i + "'>";
+				
+				$("#main_concert_process_time_calender").html(output);
+				$("#dateRedirect").html(output2);
+			}
+		});
+	
+	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------//
+	function submitReservation(){
+		
+		if(${empty sessionScope.mid}){
+			alert("로그인이 필요한 서비스입니다");
+			location.href="${pageContext.request.contextPath}/Member/MemberLogin.do";
+		  	return;
+		}
+		
+		var checkRadio = document.getElementsByName("round");
+		var radioLength = $("input:radio[name='round']").length;
+		var radioChecked = $("input:radio[name='round']").is(':checked');
+		var checkCount = 0;
+		if(radioChecked == true){
+			checkCount = 1;
+		}
+		
+		if(checkCount < 1){
+			alert("회차를 선택해주세요");
 			return;
 		}
 
+		var srWin = window.open("about:blank", "winName", "width=955px, height=647px");
+		document.concertReservation.action = "${pageContext.request.contextPath}/Reservation/ReservationStep1.do";
+		document.concertReservation.method = "get";
+		document.concertReservation.target = "winName";
+		document.concertReservation.submit();
+		return;
+	}
 //-------------------------------------------------------------------------------------------------------------------------------------//
-
-		function deleteAction(){
-			
-			alert("공연이 삭제되었습니다");
-	
-		}
-	
-//-------------------------------------------------------------------------------------------------------------------------------------//
+	function deleteAction(){
 		
-/*---------------댓글 삭제---------------------------------------------------------------------------*/
-			
-		    function removeCheck(test) {
+		alert("공연이 삭제되었습니다");
 
-	        	 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-						var url=window.location.search.replaceAll("?","");
-						var paramArray = url.split("&");
-						var tab = "";
-						for(var i=0; i<paramArray.length; i++){
-	 						var param = paramArray[i].split("=");
-							if(param[0] == "tab"){
-								tab = param[1];
-								break;
-							}
-						}
-						var form = $('<form></form>');
-						form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectDeleteAction.do');
-						form.attr('method','post');
-						form.appendTo('body');
-						form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
-						form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-						form.submit();
+	}
 
-	        	 }else{   //취소
-
-	        	     return false;
-	        	 }
-			}
-		    function removeCheck2(test) {
-
-	        	 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-						var url=window.location.search.replaceAll("?","");
-						var paramArray = url.split("&");
-						var tab = "";
-						for(var i=0; i<paramArray.length; i++){
-	 						var param = paramArray[i].split("=");
-							if(param[0] == "tab"){
-								tab = param[1];
-								break;
-							}
-						}
-						var form = $('<form></form>');
-						form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectDeleteAction.do');
-						form.attr('method','post');
-						form.appendTo('body');
-						form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
-						form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-						form.submit();
-
-	        	 }else{   //취소
-
-	        	     return false;
-	        	 }
-			}
-/*---------------댓글 보기---------------------------------------------------------------------------*/	  
-
-		$(document).ready(function(){
-			 $(".test").click(function(){
-				var test = $(this).attr("id");
-				var tagName = "reypleR_"+test+"_W";
-				$("#main_concert_expect_content_list li").each(function(){
-					var classV = String($(this).attr("class")).split("_");
-					console.log(classV);	
-					
-					if(classV.length==3 && classV[2] == "W"){
-						if($(this).attr("class") == tagName){
-							$(this).toggle();
-						}else{
-							$(this).hide();
-						}
-					}
-					
-				});
-			 });
-
-			 $(".test1").click(function(){
-				var test = $(this).attr("id");
-				var tagName = "reypleR1_"+test+"_W";
-				$("#main_concert_review_content_list li").each(function(){
-					var classV = String($(this).attr("class")).split("_");
-					console.log(classV);	
-					
-					if(classV.length==3 && classV[2] == "W"){
-						if($(this).attr("class") == tagName){
-							$(this).toggle();
-						}else{
-							$(this).hide();
-						}
-					}
-					
-				});
-			 });
-			 $(".test2").click(function(){
-					var test = $(this).attr("id");
-					var tagName = "reypleR2_"+test+"_W";
-					$("#main_concert_question_content_list li").each(function(){
-						var classV = String($(this).attr("class")).split("_");
-						console.log(classV);	
-						
-						if(classV.length==3 && classV[2] == "W"){
-							if($(this).attr("class") == tagName){
-								$(this).toggle();
-							}else{
-								$(this).hide();
-							}
-						}
-						
-					});
-				 });	
-
-
- 			
-/*-------------댓글입력-----------------------------------------------------------------------------*/
-			$(".writeaction").click(function(){
-					var midx ='<%=session.getAttribute("midx")%>';
-					var test = $(this).attr("id");
-					var value= $("#"+test+"_action").val();
-					var url=window.location.search.replaceAll("?","");
-					var paramArray = url.split("&");
-					var tab = "";
-					for(var i=0; i<paramArray.length; i++){
- 						var param = paramArray[i].split("=");
-						if(param[0] == "tab"){
-							tab = param[1];
-							break;
-						}
-					}
-
-					if (midx == 'null') {
-						alert("로그인 후 입력 가능합니다.");
-						return;
-					}
-					alert(value+","+tab);
-					var form = $('<form></form>');
-					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectWriteAction.do');
-					form.attr('method','post');
-					form.appendTo('body');
-					form.append($('<input type="hidden" value="'+value+'"name="content">'));
-					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-					form.submit();
-					
-			 }); 
-			 
-/*---------------대댓글 입력---------------------------------------------------------------------------*/	 			 
- 			$(".comment").click(function(){
- 					var midx ='<%=session.getAttribute("midx")%>';
-					var test = $(this).attr("id");
-					var value= $(".comment_"+test).val();
-					var url=window.location.search.replaceAll("?","");
-					var paramArray = url.split("&");
-					var tab = "";
-					for(var i=0; i<paramArray.length; i++){
- 						var param = paramArray[i].split("=");
-						if(param[0] == "tab"){
-							tab = param[1];
-							break;
-						}
-					}
-					if (midx == 'null') {
-						alert("로그인 후 입력 가능합니다.");
-						return;
-					}
-					
-					var form = $('<form></form>');
-					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectCommentWriteAction.do');
-					form.attr('method','post');
-					form.appendTo('body');
-					form.append($('<input type="hidden" value="'+value+'"name="content">'));
-					form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
-					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-					form.submit();
-					
-			 });
- 			$(".comment1").click(function(){
-				var midx ='<%=session.getAttribute("midx")%>';
-				var test = $(this).attr("id");
-				var value= $(".comment1_"+test).val();
-				var url=window.location.search.replaceAll("?","");
-				var paramArray = url.split("&");
-				var tab = "";
-				for(var i=0; i<paramArray.length; i++){
-						var param = paramArray[i].split("=");
-					if(param[0] == "tab"){
-						tab = param[1];
-						break;
-					}
-				}
-				if (midx == 'null') {
-					alert("로그인 후 입력 가능합니다.");
-					return;
-				}
-				
-				var form = $('<form></form>');
-				form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectCommentWriteAction.do');
-				form.attr('method','post');
-				form.appendTo('body');
-				form.append($('<input type="hidden" value="'+value+'"name="content">'));
-				form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
-				form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-				form.submit();
-				
-			 });
- 			$(".comment2").click(function(){
-					var midx ='<%=session.getAttribute("midx")%>';
-				var test = $(this).attr("id");
-				var value= $(".comment2_"+test).val();
-				var url=window.location.search.replaceAll("?","");
-				var paramArray = url.split("&");
-				var tab = "";
-				for(var i=0; i<paramArray.length; i++){
-						var param = paramArray[i].split("=");
-					if(param[0] == "tab"){
-						tab = param[1];
-						break;
-					}
-				}
-				if (midx == 'null') {
-					alert("로그인 후 입력 가능합니다.");
-					return;
-				}
-				var form = $('<form></form>');
-				form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectCommentWriteAction.do');
-				form.attr('method','post');
-				form.appendTo('body');
-				form.append($('<input type="hidden" value="'+value+'"name="content">'));
-				form.append($('<input type="hidden" value="'+test+'"name="origin_c_idx">'));
-				form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-				form.submit();
-			
-			 });
-/*---------------댓글 수정---------------------------------------------------------------------------*/	
- 			 $(".expecptmodify").click(function(){
-					var test = $(this).attr("id");
-					var value= $(".modfiy_"+test).val();
-					var value2= (".modfiy_"+test);
-					var url=window.location.search.replaceAll("?","");
-					var paramArray = url.split("&");
-					var tab = "";
-					for(var i=0; i<paramArray.length; i++){
- 						var param = paramArray[i].split("=");
-						if(param[0] == "tab"){
-							tab = param[1];
-							break;
-						}
-					}
-					var form = $('<form></form>');
-					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectModifyWriteAction.do');
-					form.attr('method','post');
-					form.appendTo('body');
-					form.append($('<input type="hidden" value="'+value+'"name="content">'));
-					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
-					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-					form.submit();
-			 });
- 			 $(".expecptmodify1").click(function(){
-					var test = $(this).attr("id");
-					var value= $(".modify1_"+test).val();
-					var url=window.location.search.replaceAll("?","");
-					var paramArray = url.split("&");
-					var tab = "";
-					for(var i=0; i<paramArray.length; i++){
- 						var param = paramArray[i].split("=");
-						if(param[0] == "tab"){
-							tab = param[1];
-							break;
-						}
-					}
-					var form = $('<form></form>');
-					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectModifyWriteAction.do');
-					form.attr('method','post');
-					form.appendTo('body');
-					form.append($('<input type="hidden" value="'+value+'"name="content">'));
-					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
-					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-					form.submit();
-			 });
- 			 $(".expecptmodify2").click(function(){
-					var test = $(this).attr("id");
-					var value= $(".modify2_"+test).val();
-					var url=window.location.search.replaceAll("?","");
-					var paramArray = url.split("&");
-					var tab = "";
-					for(var i=0; i<paramArray.length; i++){
- 						var param = paramArray[i].split("=");
-						if(param[0] == "tab"){
-							tab = param[1];
-							break;
-						}
-					}
-					var form = $('<form></form>');
-					form.attr('action','<%=request.getContextPath() %>/ConcertView/ExpectModifyWriteAction.do');
-					form.attr('method','post');
-					form.appendTo('body');
-					form.append($('<input type="hidden" value="'+value+'"name="content">'));
-					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
-					form.append($('<input type="hidden" value="'+tab+'"name="tab">'));
-					form.submit();
-			 });
-/*---------------댓글 수정페이지 이동---------------------------------------------------------------------------*/	
- 			$(".modify").click(function(){
-				var test = $(this).attr("id");
-				var tagName = "reypleR_"+test+"_W";
-				var modify = "modify_"+test+"_e";
-				var modifyc = "modifyc_"+test+"_c";
-				$("#main_concert_expect_content_list li").each(function(){
-					var classV = String($(this).attr("class")).split("_");
-					if(classV.length==3 && classV[2] == "e"){
-						if($(this).attr("class") == modify){
-							$(this).toggle();	
-					
-						}else{
-							$(this).hide();
-						}
-					}else if(classV.length==3 && classV[2] == "c"){
-						if($(this).attr("class") == modifyc){
-							$(this).toggle();
-						}
-					}else if(classV.length==3 && classV[2] == "W"){
-						if($(this).attr("class") == tagName){
-							$(this).hide();
-						}else{
-							$(this).hide();
-							
-						}
-					}			
-				});
-			});
- 			$(".modify1").click(function(){
-				var test = $(this).attr("id");
-				var tagName = "reypleR1_"+test+"_W";
-				var modify = "modify1_"+test+"_e";
-				var modifyc = "modifyc1_"+test+"_c";
-				$("#main_concert_review_content_list li").each(function(){
-					var classV = String($(this).attr("class")).split("_");
-					if(classV.length==3 && classV[2] == "e"){
-						if($(this).attr("class") == modify){
-							$(this).toggle();	
-					
-						}else{
-							$(this).hide();
-						}
-					}else if(classV.length==3 && classV[2] == "c"){
-						if($(this).attr("class") == modifyc){
-							$(this).toggle();
-						}
-					}else if(classV.length==3 && classV[2] == "W"){
-						if($(this).attr("class") == tagName){
-							$(this).hide();
-						}else{
-							$(this).hide();
-							
-						}
-					}			
-				});
-			});
- 			$(".modify2").click(function(){
-				var test = $(this).attr("id");
-				var tagName = "reypleR2_"+test+"_W";
-				var modify = "modify2_"+test+"_e";
-				var modifyc = "modifyc2_"+test+"_c";
-				$("#main_concert_question_content_list li").each(function(){
-					var classV = String($(this).attr("class")).split("_");
-					if(classV.length==3 && classV[2] == "e"){
-						if($(this).attr("class") == modify){
-							$(this).toggle();	
-					
-						}else{
-							$(this).hide();
-						}
-					}else if(classV.length==3 && classV[2] == "c"){
-						if($(this).attr("class") == modifyc){
-							$(this).toggle();
-						}
-					}else if(classV.length==3 && classV[2] == "W"){
-						if($(this).attr("class") == tagName){
-							$(this).hide();
-						}else{
-							$(this).hide();
-							
-						}
-					}			
-				});
-			});
- 			
-/*---------------탭---------------------------------------------------------------------------*/	   			
-			var tab = '<%= tab%>';
-			var obj1 = document.getElementById("main_concert_detail_content_all");
-			var obj2 = document.getElementById("main_concert_expect_all");
-			var obj3 = document.getElementById("main_concert_review_all");
-			var obj4 = document.getElementById("main_concert_question_all");
-			var obj5 = document.getElementById("main_concert_place_all");
-			var obj6 = document.getElementById("main_concert_info_all");
-			
-			obj1.style.display="none";
-			obj2.style.display="none";
-			obj3.style.display="none";
-			obj4.style.display="none";
-			obj5.style.display="none";
-			obj6.style.display="none";
-			
-			if(tab == "main_concert_detail_content_all"){
-				$("#main_concert_detail_content_all").show();
-			}else if(tab == "main_concert_expect_all"){
-				$("#main_concert_expect_all").show();
-			}else if(tab == "main_concert_review_all"){
-				$("#main_concert_review_all").show();
-			}else if(tab == "main_concert_review_all"){
-				$("#main_concert_review_all").show();
-			}else if(tab == "main_concert_question_all"){
-				$("#main_concert_question_all").show();
-			}else if(tab == "main_concert_place_all"){
-				$("#main_concert_place_all").show();
-			}else if(tab == "main_concert_info_all"){
-				$("#main_concert_info_all").show();
-			}
-		});
-/*---------------신고 팝업---------------------------------------------------------------------------*/	  	
-		function reportCheck(c_idx){
-			var url = "<%=request.getContextPath() %>/ConcertView/Commentreport.do?c_idx="+c_idx;
-            var name = "popup test";
-            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
-            window.open(url, name, option);
-		}
+//-------------------------------------------------------------------------------------------------------------------------------------//
 		
 	</script>
 		<title>티켓 루팡</title>
 		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Concert_view.css">
-		
 		<script src="<%=request.getContextPath() %>/js/Concert_view.js"></script>
 		<script src="${pageContext.request.contextPath}/js/Nav_all.js"></script>
 
@@ -572,14 +143,14 @@
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
 						<c:if test="${empty sessionScope.mid}">
 							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
@@ -613,7 +184,6 @@
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -621,11 +191,10 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
@@ -633,13 +202,11 @@
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:when>
 							<c:otherwise>
 								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>
@@ -647,6 +214,8 @@
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
+		
+		
 		<section>
 			<article>
 				<div id="main_concert_detail_div">
@@ -788,52 +357,106 @@
 						</form>
 					</div>
 					<div id="main_concert_detail_menu_div">
-						<ul>
-							<li class="main_concert_detail_menu_set"><a href="javascript:void(0);" onclick="showTab('main_concert_detail_content_all'); tabMenuColor('main_concert_detail_menu_div1');"><div id="main_concert_detail_menu_div1" style="background-color:rgba(0,0,0,0.2);">상세정보</div></a></li>
-							<li class="main_concert_detail_menu_set"><a href="javascript:void(0);" onclick="showTab('main_concert_expect_all'); tabMenuColor('main_concert_detail_menu_div2');"><div id="main_concert_detail_menu_div2">기대평</div></a></li>
-							<li class="main_concert_detail_menu_set"><a href="javascript:void(0);" onclick="showTab('main_concert_review_all'); tabMenuColor('main_concert_detail_menu_div3');"><div id="main_concert_detail_menu_div3">관람평</div></a></li>
-							<li class="main_concert_detail_menu_set"><a href="javascript:void(0);" onclick="showTab('main_concert_question_all'); tabMenuColor('main_concert_detail_menu_div4');"><div id="main_concert_detail_menu_div4">Q&amp;A</div></a></li>
-							<li class="main_concert_detail_menu_set"><a href="javascript:void(0);" onclick="showTab('main_concert_place_all'); tabMenuColor('main_concert_detail_menu_div5');"><div id="main_concert_detail_menu_div5">공연장 정보</div></a></li>
-							<li class="main_concert_detail_menu_set"><a href="javascript:void(0);" onclick="showTab('main_concert_info_all'); tabMenuColor('main_concert_detail_menu_div6');"><div id="main_concert_detail_menu_div6">예매안내</div></a></li>
-						</ul>
 					</div>
 				</div>
 				<!---------------------------------상세페이지--------------------------------------->
 				<div id="main_concert_detail_content_all">
 					<div id="main_concert_detail_content_div">
 						<div id="main_concert_detail_playtime">  
-							<p>공연시간</p>
-							<div>
-								<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sroundimage}"><br>
-								${contentsDetail.sround}
-							</div>
+							<c:choose>
+								<c:when test="${empty contentsDetail.sroundimage and empty contentsDetail.sround}"></c:when>
+								<c:otherwise>
+								<p>공연시간</p>
+								<c:if test="${empty contentsDetail.sroundimage }"></c:if>
+								<c:if test="${not empty contentsDetail.sroundimage }">
+									<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sroundimage}"><br>
+								</c:if>
+								<c:if test="${empty contentsDetail.sround }"></c:if>
+								<c:if test="${not empty contentsDetail.sround }">
+									${contentsDetail.sround}
+								</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="main_concert_detail_pay" class="main_concert_detail_all">
-							<p>가격정보</p>
-							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.spriceimage}"><br>
-							${contentsDetail.sprice}
+							<c:choose>
+								<c:when test="${empty contentsDetail.spriceimage and empty contentsDetail.sprice}"></c:when>
+								<c:otherwise>
+								<p>가격정보</p>
+								<c:if test="${empty contentsDetail.spriceimage }"></c:if>
+								<c:if test="${not empty contentsDetail.spriceimage }">
+									<img src="<%=request.getContextPath()%>/poster/${contentsDetail.spriceimage}"><br>
+								</c:if>
+								<c:if test="${empty contentsDetail.sprice }"></c:if>
+								<c:if test="${not empty contentsDetail.sprice }">
+									${contentsDetail.sprice}
+								</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="main_concert_detail_notice" class="main_concert_detail_all">
-							<p>예매 공지사항</p>
-							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.snoticeimage}"><br>
-							${contentsDetail.snotice}
+							<c:choose>
+								<c:when test="${empty contentsDetail.snoticeimage and empty contentsDetail.snotice}"></c:when>
+								<c:otherwise>
+								<p>예매 공지사항</p>
+								<c:if test="${empty contentsDetail.snoticeimage }"></c:if>
+								<c:if test="${not empty contentsDetail.snoticeimage }">
+									<img src="<%=request.getContextPath()%>/poster/${contentsDetail.snoticeimage}"><br>
+								</c:if>
+								<c:if test="${empty contentsDetail.snotice }"></c:if>
+								<c:if test="${not empty contentsDetail.snotice }">
+									${contentsDetail.snotice}
+								</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="main_concert_detail_discount" class="main_concert_detail_all">
-							<p>할인정보</p>
-							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sdiscountimage}"><br>
-							${contentsDetail.sdiscount}
+							<c:choose>
+								<c:when test="${empty contentsDetail.sdiscountimage and empty contentsDetail.sdiscount}"></c:when>
+								<c:otherwise>
+								<p>할인정보</p>
+								<c:if test="${empty contentsDetail.sdiscountimage }"></c:if>
+								<c:if test="${not empty contentsDetail.sdiscountimage }">
+									<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sdiscountimage}"><br>
+								</c:if>
+								<c:if test="${empty contentsDetail.sdiscount }"></c:if>
+								<c:if test="${not empty contentsDetail.sdiscount }">
+									${contentsDetail.sdiscount}
+								</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="main_concert_detail_content" class="main_concert_detail_all">
-							<p>작품정보</p>
-							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sinfoimage}"><br>
-							${contentsDetail.sinfo}
+							<c:choose>
+								<c:when test="${empty contentsDetail.sinfoimage and empty contentsDetail.sdiscount}"></c:when>
+								<c:otherwise>
+								<p>작품정보</p>
+								<c:if test="${empty contentsDetail.sinfoimage }"></c:if>
+								<c:if test="${not empty contentsDetail.sinfoimage }">
+									<img src="<%=request.getContextPath()%>/poster/${contentsDetail.sinfoimage}"><br>
+								</c:if>
+								<c:if test="${empty contentsDetail.sinfo }"></c:if>
+								<c:if test="${not empty contentsDetail.sinfo }">
+									${contentsDetail.sinfo}
+								</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="main_concert_detail_company" class="main_concert_detail_all">
-							<p>기획사 정보</p>
-							<img src="<%=request.getContextPath()%>/poster/${contentsDetail.scompanyimage}"><br>
-							<div>
-								${contentsDetail.scompany}
-							</div>
+							<c:choose>
+								<c:when test="${empty contentsDetail.scompanyimage and empty contentsDetail.scompany}"></c:when>
+								<c:otherwise>
+								<p>기획사정보</p>
+								<c:if test="${empty contentsDetail.scompanyimage }"></c:if>
+								<c:if test="${not empty contentsDetail.scompanyimage }">
+									<img src="<%=request.getContextPath()%>/poster/${contentsDetail.scompanyimage}"><br>
+								</c:if>
+								<c:if test="${empty contentsDetail.scompany }"></c:if>
+								<c:if test="${not empty contentsDetail.scompany }">
+									${contentsDetail.scompany}
+								</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="main_concert_detail_info" class="main_concert_detail_all">
 							<p>상품정보제공 고시</p>
@@ -845,7 +468,7 @@
 									</tr>
 									<tr>
 										<td style="background-color:rgba(0,0,0,0.1);">유효기간(이용조건)</td>
-										<td>2020.10.21 - 2021.02.28 (예매한 공연 회차에 한해 이용가능)</td>
+										<td>${detail.sopendate} ~ ${detail.senddate} (예매한 공연 회차에 한해 이용가능)</td>
 									</tr>
 									<tr>
 										<td style="background-color:rgba(0,0,0,0.1);">취소/환불조건</td>
@@ -1060,7 +683,7 @@
 					<c:set var="startNum" value="${page-(page-1)%5}"/>
 					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
 							<div id="main_page_button_set">
-								<a href="?p=1&q=&tab=<%=tab%>">
+								<a href="?p=1&q=&tab=">
 								<div class="main_page_button main_page_bn">
 								<div class="main_page_button_llgg">&lt;&lt;</div>
 								</div>

@@ -70,5 +70,36 @@ button,
 
 
 
-
+.wrap_ticket_info .box_info {
+	padding-top: 20px;
+}
+.wrap_ticket_info .box_info .select_tit.select_t {
+	overflow: hidden;
+	line-height: 19px;
+	max-height: 33px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	font-weight: normal;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list {
+	margin: 10px 9px;
+	font-size: 13px;
+	line-height: 20px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth1 {
+	padding: 0 0 10px;
+	border-bottom: 1px solid #eeeeee;
+	letter-spacing: 0;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth {
+	margin-left: 5px;
+}
+.wrap_ticket_info .box_info .box_ticket .box_ticket_list .nth2 {
+	padding-top: 10px;
+}
 

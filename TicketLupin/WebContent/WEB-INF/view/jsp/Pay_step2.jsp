@@ -165,8 +165,6 @@
 					$("#paymentAmountP").val(paymentAmount);
 					$("#priceSumP").val(priceSum);
 					
-					alert("paymentSum: " + paymentAmount);
-					alert("paymentAmount: " + $("#paymentAmountP").val());
 				})
 				
 			});
@@ -174,12 +172,12 @@
 			function nextSubmit(){
 				
 				var vipCount = 0;
-				for(var i = 0 ; i < 8 ; i++){
+				for(var i = 0 ; i < 6 ; i++){
 					vipCount += Number($(".vip").eq(i).val());
 				}
 				
 				var rCount = 0;	
-				for(var j = 0 ; j < 8 ; j++){
+				for(var j = 0 ; j < 6 ; j++){
 					if(isNaN(Number($(".r").eq(j).val()))){
 						rCount = 0;
 					}else{
@@ -189,7 +187,7 @@
 				
 				
 				var sCount = 0;
-				for(var j = 0 ; j < 8 ; j++){
+				for(var j = 0 ; j < 6 ; j++){
 					if(isNaN(Number($(".s").eq(j).val()))){
 						sCount = 0;
 					}else{
@@ -198,7 +196,7 @@
 				}
 	
 				var aCount = 0;
-				for(var j = 0 ; j < 8 ; j++){
+				for(var j = 0 ; j < 6 ; j++){
 					if(isNaN(Number($(".a").eq(j).val()))){
 						aCount = 0;
 					}else{
@@ -667,17 +665,7 @@
 				<div class="box_info_bm">
 					<div class="box_info_list">
 						<ul class="dotlist1x1 one_list">
-							<li>
-								취소기한: 
-								<span class="txt_og txt_cancel_close_dt">2021년 2월 9일(화) 17:00 까지</span>
-							</li>
-							<li>
-								취소수수료:
-								<span class="txt_og txt_cancel_fee_info">티켓금액의 0~30%</span>
-								<a href="#" class="btn_flexible btn_flexible_ico2 btn_detail specCancel">
-									<span>상세보기</span>
-								</a>
-							</li>
+							
 						</ul>
 					</div>
 					<div class="btn_onestop">

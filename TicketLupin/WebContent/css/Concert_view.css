@@ -68,7 +68,6 @@ body{
 	width:25px;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
-
 #nav_bar_top{
 	margin-top:70px;
 }
@@ -85,13 +84,11 @@ body{
 	margin:53px;
 	font-weight:bold;
 }
-
 #nav_menu_sub_event_div{
 	max-width:1000px;
 	min-width:1000px;
 	margin:auto;
 }
-
 #nav_menu_sub_event{
 	padding:0px;
 	text-align:right;	
@@ -126,6 +123,37 @@ body{
 	font-weight:bold;
 }
 #nav_menu_sub_myticket li{
+	color:black;
+	display:inline;
+	text-decoration:none;
+}
+
+#nav_menu_sub_div{
+	max-width:1000px;
+	min-width:1000px;
+	margin:auto;
+}
+
+#nav_menu_sub{
+	padding:0px;
+	position:relative;	
+	text-align:right;
+	margin:0;
+}
+#nav_menu_sub2{
+	padding:0px;
+	position:relative;	
+	text-align:right;
+	padding-right:13%;
+	margin:0;
+}
+#nav_menu_sub a, #nav_menu_sub2 a{
+	text-decoration:none;
+	color:rgba(0,0,0,0.5);
+	font-size:16px;
+	font-weight:bold;
+}
+#nav_menu_sub li, #nav_menu_sub2 li{
 	color:black;
 	display:inline;
 	text-decoration:none;
@@ -1059,4 +1087,134 @@ body{
 #delete{
 	border:1px solid black;
 	float:right;
+}
+
+
+
+
+
+
+/* --------------------여기서 부터------------------------------ */
+.modifybox{
+		display: inline-block;
+}
+.modifybox textarea{
+	width:700px;
+	height:76px;
+	border:1px solid rgba(0,0,0,0.2);
+	font-size:12px;
+	padding:0px;
+	margin-left:30px;
+	margin-right:10px;
+	resize: none;
+}
+
+.modifybox input[type=button]{
+    width: 50px;
+    height: 30px;
+    border: 1px solid rgba(0,0,0,0.2);
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0px;
+    position: relative;
+    bottom: 15px;
+}
+.commentbox input[type=text]{
+	width: 700px;
+	height: 20px;
+	font-size:12px;
+	margin-left:150px;
+	border: 1px solid rgba(0,0,0,0.2);
+}
+.commentbox input[type=button]{
+    width: 50px;
+    height: 25px;
+    border: 1px solid rgba(0,0,0,0.2);
+    background-color: white;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0px;
+    position: relative;
+    top: 2px;
+    
+}
+.commentbox{
+	margin-bottom:15px;
+}
+.commentrow{
+		background-color:#fafafa;
+		padding-top:20px;
+		border-top: 2px dotted;
+}
+.commentrow div{
+	  display: inline-block;
+	  word-break:break-all;
+}
+.commentcontent{
+	 display: inline-block;
+    overflow:hidden;
+    height:auto;
+	margin-left:20px;
+	margin-right:130px;
+	width: auto;
+}
+.commentid{
+	margin-left:100px;
+	margin-bottom:40px;
+	display: inline-block;
+}
+.commentdate{
+	margin-left:185px;
+	margin-right:580px;
+}
+ul{
+   list-style:none;
+   }
+a { text-decoration:none } 
+
+
+.commentrow a:link { color: black; text-decoration: none;}
+.commentrow a:visited { color: black; text-decoration: none;}
+.commentrow a:hover { color: black; text-decoration: underline;}
+
+div{
+  word-break:break-all;
+	
+}
+textarea{
+	resize: none;
+}
+
+
+#main_concert_expect_content_list ul li[class*="reypleR_"]{
+	display:none;
+}
+#main_concert_expect_content_list ul li[class*="modify_"]{
+	display:none;
+}
+#main_concert_expect_content_list ul li[class*="modifyc_"]{
+	display:block;
+}
+
+
+
+#main_concert_review_content_list ul li[class*="reypleR1_"]{
+	display:none;
+}
+#main_concert_review_content_list ul li[class*="modify1_"]{
+	display:none;
+}
+#main_concert_review_content_list ul li[class*="modifyc1_"]{
+	display:block;
+}
+
+#main_concert_question_content_list ul li[class*="reypleR2_"]{
+	display:none;
+}
+#main_concert_question_content_list ul li[class*="modify2_"]{
+	display:none;
+}
+#main_concert_question_content_list ul li[class*="modifyc2_"]{
+	display:block;
 }
