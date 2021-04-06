@@ -53,7 +53,7 @@ public class DBconn {
 	  */
 	   
 	
-	/*
+/*
 	Connection conn = null;
 	String coninfo = "jdbc:mysql://jjezen.cafe24.com/ezen20211123_a";
 	String idinfo = "user_A";
@@ -65,11 +65,11 @@ public class DBconn {
 			System.out.println("after forName");
 			conn = DriverManager.getConnection(coninfo, idinfo, pwdinfo);
 			System.out.println("DBms connection success");
-			System.out.println("DB load success");
+			System.out.println("MYSQL DB load success");
 		} catch (Exception e) {
-			System.out.println("DB load fail " + e.toString());
+			System.out.println("MYSQL DB load fail " + e.toString());
 		}
 		return conn;
 	}
-	 */
+*/
 }

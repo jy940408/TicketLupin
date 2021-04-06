@@ -23,9 +23,9 @@ public class ShowDao {
 	public int insertShow(Show1Vo sv) {
 		int result = 0;
 		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
-		String sql = "INSERT INTO SHOW1 (SIDX, STITLE, SGENRE, SREGDATE, SOPENDATE, SENDDATE, SRATING, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, "
+		String sql = "INSERT INTO SHOW1 (STITLE, SGENRE, SREGDATE, SOPENDATE, SENDDATE, SRATING, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, "
 				+ "MIDX, STICKETINGDATE, SVIPPRICE, SRPRICE, SSPRICE, SAPRICE, SDELYN) "
-				+ "VALUES(SHOW_SEQUENCE.NEXTVAL, ?, ?, sysdate, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
+				+ "VALUES(?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -93,7 +93,14 @@ public class ShowDao {
 		
 		ArrayList<Show1Vo> list = new ArrayList<>();
 
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, S.* FROM (SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE STITLE LIKE ? AND SHOW1.SDELYN = 'N' ORDER BY " + setting +  " " + array + ") S) WHERE SDELYN = 'N' AND NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, S.* FROM "
+				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
+				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE "
+				+ "STITLE LIKE ? AND SHOW1.SDELYN = 'N' "
+				+ "ORDER BY " + setting +  " " + array + ") S WHERE (@ROWNUM:=0)=0) A "
+				+ "WHERE SDELYN = 'N' "
+				+ "AND NUM BETWEEN ? AND ?";
 		
 		try {
 			
@@ -142,7 +149,11 @@ public class ShowDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(SIDX) COUNT FROM (SELECT ROWNUM NUM, S.* FROM (SELECT * FROM SHOW1 WHERE STITLE LIKE ? ORDER BY ? DESC) S)";
+		String sql = "SELECT COUNT(SIDX) COUNT FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, S.* FROM "
+				+ "(SELECT * FROM "
+				+ "SHOW1 WHERE STITLE LIKE ? ORDER BY ? DESC) S WHERE"
+				+ "(@ROWNUM:=0)=0) A";
 		
 		try {
 		
@@ -252,12 +263,15 @@ public class ShowDao {
 		
 		ArrayList<ShowRankingVo> result = new ArrayList<>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, SHOWCOM.* FROM (SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE SHOW1.SDELYN = 'N') SHOWCOM INNER JOIN "
+		String sql = "SELECT * FROM (SELECT @ROWNUM:=@ROWNUM+1 NUM, SHOWCOM.* FROM "
+				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
+				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE SHOW1.SDELYN = 'N') SHOWCOM INNER JOIN "
 				+ "(SELECT COUNT(*) CNT, SIDX FROM RESERVATION "
-				+ "WHERE RDELYN = 'N' AND RREGDATE BETWEEN TO_DATE('"+ startdate +"', 'YYYY-MM-DD') AND TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9')"
-				+ " GROUP BY SIDX ORDER BY CNT DESC) CNT "
+				+ "WHERE RDELYN = 'N' AND RREGDATE BETWEEN STR_TO_DATE('"+ startdate +"', '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s') "
+				+ "GROUP BY SIDX ORDER BY CNT DESC) CNT "
 				+ "ON SHOWCOM.SIDX = CNT.SIDX "
-				+ "WHERE SHOWCOM.SENDDATE >= TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF9') ORDER BY CNT.CNT DESC) WHERE NUM BETWEEN 1 AND 10";
+				+ "WHERE SHOWCOM.SENDDATE >= STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s') "
+				+ "AND (@ROWNUM:=0)=0 ORDER BY CNT.CNT DESC) A WHERE NUM BETWEEN 1 AND 10";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
