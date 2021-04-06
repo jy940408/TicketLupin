@@ -1,0 +1,76 @@
+table.type06 {
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.5;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 20px 10px;
+  
+}
+table.type06 th {
+  width: 150px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+}
+table.type06 td {
+  width: 350px;
+  padding: 10px;
+  vertical-align: top;
+}
+table.type06 .even {
+  background: #efefef;
+}
+
+#btnJoin {
+    width: 32%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #a8a8a8;
+    font-size: 20px;
+    font-weight: 400;
+	font-family:"³ª´®½ºÄù¾î Regular";
+	
+}
+#btnJoin2 {
+    width: 32%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #a8a8a8;
+    font-size: 20px;
+    font-weight: 400;
+	ont-family:"³ª´®½ºÄù¾î Regular";
+	position:absolute;
+	right:0;
+
+}
+#btnJoin3 {
+    width: 32%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #a8a8a8;
+    font-size: 20px;
+    font-weight: 400;
+	ont-family:"³ª´®½ºÄù¾î Regular";
+	position:center;
+}
+#btnJoin4 {
+    width: 22%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #a8a8a8;
+    font-size: 20px;
+    font-weight: 400;
+	ont-family:"³ª´®½ºÄù¾î Regular";
+}
+
+
+
