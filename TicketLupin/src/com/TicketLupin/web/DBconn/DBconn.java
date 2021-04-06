@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class DBconn {
 
 	
-
+/*
 	Connection conn =null;
 	
    String coninfo ="jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -28,7 +28,7 @@ public class DBconn {
          return conn;
    }
 
-   
+  */ 
 
 	/*
 	Connection conn =null;
@@ -52,18 +52,18 @@ public class DBconn {
 	   }
 	  */
 	   
-	/*
+	
 	
 	Connection conn = null;
-	String coninfo = "jdbc:mysql://localhost:3306/TicketLupin";
-	String idinfo ="TicketLupin";
-	String pwdinfo ="1234";
+	String coninfo = "jdbc:mysql://jjezen.cafe24.com/ezen20211123_a";
+	String idinfo = "user_A";
+	String pwdinfo = "user1234!!";
 	
 	public Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			System.out.println("after forName");
-			conn = DriverManager.getConnection(coninfo, "root", "s!1018810");
+			conn = DriverManager.getConnection(coninfo, idinfo, pwdinfo);
 			System.out.println("DBms connection success");
 			System.out.println("DB load success");
 		} catch (Exception e) {
@@ -71,6 +71,5 @@ public class DBconn {
 		}
 		return conn;
 	}
-	
-	*/
+
 }
