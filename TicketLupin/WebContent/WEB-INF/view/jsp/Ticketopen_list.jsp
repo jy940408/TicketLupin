@@ -113,7 +113,7 @@
 							
 							<span class="slider_1">
 								<ul class="list_slider">
-								<c:forEach var="l" items="${list}">
+								<c:forEach var="l" items="${posterList}">
 									<li class="li">
 										<a href="<%=request.getContextPath()%>/News/NewsDetail.do?widx=${l.widx}">
 											<img src="<%=request.getContextPath()%>/poster/${l.wtitleposter}" class="posimg">
@@ -143,22 +143,26 @@
 				<c:if test="${empty sessionScope.mgrade}">
 				</c:if>
 				<div class="subject">
+					
 					<div class="box_select">
-						<select name="searchType">
+					<form action="<%=request.getContextPath()%>/News/NewsList.do" method="get">
+						<select name="s">
 							<option value="total" selected>전체</option>
+							<option value="open">티켓오픈일</option>
 							<option value="modify">변경</option>
 							<option value="cancel">취소</option>
 						</select>
-						<input type="text" name="schtext" placeholder="티켓오픈소식 검색"></input>
+						<input type="text" name="q" placeholder="티켓오픈소식 검색" style="height:27px;">
 						<span>
-							<button type="button" class="btn2" action="<%=request.getContextPath()%>/News/NewsSearch.do">검색</button>
+							<button type="submit" class="btn2">검색</button>
 						</span>
+					</form>
 						<div class="menu">
-								<ul>
-									<li><a href="?q=&s=wregdate&p=">등록순</a> &nbsp;&nbsp; |</li>
-									<li>&nbsp;&nbsp;<a href="?q=&s=wopendate&p=">오픈일순</a> &nbsp;&nbsp; |</li>
-									<li>&nbsp;&nbsp;<a href="?q=&s=whit&p=">조회순</a> </li>
-								</ul>
+							<ul>
+								<li><a href="?q=&o=wregdate&p=">등록순</a> &nbsp;&nbsp; |</li>
+								<li>&nbsp;&nbsp;<a href="?q=&o=wopendate&p=">오픈일순</a> &nbsp;&nbsp; |</li>
+								<li>&nbsp;&nbsp;<a href="?q=&o=whit&p=">조회순</a> </li>
+							</ul>
 						</div>
 					</div>
 					<div class="openlist">

@@ -91,7 +91,7 @@ public class ShowRoundDao {
 			
 			ResultSet rs = pstmt.executeQuery();
 			
-			rs.next();
+			if(rs.next()) {
 			
 			int sridx = rs.getInt("SRIDX");
 			int sidx = rs.getInt("SIDX");
@@ -102,7 +102,7 @@ public class ShowRoundDao {
 			String srround4 = rs.getString("SRROUND4");
 			
 			srv = new ShowRoundVo(sridx, sidx, srdate, srround1, srround2, srround3, srround4);
-			
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

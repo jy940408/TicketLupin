@@ -155,8 +155,10 @@ public class ConcertViewController extends HttpServlet{
 				}	
 				
 				String comDate = year + "-" + (month_) + "-" + date_;
-				System.out.println("if문 바깥 : " + srd.getShowRoundDetail(sidx, comDate));
-				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("")) {
+				if(srd.getShowRoundDetail(sidx, comDate) != null) {
+					System.out.println("예매 기간: " + srd.getShowRoundDetail(sidx, comDate));
+				}
+				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("") && srd.getShowRoundDetail(sidx, comDate).getSrround1() != null) {
 					strRoundCheck = 1;
 					roundCheck.add(strRoundCheck);
 				}else {

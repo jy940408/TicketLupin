@@ -21,19 +21,23 @@ public class NewsDao {
 		this.conn = dbconn.getConnection();
 	}
 	
-	public List<NewsVo> getNewsList(String query, String setting, int page){
+	public List<NewsVo> getNewsList(String query, String order, String setting, int page){
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WDELYN = 'N' ORDER BY " + setting + " DESC) W) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM "
+				+ "(SELECT ROWNUM NUM, W.* FROM "
+				+ "(SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WCATEGORY LIKE ? AND WDELYN = 'N' "
+				+ "ORDER BY " + order + " DESC) W) WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+query+"%");
-			pstmt.setInt(2, 1+(page-1)*10);
-			pstmt.setInt(3, page*10);
+			pstmt.setString(2, "%"+setting+"%");
+			pstmt.setInt(3, 1+(page-1)*10);
+			pstmt.setInt(4, page*10);
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -70,18 +74,50 @@ public class NewsDao {
 		return list;
 	}		
 	
-	public int getNewsListCount(String query, String setting){
+	public List<NewsVo> getNewsImageList(){
+		
+		List<NewsVo> list = new ArrayList<NewsVo>();
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WCATEGORY LIKE '티켓오픈일' AND WDELYN = 'N' ORDER BY WOPENDATE DESC) W) WHERE NUM BETWEEN 1 AND 20";
+		
+		try {
+		
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				
+				NewsVo nv = new NewsVo();
+				
+				nv.setWidx(rs.getInt("WIDX"));
+				nv.setWtitleposter(rs.getString("WTITLEPOSTER"));
+				
+				list.add(nv);
+			}
+		
+			
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return list;
+	}		
+	
+	public int getNewsListCount(String query, String setting, String order){
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(WIDX) COUNT FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WDELYN = 'N' AND WTITLE LIKE ? ORDER BY ? DESC) W)";
-		
+		String sql = "SELECT COUNT(*) COUNT FROM " 
+				+ "(SELECT ROWNUM NUM, W.* FROM " 
+				+ "(SELECT * FROM NEWS WHERE WTITLE LIKE ? "
+				+ "AND WCATEGORY LIKE ? AND WDELYN = 'N' " 
+				+ "ORDER BY " + order + " DESC) W)";
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+query+"%");
-			pstmt.setString(2, setting);
+			pstmt.setString(2, "%"+setting+"%");
 			
 			ResultSet rs = pstmt.executeQuery();
 

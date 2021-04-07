@@ -37,7 +37,7 @@ public class MainController extends HttpServlet{
 			Calendar start = Calendar.getInstance();
 			String startdate = "0000-00-00";
 			startdate = formatter.format(start.getTime());
-			System.out.println("startdate �׽�Ʈ: " + startdate);
+			System.out.println("startdate �׽�Ʈ: " + startdate);
 			
 			ShowDao sd = new ShowDao();
 			ArrayList<Show1Vo> showList = sd.getShowList(query, ssetting, array, page);
@@ -45,7 +45,7 @@ public class MainController extends HttpServlet{
 			
 			
 			NewsDao nd = new NewsDao();
-			List<NewsVo> newsList = nd.getNewsList(query, nsetting, page);
+			List<NewsVo> newsList = nd.getNewsList(query, nsetting, "", page);
 			
 			request.setAttribute("showList", showList);
 			request.setAttribute("newsList", newsList);

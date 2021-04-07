@@ -44,15 +44,28 @@ public class NewsController extends HttpServlet{
 			String query_ = request.getParameter("q");
 			String page_ = request.getParameter("p");
 			String setting_ = request.getParameter("s");
+			String order_ = request.getParameter("o");
 			String mid = (String)session.getAttribute("mid");
 			
 			String query = "";
 			if(query_ != null && !query_.equals("")) {
 				query = query_;
 			}
-			String setting = "wregdate";
+			String setting = "";
 			if(setting_ != null && !setting_.equals("")) {
-				setting = setting_;
+				if(setting_.equals("total")) {
+					setting = "";
+				}else if(setting_.equals("open")) {
+					setting = "티켓오픈일";
+				}else if(setting_.equals("modify")) {
+					setting = "변경";
+				}if(setting_.equals("cancel")) {
+					setting = "취소";
+				}
+			}
+			String order = "wregdate";
+			if(order_ != null && !order_.equals("")) {
+				order = order_;
 			}
 			int page = 1;
 			if(page_ != null && !page_.equals("")) {
@@ -60,11 +73,13 @@ public class NewsController extends HttpServlet{
 			}
 			
 			NewsDao nd = new NewsDao();
+			List<NewsVo> posterList = nd.getNewsImageList();
+			List<NewsVo> list = nd.getNewsList(query, order, setting, page);
+			int count = nd.getNewsListCount(query, setting, order);
 			
+			System.out.println("카운트 테스트: " + count);
 			
-			List<NewsVo> list = nd.getNewsList(query, setting, page);
-			int count = nd.getNewsListCount(query, setting);
-			
+			request.setAttribute("posterList", posterList);
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Ticketopen_list.jsp").forward(request, response);
