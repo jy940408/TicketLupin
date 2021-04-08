@@ -83,8 +83,8 @@ public class ShowController extends HttpServlet{
 			System.out.println("setting: " + setting);
 			System.out.println("array: " + array);
 			
-			System.out.println("¸®½ºÆ® Å×½ºÆ®: " + list);
-			System.out.println("Ä«¿îÆ® Å×½ºÆ®: " + count);
+			System.out.println("ë¦¬ìŠ¤íŠ¸: " + list);
+			System.out.println("ì¹´ìš´íŠ¸: " + count);
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
@@ -95,13 +95,13 @@ public class ShowController extends HttpServlet{
 			
 		}else if(str.equals("/Show/ShowWriteStep2.do")) {
 
-			//¹Ù·Î Á÷Àü¿¡ µî·ÏÇÑ °ø¿¬ÀÇ sidx °¡Á®¿À±â
+			//ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sidx ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ShowDao sd = new ShowDao();
 			Show1Vo sv = sd.getRecentShowDetail();
 			
 			int sidx = sv.getSidx();
-			System.out.println("ÃÖ±Ù sidx °ª ¹Þ¾Æ¿À´ÂÁö È®ÀÎ: " + sidx);
-			//sidx °ª º¸³»ÁÖ±â
+			System.out.println("ï¿½Ö±ï¿½ sidx ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½: " + sidx);
+			//sidx ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			request.setAttribute("sidx", sidx);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_write_admin2.jsp").forward(request, response);
@@ -115,8 +115,8 @@ public class ShowController extends HttpServlet{
 			Date sopendate_ = sv.getSopendate();
 			Date senddate_ = sv.getSenddate();
 			
-			System.out.println("½ÃÀÛ³¯Â¥: " + sopendate_);
-			System.out.println("³¡³¯Â¥: " + senddate_);
+			System.out.println("ï¿½ï¿½ï¿½Û³ï¿½Â¥: " + sopendate_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½Â¥: " + senddate_);
 
 			Calendar sopendate1 = Calendar.getInstance();
 			Calendar senddate1 = Calendar.getInstance();
@@ -124,24 +124,24 @@ public class ShowController extends HttpServlet{
 			SimpleDateFormat dateFormat;
 	        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        
-			//Calendar Å¸ÀÔÀ¸·Î º¯°æ add()¸Þ¼Òµå·Î 1ÀÏ¾¿ Ãß°¡ÇØ ÁÖ±âÀ§ÇØ º¯°æ
+			//Calendar Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ add()ï¿½Þ¼Òµï¿½ï¿½ 1ï¿½Ï¾ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			sopendate1.setTime(sopendate_);
 			senddate1.setTime(senddate_);
 
 			ArrayList datelist = new ArrayList();
 			
-			//½ÃÀÛ³¯Â¥¿Í ³¡ ³¯Â¥¸¦ ºñ±³ÇØ, ½ÃÀÛ³¯Â¥°¡ ÀÛ°Å³ª °°Àº °æ¿ì Ãâ·Â			
+			//ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½Û°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½			
 			while(sopendate1.compareTo(senddate1) != 1){	
-				//Ãâ·Â
+				//ï¿½ï¿½ï¿½
 				System.out.println(dateFormat.format(sopendate1.getTime()));
 				datelist.add(dateFormat.format(sopendate1.getTime()));
-				//½ÃÀÛ³¯Â¥ + 1 ÀÏ
+				//ï¿½ï¿½ï¿½Û³ï¿½Â¥ + 1 ï¿½ï¿½
 				sopendate1.add(Calendar.DATE, 1);
 			}
 
 			int datelength = datelist.size();
 			
-			System.out.println("¸ñ·Ï È®ÀÎ: " + datelist);
+			System.out.println("ï¿½ï¿½ï¿½ È®ï¿½ï¿½: " + datelist);
 			
 			request.setAttribute("sidx", sidx);
 			request.setAttribute("datelist", datelist);
@@ -153,7 +153,7 @@ public class ShowController extends HttpServlet{
 			
 //==============================================================================================================================//
 
-			//°ø¿¬ ÀÎµ¦½º ¹øÈ£ °¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String sidx_ = request.getParameter("sidx");
 			
 			int sidx = 0;
@@ -163,11 +163,11 @@ public class ShowController extends HttpServlet{
 			
 //==============================================================================================================================//			
 
-			//°ø¿¬ µî·Ï ±âº»Á¤º¸ °¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ShowDao sd = new ShowDao();
 			Show1Vo sv = sd.getShowDetail(sidx);
 			
-			System.out.println("show1 Å×½ºÆ®: " + sv);
+			System.out.println("show1 ï¿½×½ï¿½Æ®: " + sv);
 
 
 			request.setAttribute("list", sv);
@@ -178,7 +178,7 @@ public class ShowController extends HttpServlet{
 			
 		}else if(str.equals("/Show/RankingList.do")) {
 
-			//Á¤·Ä °ª ¹Þ¾Æ¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			String order_ = request.getParameter("order");
 			
 			String order = "now";
@@ -203,7 +203,7 @@ public class ShowController extends HttpServlet{
 				System.out.println(startdate);
 			}else if(order.equals("now")) {
 				startdate = formatter.format(start.getTime());
-				System.out.println("startdate Å×½ºÆ®: " + startdate);
+				System.out.println("startdate ï¿½×½ï¿½Æ®: " + startdate);
 			}
 			
 //==============================================================================================================================//
@@ -219,7 +219,7 @@ public class ShowController extends HttpServlet{
 			
 		}else if(str.equals("/Show/RankingListAJAX.do")) {
 
-			//Á¤·Ä °ª ¹Þ¾Æ¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			String order_ = request.getParameter("order");
 			
 			String order = "now";
@@ -244,7 +244,7 @@ public class ShowController extends HttpServlet{
 				System.out.println(startdate);
 			}else if(order.equals("now")) {
 				startdate = formatter.format(start.getTime());
-				System.out.println("startdate Å×½ºÆ®: " + startdate);
+				System.out.println("startdate ï¿½×½ï¿½Æ®: " + startdate);
 			}
 			
 //==============================================================================================================================//
@@ -271,8 +271,8 @@ public class ShowController extends HttpServlet{
 				objList.add(obj_);
 			}
 			
-			System.out.println("objList Å×½ºÆ®: " + objList);
-			System.out.println("³Ñ¾î¿Â order °ª: " + order);
+			System.out.println("objList ï¿½×½ï¿½Æ®: " + objList);
+			System.out.println("ï¿½Ñ¾ï¿½ï¿½ order ï¿½ï¿½: " + order);
 			
 			response.setContentType("application/json; charset=UTF-8");
 			response.getWriter().print(objList); //{"result":1}
@@ -285,21 +285,21 @@ public class ShowController extends HttpServlet{
 				sidx = Integer.parseInt(sidx_);
 			}
 			
-			//»èÁ¦µÇ´Â °ø¿¬ ¿¹¸Å³»¿ª »èÁ¦ÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			ReservationDao rd = new ReservationDao();
 			rd.deleteCancelReservation(sidx);
 			
 			ShowDao sd = new ShowDao();
 			sd.getShowDelete(sidx);
 			
-			System.out.println("°ø¿¬ »èÁ¦ ¼º°ø");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 			
 			response.sendRedirect(request.getContextPath()+"/Show/ShowList.do");
 		}else if(str.equals("/Show/ShowWriteStep1Action.do")) {
 			
 //==============================================================================================================================//
 			
-			//±âº» Á¤º¸ ¹Þ¾Æ¿À±â
+			//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
@@ -320,11 +320,11 @@ public class ShowController extends HttpServlet{
 			String sprice_ = request.getParameter("sPrice");
 			String aprice_ = request.getParameter("aPrice");
 			
-			//¼¼¼Ç¿¡ ÀÖ´Â midx °ª ¹Þ¾Æ¿À±â
+			//ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Ö´ï¿½ midx ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
 			
-			//StringÀ¸·Î ¹ÞÀº °ªµé int·Î ¹Ù²ãÁÖ±â
+			//Stringï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ intï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			int postcode = 0;
 			if(postcode_ != null && !postcode_.equals("")) {
 				postcode = Integer.parseInt(postcode_);
@@ -347,13 +347,13 @@ public class ShowController extends HttpServlet{
 				aprice = Integer.parseInt(aprice_);
 			}
 			
-			System.out.println("vipprice Å×½ºÆ®: " + vipprice);
-			System.out.println("rprice Å×½ºÆ®: " + rprice);
-			System.out.println("sprice Å×½ºÆ®: " + sprice);
-			System.out.println("aprice Å×½ºÆ®: " + aprice);
+			System.out.println("vipprice ï¿½×½ï¿½Æ®: " + vipprice);
+			System.out.println("rprice ï¿½×½ï¿½Æ®: " + rprice);
+			System.out.println("sprice ï¿½×½ï¿½Æ®: " + sprice);
+			System.out.println("aprice ï¿½×½ï¿½Æ®: " + aprice);
 			
 //==============================================================================================================================//
-			//¿ÀÇÂ ³¯Â¥ oracle¿¡¼­ ¾µ ¼ö ÀÖ´Â date Å¸ÀÔÀ¸·Î ¹Ù²ãÁÖ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ oracleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ date Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			Date startdate = null;
 		   try {
 			   DateFormat formatter;
@@ -368,7 +368,7 @@ public class ShowController extends HttpServlet{
 			   java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());
 			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½Û³ï¿½Â¥: " + sqlStartDate);
 //==============================================================================================================================//
-			 //¸¶°¨ ³¯Â¥ oracle¿¡¼­ ¾µ ¼ö ÀÖ´Â date Å¸ÀÔÀ¸·Î ¹Ù²ãÁÖ±â
+			 //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ oracleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ date Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			Date enddate = null;
 		   try {
 			   DateFormat formatter;
@@ -383,7 +383,7 @@ public class ShowController extends HttpServlet{
 			   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
 			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½Â¥: " + sqlEndDate);
 //==============================================================================================================================//
-			   //¿¹¸Å ½ÃÀÛ ³¯Â¥ oracle¿¡¼­ ¾µ ¼ö ÀÖ´Â date Å¸ÀÔÀ¸·Î ¹Ù²ãÁÖ±â
+			   //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ oracleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ date Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			   Date ticketingdate = null;
 			   try {
 				   DateFormat formatter;
@@ -423,14 +423,14 @@ public class ShowController extends HttpServlet{
 
 //==============================================================================================================================//			
 			
-			//´ÙÀ½ ÆäÀÌÁö ºÒ·¯¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 			response.sendRedirect(request.getContextPath()+"/Show/ShowWriteStep2.do");
 			
 		}else if(str.equals("/Show/ShowWriteStep2Action.do")) {
 			
 //==============================================================================================================================//		
 			
-			//ÀÌ¹ÌÁö ¾÷·Îµå ¼³Á¤ÇØÁÖ±â
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			String uploadPath = request.getSession().getServletContext().getRealPath("poster");
 			int sizeLimit = 1024*1024*15;
 			System.out.println(uploadPath);
@@ -438,7 +438,7 @@ public class ShowController extends HttpServlet{
 
 //==============================================================================================================================//
 			
-			//±âº» °ª ¹Þ¾Æ¿À±â
+			//ï¿½âº» ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			String sidx_ = multi.getParameter("sidx");
 			String round = multi.getParameter("roundText");
 			String price = multi.getParameter("priceText");
@@ -453,7 +453,7 @@ public class ShowController extends HttpServlet{
 			}
 			
 //==============================================================================================================================//
-			//ÀÌ¹ÌÁö ÀÌ¸§ ¹Þ¾Æ¿À±â   
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½   
 			Enumeration files = multi.getFileNames();
 			ArrayList image = new ArrayList();
 			for(int i = 0 ; i <= 6 ; i++) {
@@ -462,7 +462,7 @@ public class ShowController extends HttpServlet{
 				System.out.println(multi.getFilesystemName((String)image.get(i)));
 			}
 			
-			//ÀÌ¹ÌÁö Á¤·Ä Á¦´ë·Î ÇØÁÖ±â
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö±ï¿½
 			ArrayList imageList = new ArrayList();
 			for(int i = 0 ; i < 7 ; i++) {
 				for(int j = 0 ; j < 7 ; j++) {
@@ -507,7 +507,7 @@ public class ShowController extends HttpServlet{
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
 			}
-			System.out.println("È¸Â÷ sidx È®ÀÎ: " + sidx);
+			System.out.println("È¸ï¿½ï¿½ sidx È®ï¿½ï¿½: " + sidx);
 //==============================================================================================================================//			
 			
 			ShowDao sd = new ShowDao();
@@ -516,8 +516,8 @@ public class ShowController extends HttpServlet{
 			Date sopendate_ = sv.getSopendate();
 			Date senddate_ = sv.getSenddate();
 			
-			System.out.println("½ÃÀÛ³¯Â¥  ¼³Á¤: " + sopendate_);
-			System.out.println("³¡³¯Â¥ ¼³Á¤: " + senddate_);
+			System.out.println("ï¿½ï¿½ï¿½Û³ï¿½Â¥  ï¿½ï¿½ï¿½ï¿½: " + sopendate_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½: " + senddate_);
 
 			Calendar sopendate1 = Calendar.getInstance();
 			Calendar senddate1 = Calendar.getInstance();
@@ -525,18 +525,18 @@ public class ShowController extends HttpServlet{
 			SimpleDateFormat dateFormat;
 	        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        
-			//Calendar Å¸ÀÔÀ¸·Î º¯°æ add()¸Þ¼Òµå·Î 1ÀÏ¾¿ Ãß°¡ÇØ ÁÖ±âÀ§ÇØ º¯°æ
+			//Calendar Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ add()ï¿½Þ¼Òµï¿½ï¿½ 1ï¿½Ï¾ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			sopendate1.setTime(sopendate_);
 			senddate1.setTime(senddate_);
 
 			ArrayList datelist = new ArrayList();
 			
-			//½ÃÀÛ³¯Â¥¿Í ³¡ ³¯Â¥¸¦ ºñ±³ÇØ, ½ÃÀÛ³¯Â¥°¡ ÀÛ°Å³ª °°Àº °æ¿ì Ãâ·Â			
+			//ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½Û°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½			
 			while(sopendate1.compareTo(senddate1) != 1){	
-				//Ãâ·Â
+				//ï¿½ï¿½ï¿½
 				System.out.println(dateFormat.format(sopendate1.getTime()));
 				datelist.add(dateFormat.format(sopendate1.getTime()));
-				//½ÃÀÛ³¯Â¥ + 1 ÀÏ
+				//ï¿½ï¿½ï¿½Û³ï¿½Â¥ + 1 ï¿½ï¿½
 				sopendate1.add(Calendar.DATE, 1);
 			}
 
@@ -544,7 +544,7 @@ public class ShowController extends HttpServlet{
 			
 			int datelength = datelist.size();
 			
-			System.out.println("±æÀÌ: " + datelength);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½: " + datelength);
 			
 			ArrayList roundlist =  new ArrayList();
 			
@@ -558,10 +558,10 @@ public class ShowController extends HttpServlet{
 			while(i != datelength+1) {
 				
 				showdate = request.getParameter("showdate" + i);
-				round1 = request.getParameter("date" + i + "_1");
-				round2 = request.getParameter("date" + i + "_2");
-				round3 = request.getParameter("date" + i + "_3");
-				round4 = request.getParameter("date" + i + "_4");
+				round1 = request.getParameter("date_" + i + "_1");
+				round2 = request.getParameter("date_" + i + "_2");
+				round3 = request.getParameter("date_" + i + "_3");
+				round4 = request.getParameter("date_" + i + "_4");
 				
 				
 			   System.out.println(showdate);
@@ -575,7 +575,8 @@ public class ShowController extends HttpServlet{
 			   i++;
 			
 			}
-			
+			System.out.println("roundlist í™•ì¸: " + roundlist);
+			System.out.println("datelength í™•ì¸: " + datelength);
 			ShowRoundDao srd = new ShowRoundDao();
 			
 			
@@ -605,7 +606,7 @@ public class ShowController extends HttpServlet{
 			
 //==============================================================================================================================//
 			
-			//±âº» Á¤º¸ ¹Þ¾Æ¿À±â
+			//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
@@ -627,10 +628,10 @@ public class ShowController extends HttpServlet{
 			String aprice_ = request.getParameter("aPrice");
 			String sidx_ = request.getParameter("sidx");
 			
-			System.out.println("¹Þ¾Æ¿À´Â vipPrice È®ÀÎ: " + vipprice_);
-			System.out.println("¹Þ¾Æ¿À´Â rPrice È®ÀÎ: " + rprice_);
-			System.out.println("¹Þ¾Æ¿À´Â sPrice È®ÀÎ: " + sprice_);
-			System.out.println("¹Þ¾Æ¿À´Â aPrice È®ÀÎ: " + aprice_);
+			System.out.println("ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ vipPrice È®ï¿½ï¿½: " + vipprice_);
+			System.out.println("ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ rPrice È®ï¿½ï¿½: " + rprice_);
+			System.out.println("ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ sPrice È®ï¿½ï¿½: " + sprice_);
+			System.out.println("ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ aPrice È®ï¿½ï¿½: " + aprice_);
 			
 			int sidx = 0;
 			if(sidx_ != null && !sidx_.equals("")) {
@@ -638,11 +639,11 @@ public class ShowController extends HttpServlet{
 			}
 			
 			
-			//¼¼¼Ç¿¡ ÀÖ´Â midx °ª ¹Þ¾Æ¿À±â
+			//ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Ö´ï¿½ midx ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
 			
-			//StringÀ¸·Î ¹ÞÀº °ªµé int·Î ¹Ù²ãÁÖ±â
+			//Stringï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ intï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			int postcode = 0;
 			if(postcode_ != null && !postcode_.equals("")) {
 				postcode = Integer.parseInt(postcode_);
@@ -665,12 +666,12 @@ public class ShowController extends HttpServlet{
 				aprice = Integer.parseInt(aprice_);
 			}
 			
-			System.out.println("¹Ù²ï vipPrice È®ÀÎ: " + vipprice);
-			System.out.println("¹Ù²ï rPrice È®ÀÎ: " + rprice);
-			System.out.println("¹Ù²ï sPrice È®ÀÎ: " + sprice);
-			System.out.println("¹Ù²ï aPrice È®ÀÎ: " + aprice);
+			System.out.println("ï¿½Ù²ï¿½ vipPrice È®ï¿½ï¿½: " + vipprice);
+			System.out.println("ï¿½Ù²ï¿½ rPrice È®ï¿½ï¿½: " + rprice);
+			System.out.println("ï¿½Ù²ï¿½ sPrice È®ï¿½ï¿½: " + sprice);
+			System.out.println("ï¿½Ù²ï¿½ aPrice È®ï¿½ï¿½: " + aprice);
 //==============================================================================================================================//
-			//¿ÀÇÂ ³¯Â¥ oracle¿¡¼­ ¾µ ¼ö ÀÖ´Â date Å¸ÀÔÀ¸·Î ¹Ù²ãÁÖ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ oracleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ date Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			Date startdate = null;
 		   try {
 			   DateFormat formatter;
@@ -685,7 +686,7 @@ public class ShowController extends HttpServlet{
 			   java.sql.Date sqlStartDate = new java.sql.Date(startdate.getTime());
 			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½Û³ï¿½Â¥: " + sqlStartDate);
 //==============================================================================================================================//
-			 //¸¶°¨ ³¯Â¥ oracle¿¡¼­ ¾µ ¼ö ÀÖ´Â date Å¸ÀÔÀ¸·Î ¹Ù²ãÁÖ±â
+			 //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ oracleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ date Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			Date enddate = null;
 		   try {
 			   DateFormat formatter;
@@ -700,7 +701,7 @@ public class ShowController extends HttpServlet{
 			   java.sql.Date sqlEndDate = new java.sql.Date(enddate.getTime());
 			   System.out.println("ï¿½ï¿½È¯ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½Â¥: " + sqlEndDate);
 //==============================================================================================================================//
-			   //¿¹¸Å ½ÃÀÛ ³¯Â¥ oracle¿¡¼­ ¾µ ¼ö ÀÖ´Â date Å¸ÀÔÀ¸·Î ¹Ù²ãÁÖ±â
+			   //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ oracleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ date Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			   Date ticketingdate = null;
 			   try {
 				   DateFormat formatter;
@@ -744,21 +745,21 @@ public class ShowController extends HttpServlet{
 			rd.deleteUpdateReservationIDX1(sidx);
 			
 			Show1Vo sv2 = sd.getShowDetail(sidx);
-			System.out.println("show1 Å×½ºÆ®: " + sv2);
+			System.out.println("show1 ï¿½×½ï¿½Æ®: " + sv2);
 
 
 			request.setAttribute("list", sv2);
 			request.setAttribute("sidx", sidx);
 //==============================================================================================================================//			
 			
-			//´ÙÀ½ ÆäÀÌÁö ºÒ·¯¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_modify_admin2.jsp").forward(request, response);
 		
 		}else if(str.equals("/Show/ShowModifyStep2Action.do")) {
 			
 //==============================================================================================================================//		
 			
-			//ÀÌ¹ÌÁö ¾÷·Îµå ¼³Á¤ÇØÁÖ±â
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			String uploadPath = request.getSession().getServletContext().getRealPath("poster");
 			int sizeLimit = 1024*1024*15;
 			System.out.println(uploadPath);
@@ -766,7 +767,7 @@ public class ShowController extends HttpServlet{
 
 //==============================================================================================================================//
 			
-			//±âº» °ª ¹Þ¾Æ¿À±â
+			//ï¿½âº» ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			String sidx_ = multi.getParameter("sidx");
 			String round = multi.getParameter("roundText");
 			String price = multi.getParameter("priceText");
@@ -781,7 +782,7 @@ public class ShowController extends HttpServlet{
 			}
 			
 //==============================================================================================================================//
-			//ÀÌ¹ÌÁö ÀÌ¸§ ¹Þ¾Æ¿À±â   
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½   
 			Enumeration files = multi.getFileNames();
 			ArrayList image = new ArrayList();
 			for(int i = 0 ; i <= 6 ; i++) {
@@ -790,7 +791,7 @@ public class ShowController extends HttpServlet{
 				System.out.println(multi.getFilesystemName((String)image.get(i)));
 			}
 			
-			//ÀÌ¹ÌÁö Á¤·Ä Á¦´ë·Î ÇØÁÖ±â
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö±ï¿½
 			ArrayList imageList = new ArrayList();
 			for(int i = 0 ; i < 7 ; i++) {
 				for(int j = 0 ; j < 7 ; j++) {
@@ -826,15 +827,15 @@ public class ShowController extends HttpServlet{
 			
 //==============================================================================================================================//
 			
-			//round_admin¿¡ º¸³»ÁÙ °ª ¹Þ¾Æ¿À±â
+			//round_adminï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			
 			Show1Vo sv1 = sd.getShowDetail(sidx);
 			
 			Date sopendate_ = sv1.getSopendate();
 			Date senddate_ = sv1.getSenddate();
 			
-			System.out.println("½ÃÀÛ³¯Â¥: " + sopendate_);
-			System.out.println("³¡³¯Â¥: " + senddate_);
+			System.out.println("ï¿½ï¿½ï¿½Û³ï¿½Â¥: " + sopendate_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½Â¥: " + senddate_);
 
 			Calendar sopendate1 = Calendar.getInstance();
 			Calendar senddate1 = Calendar.getInstance();
@@ -842,24 +843,24 @@ public class ShowController extends HttpServlet{
 			SimpleDateFormat dateFormat;
 	        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        
-			//Calendar Å¸ÀÔÀ¸·Î º¯°æ add()¸Þ¼Òµå·Î 1ÀÏ¾¿ Ãß°¡ÇØ ÁÖ±âÀ§ÇØ º¯°æ
+			//Calendar Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ add()ï¿½Þ¼Òµï¿½ï¿½ 1ï¿½Ï¾ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			sopendate1.setTime(sopendate_);
 			senddate1.setTime(senddate_);
 
 			ArrayList datelist = new ArrayList();
 			
-			//½ÃÀÛ³¯Â¥¿Í ³¡ ³¯Â¥¸¦ ºñ±³ÇØ, ½ÃÀÛ³¯Â¥°¡ ÀÛ°Å³ª °°Àº °æ¿ì Ãâ·Â			
+			//ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½Û°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½			
 			while(sopendate1.compareTo(senddate1) != 1){	
-				//Ãâ·Â
+				//ï¿½ï¿½ï¿½
 				System.out.println(dateFormat.format(sopendate1.getTime()));
 				datelist.add(dateFormat.format(sopendate1.getTime()));
-				//½ÃÀÛ³¯Â¥ + 1 ÀÏ
+				//ï¿½ï¿½ï¿½Û³ï¿½Â¥ + 1 ï¿½ï¿½
 				sopendate1.add(Calendar.DATE, 1);
 			}
 
 			int datelength = datelist.size();
 			
-			System.out.println("¸ñ·Ï È®ÀÎ: " + datelist);
+			System.out.println("ï¿½ï¿½ï¿½ È®ï¿½ï¿½: " + datelist);
 			
 			request.setAttribute("sidx", sidx);
 			request.setAttribute("datelist", datelist);
@@ -874,7 +875,7 @@ public class ShowController extends HttpServlet{
 			if(sidx_ != null && !sidx_.equals("")) {
 				sidx = Integer.parseInt(sidx_);
 			}
-			System.out.println("È¸Â÷ sidx È®ÀÎ: " + sidx);
+			System.out.println("È¸ï¿½ï¿½ sidx È®ï¿½ï¿½: " + sidx);
 //==============================================================================================================================//			
 			
 			ShowDao sd = new ShowDao();
@@ -883,8 +884,8 @@ public class ShowController extends HttpServlet{
 			Date sopendate_ = sv.getSopendate();
 			Date senddate_ = sv.getSenddate();
 			
-			System.out.println("½ÃÀÛ³¯Â¥  ¼³Á¤: " + sopendate_);
-			System.out.println("³¡³¯Â¥ ¼³Á¤: " + senddate_);
+			System.out.println("ï¿½ï¿½ï¿½Û³ï¿½Â¥  ï¿½ï¿½ï¿½ï¿½: " + sopendate_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½: " + senddate_);
 
 			Calendar sopendate1 = Calendar.getInstance();
 			Calendar senddate1 = Calendar.getInstance();
@@ -892,18 +893,18 @@ public class ShowController extends HttpServlet{
 			SimpleDateFormat dateFormat;
 	        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	        
-			//Calendar Å¸ÀÔÀ¸·Î º¯°æ add()¸Þ¼Òµå·Î 1ÀÏ¾¿ Ãß°¡ÇØ ÁÖ±âÀ§ÇØ º¯°æ
+			//Calendar Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ add()ï¿½Þ¼Òµï¿½ï¿½ 1ï¿½Ï¾ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			sopendate1.setTime(sopendate_);
 			senddate1.setTime(senddate_);
 
 			ArrayList datelist = new ArrayList();
 			
-			//½ÃÀÛ³¯Â¥¿Í ³¡ ³¯Â¥¸¦ ºñ±³ÇØ, ½ÃÀÛ³¯Â¥°¡ ÀÛ°Å³ª °°Àº °æ¿ì Ãâ·Â			
+			//ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Û³ï¿½Â¥ï¿½ï¿½ ï¿½Û°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½			
 			while(sopendate1.compareTo(senddate1) != 1){	
-				//Ãâ·Â
+				//ï¿½ï¿½ï¿½
 				System.out.println(dateFormat.format(sopendate1.getTime()));
 				datelist.add(dateFormat.format(sopendate1.getTime()));
-				//½ÃÀÛ³¯Â¥ + 1 ÀÏ
+				//ï¿½ï¿½ï¿½Û³ï¿½Â¥ + 1 ï¿½ï¿½
 				sopendate1.add(Calendar.DATE, 1);
 			}
 
@@ -911,7 +912,7 @@ public class ShowController extends HttpServlet{
 			
 			int datelength = datelist.size();
 			
-			System.out.println("±æÀÌ: " + datelength);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½: " + datelength);
 			
 			ArrayList roundlist =  new ArrayList();
 			
@@ -925,10 +926,10 @@ public class ShowController extends HttpServlet{
 			while(i != datelength+1) {
 				
 				showdate = request.getParameter("showdate" + i);
-				round1 = request.getParameter("date" + i + "_1");
-				round2 = request.getParameter("date" + i + "_2");
-				round3 = request.getParameter("date" + i + "_3");
-				round4 = request.getParameter("date" + i + "_4");
+				round1 = request.getParameter("date_" + i + "_1");
+				round2 = request.getParameter("date_" + i + "_2");
+				round3 = request.getParameter("date_" + i + "_3");
+				round4 = request.getParameter("date_" + i + "_4");
 				
 				
 			   System.out.println(showdate);
@@ -945,10 +946,10 @@ public class ShowController extends HttpServlet{
 			
 			ShowRoundDao srd = new ShowRoundDao();
 			
-			//±âÁ¸ °ø¿¬ È¸Â÷ »èÁ¦ÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			srd.deleteShowRound(sidx);
 			
-			//¼öÁ¤ °ø¿¬ È¸Â÷ µî·ÏÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			int j = 0;
 			while(j != datelength*5) {
 				
@@ -970,15 +971,15 @@ public class ShowController extends HttpServlet{
 			
 			ReservationDao rd = new ReservationDao();
 			
-			//±âÁ¸ °ø¿¬ È¸Â÷ ¿¹¸Å³»¿ª »èÁ¦ÇÏ±â(¼öÁ¤Áß)
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 			rd.deleteUpdateReservation2(sidx);
 			rd.deleteUpdateReservationIDX2(sidx);
 			
-			//±âÁ¸ °ø¿¬ È¸Â÷ ¿¹¸ÅÇß´ø È¸¿øµé ºÒ·¯¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 			ArrayList<ReservationIdxVo> list = rd.deleteUpdateReservationIDX2List(sidx);
-			System.out.println("È¸Â÷ »èÁ¦µÈ È¸¿ø ¸ñ·Ï: " + list);
+			System.out.println("È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½: " + list);
 			
-			//±âÁ¸ °ø¿¬ È¸Â÷ »èÁ¦µÈ È¸¿ø °øÁö¸ÞÀÏ º¸³»ÁÖ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			deleteReservationMail drm = new deleteReservationMail();
 			drm.naverMailSend(list);
 			

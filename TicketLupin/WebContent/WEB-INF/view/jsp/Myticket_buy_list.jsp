@@ -155,11 +155,6 @@
 					<div id="main_news_page">
 						<div id="main_news_page_set">
 <!--------------------------------------------------------------------------------------------------------------------->
-							<a href="?p=1&q=">
-								<div class="main_news_page_button main_news_page_bn">
-									<div class="main_news_page_button_llgg">&lt;&lt;</div>
-								</div>
-							</a>						
 							<c:if test="${startNum>1}">
 								<a href="?p=${startNum-1}">
 									<div class="main_news_page_button main_news_page_bn">
@@ -199,10 +194,6 @@
 									</div>
 								</a>
 							</c:if>
-								<div class="main_news_page_button main_news_page_bn">
-									<div class="main_news_page_news_llgg">&gt;&gt;</div>
-								</div>
-							</a>
 <!--------------------------------------------------------------------------------------------------------------------->
 
 						</div>

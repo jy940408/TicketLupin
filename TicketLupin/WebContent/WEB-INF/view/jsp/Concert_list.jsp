@@ -12,6 +12,47 @@
 		<script type="text/javascript" src="../js/jquery-3.5.1.min.js"></script>
 		<script src="../js/Concert_list.js"></script>
 		<script src="${pageContext.request.contextPath}/js/Nav_all.js"></script>
+		<script>
+		
+			function getCheckboxValue(name){
+				
+				if(name="genre"){
+					var query = "input[name='genre']:checked";
+					var selectedTags = document.querySelectorAll(query);
+					
+					var result = "";
+					
+					selectedTags.forEach(
+					(tag) => {result += document.getElementById([tag.value]).innerText+" "}
+					);
+					
+					document.getElementById("main_concert_list_search_tag_checked").innerText = result;
+				}else if(name="place"){
+					var query = "input[name='place']:checked";
+					var selectedTags = document.querySelectorAll(query);
+					
+					var result = "";
+					
+					selectedTags.forEach(
+					(tag) => {result += document.getElementById([tag.value]).innerText+" "}
+					);
+					
+					document.getElementById("main_concert_list_search_tag_checked").innerText = result;
+				}else{
+					var query = "input[name='sold']:checked";
+					var selectedTags = document.querySelectorAll(query);
+					
+					var result = "";
+					
+					selectedTags.forEach(
+					(tag) => {result += document.getElementById([tag.value]).innerText+" "}
+					);
+					
+					document.getElementById("main_concert_list_search_tag_checked").innerText = result;
+				}
+			}
+		
+		</script>
 	</head>
 	<body>
 		<header>
@@ -118,6 +159,47 @@
 							</c:if>
 						</div>
 					</div>
+					<div id="main_concert_list_search_tag">
+						<div id="main_concert_list_search_tag_genre" class="main_concert_list_search_tag_sector">
+							<div>
+								장르별
+							</div>
+							<ul>
+								<li><input type="checkbox" name="genre" value="genreall" onclick="getCheckboxValue('genre')"><span id="genreall">전체</span></li>
+								<li><input type="checkbox" name="genre" value="original" onclick="getCheckboxValue('genre')"><span id="original">오리지널/내한공연</span></li>
+								<li><input type="checkbox" name="genre" value="license" onclick="getCheckboxValue('genre')"><span id="license">라이선스</span></li>
+								<li><input type="checkbox" name="genre" value="creation" onclick="getCheckboxValue('genre')"><span id="creation">창작뮤지컬</span></li>
+								<li><input type="checkbox" name="genre" value="nonverbal" onclick="getCheckboxValue('genre')"><span id="nonverbal">넌버벌 퍼포먼스</span></li>
+								<li><input type="checkbox" name="genre" value="package" onclick="getCheckboxValue('genre')"><span id="package">패키지공연</span></li>
+							</ul>
+						</div>
+						<div id="main_concert_list_search_tag_place" class="main_concert_list_search_tag_sector">
+							<div>
+								지역별
+							</div>
+							<ul>
+								<li><input type="checkbox" name="place" value="placeall" onclick="getCheckboxValue('place')"><span id="placeall">전체</span></li>
+								<li><input type="checkbox" name="place" value="seoul" onclick="getCheckboxValue('place')"><span id="seoul">서울</span></li>
+								<li><input type="checkbox" name="place" value="incheon" onclick="getCheckboxValue('place')"><span id="incheon">경기/인천</span></li>
+								<li><input type="checkbox" name="place" value="daejeon" onclick="getCheckboxValue('place')"><span id="daejeon">대전/충청/강원</span></li>
+								<li><input type="checkbox" name="place" value="busan" onclick="getCheckboxValue('place')"><span id="busan">부산/대구/경상</span></li>
+								<li><input type="checkbox" name="place" value="gwangju" onclick="getCheckboxValue('place')"><span id="gwangju">광주/전라/제주</span></li>
+							</ul>
+						</div>
+						<div id="main_concert_list_search_tag_sold" class="main_concert_list_search_tag_sector">
+							<div>
+								판매상태
+							</div>
+							<ul>
+								<li><input type="checkbox" name="sold" value="soldall" onclick="getCheckboxValue('sold')"><span id="soldall">전체</span></li>
+								<li><input type="checkbox" name="sold" value="now" onclick="getCheckboxValue('sold')"><span id="now">판매 중</span></li>
+								<li><input type="checkbox" name="sold" value="soon" onclick="getCheckboxValue('sold')"><span id="soon">판매 예정</span></li>
+							</ul>
+						</div>
+					</div>
+					<div id="main_concert_list_search_tag_checked" style="margin-bottom:20px;">
+
+					</div>
 					<div id="main_concert_musical_list_all">
 						<div id="main_concert_musical_list_order">
 							<a href="?q=&s=sopendate&p="><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -125,28 +207,72 @@
 						</div>
 <!------------------------------------------------------------------------------------------------------------------------>
 					<c:set var="now_" value="<%=new java.util.Date()%>" />
-					<fmt:formatDate value="${now_}" pattern="YYYY.MM.dd(E) HH:ss" var="now"/>
+					<fmt:formatDate value="${now_}" pattern="YYYY-MM-dd" var="now"/>
 <!------------------------------------------------------------------------------------------------------------------------>
 						<div id="main_concert_musical_list">
 							<ul>
 								<c:forEach var="l" items="${list}">
-								<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">
-									<div class="main_concert_musical_detail">
-										<img src="<%=request.getContextPath() %>/poster/${l.stitleimage}" class="main_concert_musical_detail_poster">
-										<div class="main_concert_musical_detail_title">
-											${l.stitle}
-										</div>
-										<div class="main_concert_musical_detail_date">
-											${l.sopendate } - ${l.senddate}
-										</div>
-										<div class="main_concert_musical_detail_place">
-											${l.sroadaddress}
-										</div>
-										<div class="main_concert_musical_detail_sold">
-											판매 중${now}
-										</div>
-									</div>
-								</a></li>
+									<c:if test="${now >= l.sticketingdate and now <= l.senddate}">
+										<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">
+											<div class="main_concert_musical_detail">
+												<img src="<%=request.getContextPath() %>/poster/${l.stitleimage}" class="main_concert_musical_detail_poster">
+												<div class="main_concert_musical_detail_title">
+													${l.stitle}
+												</div>
+												<div class="main_concert_musical_detail_date">
+													${l.sopendate } ~ ${l.senddate}
+												</div>
+												<div class="main_concert_musical_detail_place">
+													${l.sroadaddress}
+												</div>
+												<div class="main_concert_musical_detail_sold">
+													<b style="color:red;">판매 중</b>&nbsp;${l.sticketingdate}&nbsp;오픈
+												</div>
+											</div>
+										</a></li>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="l" items="${list}">
+									<c:if test="${now < l.sticketingdate}">
+										<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">
+											<div class="main_concert_musical_detail">
+												<img src="<%=request.getContextPath() %>/poster/${l.stitleimage}" class="main_concert_musical_detail_poster">
+												<div class="main_concert_musical_detail_title">
+													${l.stitle}
+												</div>
+												<div class="main_concert_musical_detail_date">
+													${l.sopendate } ~ ${l.senddate}
+												</div>
+												<div class="main_concert_musical_detail_place">
+													${l.sroadaddress}
+												</div>
+												<div class="main_concert_musical_detail_sold">
+													<b style="color:blue;">판매 예정</b>&nbsp;${l.sticketingdate}&nbsp;오픈
+												</div>
+											</div>
+										</a></li>
+									</c:if>
+								</c:forEach>
+								<c:forEach var="l" items="${list}">
+									<c:if test="${now > l.senddate}">
+										<li><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">
+											<div class="main_concert_musical_detail">
+												<img src="<%=request.getContextPath() %>/poster/${l.stitleimage}" class="main_concert_musical_detail_poster">
+												<div class="main_concert_musical_detail_title">
+													${l.stitle}
+												</div>
+												<div class="main_concert_musical_detail_date">
+													${l.sopendate } ~ ${l.senddate}
+												</div>
+												<div class="main_concert_musical_detail_place">
+													${l.sroadaddress}
+												</div>
+												<div class="main_concert_musical_detail_sold">
+													<b>판매 종료</b>&nbsp;${l.sticketingdate}&nbsp;오픈
+												</div>
+											</div>
+										</a></li>
+									</c:if>
 								</c:forEach>
 							</ul>
 						</div>
@@ -163,12 +289,7 @@
 					
 					<div id="main_news_page">
 						<div id="main_news_page_set">
-<!--------------------------------------------------------------------------------------------------------------------->
-							<a href="?p=1&q=">
-								<div class="main_news_page_button main_news_page_bn">
-									<div class="main_news_page_button_llgg">&lt;&lt;</div>
-								</div>
-							</a>						
+<!--------------------------------------------------------------------------------------------------------------------->					
 							<c:if test="${startNum>1}">
 								<a href="?p=${startNum-1}&s=&q=">
 									<div class="main_news_page_button main_news_page_bn">
@@ -200,6 +321,7 @@
 									<div class="main_news_page_button main_news_page_bn">
 										<div class="main_news_page_button_lg">&gt;</div>
 									</div>
+								</a>
 							</c:if>
 							<c:if test="${startNum+4>=lastNum}">
 								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
@@ -208,10 +330,6 @@
 									</div>
 								</a>
 							</c:if>
-								<div class="main_news_page_button main_news_page_bn">
-									<div class="main_news_page_news_llgg">&gt;&gt;</div>
-								</div>
-							</a>
 <!--------------------------------------------------------------------------------------------------------------------->
 
 						</div>

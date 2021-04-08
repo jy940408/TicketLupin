@@ -138,12 +138,7 @@
 					
 					<div id="main_winner_page">
 						<div id="main_winner_page_set">
-<!--------------------------------------------------------------------------------------------------------------------->
-							<a href="?p=1&q=">
-								<div class="main_winner_page_button main_winner_page_bn">
-									<div class="main_winner_page_button_llgg">&lt;&lt;</div>
-								</div>
-							</a>						
+<!--------------------------------------------------------------------------------------------------------------------->					
 							<c:if test="${startNum>1}">
 								<a href="?p=${startNum-1}&q=">
 									<div class="main_winner_page_button main_winner_page_bn">
@@ -183,10 +178,6 @@
 									</div>
 								</a>
 							</c:if>
-								<div class="main_winner_page_button main_winner_page_bn">
-									<div class="main_winner_page_button_llgg">&gt;&gt;</div>
-								</div>
-							</a>
 <!--------------------------------------------------------------------------------------------------------------------->
 
 						</div>

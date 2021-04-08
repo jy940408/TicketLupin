@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
+import com.TicketLupin.web.service.EventDao;
+import com.TicketLupin.web.service.EventVo;
 import com.TicketLupin.web.service.NewsDao;
 import com.TicketLupin.web.service.NewsVo;
 import com.TicketLupin.web.service.ShowDao;
@@ -52,6 +54,25 @@ public class MainController extends HttpServlet{
 			request.setAttribute("rankingList", rankingList);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
 			
+		}else if(str.equals("/Main/MainSearch.do")) {
+			
+			String query_ = request.getParameter("q");
+			
+			String query = "";
+			if(query_ != null && query_.equals("")) {
+				query = query_;
+			}
+			
+			ShowDao sd = new ShowDao();
+			List<Show1Vo> slist = sd.getShowList(query, "sregdate", "DESC", 1);
+			
+			NewsDao nd = new NewsDao();
+			List<NewsVo> nlist = nd.getNewsList(query, "wregdate", "total", 1);
+			
+			EventDao ed = new EventDao();
+//			ArrayList<EventVo> elist = ed.eventSelectAll(scri);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/MainSearch.jsp").forward(request, response);
 		}
 		
 	};

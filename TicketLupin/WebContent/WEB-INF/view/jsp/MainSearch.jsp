@@ -1,52 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>티켓 루팡</title>
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Myticket_dibs.css">
-		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Nav_all.js"></script>
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/MainSearch.css">
+		<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/Main.js"></script>
 		<script src="${pageContext.request.contextPath}/js/loginAlert.js"></script>
-		<script>
-			
-			function dibsDelete(sidx){
-				
-				$.ajax({
-					
-					type:"get",
-					url:"${pageContext.request.contextPath}/Dibs/DibsDeleteMyPageAction.do",
-					data:{"sidx": sidx, "midx": "${sessionScope.midx}"},
-					success:function(data){
-						if(data.result == 0){
-							
-							alert("찜한 목록이 삭제되었습니다!");
-							
-							var output="";
-							
-							
-							output += "<c:forEach var='l' items='${list}'>";
-							output += "	<tr>";
-							output += "		<td>${l.num}</td>";
-							output += "		<td class='td_'><a href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}'>${l.stitle}</a></td>";
-							output += "		<td>${l.sopendate} ~ <br>${l.senddate}</td>";
-							output += "		<td id='dibsDeleteID'>";
-							output += "			<button type='button' value='cancel' class='td_button' onclick='dibsDelete()'>삭제</button>";
-							output += "		</td>";
-							output += "	</tr>";
-							output += "</c:forEach>";
-							
-							$("#tbody").html(output);
-						}
-					}
-				});
-				
-			}
-		</script>
 	</head>
 	<body>
 		<header>
@@ -127,117 +90,18 @@
 			<hr id="nav_bar_sub">
 		</div>
 		
-		
 		<section>
 			<article>
-				<div style="padding:30px;"></div>
-				<div class="warp_tap">
-					<div class="btns" style="margin-bottom:40px;">
-						<button class="btn_like" type="button">마이 찜</button>
-					</div>
-				</div>
+				검색결과
 				
-				<div class="cont">
-					<div class="box_customer">
-						
-						<table class="table_list">
-							<thead>
-								<tr>
-									<th width="10%"></th>
-									<th width="48%">마이 찜 목록</th>
-									<th width="17%">공연기간</th>
-									<th width="15%"></th>
-								</tr>
-							</thead>
-							<tbody id="tbody">
-								<c:forEach var="l" items="${list}">
-								<tr>
-									<td>${l.num}</td>
-									<td class="td_"><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">${l.stitle}</a></td>
-									<td>${l.sopendate} ~ <br>${l.senddate}</td>
-									<td id="dibsDeleteID">
-										<button type="button" value="cancel" class="td_button" onclick="dibsDelete(${l.sidx})">삭제</button>
-									</td>
-								</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-
-<!--------------------------------------------------------------------------------------------------------------------->
-		
-			<c:set var="page" value="${(param.page == null)?1:param.page}"/>
-			<c:set var="startNum" value="${page-(page-1)%5}"/>
-			<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
-
-<!--------------------------------------------------------------------------------------------------------------------->
-					
-					<div id="main_news_page">
-						<div id="main_news_page_set">
-<!--------------------------------------------------------------------------------------------------------------------->
-							<c:if test="${startNum>1}">
-								<a href="?page=${startNum-1}">
-									<div class="main_news_page_button main_news_page_bn">
-										<div class="main_news_page_button_lg">&lt;</div>
-									</div>
-								</a>
-							</c:if>
-							<c:if test="${startNum<=1}">
-								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
-									<div class="main_news_page_button main_news_page_bn">
-										<div class="main_news_page_button_lg">&lt;</div>
-									</div>
-								</a>
-							</c:if>
-<!--------------------------------------------------------------------------------------------------------------------->
-							
-							<div class="main_news_page_bn">
-								<c:forEach var="i" begin="0" end="4">
-									<c:if test="${(startNum+i) <= lastNum}">
-										<div class="main_news_page_button_page">
-											<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?page=${startNum+i}" >${startNum+i}</a>
-										</div>
-									</c:if>
-								</c:forEach>
-							</div>
-<!--------------------------------------------------------------------------------------------------------------------->
-							<c:if test="${startNum+4<lastNum}">
-								<a href="?page=${startNum+5}">
-									<div class="main_news_page_button main_news_page_bn">
-										<div class="main_news_page_button_lg">&gt;</div>
-									</div>
-							</c:if>
-							<c:if test="${startNum+4>=lastNum}">
-								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
-									<div class="main_news_page_button main_news_page_bn">
-										<div class="main_news_page_button_lg">&gt;</div>
-									</div>
-								</a>
-							</c:if>
-<!--------------------------------------------------------------------------------------------------------------------->
-					</div>
-				</div>
-				<div class="cancel_notice">
-					<h3>취소안내</h3>
-					<ul>
-						<li>예매상세에서 확인 및 취소를 진행하실 수 있습니다.</li>
-						<li>배송이 시작된 경우 취소마감시간이전까지 티켓루팡 고객센터로 티켓을 반환해주셔야 환불이 가능하며, 도착일자 기준으로 취소 수수료가 부과됩니다.<br/>
-							 &nbsp; (*단, 반환된 티켓의 배송료는 환불되지 않으며 일괄배송 상품의 경우 취소에 대한 자세한 문의는 고객센터로 문의해 주시기 바랍니다.)	
-						</li>
-					</ul>
-				</div>
+				공연
+				
+				티켓오픈소식
+				
+				이벤트
 			</article>
 		</section>
 		<footer>
-				<hr class="f_bar" id="f_bar_bottom">
-				<div id="f_last">
-					<span class="f_bottom_ment"><img src="../icon/lupinlogo.png" id="f_logo"></span>
-					<span class="f_bottom_ment">
-						<span class="f_bottom_tagset">예매문의(1234-1234)</span>
-						<a href="#" class="f_bottom_tagset">티켓판매제휴&nbsp;&nbsp;&nbsp;&nbsp;</a>
-						<a href="#" class="f_bottom_tagset">예매가이드&nbsp;&nbsp;&nbsp;&nbsp;</a>
-					</span>
-				</div>
-				<hr class="f_bar" id="f_bar_bottom">
 			<div class="f_title_inner">
 				<span id="f_menu_contract_span">
 					<ul id="f_menu_contract">
@@ -266,5 +130,31 @@
 				</span>
 			</div>
 		</footer>
+		<script>
+			function showClock(){
+				var currentDate = new Date();
+				var main_comingsoon_time = document.getElementById("main_comingsoon_time");
+				var apm = currentDate.getHours();
+				if(apm < 12){
+					apm="오전 ";
+				}
+				else{
+					apm="오후 ";
+				}
+				
+				var msg = "현재시각 <br>";
+				msg += new Date().getFullYear() + "년 "; 
+				msg += new Date().getMonth() + "월 ";
+				msg += new Date().getDate() + "일<br>";
+				msg += apm + (currentDate.getHours()) + "시 ";
+				msg += currentDate.getMinutes() + "분 ";
+				msg += currentDate.getSeconds() + "초";
+				
+				main_comingsoon_time.innerHTML = msg;
+				
+			}
+			showClock();
+			setInterval(showClock,1000);
+		</script>
 	</body>
 </html>
