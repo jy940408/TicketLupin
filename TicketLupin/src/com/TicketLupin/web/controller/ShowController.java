@@ -80,6 +80,128 @@ public class ShowController extends HttpServlet{
 			List<Show1Vo> list = sd.getShowList(query, setting, array, page);
 			int count = sd.getShowListCount(query, setting);
 			
+			SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+			Calendar time = Calendar.getInstance();
+			String now = format.format(time.getTime());
+			
+			
+			System.out.println("now test: " + now);
+			System.out.println("setting: " + setting);
+			System.out.println("array: " + array);
+			
+			System.out.println("리스트: " + list);
+			System.out.println("카운트: " + count);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
+			request.setAttribute("now", now);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Show/ShowListAJAX.do")) {
+			
+			String checkList_ = request.getParameter("checkList");		
+			String query_ = request.getParameter("q");
+			String setting_ = request.getParameter("s");
+			String page_ = request.getParameter("p");
+			
+			String checkList = "";
+			if(checkList_ != null && !checkList_.equals("")) {
+				checkList = checkList_;
+			}
+			
+			String[] checkArray = checkList.split("/");
+			
+			ArrayList genre_ = new ArrayList();
+			ArrayList place_ = new ArrayList();
+			ArrayList sold_ = new ArrayList();
+			
+			for(int i = 0 ; i < checkArray.length ; i++) {
+				
+				if(checkArray[i].equals("genreall") || checkArray[i].equals("original") || checkArray[i].equals("license")|| checkArray[i].equals("creation")|| checkArray[i].equals("nonverbal")|| checkArray[i].equals("package")) {
+					genre_.add(checkArray[i]);
+				}else if(checkArray[i].equals("placeall") || checkArray[i].equals("seoul") || checkArray[i].equals("incheon")|| checkArray[i].equals("daejeon")|| checkArray[i].equals("busan")|| checkArray[i].equals("gwangju")) {
+					place_.add(checkArray[i]);
+				}else if(checkArray[i].equals("soldall") || checkArray[i].equals("now") || checkArray[i].equals("soon")) {
+					sold_.add(checkArray[i]);
+				}
+				System.out.println("배열 확인: " + checkArray[i]);
+			}
+			
+			System.out.println("genre_ 확인: " + genre_);
+			System.out.println("place_ 확인: " + place_);
+			System.out.println("sold_ 확인: " + sold_);
+			
+			ArrayList genre = new ArrayList();
+			ArrayList place = new ArrayList();
+			ArrayList sold = new ArrayList();
+			
+			for(int i = 0 ; i < genre_.size() ; i++) {
+				if(genre_.get(i).equals("genreall")) {
+					genre.add("");
+				}else if(genre_.get(i).equals("original")) {
+					genre.add("오리지널/내한공연");
+				}else if(genre_.get(i).equals("license")) {
+					genre.add("라이선스");
+				}else if(genre_.get(i).equals("creation")) {
+					genre.add("창작뮤지컬");
+				}else if(genre_.get(i).equals("nonverbal")) {
+					genre.add("넌버벌");
+				}else if(genre_.get(i).equals("package")) {
+					genre.add("패키지");
+				}
+			}
+			
+			for(int i = 0 ; i < place_.size() ; i++) {
+				if(place_.get(i).equals("placeall")) {
+					place.add("");
+				}else if(place_.get(i).equals("seoul")) {
+					place.add("서울");
+				}else if(place_.get(i).equals("incheon")) {
+					place.add("경기도");
+					place.add("인천");
+				}else if(place_.get(i).equals("daejeon")) {
+					place.add("대전");
+					place.add("충청");
+					place.add("강원");
+				}else if(place_.get(i).equals("busan")) {
+					place.add("부산");
+					place.add("대구");
+					place.add("경상");
+				}else if(place_.get(i).equals("gwangju")) {
+					place.add("광주광역");
+					place.add("전라");
+					place.add("제주");
+				}
+			}
+			
+			System.out.println("genre 확인: " + genre);
+			System.out.println("place 확인: " + place);
+			System.out.println("sold 확인: " + sold);
+			
+			
+			String query = "";
+			if(query_ != null && !query_.equals("")) {
+				query = query_;
+			} 
+			
+			String setting = "sregdate";
+			if(setting_ != null && !setting_.equals("")) {
+				setting = setting_;
+			}
+			
+			int page = 1;
+			if(page_ != null && !page_.equals("")) {
+				page = Integer.parseInt(page_);
+			}
+			
+			String array = "DESC";
+			if(setting.equals("sopendate")) {
+				array = "ASC";
+			}
+			
+			ShowDao sd = new ShowDao();
+			int count = sd.getShowListCount(query, setting);
+			JSONArray list = sd.getShowListAJAX(genre, place, sold);
 			System.out.println("setting: " + setting);
 			System.out.println("array: " + array);
 			
@@ -87,7 +209,9 @@ public class ShowController extends HttpServlet{
 			System.out.println("카운트: " + count);
 			request.setAttribute("list", list);
 			request.setAttribute("count", count);
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_list.jsp").forward(request, response);
+			
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().print(list); //{"result":1}
 			
 		}else if(str.equals("/Show/ShowWriteStep1.do")) {
 			

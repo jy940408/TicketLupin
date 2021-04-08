@@ -1,11 +1,11 @@
 @font-face{
-				font-family:"³ª´®½ºÄù¾î Regular";
+				font-family:"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Regular";
 				src:url("../font/NanumSquareR.ttf") format("truetype");
 				font-style:normal;
 				font-weight:normal;
 			}
 			body{
-				font-family:³ª´®½ºÄù¾î Regular;
+				font-family:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Regular;
 				margin:0;
 			}
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -211,18 +211,24 @@
 			.main_concert_list_search_tag_sector{
 				display:inline-block;
 				vertical-align:top;
-				margin:20px 105px;
+				width:455px;
+				margin:20px 20px;
 			}
 			.main_concert_list_search_tag_sector div{
 				font-size:20px;
 				font-weight:bold;
 			}
 			
-			#main_concert_list_search_tag_checked{
-				height:10px;
-				width:938px;
-				padding:30px;
-				border:1px solid rgba(0,0,0,0.5);
+			
+			
+			.checkBox{
+				width:455px;
+			}
+			.checkBox div{
+				display:inline-block;
+			}
+			.checkRight{
+				float:right;
 			}
 	/*-----------------------------------------------------------------------------------------------------------------------*/		
 			#main_concert_musical_list_order{

@@ -5,7 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.TicketLupin.web.DBconn.DBconn;
 
@@ -135,6 +139,99 @@ public class ShowDao {
 				e.printStackTrace();
 		}
 		return list;
+		
+	}
+	
+	public JSONArray getShowListAJAX(ArrayList genre, ArrayList place, ArrayList sold){
+		
+		JSONArray objList = new JSONArray();
+		
+		String genreSql = null;
+		String placeSql = null;
+		String soldSql = null;
+		
+		if(genre.size() == 0) {
+			genreSql = "";
+		}else if(genre.size() == 1) {
+			genreSql = "AND (SGENRE LIKE '%" + genre.get(0) + "%') ";
+		}else{
+			for(int i = 0 ; i < genre.size() ; i++) {
+				if(i == 0) {
+					genreSql = "AND (SGENRE LIKE '%" + genre.get(i) + "%' ";
+				}else if(i == (genre.size()-1)) {
+					genreSql += "OR SGENRE LIKE '%" +  genre.get(i) +  "%') ";
+				}else{
+					genreSql += "OR SGENRE LIKE '%" +  genre.get(i) +  "%' ";
+				}
+			}
+		}
+		
+		if(place.size() == 0) {
+			placeSql = "";
+		}else if(place.size() == 1) {
+			if(genre.isEmpty()) {
+				placeSql = "AND (SROADADDRESS LIKE '%" + place.get(0) + "%') ";
+			}
+			if(!genre.isEmpty()) {
+				placeSql = "OR (SROADADDRESS LIKE '%" + place.get(0) + "%') ";
+			}
+		}else{
+			for(int i = 0 ; i < place.size() ; i++) {
+				if(i == 0) {
+					if(genre.isEmpty()) {
+						placeSql = "AND (SROADADDRESS LIKE '%" + place.get(i) + "%' ";
+					}
+					if(!genre.isEmpty()) {
+						placeSql = "OR (SROADADDRESS LIKE '%" + place.get(i) + "%' ";
+					}
+				}else if(i == (place.size()-1)) {
+					placeSql += "OR SROADADDRESS LIKE '%" +  place.get(i) +  "%') ";
+				}else{
+					placeSql += "OR SROADADDRESS LIKE '%" +  place.get(i) +  "%' ";
+				}
+			}
+		}
+		
+		System.out.println("place.size(): " + place.size());
+		System.out.println("sql 테스트: " + genreSql + placeSql);
+		
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, S.* FROM " 
+				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
+				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " 
+				+ "WHERE STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' "
+				+ genreSql
+				+ placeSql
+				+ "ORDER BY SREGDATE DESC) S)";
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			JSONObject obj = new JSONObject();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+			while (rs.next()) {
+				
+				int i = 0;
+				JSONObject obj_ = new JSONObject();
+				obj_.put("sidx", rs.getInt("SIDX"));
+				obj_.put("stitle", rs.getString("STITLE"));
+				obj_.put("sopendate", transFormat.format(rs.getDate("SOPENDATE")));
+				obj_.put("senddate", transFormat.format(rs.getDate("SENDDATE")));
+				obj_.put("sdetailaddress", rs.getString("SDETAILADDRESS"));
+				obj_.put("stitleimage", rs.getString("STITLEIMAGE"));
+				obj_.put("sticketingdate", transFormat.format(rs.getDate("STICKETINGDATE")));
+				objList.add(obj_);
+				
+				i++;
+			}
+			
+		
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		System.out.println("리스트 테스트: " + objList);
+		return objList;
 		
 	}
 	
