@@ -21,12 +21,12 @@ public class FaqDao {
 		this.conn = dbconn.getConnection();		
 	}
 	
-	public int insertFaq(String ftitle, String ftype, String fcontent) {
+	public int insertFaq(String ftitle, String ftype, String fcontent, int midx) {
 		
 		int value = 0;
 		
-		String sql = "INSERT INTO FAQ(FIDX, FTITLE, FTYPE, FCONTENT, MIDX, FREGDATE, FDELYN)"
-					+"VALUES(FIDX_SEQ.NEXTVAL, ?, ?, ?, 1, SYSTIMESTAMP, 'N')";
+		String sql = "INSERT INTO FAQ(FTITLE, FTYPE, FCONTENT, MIDX, FREGDATE, FDELYN)"
+					+"VALUES(?, ?, ?, ?, NOW(), 'N')";
 		
 		try {
 			
@@ -35,6 +35,7 @@ public class FaqDao {
 			pstmt.setString(1, ftitle);
 			pstmt.setString(2, ftype);
 			pstmt.setString(3, fcontent);
+			pstmt.setInt(4, midx);
 			
 			value = pstmt.executeUpdate();
 			
@@ -112,7 +113,9 @@ public class FaqDao {
 		
 		List<FaqVo> list = new ArrayList<FaqVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM FAQ WHERE FTITLE LIKE ? AND FTYPE LIKE ? AND FDELYN = 'N' ORDER BY FREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM FAQ WHERE FTITLE LIKE ? AND FTYPE LIKE ? AND FDELYN = 'N' ORDER BY FREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM FAQ B, (SELECT @ROWNUM := 0) TMP WHERE FTITLE LIKE ? AND FTYPE LIKE ? AND FDELYN = 'N' ORDER BY FREGDATE DESC) A WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 			
@@ -201,7 +204,9 @@ public class FaqDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(FIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM FAQ WHERE FTITLE LIKE ? AND FTYPE LIKE ? AND FDELYN = 'N' ORDER BY FREGDATE DESC) N)";
+		//String sql = "SELECT COUNT(FIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM FAQ WHERE FTITLE LIKE ? AND FTYPE LIKE ? AND FDELYN = 'N' ORDER BY FREGDATE DESC) N)";
+		
+		String sql ="SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM FAQ B,(SELECT @ROWNUM := 0) TMP WHERE FTITLE LIKE ? AND FTYPE LIKE ? AND FDELYN = 'N' ORDER BY FREGDATE DESC) A";
 		
 		try {
 		

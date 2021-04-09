@@ -187,34 +187,27 @@
 				</div>
 				<br>
 				<div id="main_pick">
-					<div id="main_pick_ment">티켓루팡 PICK!</div>
-					
-					<div class="main_pick_class" id="main_pick1">
-						<img src="../poster/musicalposter1.jpg" id="main_pick_poster1">
-						<div class="main_pick_name">검은 사제들</div><br>
-						<div class="main_pick_place">대학로 유니플렉스 1관</div>
-						<div class="main_pick_date">2021.02.18-2021.03.01</div>
-					</div>
-					<div class="main_pick_class" id="main_pick2">
-						<img src="../poster/musicalposter2.jpg" id="main_pick_poster2">
-						<div class="main_pick_name">쿠로이 저택엔 누가 살...</div><br>
-						<div class="main_pick_place">플러스씨어터(구. 컬처스페...</div>
-						<div class="main_pick_date">2021.02.18-2021.03.01</div>
-					</div>
-					<div class="main_pick_class" id="main_pick3">
-						<img src="../poster/musicalposter3.jpg" id="main_pick_poster3">
-						<div class="main_pick_name">유월</div><br>
-						<div class="main_pick_place">경기아트센터 대극장</div>
-						<div class="main_pick_date">2021.02.18-2021.03.01</div>
-					</div>
-					<div class="main_pick_class" id="main_pick4">
-						<img src="../poster/musicalposter4.jpg" id="main_pick_poster4">
-						<div class="main_pick_name">에어포트 베이비</div><br>
-						<div class="main_pick_place">신한카드 FAN(판)스퀘어 라...</div>
-						<div class="main_pick_date">2020.11.11-2021.01.31</div>
-					</div>
+					<div id="main_pick_ment">최근 등록된 공연</div>
+					<c:forEach var="l" items="${showRecentList}" begin="0" end="3" varStatus="status">
+						<c:if test="${status.index ne 3}">
+							<div class="main_pick_class" id="main_pick1">
+								<img src="${pageContext.request.contextPath}/poster/${l.stitleimage}" id="main_pick_poster1">
+								<div class="main_pick_name">${l.stitle}</div><br>
+								<div class="main_pick_place">${l.sdetailaddress}</div>
+								<div class="main_pick_date">${l.sopendate } ~ ${l.senddate }</div>
+							</div>
+						</c:if>
+						<c:if test="${status.index eq 3}">
+						<div class="main_pick_class" id="main_pick4">
+							<img src="${pageContext.request.contextPath}/poster/${l.stitleimage}" id="main_pick_poster4">
+							<div class="main_pick_name">${l.stitle}</div><br>
+							<div class="main_pick_place">${l.sdetailaddress}</div>
+							<div class="main_pick_date">${l.sopendate } ~ ${l.senddate }</div>
+						</div>
+						</c:if>
+					</c:forEach>
 				</div>
-				<hr class="main_bar" id="main_bar_bottom">
+				<hr class="main_bar" id="main_bar_bottom" style="margin-top:50px;">
 				<div id="main_last">
 					<span class="main_bottom_ment"><img src="../icon/lupinlogo.png" id="main_logo"></span>
 					<span class="main_bottom_ment">

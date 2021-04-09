@@ -22,12 +22,12 @@ public class NoticeDao {
 		this.conn = dbconn.getConnection();
 	}
 	
-	public int insertNotice(String ntitle, String ncontent, String ncategory) {
+	public int insertNotice(String ntitle, String ncontent, String ncategory, int midx) {
 		
 		int value = 0;
 		
-		String sql = "INSERT INTO NOTICE(NIDX, NTITLE, NCONTENT, MIDX, NREGDATE, NHIT, NIMAGE, NFILES, NPUB, NGOOD, NDELYN, NCATEGORY)" + 
-					 "VALUES(NIDX_SEQ.NEXTVAL, ?, ?, 1, SYSTIMESTAMP, 1, 'test', 'test', 'Y', 0, 'N', ?)";
+		String sql = "INSERT INTO NOTICE(NTITLE, NCONTENT, NCATEGORY, MIDX, NREGDATE, NDELYN)" + 
+					 "VALUES(?, ?, ?, ?, NOW(), 'N')";
 		
 		try {
 			
@@ -36,6 +36,7 @@ public class NoticeDao {
 			pstmt.setString(1, ntitle);
 			pstmt.setString(2, ncontent);
 			pstmt.setString(3, ncategory);
+			pstmt.setInt(4, midx);
 			
 			value = pstmt.executeUpdate();	
 			
@@ -93,7 +94,7 @@ public class NoticeDao {
 			
 			pstmt.setInt(1, nidx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			value = pstmt.executeUpdate();
 			
 		}catch(SQLException e) {
 			
@@ -113,7 +114,9 @@ public class NoticeDao {
 		
 		List<NoticeVo> list = new ArrayList<NoticeVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 		
@@ -134,15 +137,12 @@ public class NoticeDao {
 				nv.setNidx(rs.getInt("NIDX"));
 				nv.setNtitle(rs.getString("NTITLE"));
 				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
 				nv.setMidx(rs.getInt("MIDX"));
 				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
 				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
+				
+				System.out.println(nv);
 				
 				list.add(nv);
 				
@@ -185,15 +185,10 @@ public class NoticeDao {
 				nv.setNidx(rs.getInt("NIDX"));
 				nv.setNtitle(rs.getString("NTITLE"));
 				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
 				nv.setMidx(rs.getInt("MIDX"));
 				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
-				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
+				nv.setNdelyn(rs.getString("NDELYN"));			
 			}					
 			
 		} catch (SQLException e) {
@@ -214,7 +209,9 @@ public class NoticeDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
+		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
+		
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, N.* FROM NOTICE N,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A";
 		
 		try {
 		
@@ -249,7 +246,9 @@ public class NoticeDao {
 		NoticeVo nv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
 			
@@ -269,15 +268,10 @@ public class NoticeDao {
 				nv.setNidx(rs.getInt("NIDX"));
 				nv.setNtitle(rs.getString("NTITLE"));
 				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
 				nv.setMidx(rs.getInt("MIDX"));
 				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
 				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
 			}					
 			
 		} catch (SQLException e) {
@@ -299,7 +293,9 @@ public class NoticeDao {
 		NoticeVo nv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		
+		String sql = "SELECT A.* FROM(SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
 			
@@ -319,15 +315,10 @@ public class NoticeDao {
 				nv.setNidx(rs.getInt("NIDX"));
 				nv.setNtitle(rs.getString("NTITLE"));
 				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
 				nv.setMidx(rs.getInt("MIDX"));
 				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
 				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
 			}
 			
 		}catch(SQLException e) {
@@ -349,7 +340,9 @@ public class NoticeDao {
 		NoticeVo nv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
+		
+		String sql = "SELECT A.* FROM(SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
 			
@@ -369,15 +362,10 @@ public class NoticeDao {
 				nv.setNidx(rs.getInt("NIDX"));
 				nv.setNtitle(rs.getString("NTITLE"));
 				nv.setNcontent(rs.getString("NCONTENT"));
+				nv.setNcategory(rs.getString("NCATEGORY"));
 				nv.setMidx(rs.getInt("MIDX"));
 				nv.setNregdate(rs.getDate("NREGDATE"));
-				nv.setNhit(rs.getInt("NHIT"));
-				nv.setNimage(rs.getString("NIMAGE"));
-				nv.setNfiles(rs.getString("NFILES"));
-				nv.setNpub(rs.getString("NPUB"));
-				nv.setNgood(rs.getInt("NGOOD"));
-				nv.setNdelyn(rs.getString("NDELYN"));
-				nv.setNcategory(rs.getString("NCATEGORY"));
+				nv.setNdelyn(rs.getString("NDELYN"));			
 			}
 			
 		}catch(SQLException e) {
@@ -398,7 +386,9 @@ public class NoticeDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
+		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
+		
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, N.* FROM NOTICE N,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A";
 		
 		try {
 		

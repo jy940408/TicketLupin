@@ -26,9 +26,11 @@ public class NewsDao {
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
 		String sql = "SELECT * FROM "
-				+ "(SELECT ROWNUM NUM, W.* FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, W.* FROM "
 				+ "(SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WCATEGORY LIKE ? AND WDELYN = 'N' "
-				+ "ORDER BY " + order + " DESC) W) WHERE NUM BETWEEN ? AND ?";
+				+ "ORDER BY WREGDATE DESC) W WHERE (@ROWNUM:=0)=0) A "
+				+ "WHERE NUM BETWEEN ? AND ?";
+
 		
 		try {
 		
@@ -78,7 +80,12 @@ public class NewsDao {
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, W.* FROM (SELECT * FROM NEWS WHERE WCATEGORY LIKE '티켓오픈일' AND WDELYN = 'N' ORDER BY WOPENDATE DESC) W) WHERE NUM BETWEEN 1 AND 20";
+		String sql = "SELECT * FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, W.* FROM "
+				+ "(SELECT * FROM NEWS WHERE WCATEGORY LIKE '티켓오픈일' AND WDELYN = 'N' "
+				+ "ORDER BY WOPENDATE DESC) W WHERE (@ROWNUM:=0)=0) A "
+				+ "WHERE NUM BETWEEN 1 AND 20";
+
 		
 		try {
 		
@@ -107,11 +114,12 @@ public class NewsDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(*) COUNT FROM " 
-				+ "(SELECT ROWNUM NUM, W.* FROM " 
-				+ "(SELECT * FROM NEWS WHERE WTITLE LIKE ? "
-				+ "AND WCATEGORY LIKE ? AND WDELYN = 'N' " 
-				+ "ORDER BY " + order + " DESC) W)";
+		String sql = "SELECT COUNT(*) COUNT FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, W.* FROM "
+				+ "(SELECT * FROM NEWS WHERE WTITLE LIKE  ? "
+				+ "AND WCATEGORY LIKE ? AND WDELYN = 'N' "
+				+ "ORDER BY " + order + " DESC) W WHERE (@ROWNUM:=0)=0) A";
+
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
@@ -179,8 +187,12 @@ public class NewsDao {
 	public int insertNews(NewsVo nv) {
 		int result = 0;
 		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
-		String sql = "INSERT INTO NEWS VALUES(NEWS_SEQUENCE.NEXTVAL, ?, ?, ?, sysdate, 1, '123', '123', ?, 1, 'N', ?, ?, ?, ?, ?, ?)";
-		
+		String sql = "INSERT INTO NEWS(WTITLE, WBASICINFO, MIDX, WREGDATE, WHIT, WIMAGE, WFILES, "
+				+ "WPUB, WGOOD, WDELYN, WOPENDATE, WTITLEPOSTER, WINTRODUCE, "
+				+ "WDISCOUNT, WCOMPANY, WCATEGORY) "
+				+ "VALUES(?, ?, ?, NOW(), 1, ?, ?, 'Y', 0, 'N', ?, ?, ?, ?, ?, ?)";
+
+				
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -227,7 +239,10 @@ public class NewsDao {
 	public int modifyNews(NewsVo nv) {
 		int result = 0;
 		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
-		String sql = "UPDATE NEWS SET WTITLE = ?, WBASICINFO = ?, WTITLEPOSTER = ?, WPUB = ?, WOPENDATE = ?, WINTRODUCE = ?, WDISCOUNT = ?, WCOMPANY = ? WHERE WIDX = ?";
+		String sql = "UPDATE NEWS SET WTITLE = ?, WBASICINFO = ?, WTITLEPOSTER = ?, "
+				+ "WPUB = ?, WOPENDATE = ?, WINTRODUCE = ?, WDISCOUNT = ?, "
+						+ "WCOMPANY = ? WHERE WIDX = ?";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

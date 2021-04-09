@@ -21,8 +21,9 @@ public class ShowRoundDao {
 	
 	public ShowRoundVo insertShowRound(ShowRoundVo srv) {
 		ShowRoundVo result = null;
-		String sql = "INSERT INTO SHOWROUND(SIDX, SRIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4)"
-				+ "VALUES(?, SHOWROUND_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO SHOWROUND(SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4) "
+				+ "VALUES(?, ?, ?, ?, ?, ?)";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -47,7 +48,11 @@ public class ShowRoundDao {
 		
 		ArrayList<ShowRoundVo> result = new ArrayList<>();
 		
-		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 FROM SHOWROUND WHERE SIDX = ?";
+		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 "
+				+ "FROM SHOWROUND WHERE SIDX = ?";
+
+
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -82,7 +87,9 @@ public class ShowRoundDao {
 		
 		ShowRoundVo srv = null;
 		
-		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 FROM SHOWROUND WHERE SRDATE = '" + date + "' AND SIDX = ?";
+		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 "
+				+ "FROM SHOWROUND WHERE SRDATE = '" + date + "' AND SIDX = ?";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

@@ -31,9 +31,11 @@ public class MainController extends HttpServlet{
 			
 			String query = "";
 			String ssetting = "sopendate";
+			String ssetting2 = "sregdate";
 			String nsetting = "wregdate";
 			int page = 1;
 			String array = "ASC";
+			String array2 = "DESC";
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
 			Calendar start = Calendar.getInstance();
@@ -43,6 +45,7 @@ public class MainController extends HttpServlet{
 			
 			ShowDao sd = new ShowDao();
 			ArrayList<Show1Vo> showList = sd.getShowList(query, ssetting, array, page);
+			ArrayList<Show1Vo> showRecentList = sd.getShowList(query, ssetting2, array2, page);
 			ArrayList<ShowRankingVo> rankingList = sd.getShowRankingList(startdate);
 			
 			
@@ -50,6 +53,7 @@ public class MainController extends HttpServlet{
 			List<NewsVo> newsList = nd.getNewsList(query, nsetting, "", page);
 			
 			request.setAttribute("showList", showList);
+			request.setAttribute("showRecentList", showRecentList);
 			request.setAttribute("newsList", newsList);
 			request.setAttribute("rankingList", rankingList);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);

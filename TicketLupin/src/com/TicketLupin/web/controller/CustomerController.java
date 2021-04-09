@@ -83,10 +83,11 @@ public class CustomerController extends HttpServlet{
 			String ntitle = request.getParameter("ntitle");
 			String ncontent = request.getParameter("ncontent");
 			String ncategory = request.getParameter("ncategory");
+			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			NoticeDao nd = new NoticeDao();
 			
-			nd.insertNotice(ntitle, ncontent, ncategory);
+			nd.insertNotice(ntitle, ncontent, ncategory, midx);
 			
 			response.sendRedirect("../Customer/NoticeList.do");	
 			
@@ -219,10 +220,11 @@ public class CustomerController extends HttpServlet{
 			String ftitle = request.getParameter("ftitle");
 			String ftype = request.getParameter("ftype");
 			String fcontent = request.getParameter("fcontent");
+			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			FaqDao fd = new FaqDao();
 			
-			fd.insertFaq(ftitle, ftype, fcontent);
+			fd.insertFaq(ftitle, ftype, fcontent, midx);
 			
 			response.sendRedirect("../Customer/FaqList.do");
 			
@@ -497,9 +499,7 @@ public class CustomerController extends HttpServlet{
 			}
 			
 			QuestionDao qd = new QuestionDao();
-			
-			List<QuestionVo> list = qd.getQuestionList2(keyword, searchType, type, state, page);
-	
+			List<QuestionVo> list = qd.getQuestionList2(keyword, searchType, type, state, page);		
 			int count = qd.getQuestionListCount2(keyword, searchType, type, state, page);
 			
 			request.setAttribute("list", list);

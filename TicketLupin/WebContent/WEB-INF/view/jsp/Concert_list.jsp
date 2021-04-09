@@ -36,28 +36,25 @@
 						})
 					}
 					
-					alert("checkList22: " + checkList);
-					
+					pageNum = 1;
 					ajaxStart();
 				})
 				
 				$(".order").click(function(){
 					orderWord = $(this).data("order");
-					alert(orderWord);
 					
+					pageNum = 1;
 					ajaxStart();
 				})
+				
 				$(document).on("click",".pageSelect",function(){
 					pageNum = $(this).data("page");
-					alert("pageNum: " + pageNum);
 					
 					ajaxStart();
 				});
 				
 				
 				function ajaxStart(){
-					alert("checkList: " + checkList);
-					alert("orderWord: " + orderWord);
 					$.ajax({
 						
 						type:"get",
@@ -108,7 +105,12 @@
 									}
 									output += "		</div>";
 									output += "	</a></li>";
-								}else if(now > data[i].senddate){
+								}else if(now > data[i].senddate){	
+								}
+							}
+							
+							for(var i = 0 ; i < data.length ; i++){
+								if(now > data[i].senddate){
 									output += "	<li><a href='<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=" + data[i].sidx + "'>";
 									output += "		<div class='main_concert_musical_detail'>";
 									output += "			<img src='<%=request.getContextPath() %>/poster/" + data[i].stitleimage + "' class='main_concert_musical_detail_poster'>";
@@ -124,21 +126,26 @@
 									output += "			<div class='main_concert_musical_detail_sold'>";
 									output += "				<b style='color:grey;'>판매 종료</b>&nbsp;" + data[i].sticketingdate + "&nbsp;오픈";
 									output += "			</div>";
+								}else if(now <= data[i].senddate){
 								}
 							}
 							output += "</ul>";
 							
 							var page = 1;
 							
+							if(data.length != 0){
 								page = data[0].page;
-								alert("pageP 테스트: " + page);
+							}else{
+								page = 1;
+							}
 							
 							var startNum = (page-(page-1)%5);
-							var lastNum = Math.ceil(data[0].count/12);
-							alert("lastNum: " + lastNum);
-							alert("Math 테스트: " + Math.ceil(data[0].count/12));
-							alert("count 테스트: " + data[0].count);
-							alert("나누기 테스트: " + data[0].count/12);
+							var lastNum = 1;
+							if(data.length != 0){
+								lastNum = Math.ceil(data[0].count/12);
+							}else{
+								lastNum = 1;
+							}
 							
 							if(startNum > 1){
 								output2 += "<a data-page='" + (startNum-1) + "' class='pageSelect' style='cursor:pointer;'>";
@@ -387,6 +394,7 @@
 											</div>
 										</a></li>
 									</c:if>
+									<c:if test="${now > l.senddate}"></c:if>
 								</c:forEach>
 								<c:forEach var="l" items="${list}">
 									<c:if test="${now > l.senddate}">
@@ -408,6 +416,7 @@
 											</div>
 										</a></li>
 									</c:if>
+									<c:if test="${not(now > l.senddate)}"></c:if>
 								</c:forEach>
 							</ul>
 						</div>

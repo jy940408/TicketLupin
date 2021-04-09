@@ -130,16 +130,16 @@
 											<input type="text" name="showdate${i}" value="${dl}" readonly style="width:100px; border:none; font-weight:bold; font-size:18px; text-align:center;">
 										</th>
 										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_1" style="border:0px; font-size:15px; text-align:center;"></center>
+											<center><input type="time" id="date-${dl}_1" class="round" name="date_${i}_1" style="border:0px; font-size:15px; text-align:center;"></center>
 										</td>
 										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_2" style="border:0px; font-size:15px; text-align:center;"></center>
+											<center><input type="time" id="date-${dl}_2" class="round" name="date_${i}_2" style="border:0px; font-size:15px; text-align:center;"></center>
 										</td>
 										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_3" style="border:0px; font-size:15px; text-align:center;"></center>
+											<center><input type="time" id="date-${dl}_3" class="round" name="date_${i}_3" style="border:0px; font-size:15px; text-align:center;"></center>
 										</td>
 										<td style="border:1px solid;">
-											<center><input type="time" id="date-${dl}" class="round" name="date${i}_4" style="border:0px; font-size:15px; text-align:center;"></center>
+											<center><input type="time" id="date-${dl}_4" class="round" name="date_${i}_4" style="border:0px; font-size:15px; text-align:center;"></center>
 										</td>
 									</tr>
 							</c:forEach>

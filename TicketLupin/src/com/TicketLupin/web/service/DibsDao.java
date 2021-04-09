@@ -22,7 +22,7 @@ public class DibsDao {
 	
 	public int insertDibs(int sidx, int midx) {
 		int value = 0;
-		String sql = "INSERT INTO DIBS VALUES(DIBS_SEQUENCE.NEXTVAL, ?, ?)";
+		String sql = "INSERT INTO DIBS(SIDX, MIDX) VALUES(?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -90,7 +90,12 @@ public class DibsDao {
 	
 	public ArrayList<DibsListVo> getDibsList(int midx_, int page){
 		ArrayList<DibsListVo> list = new ArrayList<>();
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, D.* FROM (SELECT SHOW1.SIDX, SHOW1.STITLE, SHOW1.SOPENDATE, SHOW1.SENDDATE, DIBS.MIDX FROM SHOW1 INNER JOIN DIBS ON SHOW1.SIDX = DIBS.SIDX WHERE DIBS.MIDX = ?) D) WHERE NUM BETWEEN ? AND ? ORDER BY NUM DESC";
+		String sql = "SELECT * FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, D.* FROM "
+				+ "(SELECT SHOW1.SIDX, SHOW1.STITLE, SHOW1.SOPENDATE, SHOW1.SENDDATE, DIBS.MIDX FROM "
+				+ "SHOW1 INNER JOIN DIBS ON SHOW1.SIDX = DIBS.SIDX WHERE DIBS.MIDX = ?) D WHERE (@ROWNUM:=0)=0) A "
+				+ "WHERE NUM BETWEEN ? AND ? ORDER BY NUM DESC";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -128,8 +133,9 @@ public class DibsDao {
 		
 		String sql = "SELECT COUNT(*) COUNT FROM "
 				+ "(SELECT SHOW1.SIDX, SHOW1.STITLE, SHOW1.SOPENDATE, SHOW1.SENDDATE, DIBS.MIDX FROM "
-				+ "SHOW1 INNER JOIN DIBS ON SHOW1.SIDX = DIBS.SIDX "
-				+ "WHERE SHOW1.SDELYN = 'N' AND DIBS.MIDX = ?)";
+						+ "SHOW1 INNER JOIN DIBS ON SHOW1.SIDX = DIBS.SIDX "
+						+ "WHERE SHOW1.SDELYN = 'N' AND DIBS.MIDX = ?) A";
+
 		
 		try {
 		

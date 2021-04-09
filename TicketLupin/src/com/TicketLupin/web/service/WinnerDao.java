@@ -24,7 +24,11 @@ public class WinnerDao {
 		
 		List<WinnerVo> list = new ArrayList<WinnerVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' ORDER BY IREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, N.* FROM (SELECT * FROM "
+				+ "WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' "
+				+ "ORDER BY IREGDATE DESC) N WHERE (@ROWNUM:=0)=0) A "
+				+ "WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 		
@@ -68,7 +72,11 @@ public class WinnerDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(IIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM WINNER WHERE ITITLE LIKE ?  AND IDELYN = 'N' ORDER BY IREGDATE DESC) N)";
+		String sql = "SELECT COUNT(IIDX) COUNT FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, N.* FROM "
+				+ "(SELECT * FROM WINNER WHERE ITITLE LIKE ? AND IDELYN = 'N' AND (@ROWNUM:=0)=0 "
+				+ "ORDER BY IREGDATE DESC) N) A";
+
 		
 		try {
 		
@@ -131,8 +139,10 @@ public class WinnerDao {
 	
 	public int insertWinner(WinnerVo wv) {
 		int result = 0;
-		//ÀÎµ¦½º, Å¸ÀÌÆ², ³»¿ë, ÀÛ¼ºÀÚÀÎµ¦½º, ÀÛ¼ºÀÏ, Á¶È¸¼ö, ÀÌ¹ÌÁö Ã·ºÎ, ÆÄÀÏ Ã·ºÎ, °ø°³¿©ºÎ, ÁÁ¾Æ¿ä, »èÁ¦¿©ºÎ, ½ÃÀÛ ³¯Â¥, ³¡ ³¯Â¥
-		String sql = "INSERT INTO WINNER VALUES(WINNER_SEQUENCE.NEXTVAL, ?, ?, ?, SYSDATE, 1, ?, '123', ?, 1, 'N', ?, ?)";
+		//ï¿½Îµï¿½ï¿½ï¿½, Å¸ï¿½ï¿½Æ², ï¿½ï¿½ï¿½ï¿½, ï¿½Û¼ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½, ï¿½Û¼ï¿½ï¿½ï¿½, ï¿½ï¿½È¸ï¿½ï¿½, ï¿½Ì¹ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Æ¿ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥, ï¿½ï¿½ ï¿½ï¿½Â¥
+		String sql = "INSERT INTO WINNER (ITITLE, ICONTENT, MIDX, IREGDATE, IHIT, IIMAGE, IFILES, IPUB, IGOOD, IDELYN, IOPENDATE, IENDDATE) "
+				+ "VALUES (?, ?, ?, NOW(), 0, ?, ?, 'Y', 0, 'N', ?, ?)";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

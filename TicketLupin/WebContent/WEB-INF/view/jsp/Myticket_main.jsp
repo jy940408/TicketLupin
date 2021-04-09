@@ -8,6 +8,15 @@
 		<link rel="stylesheet" type"text/css" href="<%=request.getContextPath() %>/css/Myticket_main.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Myticket_main.js"></script>
+		<script>
+			function memberModify(){
+				
+				document.frm.action = "../Member/MemberModifyForm.do";
+				document.frm.method = "post";
+				document.frm.submit();
+				return;
+			}
+		</script>
 	</head>
 	<body>
 		<header>
@@ -16,14 +25,14 @@
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
 						<c:if test="${empty sessionScope.mid}">
 							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
@@ -57,6 +66,7 @@
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -64,22 +74,25 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMember.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:when>
 							<c:otherwise>
 								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+								<li><a onclick="loginAlert()">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>
@@ -97,60 +110,70 @@
 							<img src="../icon/person.png" id="main_myticket_picture" class="main_myticket_member_all">
 							<div id="main_myticket_id_set" class="main_myticket_member_all">
 								<div id="main_myticket_id">${mv.mname}</div><br>
-								<a href="#" class="main_myticket_button"><div class="main_myticekt_button_div">기본정보 관리</div></a>
-								<a href="#" class="main_myticket_button"><div class="main_myticekt_button_div">배송지 관리</div></a>
+								<form name="frm">
+									<a href="javascript:" onclick="memberModify();" class="main_myticket_button"><div class="main_myticekt_button_div">기본정보 관리</div></a>
+								</form>
 							</div>
 						</div>
 						<div id="main_myticket_amount" class="main_myticket_member_set">
-							<a href="#" id="main_myticket_amount_number1_set">
+							<a href="../Myticket/MyticketReservation.do" id="main_myticket_amount_number1_set">
 								<div>
-									<div class="main_myticket_amount_number">0</div><br>
+									<div class="main_myticket_amount_number">${count}</div><br>
 									<div>예매내역</div>
 								</div>
 							</a>
 						</div>
 					</div>
-					<div id="main_myticket_ticketing">
-						<a href="#" class="main_myticket_title_set">최근 예매/취소</a>
-						<a href="#" class="main_myticket_more_set">더보기 ></a>
-						<div id="main_myticket_ticketing_list">
-							<ul id="main_myticket_ticketing_list_ul">
-								<c:forEach var="l" items="${rlist}" begin="0" end="4" step="1">
-								<li>
-									<div class="main_myticket_ticketing_list_num">${l.num}</div>
-									<div class="main_myticket_ticketing_list_title"><a href="#">${l.stitle }</a></div>
-									<div class="main_myticket_ticketing_list_res">예매&nbsp;&nbsp;&nbsp;${l.srdate}</div>
-									<div class="main_myticket_ticketing_list_date">공연 날짜&nbsp;&nbsp;&nbsp;${l.rregdate }</div>
-								</li>
-								</c:forEach>
-							</ul>
-						</div>
+					<div id="main_myticket_ticketing" style="margin-bottom:50px;">
+						<a href="../Myticket/MyticketReservation.do" class="main_myticket_title_set">최근 예매/취소</a>
+						<a href="../Myticket/MyticketReservation.do" class="main_myticket_more_set">더보기 ></a>
+						<table class="tb1" style="width:100%; margin-top:20px;">
+							<colgroup>
+								<col width="80%">
+								<col width="20%">
+							</colgroup>
+							<tr>
+								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">공연 정보</th>
+								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">예매일</th>
+							</tr>
+							<c:forEach var="rlist" items="${rlist}" begin="0" end="4" step="1">
+								<tr>
+									<td style="border-bottom:1px solid #dbdbdb; padding:10px;">
+										<a href="#">&nbsp;&nbsp;&nbsp;${rlist.stitle}</a>
+									</td>
+									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${rlist.rregdate}</td>
+								</tr>
+							</c:forEach>
+						</table>
 					</div>
-					<div id="main_myticket_ticketing">
-						<a href="#" class="main_myticket_title_set">최근 1:1문의</a>
+					<div id="main_myticket_ticketing" style="margin-bottom:50px;">
+						<a href="../Customer/QuestionList.do" class="main_myticket_title_set">최근 1:1문의</a>
 						<a href="../Customer/QuestionList.do" class="main_myticket_more_set">더보기 ></a>
-						<div id="main_myticket_ticketing_list">
-							<ul id="main_myticket_ticketing_list_ul">
-								<c:forEach var="qlist" items="${qlist}" begin="0" end="4" step="1">
-								<li>
-									<div class="main_myticket_ticketing_list_num">${qlist.num}</div>
-									<c:choose>
-										<c:when test="${qlist.qstate == '대기'}">
-											<div class="main_myticket_ticketing_list_title">
-												<a href="../Customer/QuestionView.do?num=${qlist.num}&qidx=${qlist.qidx}&state=${qlist.qstate}">${qlist.qtitle}</a>
-											</div>
-										</c:when>
-										<c:otherwise>
-											<div class="main_myticket_ticketing_list_title_">
-												<a href="../Customer/QuestionView2.do?num=${qlist.num}&qidx=${qlist.qidx}&state=${qlist.qstate}">${qlist.qtitle}</a>
-											</div>										
-										</c:otherwise>
-									</c:choose>
-									<div class="main_myticket_ticketing_list_date">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${qlist.qregdate }</div>
-								</li>
-								</c:forEach>
-							</ul>
-						</div>
+						<table class="tb2" style="width:100%; margin-top:20px;">
+							<colgroup>
+								<col width="80%">
+								<col width="20%">
+							</colgroup>
+							<tr>
+								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">문의 정보</th>
+								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">작성일</th>
+							</tr>
+							<c:forEach var="qlist" items="${qlist}" begin="0" end="4" step="1">
+								<tr>
+									<td style="border-bottom:1px solid #dbdbdb; padding:10px;">
+										<c:choose>
+											<c:when test="${qlist.qstate == '대기'}">
+												<a href="../Customer/QuestionView.do?num=${qlist.num}&qidx=${qlist.qidx}&state=${qlist.qstate}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>
+											</c:when>
+											<c:otherwise>
+												<a href="../Customer/QuestionView2.do?num=${qlist.num}&qidx=${qlist.qidx}&state=${qlist.qstate}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>									
+											</c:otherwise>
+										</c:choose>
+									</td>
+									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${qlist.qregdate}</td>
+								</tr>
+							</c:forEach>
+						</table>		
 					</div>
 				</div>
 			</article>

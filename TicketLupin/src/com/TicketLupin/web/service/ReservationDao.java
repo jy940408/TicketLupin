@@ -22,11 +22,15 @@ public class ReservationDao {
 		this.conn = dbconn.getConnection();		
 	}
 	
-	//¿¹¸ÅÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	public int insertReservationIdx(ReservationIdxVo riv) {
 		int value = 0;
 		
-		String sql = "INSERT INTO RESERVATIONIDX VALUES(RESERVATIONIDX_SEQUENCE.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?, ?, ?, ?, ?, ?, 'N', '')";
+		String sql = "INSERT INTO RESERVATIONIDX(SIDX, MIDX, RIREGDATE, "
+				+ "SRDATE, SRROUND, RIBASIC, RIDISCOUNT, RIVAT, RIDELIVERY, "
+				+ "RIPAYMENT, RIDELYN) "
+				+ "VALUES(?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, 'N')";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -50,7 +54,7 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//³»°¡ ÇÑ ¿¹¸Å Áß °¡Àå ÃÖ±Ù ÀÎµ¦½º ºÒ·¯¿À±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int getReservaionRecentIdx(int sidx, int midx) {
 		
 		int riv = 0;
@@ -78,14 +82,17 @@ public class ReservationDao {
 		
 	}
 	
-	//¿¹¸Å ÁÂ¼®º°·Î ¿¹¸Å ³»¿ª Ãß°¡ÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½
 	public int insertReservation(ReservationVo rv) {
 		
 		int value = 0;
 		
-		String sql = "INSERT INTO RESERVATION(RIDX, SIDX, MIDX, RSEAT, RPRICE, RDISCOUNT, SRDATE, SRROUND, RREGDATE, RDELYN, "
-				+ "RPICK, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RQUOTA, RIIDX)"
-					+"VALUES(RESERVATION_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, SYSTIMESTAMP, 'N', ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO RESERVATION(SIDX, MIDX, RSEAT, " 
+				+ "RPRICE, RDISCOUNT, SRDATE, SRROUND, RREGDATE, RDELYN, "
+				+ "RPICK, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RQUOTA, RIIDX) "
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), 'N', "
+				+ "?, ?, ?, ?, ?, ?, ?, ?)";
+
 		
 		try {
 			
@@ -119,7 +126,14 @@ public class ReservationDao {
 	public ArrayList<ReservationShowVo> getReservationList(int idx, int page){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
-		String sql = "SELECT SHOW1.STITLE, MYLIST.* FROM (SELECT ROWNUM NUM, LISTNUM.* FROM (SELECT RESERVATION.* FROM RESERVATION WHERE MIDX = ? AND RDELYN = 'N' ORDER BY RREGDATE DESC) LISTNUM) MYLIST INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT SHOW1.STITLE, MYLIST.* FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, LISTNUM.* FROM "
+				+ "(SELECT RESERVATION.* FROM "
+				+ "RESERVATION WHERE MIDX = ? AND RDELYN = 'N' "
+				+ "ORDER BY RREGDATE DESC) LISTNUM WHERE (@ROWNUM:=0)=0) MYLIST "
+				+ "INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX "
+				+ "WHERE NUM BETWEEN ? AND ?";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -156,17 +170,18 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//¸¶ÀÌÆ¼ÄÏ ¿¹¸Å¸ñ·Ï ¸®½ºÆ® ºÒ·¯¿À±â
+	//ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<ReservationListVo> getReservationIdxList(int idx, int page){
 		ArrayList<ReservationListVo> list = new ArrayList<>();
 
 		String sql = "SELECT COMINFO.* FROM "
-				+ "(SELECT ROWNUM PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
-				+ "(SELECT ROWNUM NUM, RESERVATIONIDX.* FROM "
-				+ "RESERVATIONIDX WHERE MIDX = ? ORDER BY NUM DESC) MAININFO "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, RESERVATIONIDX.* FROM "
+				+ "RESERVATIONIDX WHERE MIDX = ? AND (@ROWNUM:=0)=0 ORDER BY NUM DESC) MAININFO "
 				+ "INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX "
-				+ "WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N') COMINFO "
+				+ "WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N' AND (@ROWNUM:=0)=0) COMINFO "
 				+ "WHERE COMINFO.PAGENUM BETWEEN ? AND ?";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -201,14 +216,15 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//¿¹¸Å µÈ ÁÂ¼® ¸®½ºÆ® ¸ñ·Ï ¸¸µé±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<ReservationShowVo> getReservationSeatList(int sidx, String srdate, String srround){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
-		String sql = "SELECT ROWNUM NUM, LISTNUM.RSEAT FROM "
-				+ "(SELECT RESERVATION.* FROM "
-				+ "RESERVATION WHERE SIDX = ? AND SRDATE = ? AND SRROUND = ? AND RDELYN = 'N' "
-				+ "ORDER BY RREGDATE DESC) LISTNUM";
+		String sql = "SELECT @ROWNUM:=@ROWNUM+1 NUM, LISTNUM.RSEAT FROM "
+					+ "(SELECT RESERVATION.* FROM "
+					+ "RESERVATION WHERE SIDX = ? AND SRDATE = ? AND SRROUND = ? AND RDELYN = 'N' AND (@ROWNUM:=0)=0 "
+					+ "ORDER BY RREGDATE DESC) LISTNUM";
+;
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -236,10 +252,14 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//¿¹¸Å °Ô½Ã±Û °³¼ö
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int getReservationCount(int idx) {
 		int count = 0;
-		String sql = "SELECT COUNT(*) CNT FROM SHOW1 INNER JOIN (SELECT * FROM RESERVATIONIDX WHERE MIDX = ? AND RIDELYN = 'N' ORDER BY RIREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW1.SIDX";
+		String sql = "SELECT COUNT(*) CNT FROM SHOW1 "
+						+ "INNER JOIN (SELECT * FROM "
+						+ "RESERVATIONIDX WHERE MIDX = ? AND RIDELYN = 'N' "
+						+ "ORDER BY RIREGDATE DESC) MYLIST "
+						+ "ON MYLIST.SIDX = SHOW1.SIDX";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -259,17 +279,18 @@ public class ReservationDao {
 		return count;
 	}
 	
-	//¸¶ÀÌÆ¼ÄÏ ¿¹¸Å Ãë¼Ò ¸ñ·Ï ¸®½ºÆ® ºÒ·¯¿À±â
+	//ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<ReservationListVo> getReservationIdxDelList(int idx, int page){
 		ArrayList<ReservationListVo> list = new ArrayList<>();
 
 		String sql = "SELECT COMINFO.* FROM "
-				+ "(SELECT ROWNUM PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
-				+ "(SELECT ROWNUM NUM, RESERVATIONIDX.* FROM "
-				+ "RESERVATIONIDX WHERE MIDX = ? ORDER BY NUM DESC) MAININFO "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, RESERVATIONIDX.* FROM "
+				+ "RESERVATIONIDX WHERE MIDX = ? AND (@ROWNUM:=0)=0 ORDER BY NUM DESC) MAININFO "
 				+ "INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX "
-				+ "WHERE MAININFO.RIDELYN = 'Y') COMINFO "
+				+ "WHERE MAININFO.RIDELYN = 'Y' AND (@ROWNUM:=0)=0) COMINFO "
 				+ "WHERE COMINFO.PAGENUM BETWEEN ? AND ?";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -304,10 +325,15 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//¿¹¸ÅÃë¼Ò °Ô½Ã±Û °³¼ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int getDelReservationCount(int idx) {
 		int count = 0;
-		String sql = "SELECT COUNT(*) CNT FROM SHOW1 INNER JOIN (SELECT * FROM RESERVATIONIDX WHERE MIDX = ? AND RIDELYN = 'Y' ORDER BY RIREGDATE DESC) MYLIST ON MYLIST.SIDX = SHOW1.SIDX";
+		String sql = "SELECT COUNT(*) CNT FROM "
+				+ "SHOW1 INNER JOIN "
+				+ "(SELECT * FROM RESERVATIONIDX WHERE MIDX = ? AND RIDELYN = 'Y' "
+				+ "ORDER BY RIREGDATE DESC) MYLIST "
+				+ "ON MYLIST.SIDX = SHOW1.SIDX";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -327,14 +353,15 @@ public class ReservationDao {
 		return count;
 	}
 	
-	//¿¹¸Å ³»¿ª ÀÚ¼¼È÷ º¸±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<ReservationShowVo> getReservationDetail(int midx, int riidx) {
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
-		String sql = "SELECT * FROM RESERVATIONIDX " + 
-				"INNER JOIN RESERVATION ON RESERVATIONIDX.RIIDX = RESERVATION.RIIDX " + 
-				"INNER JOIN SHOW1 ON RESERVATION.SIDX = SHOW1.SIDX " + 
-				"INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " + 
-				"WHERE RESERVATION.MIDX = ? AND RESERVATION.RIIDX = ?";
+		String sql = "SELECT * FROM RESERVATIONIDX "
+				+ "INNER JOIN RESERVATION ON RESERVATIONIDX.RIIDX = RESERVATION.RIIDX "
+				+ "INNER JOIN SHOW1 ON RESERVATION.SIDX = SHOW1.SIDX "
+				+ "INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX "
+				+ "WHERE RESERVATION.MIDX = ? AND RESERVATION.RIIDX = ?";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -385,11 +412,12 @@ public class ReservationDao {
 	}
 	
 	
-	//¿¹¸Å Ãë¼ÒÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	public int deleteReservationIDX(int riidx, int midx) {
 		int value = 0;
-		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = SYSTIMESTAMP WHERE RIIDX = ? AND MIDX = ?";
-		
+		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = NOW() "
+				+ "WHERE RIIDX = ? AND MIDX = ?";
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -424,17 +452,18 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//³¯Â¥°¡ ´Þ¶óÁø ÀÚ¸®º° ¿¹¸Å³»¿ª »èÁ¦
+	//ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int deleteUpdateReservation1(int sidx) {
 		int value = 0;
-		String sql = "MERGE INTO RESERVATION USING "
-				+ "(SELECT * FROM RESERVATION R INNER JOIN SHOW1 S "
-				+ "ON R.SIDX = S.SIDX "
-				+ "AND R.SIDX = ? "
-				+ "WHERE TO_DATE(R.SRDATE, 'YYYY-MM-DD') < S.SOPENDATE "
-				+ "OR TO_DATE(R.SRDATE, 'YYYY-MM-DD') > S.SENDDATE) "
-				+ "RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
-				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
+		String sql ="UPDATE RESERVATION, "
+						+ "(SELECT R.RIDX FROM RESERVATION R INNER JOIN SHOW1 S "
+						+ "ON R.SIDX = S.SIDX "
+						+ "AND R.SIDX = ? "
+						+ "WHERE STR_TO_DATE(R.SRDATE, '%Y-%m-%d') < STR_TO_DATE(S.SOPENDATE, '%Y-%m-%d') " 
+						+ "OR STR_TO_DATE(R.SRDATE, '%Y-%m-%d') > STR_TO_DATE(S.SENDDATE, '%Y-%m-%d')) SUM "
+						+ "SET RESERVATION.RDELYN = 'Y' "
+						+ "WHERE RESERVATION.RIDX = SUM.RIDX";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -450,17 +479,18 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//³¯Â¥°¡ ´Þ¶óÁø ¿¹¸Å³»¿ª ¹­À½ »èÁ¦
+	//ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int deleteUpdateReservationIDX1(int sidx) {
 		int value = 0;
-		String sql = "MERGE INTO RESERVATIONIDX USING "
-				+ "(SELECT * FROM RESERVATIONIDX R INNER JOIN SHOW1 S "
-				+ "ON R.SIDX = S.SIDX " 
-				+ "AND R.SIDX = ? " 
-				+ "WHERE TO_DATE(R.SRDATE, 'YYYY-MM-DD') < S.SOPENDATE " 
-				+ "OR TO_DATE(R.SRDATE, 'YYYY-MM-DD') > S.SENDDATE) "
-				+ "RTABLE ON(RESERVATIONIDX.RIIDX = RTABLE.RIIDX) "
-				+ "WHEN MATCHED THEN UPDATE SET RESERVATIONIDX.RIDELYN = 'Y', RESERVATIONIDX.RIDELDATE = SYSTIMESTAMP";
+		String sql = "UPDATE RESERVATIONIDX, "
+				+ "(SELECT R.RIIDX FROM RESERVATIONIDX R INNER JOIN SHOW1 S "
+						+ "ON R.SIDX = S.SIDX "
+						+ "AND R.SIDX = ? "
+						+ "WHERE STR_TO_DATE(R.SRDATE, '%Y-%m-%d') < STR_TO_DATE(S.SOPENDATE, '%Y-%m-%d') "
+						+ "OR STR_TO_DATE(R.SRDATE, '%Y-%m-%d') > STR_TO_DATE(S.SENDDATE, '%Y-%m-%d')) SUM "
+						+ "SET RESERVATIONIDX.RIDELYN = 'Y', RESERVATIONIDX.RIDELDATE = NOW() "
+						+ "WHERE RESERVATIONIDX.RIIDX = SUM.RIIDX";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -476,20 +506,21 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//È¸Â÷°¡ ´Þ¶óÁø ÀÚ¸®º° ¿¹¸Å³»¿ª »èÁ¦
+	//È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int deleteUpdateReservation2(int sidx) {
 		int value = 0;
-		String sql = "MERGE INTO RESERVATION USING "
-				+ "(SELECT * FROM RESERVATION R INNER JOIN SHOWROUND S "
-				+ "ON R.SIDX = S.SIDX "
-				+ "AND R.SIDX = ? "
-				+ "AND R.SRDATE = S.SRDATE "
-				+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
-				+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
-				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
-				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)) "
-				+ "RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
-				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
+		String sql = "UPDATE RESERVATION, "
+				+ "(SELECT R.RIDX FROM RESERVATION R INNER JOIN SHOWROUND S "
+						+ "ON R.SIDX = S.SIDX "
+						+ "AND R.SIDX = ? "
+						+ "AND R.SRDATE = S.SRDATE "
+						+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
+						+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
+						+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
+						+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)) SUM "
+						+ "SET RESERVATION.RDELYN = 'Y' "
+						+ "WHERE RESERVATION.RIDX = SUM.RIDX";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -505,22 +536,22 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//È¸Â÷°¡ ´Þ¶óÁø ¿¹¸Å³»¿ª ¹­À½ »èÁ¦
+	//È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int deleteUpdateReservationIDX2(int sidx) {
 		int value = 0;
-		String sql = "MERGE INTO RESERVATIONIDX USING "
-				+ "(SELECT * FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
-				+ "ON R.SIDX = S.SIDX "
-				+ "AND R.SIDX = ? "
-				+ "AND R.SRDATE = S.SRDATE "
-				+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
-				+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
-				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
-				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4)"
-				+ "WHERE R.RIDELYN = 'N') "
-				+ "RTABLE ON(RESERVATIONIDX.RIIDX = RTABLE.RIIDX) "
-				+ "WHEN MATCHED THEN UPDATE SET RESERVATIONIDX.RIDELYN = 'Y', RESERVATIONIDX.RIDELDATE = SYSTIMESTAMP";
-		
+		String sql = "UPDATE RESERVATIONIDX, "
+				+ "(SELECT R.RIIDX FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
+						+ "ON R.SIDX = S.SIDX "
+						+ "AND R.SIDX = ? "
+						+ "AND R.SRDATE = S.SRDATE "
+						+ "AND (S.SRROUND1 IS NULL OR NOT R.SRROUND = S.SRROUND1) "
+						+ "AND (S.SRROUND2 IS NULL OR NOT R.SRROUND = S.SRROUND2) "
+						+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
+						+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4) "
+						+ "WHERE R.RIDELYN = 'N') SUM "
+						+ "SET RESERVATIONIDX.RIDELYN = 'Y', RESERVATIONIDX.RIDELDATE = NOW() "
+						+ "WHERE RESERVATIONIDX.RIIDX = SUM.RIIDX";
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -543,11 +574,11 @@ public class ReservationDao {
 				+ "DELRES.RIPAYMENT, DELRES.RIDELDATE, DELRES.RNAME, DELRES.RTEL, DELRES.REMAIL, DELRES.RPAYMETHOD, "
 				+ "SHOW1.STITLE FROM "
 				+ "(SELECT ALLRES.RIIDX, ALLRES.SIDX, ALLRES.MIDX, ALLRES.SRDATE, ALLRES.SRROUND, ALLRES.RIBASIC, "
-				+ "ALLRES.RIDISCOUNT, ALLRES.RIVAT, ALLRES.RIPAYMENT, ALLRES.RIDELIVERY, ALLRES.RIDELDATE, RESGROUP.RNAME, RESGROUP.RTEL, " 
+				+ "ALLRES.RIDISCOUNT, ALLRES.RIVAT, ALLRES.RIPAYMENT, ALLRES.RIDELIVERY, ALLRES.RIDELDATE, RESGROUP.RNAME, RESGROUP.RTEL, "
 				+ "RESGROUP.REMAIL, RESGROUP.RPAYMETHOD FROM "
 				+ "(SELECT R.RIIDX, R.SIDX, R.MIDX, R.SRDATE, R.SRROUND, R.RIBASIC, R.RIDISCOUNT, R.RIVAT, R.RIDELIVERY, R.RIPAYMENT, RIDELDATE "
 				+ "FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
-				+ "ON R.SIDX = S.SIDX " 
+				+ "ON R.SIDX = S.SIDX "
 				+ "AND R.SIDX = ? "
 				+ "AND R.SRDATE = S.SRDATE "
 				+ "AND R.RIDELYN = 'Y' "
@@ -556,11 +587,12 @@ public class ReservationDao {
 				+ "AND (S.SRROUND3 IS NULL OR NOT R.SRROUND = S.SRROUND3) "
 				+ "AND (S.SRROUND4 IS NULL OR NOT R.SRROUND = S.SRROUND4) "
 				+ "WHERE R.RIDELDATE = (SELECT MAX(RIDELDATE) FROM RESERVATIONIDX)) ALLRES "
-				+ "INNER JOIN (SELECT SIDX, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RIIDX  "
+				+ "INNER JOIN (SELECT SIDX, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RIIDX "
 				+ "FROM RESERVATION "
 				+ "GROUP BY RIIDX, SIDX, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RIIDX) RESGROUP "
 				+ "ON ALLRES.RIIDX = RESGROUP.RIIDX) DELRES "
 				+ "INNER JOIN SHOW1 ON DELRES.SIDX = SHOW1.SIDX";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -602,10 +634,11 @@ public class ReservationDao {
 	
 	public int deleteCancelReservation(int sidx) {
 		int value = 0;
-		String sql = "MERGE INTO RESERVATION USING "
-				+ "(SELECT * FROM RESERVATION WHERE SIDX = ?) "
-				+ "RTABLE ON(RESERVATION.RIDX = RTABLE.RIDX) "
-				+ "WHEN MATCHED THEN UPDATE SET RESERVATION.RDELYN = 'Y'";
+		String sql = "UPDATE RESERVATION, "
+				+ "(SELECT * FROM RESERVATION WHERE SIDX = 1) SUM "
+				+ "SET RESERVATION.RDELYN = 'Y' "
+				+ "WHERE RESERVATION.RIDX = SUM.RIDX";
+
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

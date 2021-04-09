@@ -16,7 +16,6 @@ public class QuestionDao {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
-	
 	public QuestionDao(){
 		
 		DBconn dbconn = new DBconn();
@@ -27,8 +26,8 @@ public class QuestionDao {
 		
 		int value = 0;
 		
-		String sql = "INSERT INTO QUESTION(QIDX, QTITLE, QCONTENT, QTYPE, MIDX, QREGDATE, QHIT, QIMAGE, QFILES, QPUB, QDELYN, QSTATE)"
-					+"VALUES(QIDX_SEQ.NEXTVAL, ?, ?, ?, ?, SYSTIMESTAMP, 0, 'test', 'test', 'Y', 'N', '대기')";
+		String sql = "INSERT INTO QUESTION(QTITLE, QCONTENT, QTYPE, QSTATE, MIDX, QREGDATE, QDELYN)"
+					+"VALUES(?, ?, ?, '대기', ?, NOW(), 'N')";
 		
 		try {
 			
@@ -117,7 +116,9 @@ public class QuestionDao {
 		
 		List<QuestionVo> list = new ArrayList<QuestionVo>();
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 			
@@ -139,14 +140,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 				
 				list.add(qv);
 			}
@@ -169,7 +166,9 @@ public class QuestionDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B,(SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		
 		try {
 		
@@ -224,14 +223,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 			}
 			
 		}catch(SQLException e) {
@@ -248,19 +243,14 @@ public class QuestionDao {
 		return qv;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 	public QuestionVo getQuestionListOne(String state, int num, int midx) {
 		
 		QuestionVo qv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
 			
@@ -282,14 +272,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 			}					
 			
 		} catch (SQLException e) {
@@ -311,7 +297,9 @@ public class QuestionDao {
 		QuestionVo qv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
 			
@@ -333,14 +321,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
-				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
+				qv.setQdelyn(rs.getString("QDELYN"));			
 			}					
 			
 		} catch (SQLException e) {
@@ -362,7 +346,9 @@ public class QuestionDao {
 		QuestionVo qv = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
+		
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
 			
@@ -384,14 +370,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 			}					
 			
 		} catch (SQLException e) {
@@ -412,7 +394,9 @@ public class QuestionDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B,(SELECT @ROWNUM := 0) TMP WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		
 		try {
 		
@@ -448,22 +432,20 @@ public class QuestionDao {
 		
 		List<QuestionVo> list = new ArrayList<QuestionVo>();
 		String sql = "";
+
+		//문의 대기, 문의 완료를 먼저 정렬하고, 가장 먼저 문의한 순으로 정렬 
 		
-		if(searchType.equals("")) {
+		if(searchType.equals("제목")){
 			
-			sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE (QTITLE || MID || MNAME) LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
-			
-		}else if(searchType.equals("아이디")) {
-			
-			sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE QTITLE LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, '완료', '대기') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
 			
 		}else if(searchType.equals("성함")) {
 			
-			sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, '완료', '대기') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
 			
 		}else{
 			
-			sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE QTITLE LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
+			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, '완료', '대기') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
 		}
 		
 		try {
@@ -473,7 +455,7 @@ public class QuestionDao {
 			pstmt.setString(1, "%"+keyword+"%");
 			pstmt.setString(2, "%"+qtype+"%");
 			pstmt.setString(3, "%"+qstate+"%");
-			pstmt.setInt(4, 1+(page-1)*10);
+			pstmt.setInt(4, (page-1)*10);
 			pstmt.setInt(5, page*10);
 			
 			ResultSet rs = pstmt.executeQuery();
@@ -489,16 +471,12 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 				
-				list.add(qv);
+				list.add(qv);			
 			}
 			
 		}catch(SQLException e) {
@@ -522,19 +500,19 @@ public class QuestionDao {
 		
 		if(searchType.equals("")) {
 			
-			sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE (QTITLE || MID || MNAME) LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE (QTITLE || MID || MNAME) LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 			
 		}else if(searchType.equals("아이디")) {
 			
-			sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 			
 		}else if(searchType.equals("성함")) {
 			
-			sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 			
 		}else{
 			
-			sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE QTITLE LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE QTITLE LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		}
 		
 		try {
@@ -550,7 +528,6 @@ public class QuestionDao {
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
-							
 			}
 		
 		}catch (SQLException e) {
@@ -571,7 +548,7 @@ public class QuestionDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(QIDX) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		
 		try {
 		
@@ -625,14 +602,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 			}
 			
 		}catch(SQLException e) {
@@ -675,14 +648,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 			}
 			
 		}catch(SQLException e) {
@@ -725,14 +694,10 @@ public class QuestionDao {
 				qv.setQtitle(rs.getString("QTITLE"));
 				qv.setQcontent(rs.getString("QCONTENT"));
 				qv.setQtype(rs.getString("QTYPE"));
+				qv.setQstate(rs.getString("QSTATE"));
 				qv.setMidx(rs.getInt("MIDX"));
 				qv.setQregdate(rs.getDate("QREGDATE"));
-				qv.setQhit(rs.getInt("QHIT"));
-				qv.setQimage(rs.getString("QIMAGE"));
-				qv.setQfiles(rs.getString("QFILES"));
-				qv.setQpub(rs.getString("QPUB"));
 				qv.setQdelyn(rs.getString("QDELYN"));
-				qv.setQstate(rs.getString("QSTATE"));
 			}
 			
 		}catch(SQLException e) {

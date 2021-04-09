@@ -6,14 +6,14 @@ import java.sql.DriverManager;
 public class DBconn {
 
 	
-
+/*
 	Connection conn =null;
 	
    String coninfo ="jdbc:oracle:thin:@127.0.0.1:1521:xe";
    String idinfo ="TicketLupin";
    String pwdinfo ="1234";
    
- 
+
    public Connection getConnection() {
       try {
          Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -27,7 +27,7 @@ public class DBconn {
          }
          return conn;
    }
-
+*/
  
 
 	/*
@@ -52,8 +52,8 @@ public class DBconn {
 	   }
 	  */
 	   
-	
-/*
+
+
 	Connection conn = null;
 	String coninfo = "jdbc:mysql://jjezen.cafe24.com/ezen20211123_a";
 	String idinfo = "user_A";
@@ -71,5 +71,5 @@ public class DBconn {
 		}
 		return conn;
 	}
-*/
+
 }
