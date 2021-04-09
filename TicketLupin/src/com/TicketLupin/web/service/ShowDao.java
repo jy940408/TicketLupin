@@ -97,7 +97,11 @@ public class ShowDao {
 		
 		ArrayList<Show1Vo> list = new ArrayList<>();
 
-		String sql = "SELECT * FROM (SELECT ROWNUM NUM, S.* FROM (SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE STITLE LIKE ? AND SHOW1.SDELYN = 'N' ORDER BY " + setting +  " " + array + ") S) WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, S.* FROM "
+				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
+				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX "
+				+ "WHERE STITLE LIKE ? AND SHOW1.SDELYN = 'N' "
+				+ "ORDER BY " + setting +  " " + array + ") S) WHERE NUM BETWEEN ? AND ?";
 		
 		try {
 			
@@ -142,7 +146,7 @@ public class ShowDao {
 		
 	}
 	
-	public JSONArray getShowListAJAX(ArrayList genre, ArrayList place, ArrayList sold){
+	public JSONArray getShowListAJAX(ArrayList genre, ArrayList place, String setting, String array, int page, int count){
 		
 		JSONArray objList = new JSONArray();
 		
@@ -201,10 +205,12 @@ public class ShowDao {
 				+ "WHERE STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' "
 				+ genreSql
 				+ placeSql
-				+ "ORDER BY SREGDATE DESC) S)";
+				+ "ORDER BY " + setting + " " + array + ") S) WHERE NUM BETWEEN ? AND ?";
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 1+(page-1)*12);
+			pstmt.setInt(2, page*12);
 			ResultSet rs = pstmt.executeQuery();
 			
 			JSONObject obj = new JSONObject();
@@ -221,6 +227,8 @@ public class ShowDao {
 				obj_.put("sdetailaddress", rs.getString("SDETAILADDRESS"));
 				obj_.put("stitleimage", rs.getString("STITLEIMAGE"));
 				obj_.put("sticketingdate", transFormat.format(rs.getDate("STICKETINGDATE")));
+				obj_.put("count", count);
+				obj_.put("page", page);
 				objList.add(obj_);
 				
 				i++;
@@ -232,6 +240,89 @@ public class ShowDao {
 		}
 		System.out.println("리스트 테스트: " + objList);
 		return objList;
+		
+	}
+	
+	public int getShowListAJAXCount(ArrayList genre, ArrayList place, String setting, String array){
+		
+		int count = 0;
+		
+		String genreSql = null;
+		String placeSql = null;
+		String soldSql = null;
+		
+		if(genre.size() == 0) {
+			genreSql = "";
+		}else if(genre.size() == 1) {
+			genreSql = "AND (SGENRE LIKE '%" + genre.get(0) + "%') ";
+		}else{
+			for(int i = 0 ; i < genre.size() ; i++) {
+				if(i == 0) {
+					genreSql = "AND (SGENRE LIKE '%" + genre.get(i) + "%' ";
+				}else if(i == (genre.size()-1)) {
+					genreSql += "OR SGENRE LIKE '%" +  genre.get(i) +  "%') ";
+				}else{
+					genreSql += "OR SGENRE LIKE '%" +  genre.get(i) +  "%' ";
+				}
+			}
+		}
+		
+		if(place.size() == 0) {
+			placeSql = "";
+		}else if(place.size() == 1) {
+			if(genre.isEmpty()) {
+				placeSql = "AND (SROADADDRESS LIKE '%" + place.get(0) + "%') ";
+			}
+			if(!genre.isEmpty()) {
+				placeSql = "OR (SROADADDRESS LIKE '%" + place.get(0) + "%') ";
+			}
+		}else{
+			for(int i = 0 ; i < place.size() ; i++) {
+				if(i == 0) {
+					if(genre.isEmpty()) {
+						placeSql = "AND (SROADADDRESS LIKE '%" + place.get(i) + "%' ";
+					}
+					if(!genre.isEmpty()) {
+						placeSql = "OR (SROADADDRESS LIKE '%" + place.get(i) + "%' ";
+					}
+				}else if(i == (place.size()-1)) {
+					placeSql += "OR SROADADDRESS LIKE '%" +  place.get(i) +  "%') ";
+				}else{
+					placeSql += "OR SROADADDRESS LIKE '%" +  place.get(i) +  "%' ";
+				}
+			}
+		}
+		
+		System.out.println("place.size(): " + place.size());
+		System.out.println("sql 테스트: " + genreSql + placeSql);
+		
+		String sql = "SELECT COUNT(*) COUNT FROM (SELECT ROWNUM NUM, S.* FROM " 
+				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
+				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " 
+				+ "WHERE STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' "
+				+ genreSql
+				+ placeSql
+				+ "ORDER BY " + setting + " " + array + ") S)";
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			JSONObject obj = new JSONObject();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+			while (rs.next()) {
+				
+				count = rs.getInt("COUNT");
+				
+			}
+			
+		
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		System.out.println("리스트 카운트 테스트: " + count);
+		return count;
 		
 	}
 	

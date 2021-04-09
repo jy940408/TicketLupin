@@ -272,6 +272,9 @@
 			}
 			.main_concert_musical_detail_place{
 				font-size:13px;
+				width:180px;
+				overflow: hidden;
+				white-space:nowrap;
 			}
 			.main_concert_musical_detail_sold{
 				padding-top:8px;

@@ -14,9 +14,11 @@
 		<script src="${pageContext.request.contextPath}/js/Nav_all.js"></script>
 		<script>
 			var checkList = '';
+			var orderWord = '';
+			var pageNum = 1;
 			$(document).ready(function(){
-				$("input:checkbox[class='searchCheck']").on("change", function(){
-					if($("input:checkbox[class='searchCheck']:checked").length > 5){
+				$("input:checkbox[class ~='searchCheck']").on("change", function(){
+					if($("input:checkbox[class ~= 'searchCheck']:checked").length > 5){
 						alert("5개 이하의 태그만 선택할 수 있습니다");
 						$(this).prop("checked", false);
 						return;
@@ -24,21 +26,43 @@
 					
 					if($(this).is(":checked")){
 						checkList = "";
-						$("input:checkbox[class='searchCheck']:checked").each(function(){
+						$("input:checkbox[class ~= 'searchCheck']:checked").each(function(){
 							checkList += $(this).val() + "/";
 						})
 					}else{
 						checkList = "";
-						$("input:checkbox[class='searchCheck']:checked").each(function(){
+						$("input:checkbox[class ~= 'searchCheck']:checked").each(function(){
 							checkList += $(this).val() + "/";
 						})
 					}
 					
+					alert("checkList22: " + checkList);
+					
+					ajaxStart();
+				})
+				
+				$(".order").click(function(){
+					orderWord = $(this).data("order");
+					alert(orderWord);
+					
+					ajaxStart();
+				})
+				$(document).on("click",".pageSelect",function(){
+					pageNum = $(this).data("page");
+					alert("pageNum: " + pageNum);
+					
+					ajaxStart();
+				});
+				
+				
+				function ajaxStart(){
+					alert("checkList: " + checkList);
+					alert("orderWord: " + orderWord);
 					$.ajax({
 						
 						type:"get",
 						url:"${pageContext.request.contextPath}/Show/ShowListAJAX.do",
-						data:{"checkList": checkList},
+						data:{"checkList": checkList, "s": orderWord, "p": pageNum},
 						success:function(data){
 							var date = new Date();
 							var year = date.getFullYear();
@@ -56,6 +80,7 @@
 							var now =  year + '-' + month + '-' + date;
 							
 							var output = "";
+							var output2 = "";
 							
 							output += "<ul>";
 							for(var i = 0 ; i < data.length ; i++){
@@ -97,16 +122,81 @@
 									output += 				data[i].sdetailaddress;
 									output += "			</div>";
 									output += "			<div class='main_concert_musical_detail_sold'>";
-									output += "				<b style='color:red;'>판매 종료</b>&nbsp;" + data[i].sticketingdate + "&nbsp;오픈";
+									output += "				<b style='color:grey;'>판매 종료</b>&nbsp;" + data[i].sticketingdate + "&nbsp;오픈";
 									output += "			</div>";
 								}
 							}
-							
 							output += "</ul>";
+							
+							var page = 1;
+							
+								page = data[0].page;
+								alert("pageP 테스트: " + page);
+							
+							var startNum = (page-(page-1)%5);
+							var lastNum = Math.ceil(data[0].count/12);
+							alert("lastNum: " + lastNum);
+							alert("Math 테스트: " + Math.ceil(data[0].count/12));
+							alert("count 테스트: " + data[0].count);
+							alert("나누기 테스트: " + data[0].count/12);
+							
+							if(startNum > 1){
+								output2 += "<a data-page='" + (startNum-1) + "' class='pageSelect' style='cursor:pointer;'>";
+								output2 += "	<div class='main_news_page_button main_news_page_bn'>";
+								output2 += "		<div class='main_news_page_button_lg'>&lt;</div>";
+								output2 += "	</div>";
+								output2 += "</a>";
+							}else if(startNum <= 1){
+								output2 += "<a onclick='alert(\"이전 페이지가 없습니다.\")' style='cursor:pointer;'>";
+								output2 += "	<div class='main_news_page_button main_news_page_bn'>";
+								output2 += "		<div class='main_news_page_button_lg'>&lt;</div>";
+								output2 += "	</div>";
+								output2 += "</a>";
+							}
+							
+							output2 += "<div class='main_news_page_bn'>";
+							for(var i = 0 ; i < 5 ; i++){
+								var numColor = "";
+								if(page == (startNum + i)){
+									numColor = "red";
+								}else{
+									numColor = "";
+								}
+								var numWeight = "";
+								if(page == (startNum + i)){
+									numWeight = "bold";
+								}else{
+									numWeight = "";
+								}
+								if((startNum + i) <= lastNum ){
+									output2 += "	<div class='main_news_page_button_page'>";
+									output2 += "		<a style='cursor:pointer; color: " + numColor + "; font-weight:"+ numWeight + ";' data-page='" + (startNum + i) + "' class='pageSelect'>" + (startNum + i) + "</a>";
+									output2 += "	</div>";
+								}
+							}
+							output2 += "</div>"
+							
+							if((startNum + 4) < lastNum){
+								output2 += "<a data-page='" + (startNum + 5) + "' class='pageSelect' style='cursor:pointer;'>";
+								output2 += "	<div class='main_news_page_button main_news_page_bn'>";
+								output2 += "		<div class='main_news_page_button_lg'>&gt;</div>";
+								output2 += "	</div>";
+								output2 += "</a>";
+							}else if((startNum + 4) >= lastNum){
+								output2 += "<a onclick='alert(\"다음 페이지가 없습니다.\")' style='cursor:pointer;'>";
+								output2 += "	<div class='main_news_page_button main_news_page_bn'>";
+								output2 += "		<div class='main_news_page_button_lg'>&gt;</div>";
+								output2 += "	</div>";
+								output2 += "</a>";
+							}
+							
+							
 							$("#main_concert_musical_list").html(output);
+							$("#main_news_page_set").html(output2);
+							
 						}
 					});
-				})
+				}
 			});
 		
 		</script>
@@ -224,14 +314,14 @@
 							<ul>
 								<div class="checkBox">
 									<div>
-										<li><input type="checkbox" name="genre" value="genreall" class="searchCheck"><span id="genreall">전체</span></li>
-										<li><input type="checkbox" name="genre" value="original" class="searchCheck"><span id="original">오리지널/내한공연</span></li>
-										<li><input type="checkbox" name="genre" value="license" class="searchCheck"><span id="license">라이선스</span></li>
+										<li><input type="checkbox" name="genre" value="genreall" class="searchCheck ajaxClick"><span id="genreall">전체</span></li>
+										<li><input type="checkbox" name="genre" value="original" class="searchCheck ajaxClick"><span id="original">오리지널/내한공연</span></li>
+										<li><input type="checkbox" name="genre" value="license" class="searchCheck ajaxClick"><span id="license">라이선스</span></li>
 									</div>
 									<div class="checkRight">
-										<li><input type="checkbox" name="genre" value="creation" class="searchCheck"><span id="creation">창작뮤지컬</span></li>
-										<li><input type="checkbox" name="genre" value="nonverbal" class="searchCheck"><span id="nonverbal">넌버벌 퍼포먼스</span></li>
-										<li><input type="checkbox" name="genre" value="package" class="searchCheck"><span id="package">패키지공연</span></li>
+										<li><input type="checkbox" name="genre" value="creation" class="searchCheck ajaxClick"><span id="creation">창작뮤지컬</span></li>
+										<li><input type="checkbox" name="genre" value="nonverbal" class="searchCheck ajaxClick"><span id="nonverbal">넌버벌 퍼포먼스</span></li>
+										<li><input type="checkbox" name="genre" value="package" class="searchCheck ajaxClick"><span id="package">패키지공연</span></li>
 									</div>
 								</div>
 							</ul>
@@ -243,14 +333,14 @@
 							<ul>
 								<div class="checkBox">
 									<div>
-										<li><input type="checkbox" name="place" value="placeall" class="searchCheck"><span id="placeall">전체</span></li>
-										<li><input type="checkbox" name="place" value="seoul" class="searchCheck"><span id="seoul">서울</span></li>
-										<li><input type="checkbox" name="place" value="incheon" class="searchCheck"><span id="incheon">경기/인천</span></li>
+										<li><input type="checkbox" name="place" value="placeall" class="searchCheck ajaxClick"><span id="placeall">전체</span></li>
+										<li><input type="checkbox" name="place" value="seoul" class="searchCheck ajaxClick"><span id="seoul">서울</span></li>
+										<li><input type="checkbox" name="place" value="incheon" class="searchCheck ajaxClick"><span id="incheon">경기/인천</span></li>
 									</div>
 									<div class="checkRight">
-										<li><input type="checkbox" name="place" value="daejeon" class="searchCheck"><span id="daejeon">대전/충청/강원</span></li>
-										<li><input type="checkbox" name="place" value="busan" class="searchCheck"><span id="busan">부산/대구/경상</span></li>
-										<li><input type="checkbox" name="place" value="gwangju" class="searchCheck"><span id="gwangju">광주/전라/제주</span></li>
+										<li><input type="checkbox" name="place" value="daejeon" class="searchCheck ajaxClick"><span id="daejeon">대전/충청/강원</span></li>
+										<li><input type="checkbox" name="place" value="busan" class="searchCheck ajaxClick"><span id="busan">부산/대구/경상</span></li>
+										<li><input type="checkbox" name="place" value="gwangju" class="searchCheck ajaxClick"><span id="gwangju">광주/전라/제주</span></li>
 									</div>
 								</div>
 							</ul>
@@ -261,8 +351,8 @@
 					</div>
 					<div id="main_concert_musical_list_all">
 						<div id="main_concert_musical_list_order">
-							<a href="?q=&s=sopendate&p="><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-							<a href="?q=&s=sregdate&p="><div>최신순</div></a>
+							<a data-order="sopendate" class="order ajaxClick" style="cursor:pointer;"><div>공연임박순</div></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a data-order="sregdate" class="order ajaxClick" style="cursor:pointer;"><div>최신순</div></a>
 						</div>
 <!------------------------------------------------------------------------------------------------------------------------>
 					<c:set var="now_" value="<%=new java.util.Date()%>" />
@@ -336,14 +426,14 @@
 						<div id="main_news_page_set">
 <!--------------------------------------------------------------------------------------------------------------------->					
 							<c:if test="${startNum>1}">
-								<a href="?p=${startNum-1}&s=&q=">
+								<a data-page="${startNum-1}" class="pageSelect" style="cursor:pointer;">
 									<div class="main_news_page_button main_news_page_bn">
 										<div class="main_news_page_button_lg">&lt;</div>
 									</div>
 								</a>
 							</c:if>
 							<c:if test="${startNum<=1}">
-								<a href="#" onclick="alert('이전 페이지가 없습니다.');">
+								<a onclick="alert('이전 페이지가 없습니다.');" style="cursor:pointer;">
 									<div class="main_news_page_button main_news_page_bn">
 										<div class="main_news_page_button_lg">&lt;</div>
 									</div>
@@ -355,28 +445,27 @@
 								<c:forEach var="i" begin="0" end="4">
 									<c:if test="${(startNum+i) <= lastNum}">
 										<div class="main_news_page_button_page">
-											<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&s=${param.s}&q=${param.q}" >${startNum+i}</a>
+											<a style="cursor:pointer; color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" class="pageSelect" data-page="${startNum+i}" >${startNum+i}</a>
 										</div>
 									</c:if>
 								</c:forEach>
 							</div>
 <!--------------------------------------------------------------------------------------------------------------------->
 							<c:if test="${startNum+4<lastNum}">
-								<a href="?p=${startNum+5}&s=&q=">
+								<a data-page="${startNum+5}" class="pageSelect" style="cursor:pointer;">
 									<div class="main_news_page_button main_news_page_bn">
 										<div class="main_news_page_button_lg">&gt;</div>
 									</div>
 								</a>
 							</c:if>
 							<c:if test="${startNum+4>=lastNum}">
-								<a href="#" onclick="alert('다음 페이지가 없습니다.');">
+								<a onclick="alert('다음 페이지가 없습니다.');" style="cursor:pointer;">
 									<div class="main_news_page_button main_news_page_bn">
 										<div class="main_news_page_button_lg">&gt;</div>
 									</div>
 								</a>
 							</c:if>
 <!--------------------------------------------------------------------------------------------------------------------->
-
 						</div>
 					</div>
 			</article>

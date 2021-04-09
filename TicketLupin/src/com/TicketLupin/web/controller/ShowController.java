@@ -200,8 +200,8 @@ public class ShowController extends HttpServlet{
 			}
 			
 			ShowDao sd = new ShowDao();
-			int count = sd.getShowListCount(query, setting);
-			JSONArray list = sd.getShowListAJAX(genre, place, sold);
+			int count = sd.getShowListAJAXCount(genre, place, setting, array);
+			JSONArray list = sd.getShowListAJAX(genre, place, setting, array, page, count);
 			System.out.println("setting: " + setting);
 			System.out.println("array: " + array);
 			
