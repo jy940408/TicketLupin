@@ -28,8 +28,8 @@ public class EventDao {
 		int value = 0;
 		 
 		
-		String sql ="insert into event(eidx, etitle, econtent, midx, efiles, estart, eend, ethumbnail, ecategory)" + 
-				"values(eidx_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql ="insert into event(etitle, econtent, midx, efiles, estart, eend, ethumbnail, ecategory)" + 
+				"values(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -65,15 +65,14 @@ public class EventDao {
 		
 		ArrayList<EventVo> alist = new ArrayList<EventVo>();
 		
-		String sql =  "select B.* from (select rownum as rnum, A.* from  "
-				+ "(select * from event where edelyn='N' and ecategory='list' and etitle like ?" 
-				+ "order by eidx desc) A where rownum <= ?)B where B.rnum >= ?";
+		String sql =  "select * from event where edelyn='N' and ecategory='list' and etitle like ? " 
+				+ "order by eidx desc LIMIT ?, ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%"+scri.getKeyword()+"%");
-			pstmt.setInt(2, scri.getPage()*9);
-			pstmt.setInt(3, (scri.getPage()-1)*9+1);
+			pstmt.setInt(2, (scri.getPage()-1)*0);
+			pstmt.setInt(3, scri.getPage()*9);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

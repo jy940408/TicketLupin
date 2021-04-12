@@ -55,23 +55,27 @@ import com.TicketLupin.web.DBconn.DBconn;
 	
 	
 	
-	
-	public ArrayList<MemberVo> getUserBuyList(int sidx){
+//�������� -> �� ���� ������ ȸ������Ʈ	
+	public ArrayList<MemberVo> getUserBuyList(int sidx, int page){
 		
 		ArrayList<MemberVo> list = new ArrayList<MemberVo>();
 		
-		String sql = "select reservationidx.riidx, member.mname, member.mid, reservationidx.sidx, member.midx from member inner join reservationidx "
-				+ "on member.midx=reservationidx.midx where reservationidx.ridelyn = 'N' AND sidx=?";
+		String sql = "select * from (select @rownum:=@rownum+1 num, A.* from "
+				+ "(select reservation.ridx, member.mname, member.mid, reservation.sidx, member.midx from member inner join reservation "
+				+ "on member.midx=reservation.midx, (SELECT @ROWNUM:=0) TMP where reservation.rdelyn = 'N' AND reservation.sidx=? order by midx desc) "
+				+ "A ) B LIMIT ?, ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidx);
+			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(3, page*10);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				MemberVo mv = new MemberVo();
 				
-				mv.setRidx(rs.getInt("riidx"));
+				mv.setRidx(rs.getInt("ridx"));
 				mv.setMname(rs.getString("mname"));
 				mv.setMid(rs.getString("mid"));
 				mv.setSidx(rs.getInt("sidx"));
@@ -82,30 +86,55 @@ import com.TicketLupin.web.DBconn.DBconn;
 		}catch (SQLException e) {			
 			e.printStackTrace();
 			
-		}finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	
 		return list;
 	}
 	
-	public ArrayList<ReservationVo> UserReservationList(int midx){
+//�������� -> �� ���� ���� ȸ�� ��
+	public int getBuyListCount(int sidx){
+		
+		int count = 0;
+		
+		String sql = "select count(*) count from "
+				+ "(select reservation.ridx, member.mname, member.mid, "
+				+ "reservation.sidx, member.midx from member inner join reservation "
+				+ "on member.midx=reservation.midx where reservation.sidx=? and reservation.rdelyn='N') count";
+		
+		try {
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				
+				count = rs.getInt("count");
+							
+			}
+		
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return count;
+	}
+		
+	
+	public ArrayList<ReservationVo> UserReservationList(int midx, int page){
 		
 		ArrayList<ReservationVo> alist = new ArrayList<>();
 		
-		String sql = "SELECT R.RIDX, R.SRDATE, R.RREGDATE, S.STITLE, R.RSEAT, R.RPRICE " 
-				+ "FROM RESERVATION R INNER JOIN SHOW1 S ON R.SIDX=S.SIDX WHERE R.MIDX=?";
+		String sql = "SELECT * FROM(SELECT @ROWNUM:=@ROWNUM+1 NUM, a.* FROM (SELECT R.RIDX, R.SRDATE, R.RREGDATE, S.STITLE, R.RSEAT, R.RPRICE " + 
+				" FROM RESERVATION R INNER JOIN SHOW1 S ON R.SIDX=S.SIDX, (SELECT @ROWNUM:=0) TMP WHERE R.MIDX=? ORDER BY R.RIDX DESC) A ) B LIMIT ?, ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
+			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(3, page*10);
 			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -138,15 +167,47 @@ import com.TicketLupin.web.DBconn.DBconn;
 		return alist;
 	}
 	
-	public ArrayList<FaqVo> UserQnaList(int midx){
+	public int getUserBuyListCount(int midx){
+		
+		int count = 0;
+		
+		String sql = "select count(*) count from "
+				+ "(select r.ridx, r.srdate, r.rregdate, s.stitle, r.rseat, r.rprice "
+				+ "from reservation r inner join show1 s on r.sidx=s.sidx where r.midx=?) count";
+		
+		try {
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, midx);
+			
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				
+				count = rs.getInt("count");
+							
+			}
+		
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
+	public ArrayList<FaqVo> UserQnaList(int midx, int page){
 		
 		ArrayList<FaqVo> alist = new ArrayList<FaqVo>();
 		
-		String sql = "SELECT FIDX, FTYPE, FTITLE FROM FAQ WHERE MIDX=?";
+		String sql = "select * from (select @rownum:=@rownum+1 num, A.* from (SELECT FIDX, FTYPE, FTITLE FROM FAQ, "
+				+ "(SELECT @ROWNUM:=0) TMP WHERE MIDX=?) A ) B LIMIT ?, ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
+			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(3, page*10);
 			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -174,23 +235,28 @@ import com.TicketLupin.web.DBconn.DBconn;
 		return alist;
 	}
 	
-	public ArrayList<C_commentVo> UserCommentList(int midx){
+	public ArrayList<CommentAVo> UserCommentList(int midx, int page){
 		
-		ArrayList<C_commentVo> alist = new ArrayList<C_commentVo>();
+		ArrayList<CommentAVo> alist = new ArrayList<CommentAVo>();
 		
-		String sql = "SELECT CIDX, CCCATEGORY, CCCONTENT, CCREGDATE FROM C_COMMENT WHERE MIDX=?";
+		String sql = "select * from(select @rownum:=@rownum+1 num, A.* from "
+				+ "(SELECT C_IDX, C_SORT, C_CONTENT, C_REGDATE, midx FROM C_COMMENT, (SELECT @ROWNUM:=0) TMP WHERE MIDX=? and C_DELYN = 'N'  order by c_idx desc) "
+				+ "A) B LIMIT ?, ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
+			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(3, page*10);
 			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-				C_commentVo cv = new C_commentVo();
-				cv.setCidx(rs.getInt("cidx"));
-				cv.setCccategory(rs.getString("cccategory"));
-				cv.setCccontent(rs.getString("cccontent"));
-				cv.setCcregdate(rs.getDate("ccregdate"));
+				CommentAVo cv = new CommentAVo();
+				cv.setC_idx(rs.getInt("c_idx"));
+				cv.setC_sort(rs.getString("c_sort"));
+				cv.setC_content(rs.getString("c_content"));
+				cv.setC_regdate(rs.getDate("c_regdate"));
+				cv.setMidx(rs.getInt("midx"));
 				
 				alist.add(cv);
 			}
@@ -230,4 +296,40 @@ import com.TicketLupin.web.DBconn.DBconn;
 		return value;
 	}
 	
+	public int UserCommentDelete(int midx, int c_idx) {
+		
+		int result = 0;
+		
+		String sql ="update c_comment set C_DELYN = 'Y' where midx = ? and c_idx = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, midx);
+			pstmt.setInt(2, c_idx);
+			ResultSet rs = pstmt.executeQuery();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int UserBuyDelete(int ridx) {
+		
+		int result = 0;
+		
+		String sql ="update reservation set rdelyn = 'Y' where ridx = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, ridx);
+			ResultSet rs = pstmt.executeQuery();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

@@ -22,14 +22,14 @@ public class ReservationDao {
 		this.conn = dbconn.getConnection();		
 	}
 	
-	//�����ϱ�
+	//예매하기
 	public int insertReservationIdx(ReservationIdxVo riv) {
 		int value = 0;
 		
 		String sql = "INSERT INTO RESERVATIONIDX(SIDX, MIDX, RIREGDATE, "
 				+ "SRDATE, SRROUND, RIBASIC, RIDISCOUNT, RIVAT, RIDELIVERY, "
-				+ "RIPAYMENT, RIDELYN) "
-				+ "VALUES(?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, 'N')";
+				+ "RIPAYMENT, RIDELYN, RIDELDATE) "
+				+ "VALUES(?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, 'N', NOW())";
 
 		
 		try {
@@ -46,6 +46,7 @@ public class ReservationDao {
 			pstmt.setInt(9, riv.getRipayment());
 			
 			value = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +55,7 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//���� �� ���� �� ���� �ֱ� �ε��� �ҷ�����
+	//내가 한 예매 중 가장 최근 인덱스 불러오기
 	public int getReservaionRecentIdx(int sidx, int midx) {
 		
 		int riv = 0;
@@ -82,7 +83,7 @@ public class ReservationDao {
 		
 	}
 	
-	//���� �¼����� ���� ���� �߰��ϱ�
+	//예매 좌석별로 예매 내역 추가하기
 	public int insertReservation(ReservationVo rv) {
 		
 		int value = 0;
@@ -127,19 +128,18 @@ public class ReservationDao {
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
 		String sql = "SELECT SHOW1.STITLE, MYLIST.* FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, LISTNUM.* FROM "
+				+ "(SELECT LISTNUM.* FROM "
 				+ "(SELECT RESERVATION.* FROM "
 				+ "RESERVATION WHERE MIDX = ? AND RDELYN = 'N' "
-				+ "ORDER BY RREGDATE DESC) LISTNUM WHERE (@ROWNUM:=0)=0) MYLIST "
+				+ "ORDER BY RREGDATE DESC) LISTNUM) MYLIST "
 				+ "INNER JOIN SHOW1 ON MYLIST.SIDX = SHOW1.SIDX "
-				+ "WHERE NUM BETWEEN ? AND ?";
+				+ "LIMIT ?, 15";
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
-			pstmt.setInt(2, 1+(page-1)*15);
-			pstmt.setInt(3, page*15);
+			pstmt.setInt(2, 15*(page-1));
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -156,7 +156,6 @@ public class ReservationDao {
 				rsv.setSrdate(rs.getString("SRDATE"));
 				rsv.setSrround(rs.getString("SRROUND"));
 				rsv.setRregdate(rs.getDate("RREGDATE"));
-				rsv.setNum(rs.getInt("NUM"));
 				
 				list.add(rsv);
 				
@@ -170,24 +169,25 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//����Ƽ�� ���Ÿ�� ����Ʈ �ҷ�����
+	//마이티켓 예매목록 리스트 불러오기
 	public ArrayList<ReservationListVo> getReservationIdxList(int idx, int page){
 		ArrayList<ReservationListVo> list = new ArrayList<>();
 
-		String sql = "SELECT COMINFO.* FROM " + 
+		String sql = "SELECT * FROM " + 
+				"(SELECT COMINFO.*, @ROWNUM:=@ROWNUM+1 NUM FROM " + 
 				"(SELECT MAININFO.*, SHOW1.STITLE FROM " + 
 				"(SELECT RESERVATIONIDX.* FROM " + 
-				"RESERVATIONIDX WHERE MIDX = ? ORDER BY RIREGDATE DESC) MAININFO " + 
+				"RESERVATIONIDX WHERE MIDX = ?) MAININFO " + 
 				"INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX " + 
-				"WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N') COMINFO " + 
-				"LIMIT 0, 10";
+				"WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N') COMINFO, " + 
+				"(SELECT @ROWNUM:=0) TMP ORDER BY RIIDX ASC) NUMINFO " + 
+				"ORDER BY NUM DESC LIMIT ?, 15";
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
-//			pstmt.setInt(2, 1+(page-1)*15);
-//			pstmt.setInt(3, page*15);
+			pstmt.setInt(2, 15*(page-1));
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -201,7 +201,13 @@ public class ReservationDao {
 				rlv.setSrdate(rs.getString("SRDATE"));
 				rlv.setSrround(rs.getString("SRROUND"));
 				rlv.setRiregdate(rs.getDate("RIREGDATE"));
+				rlv.setNum(rs.getInt("NUM"));
 				
+				if(!rs.getDate("RIDELDATE").equals("0000-00-00 00:00:00")) {
+					rlv.setRideldate(rs.getDate("RIDELDATE"));
+				}else {
+					rlv.setRideldate(null);
+				}
 				list.add(rlv);
 				
 			}
@@ -214,7 +220,7 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//���� �� �¼� ����Ʈ ��� �����
+	//예매 된 좌석 리스트 목록 만들기
 	public ArrayList<ReservationShowVo> getReservationSeatList(int sidx, String srdate, String srround){
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 
@@ -222,7 +228,6 @@ public class ReservationDao {
 					+ "(SELECT RESERVATION.* FROM "
 					+ "RESERVATION WHERE SIDX = ? AND SRDATE = ? AND SRROUND = ? AND RDELYN = 'N' AND (@ROWNUM:=0)=0 "
 					+ "ORDER BY RREGDATE DESC) LISTNUM";
-;
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -250,7 +255,7 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//���� �Խñ� ����
+	//예매 게시글 수
 	public int getReservationCount(int idx) {
 		int count = 0;
 		String sql = "SELECT COUNT(*) CNT FROM SHOW1 "
@@ -277,24 +282,25 @@ public class ReservationDao {
 		return count;
 	}
 	
-	//����Ƽ�� ���� ��� ��� ����Ʈ �ҷ�����
+	//마이티켓 예매 취소 목록 리스트 불러오기
 	public ArrayList<ReservationListVo> getReservationIdxDelList(int idx, int page){
 		ArrayList<ReservationListVo> list = new ArrayList<>();
 
-		String sql = "SELECT COMINFO.* FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, RESERVATIONIDX.* FROM "
-				+ "RESERVATIONIDX WHERE MIDX = ? AND (@ROWNUM:=0)=0 ORDER BY NUM DESC) MAININFO "
-				+ "INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX "
-				+ "WHERE MAININFO.RIDELYN = 'Y' AND (@ROWNUM:=0)=0) COMINFO "
-				+ "WHERE COMINFO.PAGENUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM " + 
+				"(SELECT COMINFO.*, @ROWNUM:=@ROWNUM+1 NUM FROM " + 
+				"(SELECT MAININFO.*, SHOW1.STITLE FROM " + 
+				"(SELECT RESERVATIONIDX.* FROM " + 
+				"RESERVATIONIDX WHERE MIDX = ?) MAININFO " + 
+				"INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX " + 
+				"WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'Y') COMINFO, " + 
+				"(SELECT @ROWNUM:=0) TMP ORDER BY RIIDX ASC) NUMINFO " + 
+				"ORDER BY NUM DESC LIMIT ?, 15";
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
-			pstmt.setInt(2, 1+(page-1)*15);
-			pstmt.setInt(3, page*15);
+			pstmt.setInt(2, 15*(page-1));
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -308,7 +314,6 @@ public class ReservationDao {
 				rlv.setSrdate(rs.getString("SRDATE"));
 				rlv.setSrround(rs.getString("SRROUND"));
 				rlv.setRiregdate(rs.getDate("RIREGDATE"));
-				rlv.setPagenum(rs.getInt("PAGENUM"));
 				rlv.setNum(rs.getInt("NUM"));
 				
 				list.add(rlv);
@@ -323,7 +328,7 @@ public class ReservationDao {
 		return list;
 	}
 	
-	//������� �Խñ� ����
+	//예매취소 게시글 개수
 	public int getDelReservationCount(int idx) {
 		int count = 0;
 		String sql = "SELECT COUNT(*) CNT FROM "
@@ -351,7 +356,7 @@ public class ReservationDao {
 		return count;
 	}
 	
-	//���� ���� �ڼ��� ����
+	//예매 내역 자세히 보기
 	public ArrayList<ReservationShowVo> getReservationDetail(int midx, int riidx) {
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 		String sql = "SELECT * FROM RESERVATIONIDX "
@@ -410,7 +415,7 @@ public class ReservationDao {
 	}
 	
 	
-	//���� ����ϱ�
+	//예매 취소하기
 	public int deleteReservationIDX(int riidx, int midx) {
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = NOW() "
@@ -450,7 +455,7 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//��¥�� �޶��� �ڸ��� ���ų��� ����
+	//날짜가 달라진 자리별 예매내역 삭제
 	public int deleteUpdateReservation1(int sidx) {
 		int value = 0;
 		String sql ="UPDATE RESERVATION, "
@@ -477,7 +482,7 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//��¥�� �޶��� ���ų��� ���� ����
+	//날짜가 달라진 예매내역 묶음 삭제
 	public int deleteUpdateReservationIDX1(int sidx) {
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX, "
@@ -504,7 +509,7 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//ȸ���� �޶��� �ڸ��� ���ų��� ����
+	//회차가 달라진 자리별 예매내역 삭제
 	public int deleteUpdateReservation2(int sidx) {
 		int value = 0;
 		String sql = "UPDATE RESERVATION, "
@@ -534,7 +539,7 @@ public class ReservationDao {
 		return value;
 	}
 	
-	//ȸ���� �޶��� ���ų��� ���� ����
+	//회차가 달라진 예매내역 묶음 삭제
 	public int deleteUpdateReservationIDX2(int sidx) {
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX, "

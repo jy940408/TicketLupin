@@ -89,7 +89,7 @@
 									output += 				data[i].stitle;
 									output += "			</div>";
 									output += "			<div class='main_concert_musical_detail_date'>";
-									output += 				data[i].sopendate + "~" + data[i].senddate;
+									output += 				data[i].sopendate + " ~ " + data[i].senddate;
 									output += "			</div>";
 									output += "			<div class='main_concert_musical_detail_place'>";
 									output += 				data[i].sdetailaddress;
@@ -118,7 +118,7 @@
 									output += 				data[i].stitle;
 									output += "			</div>";
 									output += "			<div class='main_concert_musical_detail_date'>";
-									output += 				data[i].sopendate + "~" + data[i].senddate;
+									output += 				data[i].sopendate + " ~ " + data[i].senddate;
 									output += "			</div>";
 									output += "			<div class='main_concert_musical_detail_place'>";
 									output += 				data[i].sdetailaddress;
@@ -408,7 +408,7 @@
 													${l.sopendate } ~ ${l.senddate}
 												</div>
 												<div class="main_concert_musical_detail_place">
-													${l.sroadaddress}
+													${l.sdetailaddress}
 												</div>
 												<div class="main_concert_musical_detail_sold">
 													<b>판매 종료</b>&nbsp;${l.sticketingdate}&nbsp;오픈

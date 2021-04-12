@@ -46,9 +46,6 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Reservation")) {			
 			ReservationController reservationc = new ReservationController();
 			reservationc.doGet(request, response);			
-		}else if (hc.equals("Soldout")) {			
-			SoldoutController soldoutc = new SoldoutController();
-			soldoutc.doGet(request, response);			
 		}else if (hc.equals("Pay")) {			
 			PayController payc = new PayController();
 			payc.doGet(request, response);			

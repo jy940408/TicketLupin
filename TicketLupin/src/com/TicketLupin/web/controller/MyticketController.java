@@ -28,46 +28,28 @@ public class MyticketController extends HttpServlet{
 		
 		if(str.equals("/Myticket/MyticketMain.do")) {
 			
-			if(str.equals("/Myticket/MyticketMain.do")) {
-		         
-		         HttpSession session = request.getSession();
-		         int midx = (int)session.getAttribute("midx");
-		         
-		         String page_ = request.getParameter("p");
-		         int page = 1;
-		         
-		         if(page_ != null && !page_.equals("")) {
-		            page = Integer.parseInt(page_);
-		         }
-		         
-		         ReservationDao rd = new ReservationDao();
-		         ArrayList<ReservationListVo> rlist = rd.getReservationIdxList(midx, page);
-		         
-		         
-		         MyticketDao md = new MyticketDao();
-		         MemberVo mv = md.getName(midx);
-		         List<QuestionVo> qlist = md.getQuestionList(midx);      
-		         
-		         request.setAttribute("rlist", rlist);
-		         request.setAttribute("qlist", qlist);
-		         request.setAttribute("mv", mv);
-		         
-		         request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
-		         
-		      }
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+					
+			MyticketDao md = new MyticketDao();
+			List<QuestionVo> qlist = md.getQuestionList(midx);
+			List<ReservationShowVo> rlist = md.getReservationList(midx);
+			MemberVo mv = md.getName(midx);
+			int count = md.getReservationCount(midx);
+			
+			request.setAttribute("rlist", rlist);
+			request.setAttribute("qlist", qlist);
+			request.setAttribute("count", count);
+			request.setAttribute("mv", mv);		
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_main.jsp").forward(request, response);
 			
 		}else if(str.equals("/Myticket/MyticketReservation.do")) {
 			
 			String page_ = request.getParameter("p");
-			String dPage_ = request.getParameter("dp");
-			
 			int page = 1;
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
-			}
-			int dPage = 1;
-			if(dPage_ != null && !dPage_.equals("")) {
-				dPage = Integer.parseInt(dPage_);
 			}
 			
 			HttpSession session = request.getSession();
@@ -76,21 +58,20 @@ public class MyticketController extends HttpServlet{
 			ReservationDao rd = new ReservationDao();
 			ArrayList<ReservationListVo> list = rd.getReservationIdxList(midx, page);
 			int count = rd.getReservationCount(midx);
-			System.out.println("list Ȯ��: " + list);
-			System.out.println("count Ȯ��: " + count);
-			ArrayList<ReservationListVo> dList = rd.getReservationIdxDelList(midx, dPage);
+			
+			ArrayList<ReservationListVo> dList = rd.getReservationIdxDelList(midx, page);
 			int dCount = rd.getDelReservationCount(midx);
 			
-			System.out.println("dList target midx: " + midx);
-			System.out.println("dList page: " + dPage);
-			System.out.println("dList test: " + dList);
+			
+			System.out.println("list Ȯ��: " + list);
+			System.out.println("count Ȯ��: " + count);
 			
 			request.setAttribute("list", list);
-			request.setAttribute("dList", dList);
 			request.setAttribute("count", count);
+			request.setAttribute("dList", dList);
 			request.setAttribute("dCount", dCount);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_list.jsp").forward(request, response);
-			
+		
 		}else if(str.equals("/Myticket/MyticketDetail.do")) {
 			
 			String riidx_ = request.getParameter("riidx");
@@ -132,6 +113,6 @@ public class MyticketController extends HttpServlet{
 			
 		}
 		
-	};
+	}
 	
 }

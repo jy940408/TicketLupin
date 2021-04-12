@@ -17,6 +17,7 @@ public class WinnerVo {
 	private String idelyn;
 	private Date iopendate;
 	private Date ienddate;
+	private int num;
 	
 	public WinnerVo() {
 		super();
@@ -24,7 +25,7 @@ public class WinnerVo {
 	}
 
 	public WinnerVo(int iidx, String ititle, String icontent, int midx, Date iregdate, int ihit, String iimage,
-			String ifiles, String ipub, int igood, String idelyn, Date iopendate, Date ienddate) {
+			String ifiles, String ipub, int igood, String idelyn, Date iopendate, Date ienddate, int num) {
 		super();
 		this.iidx = iidx;
 		this.ititle = ititle;
@@ -39,6 +40,7 @@ public class WinnerVo {
 		this.idelyn = idelyn;
 		this.iopendate = iopendate;
 		this.ienddate = ienddate;
+		this.num = num;
 	}
 
 	public int getIidx() {
@@ -144,13 +146,21 @@ public class WinnerVo {
 	public void setIenddate(Date ienddate) {
 		this.ienddate = ienddate;
 	}
+	
+	public int getNum() {
+		return num;
+	}
+	
+	public void setNum(int num) {
+		this.num = num;
+	}
 
 	@Override
 	public String toString() {
 		return "WinnerVo [iidx=" + iidx + ", ititle=" + ititle + ", icontent=" + icontent + ", midx=" + midx
 				+ ", iregdate=" + iregdate + ", ihit=" + ihit + ", iimage=" + iimage + ", ifiles=" + ifiles + ", ipub="
 				+ ipub + ", igood=" + igood + ", idelyn=" + idelyn + ", iopendate=" + iopendate + ", ienddate="
-				+ ienddate + "]";
+				+ ienddate + ", num=" + num + "]";
 	}
 	
 	

@@ -310,6 +310,9 @@ body{
 	font-size:30px;
 	margin:0 10px;
 	font-weight:bold;
+	width:420px;
+	overflow: hidden;
+	white-space:nowrap;
 }
 .main_ranking_class{
 	margin:0;
@@ -373,6 +376,9 @@ body{
 	margin-left:16px;
 	font-size:18px;
 	font-weight:bold;
+	width:196px;
+	overflow: hidden;
+	white-space:nowrap;
 }
 .main_pick_place{
 	margin-left:16px;

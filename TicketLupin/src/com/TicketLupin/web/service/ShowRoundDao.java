@@ -120,15 +120,15 @@ public class ShowRoundDao {
 	
 	public int deleteShowRound(int sidx) {
 		int result = 0;
-		String sql = "DELETE SHOWROUND WHERE SIDX = ?";
+		String sql = "DELETE FROM SHOWROUND WHERE SIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, sidx);
 			
-			ResultSet rs = pstmt.executeQuery();
-			System.out.println("ShowRoundDao 들어오는 것 확인");
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -26,7 +26,7 @@ public class NewsDao {
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
 		String sql = "SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WCATEGORY LIKE ? AND WDELYN = 'N' " 
-				+ "ORDER BY WREGDATE DESC LIMIT 0,15";
+				+ "ORDER BY WREGDATE DESC LIMIT ?, 10";
 
 		
 		try {
@@ -35,8 +35,7 @@ public class NewsDao {
 			
 			pstmt.setString(1, "%"+query+"%");
 			pstmt.setString(2, "%"+setting+"%");
-//			pstmt.setInt(3, 1+(page-1)*10);
-//			pstmt.setInt(4, page*10);
+			pstmt.setInt(3, 10*(page-1));
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -223,7 +222,7 @@ public class NewsDao {
 			
 			pstmt.setInt(1, idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -253,8 +252,8 @@ public class NewsDao {
 			pstmt.setString(8, nv.getWcompany());
 			pstmt.setInt(9, nv.getWidx());
 			
-			ResultSet rs = pstmt.executeQuery();
-			System.out.println(nv.getWtitle());
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

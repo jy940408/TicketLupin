@@ -23,10 +23,10 @@ public class AnswerDao {
 		
 		int value = 0;
 		
-		String sql = "INSERT INTO ANSWER(AIDX, QIDX, ATITLE, ACONTENT, MIDX, AREGDATE, AHIT, AIMAGE, AFILES, APUB, ADELYN)"
-					+"VALUES(AIDX_SEQ.NEXTVAL, ?, 'test', ?, ?, SYSTIMESTAMP, 0,'test', 'test', 'Y', 'N')";
+		String sql = "INSERT INTO ANSWER(QIDX, ACONTENT, MIDX, AREGDATE, ADELYN)"
+					+"VALUES(?, ?, ?, NOW(), 'N')";
 		
-		String sql2 = "UPDATE QUESTION SET QSTATE = '¿Ï·á' WHERE QIDX = ? AND MIDX = ?";
+		String sql2 = "UPDATE QUESTION SET QSTATE = 'ì™„ë£Œ' WHERE QIDX = ? AND MIDX = ?";
 		
 		try {
 			
@@ -109,14 +109,9 @@ public class AnswerDao {
 				
 				av.setAidx(rs.getInt("AIDX"));
 				av.setQidx(rs.getInt("QIDX"));
-				av.setAtitle(rs.getString("ATITLE"));
 				av.setAcontent(rs.getString("ACONTENT"));
 				av.setMidx(rs.getInt("MIDX"));
 				av.setAregdate(rs.getDate("AREGDATE"));
-				av.setAhit(rs.getInt("AHIT"));
-				av.setAimage(rs.getString("AIMAGE"));
-				av.setAfiles(rs.getString("AFILES"));
-				av.setApub(rs.getString("APUB"));
 				av.setAdelyn(rs.getString("ADELYN"));
 			}
 			

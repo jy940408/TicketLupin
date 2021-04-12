@@ -74,13 +74,6 @@ public class WinnerController extends HttpServlet{
 			WinnerVo winnervo = wd.getWinnerDetail(iidx);
 			wd.countWinnerView(iidx);
 			
-			HttpSession session = request.getSession();
-			int midx = (Integer)session.getAttribute("midx");
-			
-			System.out.println("midx: " + midx);
-			System.out.println("winnervo: " + winnervo.getMidx());
-			
-			
 			request.setAttribute("detail", winnervo);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Winner_view.jsp").forward(request, response);
 			
@@ -108,7 +101,7 @@ public class WinnerController extends HttpServlet{
 		}else if(str.equals("/Winner/WinnerDeleteAction.do")) {
 			
 			String iidx_ = request.getParameter("iidx");
-			System.out.println("»èÁ¦ iidx_ È®ÀÎ: " + iidx_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ iidx_ È®ï¿½ï¿½: " + iidx_);
 			
 			int iidx = 0;
 			if(iidx_ != null && !iidx_.equals("")) {
@@ -117,7 +110,7 @@ public class WinnerController extends HttpServlet{
 			
 			WinnerDao wd = new WinnerDao();
 			wd.deleteWinner(iidx);
-			System.out.println("»èÁ¦ iidx È®ÀÎ: " + iidx);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ iidx È®ï¿½ï¿½: " + iidx);
 			response.sendRedirect("../Winner/WinnerList.do");
 		}else if(str.equals("/Winner/WinnerWriteAction.do")) {
 			
@@ -132,9 +125,9 @@ public class WinnerController extends HttpServlet{
 			
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
-			String title = multi.getParameter("title"); //Á¦¸ñ
-			String content = multi.getParameter("content"); //Ä«Å×°í¸®
-			String pub_ = multi.getParameter("pub"); //°ø°³¿©ºÎ
+			String title = multi.getParameter("title"); //ï¿½ï¿½ï¿½ï¿½
+			String content = multi.getParameter("content"); //Ä«ï¿½×°ï¿½
+			String pub_ = multi.getParameter("pub"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String image = multi.getParameter("image");
 			String startdate_ = multi.getParameter("startdate");
 			String enddate_ = multi.getParameter("enddate");
@@ -177,8 +170,8 @@ public class WinnerController extends HttpServlet{
 			file = multi.getFilesystemName(str_);
 			originalFile = multi.getOriginalFileName(str_);
 			
-			System.out.println("file¸í: " + file);
-			System.out.println("originalFile¸í: " + originalFile);
+			System.out.println("fileï¿½ï¿½: " + file);
+			System.out.println("originalFileï¿½ï¿½: " + originalFile);
 			
 			String pub = "Y";
 			if(pub_ != null) {
@@ -215,9 +208,9 @@ public class WinnerController extends HttpServlet{
 			
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 			
-			String title = multi.getParameter("title"); //Á¦¸ñ
-			String content = multi.getParameter("content"); //Ä«Å×°í¸®
-			String pub_ = multi.getParameter("pub"); //°ø°³¿©ºÎ
+			String title = multi.getParameter("title"); //ï¿½ï¿½ï¿½ï¿½
+			String content = multi.getParameter("content"); //Ä«ï¿½×°ï¿½
+			String pub_ = multi.getParameter("pub"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String image = multi.getParameter("image");
 			String startdate_ = multi.getParameter("startdate");
 			String enddate_ = multi.getParameter("enddate");
@@ -228,9 +221,9 @@ public class WinnerController extends HttpServlet{
 				iidx = Integer.parseInt(iidx_);
 			}
 			
-			System.out.println("¼öÁ¤: " + iidx);
-			System.out.println("½ÃÀÛ³¯Â¥ ¼öÁ¤: " + startdate_);
-			System.out.println("³¡³¯Â¥ ¼öÁ¤: " + enddate_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½: " + iidx);
+			System.out.println("ï¿½ï¿½ï¿½Û³ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½: " + startdate_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½: " + enddate_);
 //==============================================================================================================================//		    
 		   Date startdate = null;
 		   try {
@@ -266,8 +259,8 @@ public class WinnerController extends HttpServlet{
 			file = multi.getFilesystemName(str_);
 			originalFile = multi.getOriginalFileName(str_);
 			
-			System.out.println("file¸í: " + file);
-			System.out.println("originalFile¸í: " + originalFile);
+			System.out.println("fileï¿½ï¿½: " + file);
+			System.out.println("originalFileï¿½ï¿½: " + originalFile);
 			
 			String pub = "Y";
 			if(pub_ != null) {

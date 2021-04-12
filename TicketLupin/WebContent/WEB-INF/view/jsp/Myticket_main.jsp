@@ -126,14 +126,16 @@
 					</div>
 					<div id="main_myticket_ticketing" style="margin-bottom:50px;">
 						<a href="../Myticket/MyticketReservation.do" class="main_myticket_title_set">최근 예매/취소</a>
-						<a href="../Myticket/MyticketReservation.do" class="main_myticket_more_set">더보기 ></a>
+						<a href="../Myticket/MyticketReservation.do" class="main_myticket_more_set" style="font-size:14px;">더보기 ></a>
 						<table class="tb1" style="width:100%; margin-top:20px;">
 							<colgroup>
-								<col width="80%">
+								<col width="60%">
+								<col width="20%">
 								<col width="20%">
 							</colgroup>
 							<tr>
 								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">공연 정보</th>
+								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">관람일</th>
 								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">예매일</th>
 							</tr>
 							<c:forEach var="rlist" items="${rlist}" begin="0" end="4" step="1">
@@ -141,6 +143,7 @@
 									<td style="border-bottom:1px solid #dbdbdb; padding:10px;">
 										<a href="#">&nbsp;&nbsp;&nbsp;${rlist.stitle}</a>
 									</td>
+									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${rlist.srdate}&nbsp;&nbsp;/&nbsp;&nbsp;${rlist.srround}</td>
 									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${rlist.rregdate}</td>
 								</tr>
 							</c:forEach>
@@ -148,25 +151,28 @@
 					</div>
 					<div id="main_myticket_ticketing" style="margin-bottom:50px;">
 						<a href="../Customer/QuestionList.do" class="main_myticket_title_set">최근 1:1문의</a>
-						<a href="../Customer/QuestionList.do" class="main_myticket_more_set">더보기 ></a>
+						<a href="../Customer/QuestionList.do" class="main_myticket_more_set" style="font-size:14px;">더보기 ></a>
 						<table class="tb2" style="width:100%; margin-top:20px;">
 							<colgroup>
-								<col width="80%">
+								<col width="10%">
+								<col width="70%">
 								<col width="20%">
 							</colgroup>
 							<tr>
+								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">답변 여부</th>
 								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">문의 정보</th>
 								<th style="border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; padding:10px;">작성일</th>
 							</tr>
 							<c:forEach var="qlist" items="${qlist}" begin="0" end="4" step="1">
 								<tr>
+									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${qlist.qstate}</td>
 									<td style="border-bottom:1px solid #dbdbdb; padding:10px;">
 										<c:choose>
 											<c:when test="${qlist.qstate == '대기'}">
-												<a href="../Customer/QuestionView.do?num=${qlist.num}&qidx=${qlist.qidx}&state=${qlist.qstate}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>
+												<a href="../Customer/QuestionView.do?num=${qlist.num}&qidx=${qlist.qidx}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>
 											</c:when>
 											<c:otherwise>
-												<a href="../Customer/QuestionView2.do?num=${qlist.num}&qidx=${qlist.qidx}&state=${qlist.qstate}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>									
+												<a href="../Customer/QuestionView2.do?num=${qlist.num}&qidx=${qlist.qidx}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>									
 											</c:otherwise>
 										</c:choose>
 									</td>

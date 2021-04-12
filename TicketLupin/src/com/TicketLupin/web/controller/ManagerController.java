@@ -50,19 +50,22 @@ public class ManagerController extends HttpServlet{
 			
 			PageMaker pm = new PageMaker();
 			pm.setScri(scri);
+			
+		
 			MemberDao md = new MemberDao();
 			int cnt = md.memberTotal(keyword);
-			
 			pm.setTotalCount(cnt);
 			
 			ArrayList<MemberVo> alist = md.memberSelectAll(scri);
 			
-			System.out.println(alist);
 			
 			request.setAttribute("alist", alist);
 			request.setAttribute("pm", pm);
 			
-						
+			System.out.println("alist : "+ alist);
+			System.out.println("cnt : "+cnt);
+			
+			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_list.jsp").forward(request, response);
 			
 			
@@ -99,13 +102,20 @@ public class ManagerController extends HttpServlet{
 			String midx = request.getParameter("midx");
 			int midx2 = Integer.parseInt(midx);
 			
+			String page = request.getParameter("page");
+			int page2 = 1;
+			if(page != null && !page.equals("")) {
+				page2 = Integer.parseInt(page);
+			}
+			
 			MemberDao md = new MemberDao();
 			MemberVo mv = md.memberSelectOne(midx2);
 			
-			
 			AdminDao ad = new AdminDao();
-			ArrayList<ReservationVo> alist = ad.UserReservationList(midx2);
+			ArrayList<ReservationVo> alist = ad.UserReservationList(midx2, page2);
+			int count = ad.getUserBuyListCount(midx2);
 			
+			request.setAttribute("count", count);
 			request.setAttribute("mv", mv);
 			request.setAttribute("alist", alist);
 			
@@ -114,16 +124,30 @@ public class ManagerController extends HttpServlet{
 			RequestDispatcher rqd = request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_buy_list.jsp");
 			rqd.forward(request, response);
 		
+		}else if(str.equals("/Manager/UserBuyDelete.do")) {
+			
+			String ridx = request.getParameter("ridx");
+			int ridx2 = Integer.parseInt(ridx);
+			
+			AdminDao ad = new AdminDao();
+			ad.UserBuyDelete(ridx2);
+			
 		}else if(str.equals("/Manager/UserQnaList.do")) {
 			
 			String midx = request.getParameter("midx");
 			int midx2 = Integer.parseInt(midx);
 			
+			String page = request.getParameter("page");
+			int page2 = 1;
+			if(page != null && !page.equals("")) {
+				page2 = Integer.parseInt(page);
+			}
+			
 			MemberDao md = new MemberDao();
 			MemberVo mv = md.memberSelectOne(midx2);
 			
 			AdminDao ad = new AdminDao();
-			ArrayList<FaqVo> alist = ad.UserQnaList(midx2);
+			ArrayList<FaqVo> alist = ad.UserQnaList(midx2, page2);
 			
 			request.setAttribute("mv", mv);
 			request.setAttribute("alist", alist);
@@ -142,27 +166,66 @@ public class ManagerController extends HttpServlet{
 			}
 			
 			
-			AdminDao ad = new AdminDao();
-			ArrayList<Show1Vo> alist = ad.ShowSelectAll(query);
+			String page_ = request.getParameter("page");
+			if(page_ == null) page_ = "0";
+			int page = Integer.parseInt(page_);
 			
-			request.setAttribute("alist", alist);
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_concert_list.jsp").forward(request, response);
+			if(page == 0) {
+				
+				AdminDao ad = new AdminDao();
+				ArrayList<Show1Vo> alist = ad.ShowSelectAll(query);
+				
+				request.setAttribute("alist", alist);
+				request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_concert_list.jsp").forward(request, response);
+				
+			}else if(page >= 1){
+				System.out.println("�Ѿ�Ͷ���...............................");
+				
+				HttpSession session = request.getSession();
+				
+				String sidx2 = request.getParameter("sidx");
+				int sidx = Integer.parseInt(sidx2);
+				
+				
+				AdminDao ad = new AdminDao();
+				ArrayList<Show1Vo> alist = ad.ShowSelectAll(query);
+				ArrayList<MemberVo> list = ad.getUserBuyList(sidx, page);
+				int count = ad.getBuyListCount(sidx);
+				
+				
+				
+				request.setAttribute("alist", alist);
+				request.setAttribute("list", list);
+				request.setAttribute("count", count);
+				
+				
 		
+				System.out.println("page : "+ page);
+				request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_concert_list.jsp").forward(request, response);
+				
+			}
 			
 			
 		}else if(str.equals("/Manager/UserList.do")) {
+//ajax			
+			HttpSession session = request.getSession();
 			
-			String sidx = request.getParameter("sidx");
-			int sidx2 = Integer.parseInt(sidx);
+			String sidx2 = request.getParameter("sidx");
+			int sidx = Integer.parseInt(sidx2);
 			
-			System.out.println("sidx : "+sidx);
+			String page2 = request.getParameter("page");
+			if(page2 == null) page2 = "1";
+			int page = Integer.parseInt(page2);
 			
 			JSONArray arr = new JSONArray();
 			JSONObject obj = new JSONObject();
 			
 			AdminDao ad = new AdminDao();
-			ArrayList<MemberVo> list = ad.getUserBuyList(sidx2);
+			ArrayList<MemberVo> list = ad.getUserBuyList(sidx, page);
+			int count = ad.getBuyListCount(sidx);
 			
+			request.setAttribute("count", count);
+			System.out.println("count : "+count);
 			
 			for(int i=0; i < list.size(); i++) {
 				JSONObject jobj = new JSONObject();
@@ -172,34 +235,71 @@ public class ManagerController extends HttpServlet{
 				jobj.put("sidx", list.get(i).getSidx());
 				jobj.put("midx", list.get(i).getMidx());
 				arr.add(jobj);
-				
-	
 			}
-			
 			obj.put("list", arr);
 			
-//			PrintWriter out = response.getWriter();
-//			out.println("{\"ridx\":\"1\"}");
-			
+			JSONObject jobjP = new JSONObject();
+			jobjP.put("page", (page == 0)?1:page);
+			jobjP.put("startNum", 1+(page-1)*10);
+			jobjP.put("lastNum", Math.ceil(count/10));
+			jobjP.put("next", page+1);	
+			jobjP.put("prev", page-1);
+			jobjP.put("sidx", list.get(0).getSidx());
+			arr.add(jobjP);
 			
 			response.setContentType("application/x-json; charset=UTF-8");
 			response.getWriter().print(arr);
 		
+		}else if(str.equals("/Manager/Concert_View.do")) {
+			
+			String sidx = request.getParameter("sidx");
+			int sidx2 = Integer.parseInt(sidx);
+			
+			ShowDao sd = new ShowDao();
+			Show1Vo s1v = sd.getShowDetail(sidx2);
+			
+			request.setAttribute("s1v", s1v);
+			
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
+			
 		}else if(str.equals("/Manager/UserCommentList.do")) {
 			
 			String midx = request.getParameter("midx");
 			int midx2 = Integer.parseInt(midx);
 			
+			String page = request.getParameter("page");
+			int page2 = 1;
+			if(page != null && !page.equals("")) {
+				page2 = Integer.parseInt(page);
+			}
+			
 			MemberDao md = new MemberDao();
 			MemberVo mv = md.memberSelectOne(midx2);
 			
 			AdminDao ad = new AdminDao();
-			ArrayList<C_commentVo> alist = ad.UserCommentList(midx2);
+			ArrayList<CommentAVo> alist = ad.UserCommentList(midx2, page2);
+			String c_sort = request.getParameter("c_sort");
 			
+			request.setAttribute("c_sort", c_sort);
 			request.setAttribute("mv", mv);
 			request.setAttribute("alist", alist);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_comment_list.jsp").forward(request, response);
+			
+		}else if(str.equals("/Manager/UserCommentDelete.do")) {
+			
+			String midx = request.getParameter("midx");
+			int midx2 = Integer.parseInt(midx);
+			
+			String c_idx2 = request.getParameter("c_idx");
+			
+			int c_idx = 0;
+			if(c_idx2 != null && !c_idx2.equals("")) {
+				c_idx = Integer.parseInt(c_idx2);
+			}
+			
+			AdminDao ad = new AdminDao();
+			ad.UserCommentDelete(midx2, c_idx);
 			
 		}else if(str.equals("/Manager/Main.do")) {
 			HttpSession session = request.getSession();

@@ -30,16 +30,19 @@ public class WinnerDao {
 //				+ "ORDER BY IREGDATE DESC) N WHERE (@ROWNUM:=0)=0) A "
 //				+ "WHERE NUM BETWEEN ? AND ?";
 		
-		String sql = "SELECT * FROM WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' "
-				+ "ORDER BY IREGDATE DESC LIMIT ?, ?";
+		String sql = "SELECT * FROM "
+				+ "(SELECT @ROWNUM:=@ROWNUM + 1 NUM, WINNER.* FROM "
+				+ "WINNER, (SELECT @ROWNUM:=0) TMP "
+				+ "WHERE ITITLE LIKE ? AND IPUB = 'Y' "
+				+ "AND IDELYN = 'N' ORDER BY IREGDATE) SUB "
+				+ "ORDER BY SUB.NUM DESC LIMIT ?, 10";
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+query+"%");
-			pstmt.setInt(2, 0);
-			pstmt.setInt(3, 10);
+			pstmt.setInt(2, 10*(page-1));
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -58,8 +61,9 @@ public class WinnerDao {
 				String idelyn = rs.getString("IDELYN");
 				Date iopendate = rs.getDate("IOPENDATE");
 				Date ienddate = rs.getDate("IENDDATE");
+				int num = rs.getInt("NUM");
 				
-				WinnerVo wv = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn, iopendate, ienddate);
+				WinnerVo wv = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn, iopendate, ienddate, num);
 				
 				list.add(wv);
 				}
@@ -104,7 +108,7 @@ public class WinnerDao {
 	
 	public WinnerVo getWinnerDetail(int idx) {
 		
-		WinnerVo winnervo = new WinnerVo();
+		WinnerVo wv = new WinnerVo();
 		
 		String sql = "SELECT * FROM WINNER WHERE IIDX = ?";
 		
@@ -116,28 +120,26 @@ public class WinnerDao {
 			
 			rs.next();
 			
-			int iidx = rs.getInt("IIDX");
-			String ititle = rs.getString("ITITLE");
-			String icontent = rs.getString("ICONTENT");
-			int midx = rs.getInt("MIDX");
-			Date iregdate = rs.getDate("IREGDATE");
-			int ihit = rs.getInt("IHIT");
-			String iimage = rs.getString("IIMAGE");
-			String ifiles = rs.getString("IFILES");
-			String ipub = rs.getString("IPUB");
-			int igood = rs.getInt("IGOOD");
-			String idelyn = rs.getString("IDELYN");
-			Date iopendate = rs.getDate("IOPENDATE");
-			Date ienddate = rs.getDate("IENDDATE");
-			
-			winnervo = new WinnerVo(iidx, ititle, icontent, midx, iregdate, ihit, iimage, ifiles, ipub, igood, idelyn, iopendate, ienddate);
+			wv.setIidx(rs.getInt("IIDX"));
+			wv.setItitle(rs.getString("ITITLE"));
+			wv.setIcontent(rs.getString("ICONTENT"));
+			wv.setMidx(rs.getInt("MIDX"));
+			wv.setIregdate(rs.getDate("IREGDATE"));
+			wv.setIhit(rs.getInt("IHIT"));
+			wv.setIimage(rs.getString("IIMAGE"));
+			wv.setIfiles(rs.getString("IFILES"));
+			wv.setIpub(rs.getString("IPUB"));
+			wv.setIgood(rs.getInt("IGOOD"));
+			wv.setIdelyn(rs.getString("IDELYN"));
+			wv.setIopendate(rs.getDate("IOPENDATE"));
+			wv.setIenddate(rs.getDate("IENDDATE"));
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return winnervo;
+		return wv;
 	}
 	
 	public int insertWinner(WinnerVo wv) {
@@ -157,7 +159,9 @@ public class WinnerDao {
 			pstmt.setString(5, wv.getIpub());
 			pstmt.setDate(6, wv.getIopendate());
 			pstmt.setDate(7, wv.getIenddate());
+			
 			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -181,7 +185,9 @@ public class WinnerDao {
 			pstmt.setDate(5, wv.getIopendate());
 			pstmt.setDate(6, wv.getIenddate());
 			pstmt.setInt(7, wv.getIidx());
-			ResultSet rs = pstmt.executeQuery();
+			
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -200,7 +206,7 @@ public class WinnerDao {
 			
 			pstmt.setInt(1, idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,11 +225,10 @@ public class WinnerDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			
 			pstmt.setInt(1, iidx);
 			
 			result = pstmt.executeUpdate();
-			System.out.println(wv.getIhit());
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

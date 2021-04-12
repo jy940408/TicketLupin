@@ -20,14 +20,14 @@ public class reservationMail {
 	public static void naverMailSend(String showTitle, ArrayList seat, int sidx, String comDate, String round, String name, String tel, String email, String pick, String payMethod, int paymentSum, int basicSum, int discountSum, int VAT, int deliverySum) { 
 		
 		String host = "smtp.naver.com"; 
-		String user = "junyoung940408@naver.com"; // ³×ÀÌ¹öÀÏ °æ¿ì ³×ÀÌ¹ö °èÁ¤, gmail°æ¿ì gmail °èÁ¤ 
-		String password = "GXL5WKYJWDQT"; // ÆĞ½º¿öµå     
+		String user = "junyoung940408@naver.com"; // ë„¤ì´ë²„ ê³„ì • ì•„ì´ë”” 
+		String password = "GXL5WKYJWDQT"; // ë„¤ì´ë²„ ê³„ì • ë¹„ë²ˆ
 		
-		String title = "Æ¼ÄÏ·çÆÎ¿¡¼­ ¿¹¸Å Á¤º¸¸¦ ¾Ë·Áµå¸³´Ï´Ù";
+		String title = "í‹°ì¼“ë£¨íŒ¡ì—ì„œ ì˜ˆë§¤ ì •ë³´ë¥¼ ì•Œë ¤ë“œë¦½ë‹ˆë‹¤";
 		
 		String content = null;
 		
-		content = "<h2>¿¹¸Å ¿Ï·á¸¦ ¾Ë·Áµå¸³´Ï´Ù</h2>";
+		content = "<h2>ì˜ˆë§¤ ì™„ë£Œë¥¼ ì•Œë ¤ë“œë¦½ë‹ˆë‹¤</h2>";
 		content += "<table border=\"1\">";
 		content += "	<colgroup>";
 		content += "		<col width='50px'/>";
@@ -45,51 +45,51 @@ public class reservationMail {
 		content += "		<col width='50px'/>";
 		content += "	</colgroup>";
 		content += "	<tr>";
-		content += "		<th colspan=\"2\">°ø¿¬ ¸í</th>";
+		content += "		<th colspan=\"2\">ê³µì—° ëª…</th>";
 		content += "		<td colspan=\"10\">" + showTitle + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<th colspan=\"2\">°ø¿¬ ³¯Â¥</th>";
+		content += "		<th colspan=\"2\">ê³µì—° ë‚ ì§œ</th>";
 		content += "		<td colspan=\"4\">" + comDate + "</td>";
-		content += "		<th colspan=\"2\">°ø¿¬ È¸Â÷</th>";
+		content += "		<th colspan=\"2\">ê³µì—° íšŒì°¨</th>";
 		content += "		<td colspan=\"4\">" + round + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<th colspan=\"2\">ÁÂ¼®</th>";
+		content += "		<th colspan=\"2\">ì¢Œì„</th>";
 		content += "		<td colspan=\"10\">" + seat + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<th colspan=\"1\">ÀÌ¸§</th>";
+		content += "		<th colspan=\"1\">ì´ë¦„</th>";
 		content += "		<td colspan=\"2\">" + name + "</td>";
-		content += "		<th colspan=\"2\">¿¬¶ôÃ³</th>";
+		content += "		<th colspan=\"2\">ì—°ë½ì²˜</th>";
 		content += "		<td colspan=\"3\">" + tel + "</td>";
-		content += "		<th colspan=\"2\">ÀÌ¸ŞÀÏ</th>";
+		content += "		<th colspan=\"2\">ì´ë©”ì¼</th>";
 		content += "		<td colspan=\"2\">" + email + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<th colspan=\"2\">¼ö·É ¹æ¹ı</th>";
+		content += "		<th colspan=\"2\">ìˆ˜ë ¹ ë°©ë²•</th>";
 		content += "		<td colspan=\"4\">" + pick + "</td>";
-		content += "		<th colspan=\"2\">°áÁ¦ ¹æ¹ı</th>";
+		content += "		<th colspan=\"2\">ê²°ì œ ë°©ë²•</th>";
 		content += "		<td colspan=\"4\">" + payMethod + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<th colspan=\"2\">ÃÑ °áÁ¦ ±İ¾×</th>";
+		content += "		<th colspan=\"2\">ì´ ê²°ì œ ê¸ˆì•¡</th>";
 		content += "		<td colspan=\"2\">" + paymentSum + "</td>";
-		content += "		<th colspan=\"2\">±âº» ±İ¾×</th>";
+		content += "		<th colspan=\"2\">ê¸°ë³¸ ê¸ˆì•¡</th>";
 		content += "		<td colspan=\"2\">" + basicSum + "</td>";
-		content += "		<th colspan=\"2\">ÇÒÀÎ ±İ¾×</th>";
+		content += "		<th colspan=\"2\">í• ì¸ ê¸ˆì•¡</th>";
 		content += "		<td colspan=\"2\">" + discountSum + "</td>";
 		content += "	</tr>";
 		content += "	<tr>";
-		content += "		<th colspan=\"2\">¿¹¸Å ¼ö¼ö·á</th>";
+		content += "		<th colspan=\"2\">ì˜ˆë§¤ ìˆ˜ìˆ˜ë£Œ</th>";
 		content += "		<td colspan=\"4\">" + VAT + "</td>";
-		content += "		<th colspan=\"2\">¹è¼Û·á</th>";
+		content += "		<th colspan=\"2\">ë°°ì†¡ë£Œ</th>";
 		content += "		<td colspan=\"4\">" + deliverySum + "</td>";
 		content += "	</tr>";
 		content += "</table>";
 		
 		
-		// SMTP ¼­¹ö Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù. 
+		// SMTP ì •ë³´ ì„¤ì •
 		Properties props = new Properties(); 
 		props.put("mail.smtp.host", host); 
 		props.put("mail.smtp.port", 587); 
@@ -105,9 +105,9 @@ public class reservationMail {
 			MimeMessage message = new MimeMessage(session); 
 			message.setFrom(new InternetAddress(user)); 
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email)); 
-			// ¸ŞÀÏ Á¦¸ñ
+			// ë©”ì¼ ì œëª©
 			message.setSubject(title); 
-			// ¸ŞÀÏ ³»¿ë 
+			// ë©”ì¼ ë‚´ìš© 
 			message.setContent(content, "text/html;charset=UTF-8"); 
 			// send the message 
 			Transport.send(message); 

@@ -315,6 +315,8 @@ public class ConcertViewController extends HttpServlet{
 			obj.put("month", strMonth);
 			obj.put("date", strDate);
 			
+			System.out.println("null값 확인: " + obj);
+			
 			response.setContentType("application/x-json; charset=UTF-8");
 			response.getWriter().print(obj); //{"result":1}
 			

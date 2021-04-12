@@ -21,15 +21,15 @@ public class deleteReservationMail {
 	public static void naverMailSend(ArrayList<ReservationIdxVo> list) { 
 		
 		String host = "smtp.naver.com"; 
-		String user = "junyoung940408@naver.com"; // ³×ÀÌ¹öÀÏ °æ¿ì ³×ÀÌ¹ö °èÁ¤, gmail°æ¿ì gmail °èÁ¤ 
-		String password = "GXL5WKYJWDQT"; // ÆĞ½º¿öµå     
+		String user = "junyoung940408@naver.com"; // ë„¤ì´ë²„ ê³„ì • ì•„ì´ë”” 
+		String password = "GXL5WKYJWDQT"; // ë„¤ì´ë²„ ê³„ì • ë¹„ë²ˆ
 		
-		String title = "Æ¼ÄÏ·çÆÎ¿¡¼­ ¿¹¸Å Ãë¼Ò¸¦ ¾Ë·Áµå¸³´Ï´Ù";
+		String title = "í‹°ì¼“ë£¨íŒ¡ì—ì„œ ì˜ˆë§¤ì·¨ì†Œë¥¼ ì•Œë ¤ë“œë¦½ë‹ˆë‹¤.";
 		
 		ArrayList setList = new ArrayList();
 		String content = null;
 		for(int i = 0 ; i < list.size() ; i++) {
-			content = "<h2>¿¹¸Å Ãë¼Ò¸¦ ¾Ë·Áµå¸³´Ï´Ù</h2>";
+			content = "<h2>ì˜ˆë§¤ ì·¨ì†Œë¥¼ ì•Œë ¤ë“œë¦½ë‹ˆë‹¤ï¿½</h2>";
 			content += "<table border=\"1\">";
 			content += "	<colgroup>";
 			content += "		<col width='50px'/>";
@@ -47,57 +47,57 @@ public class deleteReservationMail {
 			content += "		<col width='50px'/>";
 			content += "	</colgroup>";
 			content += "	<tr>";
-			content += "		<th colspan=\"2\">°ø¿¬ ¸í</th>";
+			content += "		<th colspan=\"2\">ê³µì—° ëª…</th>";
 			content += "		<td colspan=\"10\">" + list.get(i).getStitle() + "</td>";
 			content += "	</tr>";
 			content += "	<tr>";
-			content += "		<th colspan=\"2\">°ø¿¬ ³¯Â¥</th>";
+			content += "		<th colspan=\"2\">ê³µì—° ë‚ ì§œ</th>";
 			content += "		<td colspan=\"4\">" + "test" + "</td>";
-			content += "		<th colspan=\"2\">°ø¿¬ È¸Â÷</th>";
+			content += "		<th colspan=\"2\">ê³µì—° íšŒì°¨</th>";
 			content += "		<td colspan=\"4\">" + list.get(i).getSrround() + "</td>";
 			content += "	</tr>";
 			content += "	<tr>";
-			content += "		<th colspan=\"1\">ÀÌ¸§</th>";
+			content += "		<th colspan=\"1\">ì´ë¦„</th>";
 			content += "		<td colspan=\"2\">" + list.get(i).getRname() + "</td>";
-			content += "		<th colspan=\"2\">¿¬¶ôÃ³</th>";
+			content += "		<th colspan=\"2\">ì—°ë½ì²˜</th>";
 			content += "		<td colspan=\"3\">" + list.get(i).getRtel() + "</td>";
-			content += "		<th colspan=\"2\">ÀÌ¸ŞÀÏ</th>";
+			content += "		<th colspan=\"2\">ì´ë©”ì¼</th>";
 			content += "		<td colspan=\"2\">" + list.get(i).getRemail() + "</td>";
 			content += "	</tr>";
 			content += "	<tr>";
-			content += "		<th colspan=\"3\">°áÁ¦ ¹æ¹ı</th>";
+			content += "		<th colspan=\"3\">ê²°ì œ ë°©ë²•</th>";
 			content += "		<td colspan=\"9\">" + list.get(i).getRpaymethod() + "</td>";
 			content += "	</tr>";
 			content += "	<tr>";
-			content += "		<th colspan=\"2\">ÃÑ °áÁ¦ ±İ¾×</th>";
+			content += "		<th colspan=\"2\">ì´ ê²°ì œ ê¸ˆì•¡</th>";
 			content += "		<td colspan=\"2\">" + list.get(i).getRipayment() + "</td>";
-			content += "		<th colspan=\"2\">±âº» ±İ¾×</th>";
+			content += "		<th colspan=\"2\">ê¸°ë³¸ ê¸ˆì•¡</th>";
 			content += "		<td colspan=\"2\">" + list.get(i).getRibasic() + "</td>";
-			content += "		<th colspan=\"2\">ÇÒÀÎ ±İ¾×</th>";
+			content += "		<th colspan=\"2\">í• ì¸ ê¸ˆì•¡</th>";
 			content += "		<td colspan=\"2\">" + list.get(i).getRidiscount() + "</td>";
 			content += "	</tr>";
 			content += "	<tr>";
-			content += "		<th colspan=\"2\">¿¹¸Å ¼ö¼ö·á</th>";
+			content += "		<th colspan=\"2\">ì˜ˆë§¤ ìˆ˜ìˆ˜ë£Œ</th>";
 			content += "		<td colspan=\"4\">" + list.get(i).getRivat() + "</td>";
-			content += "		<th colspan=\"2\">¹è¼Û·á</th>";
+			content += "		<th colspan=\"2\">ë°°ì†¡ë£Œ</th>";
 			content += "		<td colspan=\"4\">" + list.get(i).getRidelivery() + "</td>";
 			content += "	</tr>";
 			content += "</table>";
 			content += "<br>";
-			content += "<h2>È¸»ç ³»ºÎ »çÁ¤¿¡ µû¶ó ÇØ´ç °ø¿¬ÀÌ Ãë¼ÒµÇ°í ¿¹¸Å ³»¿ªÀÌ È¯ºÒµÇ¾ú½À´Ï´Ù.</h2>";
-			content += "<h2>¾çÇØºÎÅ¹µå¸³´Ï´Ù.</h2>";
-			content += "<h2>ÀÚ¼¼ÇÑ »çÇ×Àº Æ¼ÄÏ·çÆÎ °øÁö»çÇ×À» ÂüÁ¶ÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.</h2>";
+			content += "<h2>íšŒì‚¬ ë‚´ë¶€ ì‚¬ì •ì— ë”°ë¼ í•´ë‹¹ ê³µì—°ì´ ì·¨ì†Œë˜ê³  ì˜ˆë§¤ ë‚´ì—­ì´ í™˜ë¶ˆë˜ì—ˆìŠµë‹ˆë‹¤.</h2>";
+			content += "<h2>ì–‘í•´ ë¶€íƒë“œë¦½ë‹ˆë‹¤.</h2>";
+			content += "<h2>ìì„¸í•œ ì‚¬í•­ì€ í‹°ì¼“ë£¨íŒ¡ ê³µì§€ì‚¬í•­ì„ ì°¸ì¡°í•´ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.</h2>";
 			setList.add(content);
 		}
-		System.out.println("³»¿ë ¸®½ºÆ® È®ÀÎ: " + setList);
+		System.out.println("ë‚´ìš© ë¦¬ìŠ¤íŠ¸ í™•ì¸: " + setList);
 		ArrayList emailList = new ArrayList();
 		String email = null;
 		for(int i = 0 ; i < list.size() ; i++) {
 			email = list.get(i).getRemail();
 			emailList.add(email);
 		}
-		System.out.println("¸ŞÀÏ ¸®½ºÆ® È®ÀÎ: " + emailList);
-		// SMTP ¼­¹ö Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù. 
+		System.out.println("ë©”ì¼ ë¦¬ìŠ¤íŠ¸ í™•ì¸: " + emailList);
+		// SMTP ì„œë²„ ì •ë³´ ì„¤ì • 
 		Properties props = new Properties(); 
 		props.put("mail.smtp.host", host); 
 		props.put("mail.smtp.port", 587); 
@@ -114,9 +114,9 @@ public class deleteReservationMail {
 				MimeMessage message = new MimeMessage(session); 
 				message.setFrom(new InternetAddress(user)); 
 				message.addRecipient(Message.RecipientType.TO, new InternetAddress((String)emailList.get(i))); 
-				// ¸ŞÀÏ Á¦¸ñ
+				// ë©”ì¼ ì œëª©
 				message.setSubject(title); 
-				// ¸ŞÀÏ ³»¿ë 
+				// ë©”ì¼ ë‚´ìš©
 				message.setContent((String)setList.get(i), "text/html;charset=UTF-8"); 
 				// send the message 
 				Transport.send(message); 

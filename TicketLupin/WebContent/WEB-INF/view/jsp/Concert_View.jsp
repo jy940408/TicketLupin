@@ -61,13 +61,13 @@
 				
 				output += "<div style='display:none;'>";
 				for(var j = 1 ; j <= 4 ; j++){
-					if(eval("data.srround" + j) != null){
+					if(eval("data.srround" + j) != ''){
 						output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + j) + "'>";
 					}
 				}
 				output += "</div>";
 				for(var j = 1 ; j <= 4 ; j++){
-					if(eval("data.srround" + j) != null){
+					if(eval("data.srround" + j) != ''){
 						output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + j) + "</div></label><br>";
 					}
 				}
@@ -317,7 +317,7 @@
 													</c:choose>
 													<c:choose>
 														<c:when test="${roundCheck[i-1] eq 1}">
-															<td><a onclick="selectDate(${i})" style="cursor:hand; font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
+															<td><a onclick="selectDate(${i})" style="cursor:pointer; font-weight:bold; text-decoration:none; color:black;">${i}</a></td>
 														</c:when>
 														<c:otherwise>
 															<td><a onclick="" style="text-decoration:none; color:grey;">${i}</a></td>

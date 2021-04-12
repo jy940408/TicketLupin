@@ -118,7 +118,7 @@ public class ShowDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+query+"%");
-			pstmt.setInt(2, 0);
+			pstmt.setInt(2, 12*(page-1));
 			pstmt.setInt(3, 12);
 			
 			ResultSet rs = pstmt.executeQuery();
@@ -202,19 +202,18 @@ public class ShowDao {
 		
 		System.out.println("sql 테스트: " + genreSql + placeSql);
 		
-		String sql = "SELECT * FROM (SELECT @ROWNUM:=@ROWNUM+1 NUM, S.* FROM " 
+		String sql = "SELECT S.* FROM " 
 				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
 				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " 
 				+ "WHERE STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' "
 				+ genreSql
 				+ placeSql
-				+ "ORDER BY " + setting + " " + array + ") S WHERE (@ROWNUM:=0)=0) A "
-				+ "WHERE NUM BETWEEN ? AND ?";
+				+ "ORDER BY " + setting + " " + array + ") S "
+				+ "LIMIT ?, 12";
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 1+(page-1)*12);
-			pstmt.setInt(2, page*12);
+			pstmt.setInt(1, 12*(page-1));
 			ResultSet rs = pstmt.executeQuery();
 			
 			JSONObject obj = new JSONObject();
@@ -289,13 +288,14 @@ public class ShowDao {
 		System.out.println("place.size(): " + place.size());
 		System.out.println("sql 테스트: " + genreSql + placeSql);
 		
-		String sql = "SELECT COUNT(*) COUNT FROM (SELECT @ROWNUM:=@ROWNUM+1 NUM, S.* FROM " 
+		String sql = "SELECT COUNT(*) COUNT FROM " 
 				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
 				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " 
 				+ "WHERE STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' "
 				+ genreSql
 				+ placeSql
-				+ "ORDER BY " + setting + " " + array + ") S WHERE (@ROWNUM:=0)=0) A";
+				+ "ORDER BY " + setting + " " + array + ") S";
+		
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
@@ -514,7 +514,7 @@ public class ShowDao {
 			pstmt.setInt(15, sv.getSaprice());
 			pstmt.setInt(16, sv.getSidx());
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -548,7 +548,7 @@ public class ShowDao {
 			pstmt.setString(13, sv.getScompanyimage());
 			pstmt.setInt(14, sv.getSidx());
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
