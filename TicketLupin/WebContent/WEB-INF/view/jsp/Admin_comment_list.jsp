@@ -6,28 +6,73 @@
 <html>
 	<head>
 		<title>티켓 루팡</title>
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Admin_comment_list.css">
+		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
-		<script src="${pageContext.request.contextPath}/js/Main.js"></script>
+		<script src="<%=request.getContextPath() %>/js/Myticket_main.js"></script>
 		<script type = "text/javascript">
-		
-		
-		$(document).ready(function(){
-			$(".delete").click(function(){
-				var testV = 1;
-				var test = $(this).attr("id");
-				var form = $('<form></form>');
-				form.attr('action','<%=request.getContextPath() %>/Manager/CommentDeleteAction.do');
-				form.attr('method','post');	
-				form.appendTo('body');
-				form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
-				form.submit();
-				alert('해당 댓글을 삭제하였습니다.');
-			});
-		});
-		
+			$(document).ready(function(){
+				$(".delete").click(function(){
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var od="";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "od"){
+							od = param[1];
+							break;
+						}
+					}
+					var test = $(this).attr("id");
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/Manager/CommentDeleteAction.do');
+					form.attr('method','post');	
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+					form.append($('<input type="hidden" value="Y" name="delyn">'));
+					form.append($('<input type="hidden" value="'+od+'" name="od">'));
+					form.submit();
+					alert('해당 댓글을 삭제하였습니다.');
+				});
+				
 
+				$(".restoration").click(function(){
+					var url=window.location.search.replaceAll("?","");
+					var paramArray = url.split("&");
+					var od="";
+					for(var i=0; i<paramArray.length; i++){
+ 						var param = paramArray[i].split("=");
+						if(param[0] == "od"){
+							od = param[1];
+							break;
+						}
+					}
+					var test = $(this).attr("id");
+					var form = $('<form></form>');
+					form.attr('action','<%=request.getContextPath() %>/Manager/CommentDeleteAction.do');
+					form.attr('method','post');	
+					form.appendTo('body');
+					form.append($('<input type="hidden" value="'+test+'"name="c_idx">'));
+					form.append($('<input type="hidden" value="N" name="delyn">'));
+					form.append($('<input type="hidden" value="'+od+'" name="od">'));
+					form.submit();
+					alert('해당 댓글을 복구하였습니다.');
+				});
+			
+				
+			
+			
+			});	
+
+	
+	
+			function showcontent(c_idx){
+				var url ='<%=request.getContextPath() %>';
+				var url = url+"/Manager/CommentView.do?c_idx="+c_idx;
+	            var name = "popup test";
+	            var option = "width = 630, height = 600, top = 100, left = 200, location = no"
+	            window.open(url, name, option);
+			}
 		</script>
 	</head>
 	<body>
@@ -37,15 +82,15 @@
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
 						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
@@ -65,7 +110,7 @@
 				<a href="#" id="main_nav_event">이벤트</a>
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<a href="#" id="main_nav_myticket">관리자</a>
+						<a href="${pageContext.request.contextPath}/Manager/Main.do" id="main_nav_myticket">관리자</a>
 					</c:when>
 					<c:otherwise>
 						<a href="#" id="main_nav_myticket">마이티켓</a>
@@ -109,14 +154,17 @@
 			<hr id="nav_bar_sub">
 		</div>
 		
+<!------------------------------------------------------------------------------------------------------------------------------------->
+
 		<section>
 			<article>
 				<div class="tit">
 					<span class="label">|&nbsp;&nbsp;댓글관리</span>
 					<hr/>
 				</div>
-				<div class="wrap_search">
-					<form action="<%=request.getContextPath() %>/Manager/comment.do">
+		
+				<div class="wrap_keyword">
+						<form action="<%=request.getContextPath() %>/Manager/comment.do">
 						<select name="s">
 							<option value="a.c_content" selected>내용</option>
 							<option value="c.stitle" >공연</option>
@@ -130,138 +178,89 @@
 						</span>
 					</form>
 				</div>
-				<div class="wrap_keyword">
-					<span class="keyword_label">부적절한 키워드</span>
-					<span class="wrap_input2">
-						<input type="text" name="keyText">
-						<button type="button" class="body_button" style="margin-left:10px;">등록</button>
-						<button type="button" class="body_button">해제</button>
-						<button type="button" class="body_button">목록</button>
-						<button type="button" class="body_button">글삭제</button>			
-					</span>
-				</div>
 				<div class="listorder">
-					<a href="#">최근순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-					<a href="#">추천순</a>
+					<a href="?od=latest">최근순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a href="?od=report">신고순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a href="?od=delete">삭제 댓글</a>
+					<button type="button" class="check_button check_delete body_button">선택 삭제</button>
 				</div>
 				<div class="list_table">
 					<table class="table2">
 						<thead>
 							<tr>
-								<th width="5%">No.</th>
-								<th width="10%">성함</th>
-								<th width="10%">아이디</th>
-								<th width="40%">댓글내용</th>
-								<th width="15%">게시물</th>
-								<th width="10%">삭제</th>
+								<th ><input type="checkbox" name="c_idx"></th>
+								<th >No.</th>
+								<th >성함</th>
+								<th >아이디</th>
+								<th >댓글내용</th>
+								<th>게시물</th>
+								<th >삭제</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="aa" items="${clist}">
-								<c:choose>
-									<c:when test="${aa.c_depth==0 and aa.c_sort eq 'E' and  aa.c_content.length()>=27}">
 										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
+											<td><input type="checkbox" name="c_idx" value="${aa.c_idx}"></td>
+											<td>${aa.no}</td>
+											<td><div class="info">${aa.mname}</div></td>
+											<td><div class="info">${aa.mid}</div></td>
 											<td class="td_">
-												<a href="#">
-													[기대평]&nbsp;&nbsp;${aa.c_content}...
-												</a>
+												<div class="Content">
+													<a href="#" onclick="showcontent(${aa.c_idx})" class="a">
+														<c:choose>
+															<c:when test="${aa.c_depth==0 and aa.c_sort eq 'E'}"> 
+																[기대평]
+															</c:when>
+															<c:when test="${aa.c_depth==1 and aa.c_sort eq 'E'}"> 
+																[기대평 대댓글]
+															</c:when>
+															<c:when test="${aa.c_depth==0 and aa.c_sort eq 'R'}"> 
+																[리뷰평]
+															</c:when>
+															<c:when test="${aa.c_depth==1 and aa.c_sort eq 'R'}"> 
+																[리뷰평 대댓글]
+															</c:when>
+															<c:when test="${aa.c_depth==0 and aa.c_sort eq 'Q'}"> 
+																[QNA]
+															</c:when>
+															<c:when test="${aa.c_depth==1 and aa.c_sort eq 'Q'}"> 
+																[QNA 대댓글]
+															</c:when>
+															<c:when test="${aa.c_depth==0 and aa.c_sort eq 'V'}"> 
+																[이벤트]
+															</c:when>
+															<c:when test="${aa.c_depth==1 and aa.c_sort eq 'V'}"> 
+																[이벤트 대댓글]
+															</c:when>
+														</c:choose>
+														&nbsp;&nbsp;${aa.c_content}
+														<c:if test="${aa.rcnt>'0'}">
+														<span class="report">${aa.rcnt}</span>
+														</c:if>	
+													</a>
+												</div>
 											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}" class="body_button delete">삭제</button></td>
-										</tr>
-									</c:when>
-										<c:when test="${aa.c_depth==0 and aa.c_sort eq 'E' and  aa.c_content.length()<27}">
-										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
 											<td class="td_">
-												<a href="#">
-													[기대평]&nbsp;&nbsp;${aa.c_content}
-												</a>
+												<div class="Boardtitle">
+													<c:choose>
+														<c:when test="${aa.eidx==0 and aa.sidx > 0}"> 
+															<span>${aa.stitle}</span>
+														</c:when>
+														<c:when test="${aa.eidx > 0 and aa.sidx==0}"> 
+															<span>${aa.etitle}</span>
+														</c:when>
+													</c:choose>
+												</div>
 											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}" class="body_button delete">삭제</button></td>
-										</tr>
-									</c:when>
-									
-									<c:when test="${aa.c_depth==0 and aa.c_sort eq 'R'}">
-										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
-											<td class="td_">
-												<a href="#">
-													[리뷰평]&nbsp;&nbsp;${aa.c_content}
-												</a>
+											<td>
+											<c:if test="${aa.c_delyn eq 'N'}">
+												<button type="button" id="${aa.c_idx}" class="body_button delete">삭제</button>
+											</c:if>
+											<c:if test="${aa.c_delyn eq 'Y'}">
+												<button type="button" id="${aa.c_idx}" class="body_button restoration">복구</button>
+											</c:if>
 											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
 										</tr>
-									</c:when>
-									<c:when test="${aa.c_depth==0 and aa.c_sort eq 'Q'}">
-										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
-											<td class="td_">
-												<a href="#">
-													[QNA]&nbsp;&nbsp;${aa.c_content}
-												</a>
-											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
-										</tr>
-									</c:when>
-									<c:when test="${aa.c_depth==1 and aa.c_sort eq 'E'}">
-										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
-											<td class="td_">
-												<a href="#">
-													[기대평 대댓글]&nbsp;&nbsp;${aa.c_content}
-												</a>
-											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
-										</tr>
-									</c:when>
-									<c:when test="${aa.c_depth==1 and aa.c_sort eq 'R'}">
-										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
-											<td class="td_">
-												<a href="#">
-													[리뷰평 대댓글]&nbsp;&nbsp;${aa.c_content}
-												</a>
-											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
-										</tr>
-									</c:when>
-									<c:when test="${aa.c_depth==1 and aa.c_sort eq 'Q'}">
-										<tr>
-											<td>${aa.num}</td>
-											<td>${aa.mname}</td>
-											<td>${aa.mid}</td>
-											<td class="td_">
-												<a href="#">
-													[QNA 대댓글]&nbsp;&nbsp;${aa.c_content}
-												</a>
-											</td>
-											<td>${aa.stitle}</td>
-											<td><button type="button" id="${aa.c_idx}"class="body_button delete">삭제</button></td>
-										</tr>
-									</c:when>
-									
-									
-								
-								</c:choose>
 							</c:forEach>
 						</tbody>
 					</table>

@@ -261,46 +261,7 @@ public class ManagerController extends HttpServlet{
 			request.setAttribute("s1v", s1v);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
-			
-		}else if(str.equals("/Manager/UserCommentList.do")) {
-			
-			String midx = request.getParameter("midx");
-			int midx2 = Integer.parseInt(midx);
-			
-			String page = request.getParameter("page");
-			int page2 = 1;
-			if(page != null && !page.equals("")) {
-				page2 = Integer.parseInt(page);
-			}
-			
-			MemberDao md = new MemberDao();
-			MemberVo mv = md.memberSelectOne(midx2);
-			
-			AdminDao ad = new AdminDao();
-			ArrayList<CommentAVo> alist = ad.UserCommentList(midx2, page2);
-			String c_sort = request.getParameter("c_sort");
-			
-			request.setAttribute("c_sort", c_sort);
-			request.setAttribute("mv", mv);
-			request.setAttribute("alist", alist);
-			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_comment_list.jsp").forward(request, response);
-			
-		}else if(str.equals("/Manager/UserCommentDelete.do")) {
-			
-			String midx = request.getParameter("midx");
-			int midx2 = Integer.parseInt(midx);
-			
-			String c_idx2 = request.getParameter("c_idx");
-			
-			int c_idx = 0;
-			if(c_idx2 != null && !c_idx2.equals("")) {
-				c_idx = Integer.parseInt(c_idx2);
-			}
-			
-			AdminDao ad = new AdminDao();
-			ad.UserCommentDelete(midx2, c_idx);
-			
+
 		}else if(str.equals("/Manager/Main.do")) {
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
@@ -311,15 +272,13 @@ public class ManagerController extends HttpServlet{
 			List<ManagerVo> clist = ed.getCommentAMainList();
 			List<ManagerVo> qlist = ed.getQnaAMainList();
 			String name = ed.getName(midx);
-			int count = ed.getCount();
+			int count = ed.UnansweredCount();
 			request.setAttribute("mlist", mlist); 
 			request.setAttribute("plist", plist); 
 			request.setAttribute("clist", clist); 
 			request.setAttribute("qlist", qlist); 
 			request.setAttribute("name", name);
 			request.setAttribute("count", count);
-		
-			
 			
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_main.jsp").forward(request, response);
@@ -328,12 +287,15 @@ public class ManagerController extends HttpServlet{
 			String page_ = request.getParameter("p");
 			String query_ = request.getParameter("q");
 			String setting_ = request.getParameter("s");
-
+			String od = request.getParameter("od");
 			String setting = "a.c_content";
 				if (setting_ != null && !setting_.equals("")) {	
 					setting = setting_;
 				}
-			
+
+				if (od == ""||od == null)
+					od = "";
+	
 			String query ="";
 			if(query_ != null && !query_.equals("")) {
 				query =query_;
@@ -344,13 +306,24 @@ public class ManagerController extends HttpServlet{
 			  if (page_ != null && !page_.equals("")) { 
 				  page = Integer.parseInt(page_);
 			  }
-			  
-			  
-			
+			String order="c_idx";
+			String delyn="N";
+			if (od.equals("latest")) {
+				order = "c_idx";
+				delyn="N";
+			}else if (od.equals("report")) {
+				order = "rcnt";
+				delyn="N";
+			}else if (od.equals("delete")) {
+				order = "c_idx";
+				delyn = "Y";
+			}  
+		  
+		
 			CommentADao cad =new CommentADao();
-			List<CommentAVo> clist= cad.getCommentAList(setting,query,page);
+			List<CommentAVo> clist= cad.getCommentAList(setting,query,page,order,delyn);
 			
-			int count = cad.getCommentListCount(page,setting,query );
+			int count = cad.getCommentListCount(page,setting,query,delyn );
 			request.setAttribute("clist", clist);
 			request.setAttribute("count", count);
 			  
@@ -365,9 +338,12 @@ public class ManagerController extends HttpServlet{
 			request.setCharacterEncoding("UTF-8");
 
 			int c_idx = Integer.parseInt(request.getParameter("c_idx"));
+			String delyn = request.getParameter("delyn");
+			String od = request.getParameter("od");
+			
 			CommentADao ca = new CommentADao();
-			ca.deleteComment(c_idx);
-			response.sendRedirect(request.getContextPath() + "/Manager/comment.do");
+			ca.deleteComment(delyn,c_idx);
+			response.sendRedirect(request.getContextPath() + "/Manager/comment.do?od="+od);
 		
 		} else if (str.equals("/Manager/CommentDeleteAllAction.do")) {
 
@@ -385,22 +361,34 @@ public class ManagerController extends HttpServlet{
 		
 		
 		
-		} else if (str.equals("/Manager/Memberlist.do")) {
-
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_list.jsp").forward(request, response);
 				
-		} else if (str.equals("/Manager/Paylist.do")) {
-
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_concert_list.jsp").forward(request, response);
-				
-				
-		} else if (str.equals("/Manager/Qnalist.do")) {
-
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_qna_list.jsp").forward(request, response);
-				
-		}
-		
-				
+		} else if (str.equals("/Manager/CommentView.do")) {
+			String page_ = request.getParameter("p");
+			int c_idx = Integer.parseInt(request.getParameter("c_idx")); 
+			
+			
+			
+			int page = 1;
+			  
+			  if (page_ != null && !page_.equals("")) { 
+				  page = Integer.parseInt(page_);
+			  }
+			
+			
+			
+			CommentADao cad = new CommentADao();
+			CommentAVo test = cad.getCommentView(c_idx);
+			List<CommentAVo> list = cad.getReportList(c_idx,page);
+			int count =cad.getReportListCount(c_idx);
+			
+			request.setAttribute("count", count);
+			request.setAttribute("list", list);
+			request.setAttribute("test", test);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_comment_view.jsp").forward(request, response);
+			
+						
+			
+		}		
 		
 	};
 	

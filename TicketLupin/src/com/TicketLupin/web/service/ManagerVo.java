@@ -27,11 +27,49 @@ public class ManagerVo {
 	private int ppay;
 	private Date riregdate;
 	private int riidx;
+	private int count;
+	private Date rirregdate;
+	private int ripayment; 
+	private String c_date;
+	private String memail;
+	private String q_date;
 	
-	
-	
-	
-	
+	public String getQ_date() {
+		return q_date;
+	}
+	public void setQ_date(String q_date) {
+		this.q_date = q_date;
+	}
+	public String getMemail() {
+		return memail;
+	}
+	public void setMemail(String memail) {
+		this.memail = memail;
+	}
+	public String getC_date() {
+		return c_date;
+	}
+	public void setC_date(String c_date) {
+		this.c_date = c_date;
+	}
+	public int getRipayment() {
+		return ripayment;
+	}
+	public void setRipayment(int ripayment) {
+		this.ripayment = ripayment;
+	}
+	public Date getRirregdate() {
+		return rirregdate;
+	}
+	public void setRirregdate(Date rirregdate) {
+		this.rirregdate = rirregdate;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getRiidx() {
 		return riidx;
 	}

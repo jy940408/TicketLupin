@@ -1,11 +1,11 @@
 @font-face{
-	font-family:"³ª´®½ºÄù¾î Regular";
+	font-family:"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Regular";
 	src:url("../font/NanumSquareR.ttf") format("truetype");
 	font-style:normal;
 	font-weight:normal;
 }
 body{
-	font-family:³ª´®½ºÄù¾î Regular;
+	font-family:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Regular;
 	margin:0;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
@@ -173,7 +173,7 @@ body{
 	background-color:rgba(0,0,0,0.05);
 }
 #main_myticket_member{
-	width:500px;
+	width:565px;
 	height:102px;
 	padding:24px;
 	background-color:white;
@@ -188,7 +188,7 @@ body{
 #main_myticket_id_set{
 	display:inline-block;
 	vertical-align:top;
-	margin:10px;
+	margin:10px 10px 10px 40px;
 }
 #main_myticket_id{
 	padding:4px;
@@ -213,13 +213,13 @@ body{
 	display:inline-block;
 }
 #main_myticket_amount{
-	width:448px;
+	width:380px;
 	height:102px;
 	padding:24px 0;
 }
 #main_myticket_amount a{
 	display:inline-block;
-	width:145px;
+	width:180px;
 	text-align:center;
 	text-decoration:none;
 	color:black;
@@ -308,7 +308,7 @@ body{
 }
 #main_myticket_event_list{
 	width:444px;
-	height:226px;
+	height:218px;
 	border:1px solid rgba(0,0,0,0.3);
 	padding:6px 23px 8px;
 	margin-top:17px;
@@ -322,7 +322,7 @@ body{
 }
 #main_myticket_question_list{
 	width:444px;
-	height:226px;
+	height:218px;
 	border:1px solid rgba(0,0,0,0.3);
 	padding:6px 23px 8px;
 	margin-top:17px;
@@ -342,18 +342,6 @@ body{
 }
 .main_myticket_sub_content_title{
 	width:310px;
-}
-
-
-
-.main_adminmember_sub_content_num{
-	width:30px;
-}
-.main_adminmember_sub_content_name{
-	width:100px;
-}
-.main_adminmember_sub_content_id{
-	width:210px;
 }
 
 
@@ -416,4 +404,43 @@ body{
 	color:black;
 	font-size:13px;
 	display:inline;
+}
+table{
+  border-collapse: separate;
+  border-spacing: 0px ;
+  text-align: left;
+  line-height: 1.5;
+/*   border-top: 1px solid #ccc; */
+  width: 100%;
+  table-layout: fixed;
+}
+table th {
+
+  border-bottom: 1px solid #ccc;
+}
+table td {
+  padding : 0 7px 0 0;
+  border-bottom: 1px solid #ccc;
+
+}
+
+/* ------------------------------------------------------------------ */
+tr.trtr:hover{
+	background-color:#dedede;	
+}
+.ellipsis{
+	width:100%;
+	overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+
+.divoverflow{
+	overflow:hidden;
+}
+.null{
+	text-align:center;
+	height:100%;
+	
 }

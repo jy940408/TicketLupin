@@ -12,9 +12,11 @@ public class CommentAVo {
 	private String crsort;
 	private String c_sort;
 	private String stitle;
+	private String etitle;
 	private String crcontent;
 	private String c_content;
 	private String c_delyn;
+	private String crdelyn;
 	private int c_depth;	
 	private Date crregdate;
 	private Date c_regdate;
@@ -22,9 +24,42 @@ public class CommentAVo {
 	private String mname;
 	private int num;
 	private int no;
+	private String title;
+	private int count;
+	private int rcnt;
 	
-
 	
+	
+	public int getRcnt() {
+		return rcnt;
+	}
+	public void setRcnt(int rcnt) {
+		this.rcnt = rcnt;
+	}
+	public String getCrdelyn() {
+		return crdelyn;
+	}
+	public void setCrdelyn(String crdelyn) {
+		this.crdelyn = crdelyn;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getEtitle() {
+		return etitle;
+	}
+	public void setEtitle(String etitle) {
+		this.etitle = etitle;
+	}
 	public int getNo() {
 		return no;
 	}

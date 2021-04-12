@@ -355,7 +355,7 @@ body{
 	line-height:51px;
 }
 .main_concert_detail_menu_set a div{
-	width:165.8px;
+	width:165.4px;
 	height:51px;
 	background-color:#F5F4F4;
 }
@@ -891,15 +891,17 @@ body{
 	padding:0px;
 }
 .main_concert_question_content_list_id_all{
-	width:76px;
-	height:76px;
+	width:73px;
+	height:73px;
 	border-radius:100%;
 	border:1px solid rgba(0,0,0,0.2);
 	margin-right:10px;
 }
+
 .main_concert_question_content_list_id{
 	display:inline-block;
 	vertical-align:top;
+	width:60px;
 	padding:30px 0;
 }
 .main_concert_question_content_list_id_div{
@@ -1092,11 +1094,9 @@ body{
 
 
 
-
-
 /* --------------------여기서 부터------------------------------ */
 .modifybox{
-		display: inline-block;
+	display: inline-block;
 }
 .modifybox textarea{
 	width:700px;
@@ -1104,9 +1104,10 @@ body{
 	border:1px solid rgba(0,0,0,0.2);
 	font-size:12px;
 	padding:0px;
-	margin-left:30px;
+	margin-left:15px;
 	margin-right:10px;
 	resize: none;
+	overflow:visible;
 }
 
 .modifybox input[type=button]{
@@ -1124,7 +1125,8 @@ body{
 	width: 700px;
 	height: 20px;
 	font-size:12px;
-	margin-left:150px;
+	margin-left:170px;
+	margin-top:15px;
 	border: 1px solid rgba(0,0,0,0.2);
 }
 .commentbox input[type=button]{
@@ -1136,37 +1138,55 @@ body{
     font-weight: bold;
     padding: 0px;
     position: relative;
-    top: 2px;
-    
+    top: 1px;
+    margin-left:3px;
 }
 .commentbox{
 	margin-bottom:15px;
 }
 .commentrow{
 		background-color:#fafafa;
-		padding-top:20px;
+		padding-top:5px;
 		border-top: 2px dotted;
+		border-color:#b8b8b8;
 }
 .commentrow div{
 	  display: inline-block;
 	  word-break:break-all;
 }
 .commentcontent{
-	 display: inline-block;
-    overflow:hidden;
-    height:auto;
-	margin-left:20px;
-	margin-right:130px;
-	width: auto;
+	width: 790px;
+	padding: 10px 20px;
 }
 .commentid{
-	margin-left:100px;
-	margin-bottom:40px;
+	margin-top:1px;
+	padding-top:10px;
+/* 	margin-left:70px; */
 	display: inline-block;
+	width:150px;
+	float: left;
+	
+	
+	text-align:right;
+	
+}
+.commentlike{
+	float:right;
+	width:130px;
+	margin-bottom:0 0 10px;
 }
 .commentdate{
-	margin-left:185px;
-	margin-right:580px;
+	font-size:12px;
+	color:rgba(0,0,0,0.4);
+	padding:0 0 10px;
+	
+}
+.likeanddate{
+	padding:2px 0;
+	width:100%;
+}
+.commentview{
+	width:770px;
 }
 ul{
    list-style:none;
@@ -1178,6 +1198,11 @@ a { text-decoration:none }
 .commentrow a:visited { color: black; text-decoration: none;}
 .commentrow a:hover { color: black; text-decoration: underline;}
 
+.main_concert_question_content_list_content_good a:link { color: black; text-decoration: none;}
+.main_concert_question_content_list_content_good a:visited { color: black; text-decoration: none;}
+.main_concert_question_content_list_content_good a:hover { color: black; text-decoration: underline;}
+
+
 div{
   word-break:break-all;
 	
@@ -1185,8 +1210,6 @@ div{
 textarea{
 	resize: none;
 }
-
-
 #main_concert_expect_content_list ul li[class*="reypleR_"]{
 	display:none;
 }
@@ -1218,3 +1241,8 @@ textarea{
 #main_concert_question_content_list ul li[class*="modifyc2_"]{
 	display:block;
 }
+.hrbar{
+	margin:0px 0px 8px;
+	
+}
+

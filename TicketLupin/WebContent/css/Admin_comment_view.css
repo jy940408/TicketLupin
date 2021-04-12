@@ -1,0 +1,149 @@
+
+		
+		/*테이블*/
+
+		
+
+		table.type05 {
+		  border-collapse: separate;
+		  border-spacing: 1px;
+		  text-align: left;
+		  line-height: 1.5;
+		  border-top: 1px solid #ccc;
+		  margin: 20px 10px;
+		}
+		table.type05 th {
+		  width: 100px;
+		  padding: 10px;
+		  font-weight: bold;
+		  vertical-align: top;
+		  border-bottom: 1px solid #ccc;
+		  background: #efefef;
+		}
+		table.type05 td {
+		  width: 160px;
+		  padding: 10px;
+		  vertical-align: top;
+		  border-bottom: 1px solid #ccc;
+		}
+		
+		
+		
+		
+		table.type02 {
+		  border-collapse: separate;
+		  border-spacing: 0;
+		  text-align: left;
+		  line-height: 1.5;
+		  border-top: 1px solid #ccc;
+		  border-left: 1px solid #ccc;
+		  margin : 8px 10px 20px;
+		}
+		table.type02 th {
+		
+		  padding: 10px;
+		  font-weight: bold;
+		  vertical-align: top;
+		  border-right: 1px solid #ccc;
+		  border-bottom: 1px solid #ccc;
+		  border-top: 1px solid #fff;
+		  border-left: 1px solid #fff;
+		  background: #eee;
+		}
+
+		table.type02 td {
+		  padding: 10px;
+		  vertical-align: top;
+		  border-right: 1px solid #ccc;
+		  border-bottom: 1px solid #ccc;
+		}		
+		
+		.t1{
+			width: 30px;
+		}
+		.t2{
+			width: 170px;
+		}
+		.t3{
+			width: 170px;
+		}
+		
+		
+		/* a링크 */
+			a:link {text-decoration: none;color: #000000;  }
+			a:visited { text-decoration:none;color:#000000;}
+			a:active {text-decoration:none; color:#000000; }
+			a:hover { text-decoration:none; color:#000000;}
+		
+		#num{
+			text-align:center;
+		}
+		
+		#hh{
+			position: absolute;
+			width: 600px;
+		}
+		#aaa{
+			background-color: #bfbfbf;
+			width:320px;
+			height:50px;
+		}
+		#rainisback{
+			width: 20%;
+			padding: 15px 0 10px;
+			border: 0;
+			cursor: pointer;
+			color: #fff;
+			background-color: #a8a8a8;
+			font-size: 20px;
+			font-weight: 400;
+			font-family:"나눔스퀘어 Regular";
+			position:absolute;
+			right:0;
+
+		}
+		.reportlist{
+		font-size: 14px;
+		}
+		.if{
+		font-size: 13px;
+		}
+		
+		#topBtn {
+		background-color:gray;
+ 		width:100%;
+ 		height:70px;
+		position: fixed; /* 포지션 고정 */
+		left: 0%; /* 오른쪽에서 2% - %도 할수 있음*/ 
+		bottom: 0px; /* 밑에서 5px */ 
+		 /* 보여지지 없음 - 기본적으로 안보여지게 */ 
+		z-index: 9999; /* 포지션을 먼저 지정후 z-좌표(레이어) : 9999입니다. */ 
+		opacity:0.8;
+		}
+		#Btn{
+	
+		position: fixed;
+		right: 5%;	
+		bottom: 17px; 
+		}
+		.btn{
+		margin: 0;
+		padding: 10px;
+		font-size: 15px;
+		font-weight: 300;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		width: 150px;
+		border: none;
+		border-radius: 4px;
+
+		}
+		#blank{
+		height:100px;
+		}
+				
+	/* 	input[type=button]{
+			opacity:1;
+			color:red;
+		}	 */

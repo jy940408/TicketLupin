@@ -21,8 +21,9 @@ public class ManagerDao {
 	public List<ManagerVo> getmemberAMainList(){
 		
 		List<ManagerVo> mlist = new ArrayList<ManagerVo>();
-			String sql ="select * from(select rownum num, n.* from(select row_number() over (order by midx) no,midx, mid, mname, msignindate from member order by no desc)n)where num between 1 and 8";
-
+			String sql ="select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( "+
+						"select @ROWNUM := @ROWNUM + 1 AS NO, midx, mid, mname,memail, date_format( msignindate,'%m-%d')as c_date from member A,(SELECT @ROWNUM := 0)B order by MIDX)AA, "+
+						"(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit 0,7 ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -36,7 +37,8 @@ public class ManagerDao {
 				mv.setMidx(rs.getInt("midx"));
 				mv.setMid(rs.getString("mid"));
 				mv.setMname(rs.getString("mname"));
-				mv.setMsignindate(rs.getDate("msignindate"));
+				mv.setC_date(rs.getString("c_date"));
+				mv.setMemail(rs.getString("memail"));
 				mlist.add(mv);
 				}
 			
@@ -50,8 +52,10 @@ public class ManagerDao {
 	public List<ManagerVo> getPayAMainList(){
 		
 		List<ManagerVo> plist = new ArrayList<ManagerVo>();
-			String sql = " select * from(select rownum num, n.* from(select row_number() over (order by a.riidx) no, c.stitle, b.mid, a.riregdate, "+
-						" a.riidx from reservationidx a, member b, show c where a.midx= b.midx(+) and a.sidx =c.sidx(+) order by no desc)n)where num between 1 and 8 ";
+			String sql = "select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( "+
+					"select @ROWNUM := @ROWNUM + 1 AS NO, c.stitle, b.mid, date_format( a.riregdate,'%m-%d')as c_date,a.ripayment, "+
+					"a.riidx from reservationidx a LEFT JOIN member b ON a.midx= b.midx LEFT JOIN show1 c ON a.sidx =c.sidx ,(SELECT @ROWNUM := 0)D order by a.riidx"+
+					")AA,(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit 0,7" ; 
 			try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -64,8 +68,9 @@ public class ManagerDao {
 				mv.setNo(rs.getInt("no"));
 				mv.setStitle(rs.getString("stitle"));
 				mv.setMid(rs.getString("mid"));
-				mv.setRiregdate(rs.getDate("riregdate"));
+				mv.setC_date(rs.getString("c_date"));
 				mv.setRiidx(rs.getInt("riidx"));
+				mv.setRipayment(rs.getInt("ripayment"));
 				plist.add(mv);
 				}
 			
@@ -79,7 +84,9 @@ public class ManagerDao {
 	public List<ManagerVo> getCommentAMainList(){
 		
 		List<ManagerVo> clist = new ArrayList<ManagerVo>();
-			String sql ="select * from(select rownum num, n.* from(select row_number() over (order by c_idx) as no,  c_idx, substr(c_content,0,17)as c_content, c_regdate from c_comment order by no desc)n)where num between 1 and 8";
+			String sql = "select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( " + 
+					"select @ROWNUM := @ROWNUM + 1 AS NO,  c_idx,  c_content, date_format(c_regdate,'%m-%d')as c_date from c_comment order by c_idx " + 
+					")AA,(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit 0,7 ";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -91,7 +98,7 @@ public class ManagerDao {
 				
 				mv.setNo(rs.getInt("no"));
 				mv.setC_content(rs.getString("c_content"));
-				mv.setC_regdate(rs.getDate("c_regdate"));
+				mv.setC_date(rs.getString("c_date"));
 				mv.setC_idx(rs.getInt("c_idx"));
 				clist.add(mv);
 				}
@@ -106,10 +113,11 @@ public class ManagerDao {
 	public List<ManagerVo> getQnaAMainList(){
 		
 		List<ManagerVo> qlist = new ArrayList<ManagerVo>();
-			String sql =    "	select * from(select rownum num, n.* from (select row_number() over (order by a.Qidx) "+
-							"	no, a.qidx, a.qtype, substr(a.qtitle,0,16) as qtitle,count(distinct b.qidx) as cnt "+
-							"	, a.qregdate from question a, answer b where a.qidx = b.qidx(+) "+
-							"	group by  a.qidx, a.qtype,qtitle, a.qregdate order by no desc)n)where cnt = 0 and  num between 1 and 8 ";
+			String sql ="select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( " + 
+						"select @ROWNUM := @ROWNUM + 1 AS NO, a.qidx, a.qtype, A.qtitle,count(distinct b.qidx) as cnt " + 
+						", date_format(a.qregdate,'%m-%d')as q_date from question a LEFT JOIN answer b ON a.qidx = b.qidx,(SELECT @ROWNUM := 0) C " + 
+						"group by  a.qidx, a.qtype,qtitle, a.qregdate order by a.Qidx " + 
+						")AA,(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a where num between 1 and 8";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -122,7 +130,7 @@ public class ManagerDao {
 				mv.setNo(rs.getInt("no"));
 				mv.setQtitle(rs.getString("qtitle"));
 				mv.setQtype(rs.getString("qtype"));
-				mv.setQregdate(rs.getDate("qregdate"));
+				mv.setQ_date(rs.getString("q_date"));
 				mv.setQidx(rs.getInt("qidx"));
 				qlist.add(mv);
 				}
@@ -156,12 +164,12 @@ public class ManagerDao {
 		}
 		return	name;
 	}
-	public int getCount(){
+	public int UnansweredCount(){
 		
 		int count = 0;
 		
-		String sql =  "select count (*)from(select qtitle, a.qidx, a.qregdate ,count(distinct b.qidx) as cnt from question a, answer b where a.qidx = b.qidx(+) \r\n" + 
-					" group by qtitle, a.qidx, a.qregdate)n where cnt=0";
+		String sql ="select count(*) as count from(select qtitle, a.qidx, a.qregdate ,count(distinct b.qidx) as cnt from " + 
+					"question a LEFT JOIN answer b ON a.qidx = b.qidx group by qtitle, a.qidx, a.qregdate)n where cnt=0"; 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -177,5 +185,27 @@ public class ManagerDao {
 		}
 		return	count;
 	}
+	public int ReportCount (){
+		
+		int count = 0;
+		
+		String sql ="select count(*) as count from(select qtitle, a.qidx, a.qregdate ,count(distinct b.qidx) as cnt from question a LEFT JOIN " + 
+					"answer b ON a.qidx = b.qidx group by qtitle, a.qidx, a.qregdate)n where cnt=0"; 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				
+				count = rs.getInt("count");
+				
+			}
+		
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		return	count;
+	}
+
 
 }

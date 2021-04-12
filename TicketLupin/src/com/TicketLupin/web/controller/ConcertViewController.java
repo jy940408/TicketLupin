@@ -177,12 +177,13 @@ public class ConcertViewController extends HttpServlet{
 			request.setAttribute("contentsDetail", sv);
 			
 //==============================================================================================================================//	
-			
-			//상세 정보 받아오기
 			String page_ = request.getParameter("p");
 			String tab = request.getParameter("tab");
 			String od = request.getParameter("od");
-			System.out.println("OD"+od);
+	
+			
+
+			
 			if (od == ""||od == null)
 				od = "";
 			
@@ -225,8 +226,19 @@ public class ConcertViewController extends HttpServlet{
 			  }
 			  
 			  ExpectDao ed = new ExpectDao();
+			  List<ExpectVo> elist = ed.getExpectList(setting, setting2,setting3, page,sidx); 
+			
 			  
+			  
+			  int count = ed.getExpectListCount(setting3,sidx);
+			  
+			  request.setAttribute("elist", elist);  
+			  request.setAttribute("count",count);
+
+			 
 			  request.setAttribute("tab", tab);
+			  request.setAttribute("sidx", sidx_);
+		
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			
@@ -322,21 +334,18 @@ public class ConcertViewController extends HttpServlet{
 			
 			
 //==============================================================================================================================//				
-			
 		}else if(str.equals("/ConcertView/Commentreport.do")){
 			request.getRequestDispatcher("/WEB-INF/view/jsp/comment_report.jsp").forward(request, response);
-			
+	
 	}else if(str.equals("/ConcertView/Commentreportaction.do")){ 	
-			
-		HttpSession session = request.getSession();
+			HttpSession session = request.getSession();
 			int midx = (int) session.getAttribute("midx");
+			System.out.println("midx->"+midx);
 			int c_idx= Integer.parseInt(request.getParameter("c_idx"));
 			String sort = request.getParameter("radioval");
 			String etcval = request.getParameter("etcval");
-			
 			if (etcval  == ""||etcval  == null)
-				etcval  = "NULL";
-			
+				etcval  = " ";
 			CommentADao cd = new CommentADao();
 			cd.insertReport(midx,c_idx,sort,etcval);
 
@@ -345,15 +354,48 @@ public class ConcertViewController extends HttpServlet{
 	         pt.flush();
 	         pt.close();
 			
-		}  else if (str.equals("/ConcertView/ExpectModifyWriteAction.do")) {
+	} else if (str.equals("/ConcertView/ExpectWriteAction.do")) {
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+	
+		
+			
+			HttpSession session = request.getSession();
+			int midx = (int) session.getAttribute("midx");
+			String c_content = request.getParameter("content");
+			String tab = request.getParameter("tab");
+			int sidx = Integer.parseInt(request.getParameter("sidx")); 
+			
+			String sort="E";
+			 
+			if (tab == null || tab.equals("")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_expect_all")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_review_all")) {
+				sort = "R";
+			}else if (tab.equals("main_concert_question_all")) {
+				sort = "Q";
+			}
+			
+		
+			ExpectDao rd = new ExpectDao();
+	
+			rd.insertExpect(sidx,midx, c_content,sort);
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx+"&tab="+tab+"#hold2");
+			
+		} else if (str.equals("/ConcertView/ExpectModifyWriteAction.do")) {
 			
 			  response.setCharacterEncoding("UTF-8");
 			  response.setContentType("text/html; charset=UTF-8");
 			  request.setCharacterEncoding("UTF-8");
 			  
-			  HttpSession session = request.getSession();
+			  HttpSession session = request.getSession(); 
+			  String page = request.getParameter("p");
 			  int midx = (int)session.getAttribute("midx");
-			  int c_idx = Integer.parseInt(request.getParameter("c_idx")); 
+			  int c_idx = Integer.parseInt(request.getParameter("c_idx"));
+			  int sidx_ = Integer.parseInt(request.getParameter("sidx")); 
 			  String c_content = request.getParameter("content");
 			  String tab = request.getParameter("tab");
 
@@ -363,18 +405,50 @@ public class ConcertViewController extends HttpServlet{
 			  ed.Expectupdate(midx,c_idx,c_content);
 			  
 
-			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx_+"&tab="+tab+"&p="+page+"#hold2");
 				
 			 
 
 		
 
-		}else if (str.equals("/ConcertView/ExpectDeleteAction.do")) {
+		} else if (str.equals("/ConcertView/ExpectCommentWriteAction.do")) {
+			
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
+
+			HttpSession session = request.getSession();
+			int midx = (int) session.getAttribute("midx");
+			String page = request.getParameter("p");
+			int origin_c_idx = Integer.parseInt(request.getParameter("origin_c_idx"));
+			String c_content = request.getParameter("content");
+			int sidx = Integer.parseInt(request.getParameter("sidx")); 
+			String tab	= request.getParameter("tab");
+			ExpectDao ed = new ExpectDao();
+			
+			String sort="E";
+			 
+			if (tab == null || tab.equals("")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_expect_all")) {
+				sort = "E";
+			}else if (tab.equals("main_concert_review_all")) {
+				sort = "R";
+			}else if (tab.equals("main_concert_question_all")) {
+				sort = "Q";
+			}
+
+			ed.insertExpectComment(midx,origin_c_idx,sidx, c_content,sort);
+		
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx+"&tab="+tab+"&p="+page+"#hold2");
+			
+		} else if (str.equals("/ConcertView/ExpectDeleteAction.do")) {
 
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
-			request.setCharacterEncoding("UTF-8");		
-			
+			request.setCharacterEncoding("UTF-8");
+			String page = request.getParameter("p");
+			int sidx_ = Integer.parseInt(request.getParameter("sidx")); 
 			String tab	= request.getParameter("tab");
 			String c_idx_ = request.getParameter("c_idx");
 			String origin_c_idx_ = request.getParameter("origin_c_idx");
@@ -395,16 +469,16 @@ public class ConcertViewController extends HttpServlet{
 			System.out.println("idx->"+ idx+"/"+setting );
 			ExpectDao rd = new ExpectDao();
 			rd.deleteExpect(idx, setting);
-			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx_+"&tab="+tab+"&p="+page+"#hold2");
 			
 		
-			/* 좋아요 */
+			/* ���ƿ� */
 		} else if (str.equals("/ConcertView/GoodAction.do")) {
 
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
-
+			int sidx_ = Integer.parseInt(request.getParameter("sidx")); 
 			PrintWriter out = response.getWriter();
 
 			HttpSession session = request.getSession();
@@ -431,12 +505,19 @@ public class ConcertViewController extends HttpServlet{
 
 			if (check == 0) {
 				gd.insertgoodbad(midx,c_idx, lsort, origin_c_idx);
-				response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?tab="+tab);
+				response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx_+"&tab="+tab);
 			} else {
-				out.println("<script>alert('이미 좋아요를 하셨습니다.'); history.go(-1);</script>");
+				out.println("<script>alert('�̹� ���ƿ並 �ϼ̽��ϴ�.'); history.go(-1);</script>");
 			}
-		}  
+	
+		
+		
+		}	  
+	
 	};
+
+
+	
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
