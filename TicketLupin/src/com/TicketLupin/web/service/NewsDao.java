@@ -25,11 +25,8 @@ public class NewsDao {
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
-		String sql = "SELECT * FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, W.* FROM "
-				+ "(SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WCATEGORY LIKE ? AND WDELYN = 'N' "
-				+ "ORDER BY WREGDATE DESC) W WHERE (@ROWNUM:=0)=0) A "
-				+ "WHERE NUM BETWEEN ? AND ?";
+		String sql = "SELECT * FROM NEWS WHERE WTITLE LIKE ? AND WCATEGORY LIKE ? AND WDELYN = 'N' " 
+				+ "ORDER BY WREGDATE DESC LIMIT 0,15";
 
 		
 		try {
@@ -38,8 +35,8 @@ public class NewsDao {
 			
 			pstmt.setString(1, "%"+query+"%");
 			pstmt.setString(2, "%"+setting+"%");
-			pstmt.setInt(3, 1+(page-1)*10);
-			pstmt.setInt(4, page*10);
+//			pstmt.setInt(3, 1+(page-1)*10);
+//			pstmt.setInt(4, page*10);
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -80,11 +77,8 @@ public class NewsDao {
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
-		String sql = "SELECT * FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, W.* FROM "
-				+ "(SELECT * FROM NEWS WHERE WCATEGORY LIKE '티켓오픈일' AND WDELYN = 'N' "
-				+ "ORDER BY WOPENDATE DESC) W WHERE (@ROWNUM:=0)=0) A "
-				+ "WHERE NUM BETWEEN 1 AND 20";
+		String sql = "SELECT * FROM NEWS WHERE WCATEGORY LIKE '티켓오픈일' "
+				+ "AND WDELYN = 'N' ORDER BY WOPENDATE DESC LIMIT 0,20";
 
 		
 		try {
@@ -190,7 +184,7 @@ public class NewsDao {
 		String sql = "INSERT INTO NEWS(WTITLE, WBASICINFO, MIDX, WREGDATE, WHIT, WIMAGE, WFILES, "
 				+ "WPUB, WGOOD, WDELYN, WOPENDATE, WTITLEPOSTER, WINTRODUCE, "
 				+ "WDISCOUNT, WCOMPANY, WCATEGORY) "
-				+ "VALUES(?, ?, ?, NOW(), 1, ?, ?, 'Y', 0, 'N', ?, ?, ?, ?, ?, ?)";
+				+ "VALUES(?, ?, ?, NOW(), 1, ?, ?, ?, 0, 'N', ?, ?, ?, ?, ?, ?)";
 
 				
 		try {
@@ -199,15 +193,17 @@ public class NewsDao {
 			pstmt.setString(1, nv.getWtitle());
 			pstmt.setString(2, nv.getWbasicinfo());
 			pstmt.setInt(3, nv.getMidx());
-			pstmt.setString(4, nv.getWpub());
-			pstmt.setDate(5, nv.getWopendate());
-			pstmt.setString(6, nv.getWtitleposter());
-			pstmt.setString(7, nv.getWintroduce());
-			pstmt.setString(8, nv.getWdiscount());
-			pstmt.setString(9, nv.getWcompany());
-			pstmt.setString(10, nv.getWcategory());
+			pstmt.setString(4, nv.getWimage());
+			pstmt.setString(5, nv.getWfiles());
+			pstmt.setString(6, nv.getWpub());
+			pstmt.setDate(7, nv.getWopendate());
+			pstmt.setString(8, nv.getWtitleposter());
+			pstmt.setString(9, nv.getWintroduce());
+			pstmt.setString(10, nv.getWdiscount());
+			pstmt.setString(11, nv.getWcompany());
+			pstmt.setString(12, nv.getWcategory());
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 			System.out.println(nv.getWtitle());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -278,7 +274,7 @@ public class NewsDao {
 			
 			pstmt.setInt(1, widx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 			System.out.println(nv.getWhit());
 			
 		} catch (SQLException e) {

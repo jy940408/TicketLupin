@@ -24,19 +24,22 @@ public class WinnerDao {
 		
 		List<WinnerVo> list = new ArrayList<WinnerVo>();
 		
-		String sql = "SELECT * FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, N.* FROM (SELECT * FROM "
-				+ "WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' "
-				+ "ORDER BY IREGDATE DESC) N WHERE (@ROWNUM:=0)=0) A "
-				+ "WHERE NUM BETWEEN ? AND ?";
+//		String sql = "SELECT * FROM "
+//				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, N.* FROM (SELECT * FROM "
+//				+ "WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' "
+//				+ "ORDER BY IREGDATE DESC) N WHERE (@ROWNUM:=0)=0) A "
+//				+ "WHERE NUM BETWEEN ? AND ?";
+		
+		String sql = "SELECT * FROM WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' "
+				+ "ORDER BY IREGDATE DESC LIMIT ?, ?";
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+query+"%");
-			pstmt.setInt(2, 1+(page-1)*10);
-			pstmt.setInt(3, page*10);
+			pstmt.setInt(2, 0);
+			pstmt.setInt(3, 10);
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -154,7 +157,7 @@ public class WinnerDao {
 			pstmt.setString(5, wv.getIpub());
 			pstmt.setDate(6, wv.getIopendate());
 			pstmt.setDate(7, wv.getIenddate());
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,7 +222,7 @@ public class WinnerDao {
 			
 			pstmt.setInt(1, iidx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 			System.out.println(wv.getIhit());
 			
 		} catch (SQLException e) {

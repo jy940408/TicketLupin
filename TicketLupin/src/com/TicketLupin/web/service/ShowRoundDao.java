@@ -34,7 +34,7 @@ public class ShowRoundDao {
 			pstmt.setString(4, srv.getSrround2());
 			pstmt.setString(5, srv.getSrround3());
 			pstmt.setString(6, srv.getSrround4());
-			ResultSet rs = pstmt.executeQuery();
+			int update = pstmt.executeUpdate();
 			System.out.println("ShowRoundDao 들어오는 것 확인");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

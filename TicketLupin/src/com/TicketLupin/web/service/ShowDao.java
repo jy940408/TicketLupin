@@ -51,7 +51,7 @@ public class ShowDao {
 			pstmt.setInt(14, sv.getSrprice());
 			pstmt.setInt(15, sv.getSsprice());
 			pstmt.setInt(16, sv.getSaprice());
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,7 +85,7 @@ public class ShowDao {
 			pstmt.setString(13, sv.getSinfoimage());
 			pstmt.setString(14, sv.getScompanyimage());
 			
-			ResultSet rs = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,38 +98,38 @@ public class ShowDao {
 		
 		ArrayList<Show1Vo> list = new ArrayList<>();
 
-		String sql ="SELECT * FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 as NUM, S.* FROM "
-				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
-				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE "
-				+ "STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' "
-				+ "ORDER BY SREGDATE DESC) S WHERE (@ROWNUM:=0)=0) A "
-//				+ "WHERE SDELYN = 'N' ";
-				+ "WHERE NUM >= 1 AND  NUM <= 10";
+//		String sql ="SELECT * FROM "
+//				+ "(SELECT @ROWNUM:=@ROWNUM+1 as NUM, S.* FROM "
+//				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
+//				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE "
+//				+ "STITLE LIKE ? AND SHOW1.SDELYN = 'N' "
+//				+ "ORDER BY SREGDATE DESC) S WHERE (@ROWNUM:=0)=0) A "
+//				+ "WHERE SDELYN = 'N' "
+//				+ "WHERE NUM >= 1 AND  NUM <= 10";
 		
-	//	sql="SELECT @ROWNUM+1 NUM, S.* FROM (SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE STITLE LIKE '%%' AND SHOW1.SDELYN = 'N' ORDER BY SREGDATE DESC) S";
+		String sql = "SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " + 
+				"WHERE  STITLE LIKE ? AND  SHOW1.SDELYN = 'N' ORDER BY SREGDATE DESC limit ?,?";
+	
 
 		System.out.println("sql:"+sql);
-		
+		System.out.println("query::"+query);
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-//			pstmt.setString(1, "%"+query+"%");
-//			pstmt.setInt(2, 1+(page-1)*12);
-//			pstmt.setInt(3, page*12);
+			pstmt.setString(1, "%"+query+"%");
+			pstmt.setInt(2, 0);
+			pstmt.setInt(3, 12);
 			
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("rs"+rs);
-			System.out.println("rs.next()"+rs.next());
+			
 			int i = 0;
 			while(rs.next()) {
-				System.out.println("i:"+i);
 				Show1Vo sv = new Show1Vo();
 				
 				sv.setSidx(rs.getInt("SIDX"));
 				sv.setStitle(rs.getString("STITLE"));
-				sv.setSgenre(rs.getString("sgenre"));
+				sv.setSgenre(rs.getString("SGENRE"));
 				sv.setSregdate(rs.getDate("SREGDATE"));
 				sv.setSopendate(rs.getDate("SOPENDATE"));
 				sv.setSenddate(rs.getDate("SENDDATE"));
@@ -155,7 +155,7 @@ public class ShowDao {
 				e.printStackTrace();
 		}
 		
-		System.out.println("list"+list);
+		System.out.println("list 테스트: "+list);
 		return list;
 		
 	}
@@ -323,11 +323,8 @@ public class ShowDao {
 		
 		int count = 0;
 		
-		String sql = "SELECT COUNT(SIDX) COUNT FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, S.* FROM "
-				+ "(SELECT * FROM "
-				+ "SHOW1 WHERE STITLE LIKE ? AND SDELYN = 'N' ORDER BY ? DESC) S WHERE "
-				+ "(@ROWNUM:=0)=0) A";
+		String sql = "SELECT COUNT(*) COUNT FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " + 
+				"WHERE  STITLE LIKE ? AND SHOW1.SDELYN = 'N' ORDER BY SREGDATE DESC";
 
 		
 		try {
@@ -335,7 +332,6 @@ public class ShowDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+query+"%");
-			pstmt.setString(2, setting);
 			
 			ResultSet rs = pstmt.executeQuery();
 
@@ -348,6 +344,7 @@ public class ShowDao {
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
+		System.out.println("count 테스트: " + count);
 		
 		return count;
 	}
@@ -438,7 +435,7 @@ public class ShowDao {
 		
 		ArrayList<ShowRankingVo> result = new ArrayList<>();
 		
-		String sql = "SELECT * FROM (SELECT @ROWNUM:=@ROWNUM+1 NUM, SHOWCOM.* FROM "
+		String sql = "SELECT SHOWCOM.* FROM "
 				+ "(SELECT SHOW1.*, SHOW2.STITLEIMAGE FROM "
 				+ "SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE SHOW1.SDELYN = 'N') SHOWCOM INNER JOIN "
 				+ "(SELECT COUNT(*) CNT, SIDX FROM RESERVATION "
@@ -446,7 +443,7 @@ public class ShowDao {
 				+ "GROUP BY SIDX ORDER BY CNT DESC) CNT "
 				+ "ON SHOWCOM.SIDX = CNT.SIDX "
 				+ "WHERE SHOWCOM.SENDDATE >= STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s') "
-				+ "AND (@ROWNUM:=0)=0 ORDER BY CNT.CNT DESC) A WHERE NUM BETWEEN 1 AND 10";
+				+ "ORDER BY CNT.CNT DESC LIMIT 0, 10";
 
 		
 		try {

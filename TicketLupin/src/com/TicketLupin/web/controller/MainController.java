@@ -51,6 +51,8 @@ public class MainController extends HttpServlet{
 			
 			NewsDao nd = new NewsDao();
 			List<NewsVo> newsList = nd.getNewsList(query, nsetting, "", page);
+			System.out.println("메인페이지 뉴스 목록 확인: " + newsList);
+			
 			
 			request.setAttribute("showList", showList);
 			request.setAttribute("showRecentList", showRecentList);

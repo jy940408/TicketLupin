@@ -174,20 +174,20 @@ public class ReservationDao {
 	public ArrayList<ReservationListVo> getReservationIdxList(int idx, int page){
 		ArrayList<ReservationListVo> list = new ArrayList<>();
 
-		String sql = "SELECT COMINFO.* FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 PAGENUM, MAININFO.*, SHOW1.STITLE FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, RESERVATIONIDX.* FROM "
-				+ "RESERVATIONIDX WHERE MIDX = ? AND (@ROWNUM:=0)=0 ORDER BY NUM DESC) MAININFO "
-				+ "INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX "
-				+ "WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N' AND (@ROWNUM:=0)=0) COMINFO "
-				+ "WHERE COMINFO.PAGENUM BETWEEN ? AND ?";
+		String sql = "SELECT COMINFO.* FROM " + 
+				"(SELECT MAININFO.*, SHOW1.STITLE FROM " + 
+				"(SELECT RESERVATIONIDX.* FROM " + 
+				"RESERVATIONIDX WHERE MIDX = ? ORDER BY RIREGDATE DESC) MAININFO " + 
+				"INNER JOIN SHOW1 ON MAININFO.SIDX = SHOW1.SIDX " + 
+				"WHERE SHOW1.SDELYN = 'N' AND MAININFO.RIDELYN = 'N') COMINFO " + 
+				"LIMIT 0, 10";
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
-			pstmt.setInt(2, 1+(page-1)*15);
-			pstmt.setInt(3, page*15);
+//			pstmt.setInt(2, 1+(page-1)*15);
+//			pstmt.setInt(3, page*15);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -201,8 +201,6 @@ public class ReservationDao {
 				rlv.setSrdate(rs.getString("SRDATE"));
 				rlv.setSrround(rs.getString("SRROUND"));
 				rlv.setRiregdate(rs.getDate("RIREGDATE"));
-				rlv.setPagenum(rs.getInt("PAGENUM"));
-				rlv.setNum(rs.getInt("NUM"));
 				
 				list.add(rlv);
 				
@@ -399,7 +397,7 @@ public class ReservationDao {
 				rsv.setRseat(rs.getString("RSEAT"));
 				rsv.setRdiscount(rs.getString("RDISCOUNT"));
 				rsv.setRideldate(rs.getDate("RIDELDATE"));
-			
+				
 				list.add(rsv);
 				
 			}

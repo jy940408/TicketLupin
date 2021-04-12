@@ -30,7 +30,7 @@ public class DibsDao {
 			pstmt.setInt(1, sidx);
 			pstmt.setInt(2, midx);
 			
-			rs = pstmt.executeQuery();
+			value = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -78,7 +78,7 @@ public class DibsDao {
 			pstmt.setInt(1, sidx);
 			pstmt.setInt(2, midx);
 			
-			rs = pstmt.executeQuery();
+			value = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -90,31 +90,30 @@ public class DibsDao {
 	
 	public ArrayList<DibsListVo> getDibsList(int midx_, int page){
 		ArrayList<DibsListVo> list = new ArrayList<>();
-		String sql = "SELECT * FROM "
-				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, D.* FROM "
-				+ "(SELECT SHOW1.SIDX, SHOW1.STITLE, SHOW1.SOPENDATE, SHOW1.SENDDATE, DIBS.MIDX FROM "
-				+ "SHOW1 INNER JOIN DIBS ON SHOW1.SIDX = DIBS.SIDX WHERE DIBS.MIDX = ?) D WHERE (@ROWNUM:=0)=0) A "
-				+ "WHERE NUM BETWEEN ? AND ? ORDER BY NUM DESC";
+		String sql = "SELECT D.* FROM "
+				+ "(SELECT SHOW1.SIDX, SHOW1.STITLE, SHOW1.SOPENDATE, SHOW1.SENDDATE, DIBS.MIDX, DIBS.DIDX "
+				+ "FROM SHOW1 INNER JOIN DIBS "
+				+ "ON SHOW1.SIDX = DIBS.SIDX WHERE DIBS.MIDX= ?) D "
+				+ "ORDER BY DIDX DESC LIMIT 0,10";
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, midx_);
-			pstmt.setInt(2, 1+(page-1)*10);
-			pstmt.setInt(3, page*10);
+//			pstmt.setInt(2, 1+(page-1)*10);
+//			pstmt.setInt(3, page*10);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				int num = rs.getInt("NUM");
-				int sidx = rs.getInt("SIDX");
-				String stitle = rs.getString("STITLE");
-				Date sopendate = rs.getDate("SOPENDATE");
-				Date senddate = rs.getDate("SENDDATE");
-				int midx = rs.getInt("MIDX");
+				DibsListVo dlv = new DibsListVo();
 				
-				DibsListVo dlv = new DibsListVo(num, sidx, stitle, sopendate, senddate, midx);
+				dlv.setSidx(rs.getInt("SIDX"));
+				dlv.setStitle(rs.getString("STITLE"));
+				dlv.setSopendate(rs.getDate("SOPENDATE"));
+				dlv.setSenddate(rs.getDate("SENDDATE"));
+				dlv.setMidx(rs.getInt("MIDX"));
 				
 				list.add(dlv);
 				

@@ -45,12 +45,10 @@ public class MyticketController extends HttpServlet{
 		         
 		         
 		         MyticketDao md = new MyticketDao();
-		         List<MyticketVo> elist = md.getMyeventList(midx);
 		         MemberVo mv = md.getName(midx);
 		         List<QuestionVo> qlist = md.getQuestionList(midx);      
 		         
 		         request.setAttribute("rlist", rlist);
-		         request.setAttribute("elist", elist);
 		         request.setAttribute("qlist", qlist);
 		         request.setAttribute("mv", mv);
 		         
@@ -78,8 +76,8 @@ public class MyticketController extends HttpServlet{
 			ReservationDao rd = new ReservationDao();
 			ArrayList<ReservationListVo> list = rd.getReservationIdxList(midx, page);
 			int count = rd.getReservationCount(midx);
-			System.out.println("list È®ÀÎ: " + list);
-			System.out.println("count È®ÀÎ: " + count);
+			System.out.println("list È®ï¿½ï¿½: " + list);
+			System.out.println("count È®ï¿½ï¿½: " + count);
 			ArrayList<ReservationListVo> dList = rd.getReservationIdxDelList(midx, dPage);
 			int dCount = rd.getDelReservationCount(midx);
 			
@@ -106,7 +104,7 @@ public class MyticketController extends HttpServlet{
 			
 			ReservationDao rd = new ReservationDao();
 			ArrayList<ReservationShowVo> detail = rd.getReservationDetail(midx, riidx);
-			System.out.println("detail È®ÀÎ: " + detail);
+			System.out.println("detail È®ï¿½ï¿½: " + detail);
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_buy_detail.jsp").forward(request, response);
@@ -127,7 +125,7 @@ public class MyticketController extends HttpServlet{
 			
 			ReservationDao rd = new ReservationDao();
 			ArrayList<ReservationShowVo> detail = rd.getReservationDetail(midx, riidx);
-			System.out.println("detail È®ÀÎ: " + detail);
+			System.out.println("detail È®ï¿½ï¿½: " + detail);
 			
 			request.setAttribute("detail", detail);
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myticket_cancel_detail.jsp").forward(request, response);
