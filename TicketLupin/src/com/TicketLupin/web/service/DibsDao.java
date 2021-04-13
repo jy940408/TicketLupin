@@ -11,16 +11,13 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class DibsDao {
 
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public DibsDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-	
 	public int insertDibs(int sidx, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "INSERT INTO DIBS(SIDX, MIDX) VALUES(?, ?)";
 		
@@ -31,6 +28,10 @@ public class DibsDao {
 			pstmt.setInt(2, midx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -43,6 +44,12 @@ public class DibsDao {
 	}
 	
 	public int getDibsCheck(int sidx, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "SELECT COUNT(DIDX) DIDX FROM DIBS WHERE SIDX = ? AND MIDX = ?";
 		
@@ -58,6 +65,10 @@ public class DibsDao {
 				value = rs.getInt("DIDX");
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,6 +79,11 @@ public class DibsDao {
 	}
 	
 	public int deleteDibs(int sidx, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "DELETE FROM DIBS WHERE SIDX = ? AND MIDX = ?";
@@ -80,6 +96,10 @@ public class DibsDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,20 +109,24 @@ public class DibsDao {
 	}
 	
 	public ArrayList<DibsListVo> getDibsList(int midx_, int page){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<DibsListVo> list = new ArrayList<>();
 		String sql = "SELECT D.* FROM "
 				+ "(SELECT SHOW1.SIDX, SHOW1.STITLE, SHOW1.SOPENDATE, SHOW1.SENDDATE, DIBS.MIDX, DIBS.DIDX "
 				+ "FROM SHOW1 INNER JOIN DIBS "
 				+ "ON SHOW1.SIDX = DIBS.SIDX WHERE DIBS.MIDX= ?) D "
-				+ "ORDER BY DIDX DESC LIMIT 0,10";
+				+ "ORDER BY DIDX DESC LIMIT ?,10";
 
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, midx_);
-//			pstmt.setInt(2, 1+(page-1)*10);
-//			pstmt.setInt(3, page*10);
+			pstmt.setInt(2, (page-1)*10);
 			
 			rs = pstmt.executeQuery();
 			
@@ -118,6 +142,11 @@ public class DibsDao {
 				list.add(dlv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,6 +156,11 @@ public class DibsDao {
 	}
 	
 	public int getDibsListCount(int midx){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
 		
@@ -139,16 +173,18 @@ public class DibsDao {
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, midx);
-			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
 							
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		
 		}catch (SQLException e) {
 				e.printStackTrace();

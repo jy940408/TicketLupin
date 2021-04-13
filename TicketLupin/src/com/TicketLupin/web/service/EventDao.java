@@ -14,20 +14,14 @@ import domain.SearchCriteria;
 
 public class EventDao {
 	
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	private int midx;
-	
-	public EventDao() {
+	public int insertEvent(String etitle, String econtent, String efiles, String estart, String eend, String ethumbnail, String ecategory, int midx) {
+		
 		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-	
-	public int insertEvent(String etitle, String econtent, String efiles, String estart, String eend, String ethumbnail, String ecategory) {
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int value = 0;
-		 
-		
 		String sql ="insert into event(etitle, econtent, midx, efiles, estart, eend, ethumbnail, ecategory)" + 
 				"values(?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -43,6 +37,9 @@ public class EventDao {
 			pstmt.setString(8, ecategory);
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -63,8 +60,12 @@ public class EventDao {
 	
 	public ArrayList<EventVo> eventSelectAll(SearchCriteria scri){
 		
-		ArrayList<EventVo> alist = new ArrayList<EventVo>();
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		ArrayList<EventVo> alist = new ArrayList<EventVo>();
 		String sql =  "select * from event where edelyn='N' and ecategory='list' and etitle like ? " 
 				+ "order by eidx desc LIMIT ?, ?";
 		
@@ -73,7 +74,7 @@ public class EventDao {
 			pstmt.setString(1, "%"+scri.getKeyword()+"%");
 			pstmt.setInt(2, (scri.getPage()-1)*0);
 			pstmt.setInt(3, scri.getPage()*9);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				EventVo ev = new EventVo();
@@ -86,6 +87,10 @@ public class EventDao {
 				alist.add(ev);
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -94,8 +99,14 @@ public class EventDao {
 	}
 	
 	public int eventTotal(String keyword) {
-		int cnt = 0;
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		int cnt = 0;
+		rs = null;
 		
 		String sql = "select count(*) as cnt  from event where edelyn='N' and etitle like ?";
 		
@@ -107,6 +118,10 @@ public class EventDao {
 			if (rs.next()) {
 				cnt = rs.getInt("cnt");
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -116,8 +131,12 @@ public class EventDao {
 	
 	public EventVo eventSelectOne(int eidx) {
 		
-		EventVo ev = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		EventVo ev = null;
 		
 		String sql = "select * from event where eidx = ?";
 		
@@ -136,6 +155,10 @@ public class EventDao {
 				ev.setEend(rs.getString("eend"));
 				ev.setEthumbnail(rs.getString("ethumbnail"));
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally {
@@ -153,8 +176,12 @@ public class EventDao {
 	
 	public int EventModify(String etitle, String econtent, String estart, String eend, String efiles, String ethumbnail, String ecategory, int eidx) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "update event set etitle=?, econtent=?, estart=?, eend=?, efiles=?, ethumbnail=?, ecategory=? where eidx=?";
 		
 		try {
@@ -172,7 +199,9 @@ public class EventDao {
 			
 			value = pstmt.executeUpdate();
 			
-			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) { 
 			e.printStackTrace();
 			
@@ -193,15 +222,23 @@ public class EventDao {
 	
 
 	public int EventDelete(int eidx) {
-		int result = 0;
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int result = 0;
 		String sql ="update event set edelyn = 'Y' where eidx = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, eidx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -212,14 +249,17 @@ public class EventDao {
 	
 	public List<EventVo> eventbanner1(){
 		
-		List<EventVo> list = new ArrayList<EventVo>();
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		List<EventVo> list = new ArrayList<EventVo>();
 		String sql =  "select * from event where edelyn='N' and ecategory='banner1' ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				EventVo ev = new EventVo();
@@ -231,7 +271,9 @@ public class EventDao {
 				ev.setEthumbnail(rs.getString("ethumbnail"));
 				list.add(ev);
 			}
-			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -242,14 +284,18 @@ public class EventDao {
 	
 	public List<EventVo> eventbanner2(){
 		
-		List<EventVo> list2 = new ArrayList<EventVo>();
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		List<EventVo> list2 = new ArrayList<EventVo>();
 		String sql =  "select * from event where edelyn='N' and ecategory='banner2' ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				EventVo ev = new EventVo();
@@ -262,6 +308,9 @@ public class EventDao {
 				list2.add(ev);
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

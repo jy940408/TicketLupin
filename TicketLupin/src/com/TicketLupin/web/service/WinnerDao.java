@@ -11,25 +11,15 @@ import java.util.List;
 import com.TicketLupin.web.DBconn.DBconn;
 
 public class WinnerDao {
-
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	
-	public WinnerDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
 	
 	public List<WinnerVo> getWinnerList(String query, int page){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<WinnerVo> list = new ArrayList<WinnerVo>();
-		
-//		String sql = "SELECT * FROM "
-//				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, N.* FROM (SELECT * FROM "
-//				+ "WINNER WHERE ITITLE LIKE ? AND IPUB = 'Y' AND IDELYN = 'N' "
-//				+ "ORDER BY IREGDATE DESC) N WHERE (@ROWNUM:=0)=0) A "
-//				+ "WHERE NUM BETWEEN ? AND ?";
-		
 		String sql = "SELECT * FROM "
 				+ "(SELECT @ROWNUM:=@ROWNUM + 1 NUM, WINNER.* FROM "
 				+ "WINNER, (SELECT @ROWNUM:=0) TMP "
@@ -44,7 +34,7 @@ public class WinnerDao {
 			pstmt.setString(1, "%"+query+"%");
 			pstmt.setInt(2, 10*(page-1));
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -67,6 +57,10 @@ public class WinnerDao {
 				
 				list.add(wv);
 				}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -77,8 +71,12 @@ public class WinnerDao {
 	
 	public int getWinnerListCount(String query){
 		
-		int count = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int count = 0;
 		String sql = "SELECT COUNT(IIDX) COUNT FROM "
 				+ "(SELECT @ROWNUM:=@ROWNUM+1 NUM, N.* FROM "
 				+ "(SELECT * FROM WINNER WHERE ITITLE LIKE ? AND IDELYN = 'N' AND (@ROWNUM:=0)=0 "
@@ -91,13 +89,17 @@ public class WinnerDao {
 			
 			pstmt.setString(1, "%"+query+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
 							
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -108,6 +110,11 @@ public class WinnerDao {
 	
 	public WinnerVo getWinnerDetail(int idx) {
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		WinnerVo wv = new WinnerVo();
 		
 		String sql = "SELECT * FROM WINNER WHERE IIDX = ?";
@@ -116,7 +123,7 @@ public class WinnerDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
@@ -134,6 +141,10 @@ public class WinnerDao {
 			wv.setIopendate(rs.getDate("IOPENDATE"));
 			wv.setIenddate(rs.getDate("IENDDATE"));
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,8 +154,13 @@ public class WinnerDao {
 	}
 	
 	public int insertWinner(WinnerVo wv) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
-		//�ε���, Ÿ��Ʋ, ����, �ۼ����ε���, �ۼ���, ��ȸ��, �̹��� ÷��, ���� ÷��, ��������, ���ƿ�, ��������, ���� ��¥, �� ��¥
 		String sql = "INSERT INTO WINNER (ITITLE, ICONTENT, MIDX, IREGDATE, IHIT, IIMAGE, IFILES, IPUB, IGOOD, IDELYN, IOPENDATE, IENDDATE) "
 				+ "VALUES (?, ?, ?, NOW(), 0, ?, ?, 'Y', 0, 'N', ?, ?)";
 
@@ -162,6 +178,10 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -171,8 +191,12 @@ public class WinnerDao {
 	}
 	
 	public int modifyWinner(WinnerVo wv) {
-		int result = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int result = 0;
 		String sql = "UPDATE WINNER SET ITITLE = ?, ICONTENT = ?, IIMAGE = ?, IPUB = ?, IOPENDATE = ?, IENDDATE = ? WHERE IIDX=?";
 		
 		try {
@@ -188,6 +212,10 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,6 +225,11 @@ public class WinnerDao {
 	}
 	
 	public int deleteWinner(int idx) {
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		
 		String sql = "UPDATE WINNER SET IDELYN = 'Y' WHERE IIDX = ?";
@@ -207,6 +240,11 @@ public class WinnerDao {
 			pstmt.setInt(1, idx);
 			
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,6 +255,11 @@ public class WinnerDao {
 	}
 	
 	public int countWinnerView(int iidx) {
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		WinnerVo wv = new WinnerVo();
 		
@@ -229,6 +272,9 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

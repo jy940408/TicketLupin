@@ -15,16 +15,22 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class ShowDao {
 
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public ShowDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
+//	private	Connection conn;
+//	private PreparedStatement pstmt;
+//	private ResultSet rs;
+//	
+//	public ShowDao() {
+//		DBconn dbconn = new DBconn();
+//		this.conn = dbconn.getConnection();
+//	}
 	
 	public int insertShow(Show1Vo sv) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
 		String sql = "INSERT INTO SHOW1 (STITLE, SGENRE, SREGDATE, SOPENDATE, SENDDATE, SRATING, SPOSTCODE, SROADADDRESS, SJIBUNADDRESS, SDETAILADDRESS, SEXTRAADDRESS, "
@@ -52,6 +58,10 @@ public class ShowDao {
 			pstmt.setInt(15, sv.getSsprice());
 			pstmt.setInt(16, sv.getSaprice());
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,6 +71,12 @@ public class ShowDao {
 	}
 	
 	public int insertShow2(Show2Vo sv) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
 		String sql = "INSERT INTO SHOW2 (SIDX, SROUND, SPRICE, SNOTICE, SDISCOUNT, SINFO, SCOMPANY, "
@@ -86,6 +102,11 @@ public class ShowDao {
 			pstmt.setString(14, sv.getScompanyimage());
 			
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -95,6 +116,11 @@ public class ShowDao {
 	}
 	
 	public ArrayList<Show1Vo> getShowList(String query, String setting, String array, int page){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		ArrayList<Show1Vo> list = new ArrayList<>();
 
@@ -121,7 +147,7 @@ public class ShowDao {
 			pstmt.setInt(2, 12*(page-1));
 			pstmt.setInt(3, 12);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			int i = 0;
 			while(rs.next()) {
@@ -150,6 +176,10 @@ public class ShowDao {
 				list.add(sv);
 				i++;
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -161,6 +191,11 @@ public class ShowDao {
 	}
 	
 	public JSONArray getShowListAJAX(ArrayList genre, ArrayList place, String setting, String array, int page, int count){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		JSONArray objList = new JSONArray();
 		
@@ -214,7 +249,7 @@ public class ShowDao {
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, 12*(page-1));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			JSONObject obj = new JSONObject();
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -237,6 +272,9 @@ public class ShowDao {
 				i++;
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -246,6 +284,11 @@ public class ShowDao {
 	}
 	
 	public int getShowListAJAXCount(ArrayList genre, ArrayList place, String setting, String array){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
 		
@@ -299,7 +342,7 @@ public class ShowDao {
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			JSONObject obj = new JSONObject();
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -307,9 +350,12 @@ public class ShowDao {
 			while (rs.next()) {
 				
 				count = rs.getInt("COUNT");
-				
+			
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -320,6 +366,11 @@ public class ShowDao {
 	}
 	
 	public int getShowListCount(String query, String setting){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
 		
@@ -333,7 +384,7 @@ public class ShowDao {
 			
 			pstmt.setString(1, "%"+query+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -341,6 +392,10 @@ public class ShowDao {
 							
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
@@ -350,6 +405,12 @@ public class ShowDao {
 	}
 
 	public Show1Vo getShowDetail(int idx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		Show1Vo sv = new Show1Vo();
 		
 		String sql = "SELECT * FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX WHERE SHOW1.SIDX =  ?";
@@ -359,7 +420,7 @@ public class ShowDao {
 			
 			pstmt.setInt(1, idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
@@ -396,6 +457,10 @@ public class ShowDao {
 			sv.setSinfoimage(rs.getString("SINFOIMAGE"));
 			sv.setScompanyimage(rs.getString("SCOMPANYIMAGE"));
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -407,13 +472,18 @@ public class ShowDao {
 	
 	public Show1Vo getRecentShowDetail() {
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		Show1Vo sv = new Show1Vo();
 		
 		String sql = "SELECT * FROM SHOW1 WHERE SIDX = (SELECT MAX(SIDX) FROM SHOW1)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
@@ -421,6 +491,9 @@ public class ShowDao {
 			sv.setSopendate(rs.getDate("SOPENDATE"));
 			sv.setSenddate(rs.getDate("SENDDATE"));
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -432,6 +505,11 @@ public class ShowDao {
 	}
 	
 	public ArrayList<ShowRankingVo> getShowRankingList(String startdate) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		ArrayList<ShowRankingVo> result = new ArrayList<>();
 		
@@ -448,7 +526,7 @@ public class ShowDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				ShowRankingVo srv = new ShowRankingVo();
@@ -460,6 +538,10 @@ public class ShowDao {
 				srv.setStitleimage(rs.getString("STITLEIMAGE"));
 				result.add(srv);
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -471,13 +553,23 @@ public class ShowDao {
 	
 	public int getShowDelete(int sidx) {
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE SHOW1 SET SDELYN = 'Y' WHERE SIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -488,6 +580,12 @@ public class ShowDao {
 	}
 	
 	public int modifyShow(Show1Vo sv) {
+
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		String sql = "UPDATE SHOW1 SET STITLE = ?, SGENRE = ?, SRATING = ?, SOPENDATE = ?, SENDDATE = ?, STICKETINGDATE = ?, "
 				+ "SPOSTCODE = ?, SROADADDRESS = ?, SJIBUNADDRESS = ?, SDETAILADDRESS = ?, SEXTRAADDRESS = ?, "
@@ -515,6 +613,11 @@ public class ShowDao {
 			pstmt.setInt(16, sv.getSidx());
 			
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -524,6 +627,12 @@ public class ShowDao {
 	}
 	
 	public int modifyShow2(Show2Vo sv) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		String sql = "UPDATE SHOW2 SET SROUND = ?, SPRICE = ?, SNOTICE = ?, SDISCOUNT = ?, SINFO = ?, SCOMPANY = ?, " + 
 				"STITLEIMAGE = ?, SROUNDIMAGE = ?, SPRICEIMAGE = ?, SNOTICEIMAGE = ?, SDISCOUNTIMAGE = ?, " + 
@@ -549,6 +658,11 @@ public class ShowDao {
 			pstmt.setInt(14, sv.getSidx());
 			
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -557,9 +671,32 @@ public class ShowDao {
 		return result;
 	}
 	
-	public void closeDBconn() {
+	public int soldoutCheck(String srdate, String srround, int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int result = 0;
+		String sql = "SELECT SHOW1.SIDX, SHOW1.STITLE, COUNT(SHOW1.SIDX) CNT "
+				+ "FROM SHOW1 INNER JOIN RESERVATION ON SHOW1.SIDX = RESERVATION.SIDX "
+				+ "WHERE SRROUND = ? AND SRDATE = ? AND RESERVATION.SIDX = ? "
+				+ "GROUP BY SHOW1.SIDX";
 		
 		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, srround);
+			pstmt.setString(2, srdate);
+			pstmt.setInt(3, sidx);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			result = rs.getInt("CNT");
+			
 			rs.close();
 			pstmt.close();
 			conn.close();
@@ -568,6 +705,45 @@ public class ShowDao {
 			e.printStackTrace();
 		}
 		
+		return result;
+	}
+	
+	public ArrayList roundList(int sidx, String srdate) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		ArrayList round = new ArrayList<>();
+		String sql = "SELECT * FROM SHOWROUND WHERE SIDX = ? AND SRDATE = ?";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, sidx);
+			pstmt.setString(2, srdate);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				round.add(rs.getString("SRROUND1"));
+				round.add(rs.getString("SRROUND2"));
+				round.add(rs.getString("SRROUND3"));
+				round.add(rs.getString("SRROUND4"));
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return round;
 	}
 	
 }

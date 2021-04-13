@@ -146,6 +146,7 @@ public class ConcertViewController extends HttpServlet{
 				month_ = "0" + month_;
 			}
 			
+			
 			ArrayList roundCheck = new ArrayList();
 			for(int testDate = 1 ; testDate <= endDay ; testDate++) {
 				
@@ -155,12 +156,10 @@ public class ConcertViewController extends HttpServlet{
 				}	
 				
 				String comDate = year + "-" + (month_) + "-" + date_;
-				if(srd.getShowRoundDetail(sidx, comDate) != null) {
-					System.out.println("예매 기간: " + srd.getShowRoundDetail(sidx, comDate));
-				}
-				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("") && srd.getShowRoundDetail(sidx, comDate).getSrround1() != null) {
+				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("") && srd.getShowRoundDetail(sidx, comDate).getSrround1() != null && !srd.getShowRoundDetail(sidx, comDate).getSrround1().equals("")) {
 					strRoundCheck = 1;
 					roundCheck.add(strRoundCheck);
+					System.out.println("예매 기간: " + srd.getShowRoundDetail(sidx, comDate));
 				}else {
 					strRoundCheck = 0;
 					roundCheck.add(strRoundCheck);
@@ -182,8 +181,6 @@ public class ConcertViewController extends HttpServlet{
 			String od = request.getParameter("od");
 	
 			
-
-			
 			if (od == ""||od == null)
 				od = "";
 			
@@ -199,7 +196,6 @@ public class ConcertViewController extends HttpServlet{
 				setting3 = "Q";
 			}
 		
-			
 			String setting = "";
 			String setting2 = "";
 			 if (od.equals("")) {
@@ -217,28 +213,25 @@ public class ConcertViewController extends HttpServlet{
 				setting2 = "";
 			}
 			 
-			 
-			 
-			  int page = 1;
+			int page = 1;
+			
+			if (page_ != null && !page_.equals("")) { 
+				page = Integer.parseInt(page_);
+			}
 			  
-			  if (page_ != null && !page_.equals("")) { 
-				  page = Integer.parseInt(page_);
-			  }
-			  
-			  ExpectDao ed = new ExpectDao();
-			  List<ExpectVo> elist = ed.getExpectList(setting, setting2,setting3, page,sidx); 
+			ExpectDao ed = new ExpectDao();
+			List<ExpectVo> elist = ed.getExpectList(setting, setting2,setting3, page,sidx); 
 			
 			  
 			  
-			  int count = ed.getExpectListCount(setting3,sidx);
+			int count = ed.getExpectListCount(setting3,sidx);
 			  
-			  request.setAttribute("elist", elist);  
-			  request.setAttribute("count",count);
-
+			request.setAttribute("elist", elist);  
+			request.setAttribute("count",count);
+			
 			 
-			  request.setAttribute("tab", tab);
-			  request.setAttribute("sidx", sidx_);
-		
+			request.setAttribute("tab", tab);
+			request.setAttribute("sidx", sidx_);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Concert_View.jsp").forward(request, response);
 			
@@ -305,10 +298,32 @@ public class ConcertViewController extends HttpServlet{
 			}
 			
 			String comDate = year + "-" + (month_) + "-" + date_;
+			
 			System.out.println("comDate: " + comDate);
 			System.out.println("date_ 0 더하기: " + date_);
 			ShowRoundDao srd = new ShowRoundDao();
 			ShowRoundVo srv = srd.getShowRoundDetail(sidx, comDate);
+			
+			ShowDao sd = new ShowDao();
+			ArrayList list = sd.roundList(sidx, comDate);
+			
+			System.out.println(list.get(0));
+			System.out.println(list.get(1));
+			System.out.println(list.get(2));
+			
+			for(int i = 0 ; i < list.size() ; i++) {
+				if(sd.soldoutCheck(comDate, (String)list.get(i), sidx) >= 1) {
+					if(((String)list.get(i)).equals(srv.getSrround1())) {
+						srv.setSrround1("SOLDOUT");
+					}else if(((String)list.get(i)).equals(srv.getSrround2())) {
+						srv.setSrround2("SOLDOUT");
+					}else if(((String)list.get(i)).equals(srv.getSrround3())) {
+						srv.setSrround3("SOLDOUT");
+					}else if(((String)list.get(i)).equals(srv.getSrround4())) {
+						srv.setSrround4("SOLDOUT");
+					}
+				}
+			}
 			
 			System.out.println("sidx 확인 중: " + sidx);
 			System.out.println("comDate 확인 중: " + comDate);
@@ -332,12 +347,12 @@ public class ConcertViewController extends HttpServlet{
 			response.setContentType("application/x-json; charset=UTF-8");
 			response.getWriter().print(obj); //{"result":1}
 			
-			
 //==============================================================================================================================//				
 		}else if(str.equals("/ConcertView/Commentreport.do")){
 			request.getRequestDispatcher("/WEB-INF/view/jsp/comment_report.jsp").forward(request, response);
 	
-	}else if(str.equals("/ConcertView/Commentreportaction.do")){ 	
+		}else if(str.equals("/ConcertView/Commentreportaction.do")){ 	
+		
 			HttpSession session = request.getSession();
 			int midx = (int) session.getAttribute("midx");
 			System.out.println("midx->"+midx);
@@ -346,20 +361,20 @@ public class ConcertViewController extends HttpServlet{
 			String etcval = request.getParameter("etcval");
 			if (etcval  == ""||etcval  == null)
 				etcval  = " ";
+			
 			CommentADao cd = new CommentADao();
 			cd.insertReport(midx,c_idx,sort,etcval);
 
 			PrintWriter pt = response.getWriter();
-	         pt.write("<script>self.close();</script>");
-	         pt.flush();
-	         pt.close();
+	        pt.write("<script>self.close();</script>");
+	        pt.flush();
+	        pt.close();
 			
-	} else if (str.equals("/ConcertView/ExpectWriteAction.do")) {
+		} else if (str.equals("/ConcertView/ExpectWriteAction.do")) {
+			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
-	
-		
 			
 			HttpSession session = request.getSession();
 			int midx = (int) session.getAttribute("midx");
@@ -381,35 +396,28 @@ public class ConcertViewController extends HttpServlet{
 			
 		
 			ExpectDao rd = new ExpectDao();
-	
 			rd.insertExpect(sidx,midx, c_content,sort);
+			
 			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx+"&tab="+tab+"#hold2");
 			
 		} else if (str.equals("/ConcertView/ExpectModifyWriteAction.do")) {
 			
-			  response.setCharacterEncoding("UTF-8");
-			  response.setContentType("text/html; charset=UTF-8");
-			  request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("UTF-8");
 			  
-			  HttpSession session = request.getSession(); 
-			  String page = request.getParameter("p");
-			  int midx = (int)session.getAttribute("midx");
-			  int c_idx = Integer.parseInt(request.getParameter("c_idx"));
-			  int sidx_ = Integer.parseInt(request.getParameter("sidx")); 
-			  String c_content = request.getParameter("content");
-			  String tab = request.getParameter("tab");
-
-			  
-			  ExpectDao ed = new ExpectDao();
-			  
-			  ed.Expectupdate(midx,c_idx,c_content);
-			  
-
+			HttpSession session = request.getSession(); 
+			String page = request.getParameter("p");
+			int midx = (int)session.getAttribute("midx");
+			int c_idx = Integer.parseInt(request.getParameter("c_idx"));
+			int sidx_ = Integer.parseInt(request.getParameter("sidx")); 
+			String c_content = request.getParameter("content");
+			String tab = request.getParameter("tab");
+			
+			ExpectDao ed = new ExpectDao();			  
+			ed.Expectupdate(midx,c_idx,c_content);
+			
 			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx_+"&tab="+tab+"&p="+page+"#hold2");
-				
-			 
-
-		
 
 		} else if (str.equals("/ConcertView/ExpectCommentWriteAction.do")) {
 			
@@ -447,6 +455,7 @@ public class ConcertViewController extends HttpServlet{
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
+			
 			String page = request.getParameter("p");
 			int sidx_ = Integer.parseInt(request.getParameter("sidx")); 
 			String tab	= request.getParameter("tab");
@@ -463,12 +472,10 @@ public class ConcertViewController extends HttpServlet{
 				setting = "c_idx";
 			}
 			
-			
-			
-			
 			System.out.println("idx->"+ idx+"/"+setting );
 			ExpectDao rd = new ExpectDao();
 			rd.deleteExpect(idx, setting);
+			
 			response.sendRedirect(request.getContextPath() + "/ConcertView/ConcertView.do?sidx="+sidx_+"&tab="+tab+"&p="+page+"#hold2");
 			
 		
@@ -510,15 +517,10 @@ public class ConcertViewController extends HttpServlet{
 				out.println("<script>alert('�̹� ���ƿ並 �ϼ̽��ϴ�.'); history.go(-1);</script>");
 			}
 	
-		
-		
 		}	  
 	
 	};
 
-
-	
-	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

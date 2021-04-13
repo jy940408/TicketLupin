@@ -14,18 +14,13 @@ import util.DatabaseUtil;
 
 public class MemberDao {
 	
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public MemberDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-	
-	
 	public ArrayList memberLogin(String mid, String mpwd) {
 	      
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 	      String sql = "SELECT MGRADE, MIDX, MSECESSIONYN FROM MEMBER WHERE MID = ? AND MPWD = ?";
 	      ArrayList value = new ArrayList();
 	      
@@ -33,7 +28,7 @@ public class MemberDao {
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setString(1, mid);
 	         pstmt.setString(2, mpwd);
-	         ResultSet rs = pstmt.executeQuery();
+	         rs = pstmt.executeQuery();
 	         
 	         if (rs.next()) {
 	            value.add(rs.getString("MGRADE"));
@@ -41,24 +36,23 @@ public class MemberDao {
 	            value.add(rs.getString("msecessionyn"));
 
 	         }   
-	         
+	         rs.close();
+			 pstmt.close();
+			 conn.close();
 	      }catch(Exception e) {
 	         e.printStackTrace();
-	      }finally {
-				
-				try {
-					if(pstmt != null) {pstmt.close(); pstmt=null;}
-					if(conn != null) {conn.close(); conn=null;}
-				}catch(Exception e) {
-					throw new RuntimeException(e.getMessage());
-				}
-			}
+	      }
 	      
 	      return value; 
 	      
 	   }
 	
 	public int LoginCnt(String mid, String mpwd) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 	      
 	      String sql = "SELECT count(*) as cnt FROM MEMBER WHERE MID = ? AND MPWD = ?";
 	      int value_ = 0;
@@ -67,22 +61,16 @@ public class MemberDao {
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setString(1, mid);
 	         pstmt.setString(2, mpwd);
-	         ResultSet rs = pstmt.executeQuery();
+	         rs = pstmt.executeQuery();
 	         
 	         if (rs.next()) {
 	        	 value_ = rs.getInt("cnt");
 	         }   
-	         
+	         rs.close();
+			pstmt.close();
+			conn.close();
 	      }catch(Exception e) {
 	         e.printStackTrace();
-	      }finally {
-				
-				try {
-					if(pstmt != null) {pstmt.close(); pstmt=null;}
-					if(conn != null) {conn.close(); conn=null;}
-				}catch(Exception e) {
-					throw new RuntimeException(e.getMessage());
-				}
 	      }
 	      
 	      return value_; 
@@ -91,40 +79,39 @@ public class MemberDao {
 
 	
 	public int insertMember(String mid,  String mpwd, String mname, String maddress, String memail, String mphone, String mssn, String mbirthmonth, String mbirthday, String mpostcode, String mdetailaddress, String mextraaddress, String mgender) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int exec = 0;
 		
 		try {
 			String sql = "insert into member(mid, mpwd,  mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender, msignindate)"
 					+ "values(?,?,?,?,?,?, ?,?,?,?,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, mid);
-				pstmt.setString(2, mpwd);
-				pstmt.setString(3, mname);
-				pstmt.setString(4, maddress);
-				pstmt.setString(5, memail);
-				pstmt.setString(6, mphone);
-				pstmt.setString(7, mssn);
-				pstmt.setString(8, mbirthmonth);
-				pstmt.setString(9, mbirthday);
-				pstmt.setString(10, mpostcode);
-				pstmt.setString(11, mdetailaddress);
-				pstmt.setString(12, mextraaddress);
-				pstmt.setString(13, mgender);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, mpwd);
+			pstmt.setString(3, mname);
+			pstmt.setString(4, maddress);
+			pstmt.setString(5, memail);
+			pstmt.setString(6, mphone);
+			pstmt.setString(7, mssn);
+			pstmt.setString(8, mbirthmonth);
+			pstmt.setString(9, mbirthday);
+			pstmt.setString(10, mpostcode);
+			pstmt.setString(11, mdetailaddress);
+			pstmt.setString(12, mextraaddress);
+			pstmt.setString(13, mgender);
 			exec = pstmt.executeUpdate();
 			
 			//conn.commit();
-			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 			
-		}finally {
-			
-			try {
-				if(pstmt != null) {pstmt.close(); pstmt=null;}
-				if(conn != null) {conn.close(); conn=null;}
-			}catch(Exception e) {
-				throw new RuntimeException(e.getMessage());
-			}
 		}
 		
 		return exec;
@@ -133,8 +120,12 @@ public class MemberDao {
 	
 	public String findId(String mname, String memail) throws SQLException{
 		
-		String mid = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		String mid = null;
 		String sql = "select mid from member where mname=? and memail=? and MSECESSIONYN = 'N' ";
 		
 		try {
@@ -149,25 +140,24 @@ public class MemberDao {
 			while(rs.next()) {
 				mid = rs.getString("mid");
 			}
-			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return mid;
 	}
 	
 	public String findPwd(String mid, String memail, String mname) throws SQLException {
 		
-		String mpwd = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		String mpwd = null;
 		String sql = "select mpwd from member where mname=? and mid=? and memail=?  and MSECESSIONYN = 'N' ";
 		
 		try {
@@ -181,24 +171,25 @@ public class MemberDao {
 			if(rs.next()) {
 				mpwd = rs.getString("mpwd");
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e){
 			e.printStackTrace();
-		}finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return mpwd;
 	}
 	
 	public int changePwd(String mpwd, String mid) throws SQLException {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "update member set mpwd=? where mid=? ";
 		
 		try {
@@ -208,16 +199,11 @@ public class MemberDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		System.out.println("value : "+value);
@@ -228,8 +214,12 @@ public class MemberDao {
 	
 	public MemberVo getMember(String mid, String mpwd) {
 		
-		MemberVo mv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		MemberVo mv = null;
 		
 		String sql = "select * from member where mid = ? and mpwd = ?";
 		
@@ -257,45 +247,41 @@ public class MemberDao {
 				mv.setMidx(rs.getInt("midx"));
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 			
-		}finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return mv;
 	}
 	
 	public boolean isExistId(String mid) {
 		
-		boolean b = false;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		boolean b = false;
 		String sql = "select mid from member where mid=? and msecessionyn = 'N'";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			b = rs.next();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("error : "+e);
-		}finally {
-			try {
-				if(pstmt != null) pstmt.close();
-				if(rs != null) rs.close();
-				if(conn != null) conn.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
+		
 		System.out.println("��� : "+b);
 		return b;
 	}
@@ -303,8 +289,13 @@ public class MemberDao {
 	
 	public ArrayList<MemberVo> memberSelectAll(SearchCriteria scri){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();
-//수정해야됨		
+		//수정해야됨		
 		String sql = "select * from (select @rownum:=@rownum+1 num, A.* from "
 				+ "(select * from member, (SELECT @ROWNUM:=0) TMP where mgrade='G' and msecessionyn='N' and "
 				+ "(mname like ? or mid like ?) order by midx asc) "
@@ -316,7 +307,7 @@ public class MemberDao {
 			pstmt.setString(2, "%"+scri.getKeyword()+"%");
 			pstmt.setInt(3, (scri.getPage()-1)*0);
 			pstmt.setInt(4, scri.getPage()*10); 
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				MemberVo mv = new MemberVo();
@@ -328,26 +319,26 @@ public class MemberDao {
 				mv.setMsignindate(rs.getDate("msignindate"));
 				alist.add(mv);
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 				e.printStackTrace();
 				
-		}finally {
-			try {
-				if(pstmt != null) pstmt.close();
-				if(rs != null) rs.close();
-				if(conn != null) conn.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
-			return alist;
+		
+		return alist;
 	}
 	
 	
 	public int memberTotal(String keyword) {
 		
-		int cnt = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		int cnt = 0;
 		
 		String sql = "select count(*) as cnt from member where mgrade='G' and msecessionyn='N' and (mname like ? or mid like ?)";
 		try {
@@ -359,7 +350,9 @@ public class MemberDao {
 			if (rs.next()) {
 			cnt = rs.getInt("cnt");
 			}			
-			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
@@ -371,8 +364,12 @@ public class MemberDao {
 	//관리자-회원관리-회원클릭시
 	public MemberVo memberSelectOne(int midx) {
 		
-		MemberVo mv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		MemberVo mv = null;
 		
 		String sql = "select * from member where midx=?";
 		
@@ -397,37 +394,41 @@ public class MemberDao {
 				mv.setMextraaddress(rs.getString("mextraaddress"));
 				mv.setMgender(rs.getString("mgender"));
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 			
-		}finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
+		
 		return mv;
 	}
 	
 	//관리자가 회원정지 시킬 때
 	public int MemberDelete(int midx) {
 		
-		int result = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int result = 0;
 		String sql = "update member set MSECESSIONYN = 'Y' , MSECESSIONDATE = sysdate where midx=?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -436,8 +437,12 @@ public class MemberDao {
 	
 	public int MemberModify(String mid, String mpwd, String mname, String mssn, String mbirthmonth, String mbirthday, String mpostcode, String maddress, String mdetailaddress, String mextraaddress, String mgender, String memail, String mphone) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "update member set mname=?, mssn=?, mbirthmonth=?, mbirthday=?, mpostcode=?, maddress=?, mdetailaddress=?, mextraaddress=?, mgender=?, memail=?, mphone=?, mpwd=? where mid=?";
 		
 		try {
@@ -458,6 +463,9 @@ public class MemberDao {
 			pstmt.setString(13, mid);
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -467,28 +475,28 @@ public class MemberDao {
 	
 	//본인이 탈퇴할 때
 	public int userDelete(String mpwd) {
-					
-		int value = 0;
+				
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "update member set MSECESSIONYN = 'Y', MSECESSIONDATE = sysdate where mpwd = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mpwd);
 			value = pstmt.executeUpdate();
-					
+				
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 			
-		}finally {
-			try {
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
+		
 		return value;
 	}
 	
@@ -497,9 +505,12 @@ public class MemberDao {
 	//회원정보 수정할 때 불러오기
 	public MemberVo memberSelectOne2(String mid) {
 		
-		MemberVo mv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		MemberVo mv = null;
 		String sql = "select * from member where mid=?";
 		
 		try {
@@ -523,17 +534,13 @@ public class MemberDao {
 				mv.setMextraaddress(rs.getString("mextraaddress"));
 				mv.setMgender(rs.getString("mgender"));
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 			
-		}finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return mv;
 	}

@@ -9,17 +9,12 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class AnswerDao {
 
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public AnswerDao(){
+	public int insertAnswer(String acontent, int qidx, int midx) {
 		
 		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();		
-	}
-	
-	public int insertAnswer(String acontent, int qidx, int midx) {
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int value = 0;
 		
@@ -45,20 +40,25 @@ public class AnswerDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
 	}
 	
 	public int modifyAnswer(String acontent, int qidx, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int value = 0;
 		
@@ -74,14 +74,14 @@ public class AnswerDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
@@ -89,8 +89,12 @@ public class AnswerDao {
 	
 	public AnswerVo getAnswerListOne(int qidx, int midx){
 		
-		AnswerVo av = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		AnswerVo av = null;
 		
 		String sql = "SELECT * FROM ANSWER WHERE ADELYN = 'N' AND QIDX = ? AND MIDX = ?";
 		
@@ -115,15 +119,14 @@ public class AnswerDao {
 				av.setAdelyn(rs.getString("ADELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return av;

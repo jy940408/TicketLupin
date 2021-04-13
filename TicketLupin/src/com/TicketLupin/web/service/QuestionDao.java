@@ -12,22 +12,17 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class QuestionDao {
 
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public QuestionDao(){
-		
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();		
-	}
 	
 	public int insertQuestion(String qtitle, String qcontent, String qtype, int midx) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "INSERT INTO QUESTION(QTITLE, QCONTENT, QTYPE, QSTATE, MIDX, QREGDATE, QDELYN)"
-					+"VALUES(?, ?, ?, '´ë±â', ?, NOW(), 'N')";
+					+"VALUES(?, ?, ?, 'ï¿½ï¿½ï¿½', ?, NOW(), 'N')";
 		
 		try {
 			
@@ -40,14 +35,14 @@ public class QuestionDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
@@ -55,8 +50,12 @@ public class QuestionDao {
 	
 	public int modifyQuestion(String qtitle, String qcontent, String qtype, int qidx, int midx) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "UPDATE QUESTION SET QTITLE = ?, QCONTENT = ?, QTYPE = ? WHERE QIDX = ? AND MIDX = ?";
 		
 		try {
@@ -71,14 +70,14 @@ public class QuestionDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
@@ -86,8 +85,12 @@ public class QuestionDao {
 	
 	public int deleteQuestion(int qidx, int midx) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "UPDATE QUESTION SET QDELYN = 'Y' WHERE QIDX = ? AND MIDX = ?";
 		
 		try {
@@ -99,14 +102,14 @@ public class QuestionDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
@@ -114,10 +117,12 @@ public class QuestionDao {
 	
 	public List<QuestionVo> getQuestionList(String state, int page, int midx){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<QuestionVo> list = new ArrayList<QuestionVo>();
-		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
-		
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM BETWEEN ? AND ?";
 		
 		try {
@@ -129,7 +134,7 @@ public class QuestionDao {
 			pstmt.setInt(3, 1+(page-1)*10);
 			pstmt.setInt(4, page*10);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -148,15 +153,14 @@ public class QuestionDao {
 				list.add(qv);
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return list;
@@ -164,10 +168,12 @@ public class QuestionDao {
 	
 	public int getQuestionListCount(String state, int page, int midx){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int count = 0;
-		
-		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
-		
 		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B,(SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		
 		try {
@@ -177,7 +183,7 @@ public class QuestionDao {
 			pstmt.setString(1, "%"+state+"%");
 			pstmt.setInt(2, midx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -185,15 +191,14 @@ public class QuestionDao {
 							
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;
@@ -201,9 +206,12 @@ public class QuestionDao {
 	
 	public QuestionVo getQuestionOne(int qidx, int midx){
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		QuestionVo qv = null;
 		String sql = "SELECT * FROM QUESTION WHERE QDELYN = 'N' AND QIDX = ? AND MIDX = ?";
 		
 		try {
@@ -229,15 +237,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;
@@ -245,11 +252,12 @@ public class QuestionDao {
 
 	public QuestionVo getQuestionListOne(String state, int num, int midx) {
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
-		
+		QuestionVo qv = null;
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
@@ -278,15 +286,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));
 			}					
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;
@@ -294,11 +301,12 @@ public class QuestionDao {
 	
 	public QuestionVo getQuestionListOnePrev(String state, int num, int midx){
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
-		
+		QuestionVo qv = null;
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
@@ -327,15 +335,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));			
 			}					
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;
@@ -343,11 +350,12 @@ public class QuestionDao {
 	
 	public QuestionVo getQuestionListOneNext(String state, int num, int midx){
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N) WHERE NUM = ?";
-		
+		QuestionVo qv = null;
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE QSTATE LIKE ? AND MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
@@ -376,15 +384,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));
 			}					
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;
@@ -392,10 +399,12 @@ public class QuestionDao {
 	
 	public int getQuestionListCountAll(int page, int midx){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int count = 0;
-		
-		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM QUESTION WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) N)";
-		
 		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM QUESTION B,(SELECT @ROWNUM := 0) TMP WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		
 		try {
@@ -404,7 +413,7 @@ public class QuestionDao {
 			
 			pstmt.setInt(1, midx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -412,40 +421,42 @@ public class QuestionDao {
 							
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;
 	}
 	
-	// °ü¸®ÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	public List<QuestionVo> getQuestionList2(String keyword, String searchType, String qtype, String qstate, int page){
+
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		List<QuestionVo> list = new ArrayList<QuestionVo>();
 		String sql = "";
 
-		//¹®ÀÇ ´ë±â, ¹®ÀÇ ¿Ï·á¸¦ ¸ÕÀú Á¤·ÄÇÏ°í, °¡Àå ¸ÕÀú ¹®ÀÇÇÑ ¼øÀ¸·Î Á¤·Ä 
-		
-		if(searchType.equals("Á¦¸ñ")){
+		if(searchType.equals("ï¿½ï¿½ï¿½ï¿½")){
 			
-			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE QTITLE LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, '¿Ï·á', '´ë±â') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
+			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE QTITLE LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, 'ï¿½Ï·ï¿½', 'ï¿½ï¿½ï¿½') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
 			
-		}else if(searchType.equals("¼ºÇÔ")) {
+		}else if(searchType.equals("ï¿½ï¿½ï¿½ï¿½")) {
 			
-			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, '¿Ï·á', '´ë±â') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
+			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, 'ï¿½Ï·ï¿½', 'ï¿½ï¿½ï¿½') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
 			
 		}else{
 			
-			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, '¿Ï·á', '´ë±â') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
+			sql = "SELECT @ROWNUM := @ROWNUM + 1 NUM, A.* FROM (SELECT QUESTION.*, MEMBER.MID, MEMBER.MNAME, MEMBER.MIDX MMIDX FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY FIELD(QSTATE, 'ï¿½Ï·ï¿½', 'ï¿½ï¿½ï¿½') DESC, QREGDATE ASC) A WHERE (@ROWNUM := 0) = 0 ORDER BY NUM LIMIT ?,?";
 		}
 		
 		try {
@@ -458,7 +469,7 @@ public class QuestionDao {
 			pstmt.setInt(4, (page-1)*10);
 			pstmt.setInt(5, page*10);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -479,21 +490,25 @@ public class QuestionDao {
 				list.add(qv);			
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return list;
 	}
 	
 	public int getQuestionListCount2(String keyword, String searchType, String qtype, String qstate, int page){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
 		String sql = "";
@@ -502,11 +517,11 @@ public class QuestionDao {
 			
 			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE (QTITLE || MID || MNAME) LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 			
-		}else if(searchType.equals("¾ÆÀÌµð")) {
+		}else if(searchType.equals("ï¿½ï¿½ï¿½Ìµï¿½")) {
 			
 			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE MID LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 			
-		}else if(searchType.equals("¼ºÇÔ")) {
+		}else if(searchType.equals("ï¿½ï¿½ï¿½ï¿½")) {
 			
 			sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE MNAME LIKE ? AND QTYPE LIKE ? AND QSTATE LIKE ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 			
@@ -523,22 +538,21 @@ public class QuestionDao {
 			pstmt.setString(2, "%"+qtype+"%");
 			pstmt.setString(3, "%"+qstate+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;
@@ -546,15 +560,18 @@ public class QuestionDao {
 	
 	public int getQuestionListCountAll2(int page){
 		
-		int count = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int count = 0;
 		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.*, C.MIDX AS CMIDX, C.MID, C.MNAME, C.MPWD FROM QUESTION AS B INNER JOIN MEMBER AS C ON B.MIDX = C.MIDX, (SELECT @ROWNUM:= 0) AS D WHERE QDELYN = 'N' ORDER BY QREGDATE DESC) A";
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
-			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -562,15 +579,14 @@ public class QuestionDao {
 							
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;
@@ -578,9 +594,12 @@ public class QuestionDao {
 	
 	public QuestionVo getQuestionListOne2(int qidx, int midx){
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		QuestionVo qv = null;
 		String sql = "SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX AND MEMBER.MIDX = ? WHERE QIDX = ?";
 		
 		try {
@@ -608,15 +627,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;
@@ -624,8 +642,12 @@ public class QuestionDao {
 
 	public QuestionVo getQuestionListOnePrev2(int qidx, int midx){
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		QuestionVo qv = null;
 		
 		String sql = "SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX AND MEMBER.MIDX = ? WHERE QIDX = ?";
 		
@@ -654,15 +676,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;
@@ -670,9 +691,12 @@ public class QuestionDao {
 	
 	public QuestionVo getQuestionListOneNext2(int qidx, int midx){
 		
-		QuestionVo qv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		QuestionVo qv = null;
 		String sql = "SELECT * FROM QUESTION INNER JOIN MEMBER ON QUESTION.MIDX = MEMBER.MIDX AND MEMBER.MIDX = ? WHERE QIDX = ?";
 		
 		try {
@@ -700,15 +724,14 @@ public class QuestionDao {
 				qv.setQdelyn(rs.getString("QDELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return qv;

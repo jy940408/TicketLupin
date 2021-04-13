@@ -12,16 +12,21 @@ import com.TicketLupin.web.DBconn.DBconn;
 import com.TicketLupin.web.service.NewsVo;
 public class NewsDao {
 
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public NewsDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
+//	private	Connection conn;
+//	private PreparedStatement pstmt;
+//	private ResultSet rs;
+//	
+//	public NewsDao() {
+//		DBconn dbconn = new DBconn();
+//		this.conn = dbconn.getConnection();
+//	}
 	
 	public List<NewsVo> getNewsList(String query, String order, String setting, int page){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
@@ -37,7 +42,7 @@ public class NewsDao {
 			pstmt.setString(2, "%"+setting+"%");
 			pstmt.setInt(3, 10*(page-1));
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -64,6 +69,9 @@ public class NewsDao {
 				list.add(nv);
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -74,16 +82,20 @@ public class NewsDao {
 	
 	public List<NewsVo> getNewsImageList(){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<NewsVo> list = new ArrayList<NewsVo>();
 		
 		String sql = "SELECT * FROM NEWS WHERE WCATEGORY LIKE '티켓오픈일' "
 				+ "AND WDELYN = 'N' ORDER BY WOPENDATE DESC LIMIT 0,20";
-
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -95,6 +107,9 @@ public class NewsDao {
 				list.add(nv);
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch (SQLException e) {
 				e.printStackTrace();
@@ -104,6 +119,11 @@ public class NewsDao {
 	}		
 	
 	public int getNewsListCount(String query, String setting, String order){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
 		
@@ -120,7 +140,7 @@ public class NewsDao {
 			pstmt.setString(1, "%"+query+"%");
 			pstmt.setString(2, "%"+setting+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -128,6 +148,10 @@ public class NewsDao {
 							
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
@@ -136,6 +160,11 @@ public class NewsDao {
 	}
 	
 	public NewsVo getNewsDetail(int idx){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		NewsVo newsvo = new NewsVo();
 		
@@ -147,7 +176,7 @@ public class NewsDao {
 			
 			pstmt.setInt(1, idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
@@ -171,6 +200,10 @@ public class NewsDao {
 			
 			newsvo = new NewsVo(widx, wtitle, wbasicinfo, wintroduce, wdiscount, wcompany, wcategory, midx, wregdate, whit, wimage, wfiles, wpub, wgood, wdelyn, wtitleposter, wopendate);
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
@@ -178,6 +211,12 @@ public class NewsDao {
 	}		
 	
 	public int insertNews(NewsVo nv) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
 		String sql = "INSERT INTO NEWS(WTITLE, WBASICINFO, MIDX, WREGDATE, WHIT, WIMAGE, WFILES, "
@@ -185,7 +224,6 @@ public class NewsDao {
 				+ "WDISCOUNT, WCOMPANY, WCATEGORY) "
 				+ "VALUES(?, ?, ?, NOW(), 1, ?, ?, ?, 0, 'N', ?, ?, ?, ?, ?, ?)";
 
-				
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -203,7 +241,11 @@ public class NewsDao {
 			pstmt.setString(12, nv.getWcategory());
 			
 			result = pstmt.executeUpdate();
-			System.out.println(nv.getWtitle());
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -213,6 +255,12 @@ public class NewsDao {
 	}
 	
 	public int deleteNews(int idx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		
 		String sql = "UPDATE NEWS SET WDELYN = 'Y' WHERE WIDX = ?";
@@ -223,6 +271,11 @@ public class NewsDao {
 			pstmt.setInt(1, idx);
 			
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -232,13 +285,18 @@ public class NewsDao {
 		
 	}
 	public int modifyNews(NewsVo nv) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
 		String sql = "UPDATE NEWS SET WTITLE = ?, WBASICINFO = ?, WTITLEPOSTER = ?, "
 				+ "WPUB = ?, WOPENDATE = ?, WINTRODUCE = ?, WDISCOUNT = ?, "
 						+ "WCOMPANY = ? WHERE WIDX = ?";
 
-		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -254,6 +312,10 @@ public class NewsDao {
 			
 			result = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -262,6 +324,12 @@ public class NewsDao {
 		return result;
 	}
 	public int countNewsView(int widx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		NewsVo nv = new NewsVo();
 		
@@ -274,7 +342,10 @@ public class NewsDao {
 			pstmt.setInt(1, widx);
 			
 			result = pstmt.executeUpdate();
-			System.out.println(nv.getWhit());
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -8,15 +8,13 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class GoodbadDao {
 
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	
-	public GoodbadDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-
 	public int insertgoodbad(int midx, int c_idx, String lsort, int origin_c_idx ) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value= 0;
 		String sql="INSERT INTO C_LIKE(LIDX,MIDX,C_IDX,ORIGIN_C_IDX,LSORT) VALUES(LIDX_SEQ.NEXTVAL,?,?,?,?)";
 		
@@ -28,6 +26,9 @@ public class GoodbadDao {
 			pstmt.setString(4, lsort);
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(Exception e){
 			
@@ -39,8 +40,13 @@ public class GoodbadDao {
 	}
 	
 	public int checkGood(int midx, int c_idx, int origin_c_idx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value= 0;
-
 		String sql="SELECT COUNT(*) cnt FROM C_LIKE WHERE MIDX = ? AND C_IDX= ? AND ORIGIN_C_IDX= ?";
 		try {
 			
@@ -48,12 +54,15 @@ public class GoodbadDao {
 			pstmt.setInt(1, midx);
 			pstmt.setInt(2, c_idx);
 			pstmt.setInt(3, origin_c_idx);		
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
 			value = rs.getInt("cnt");
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(Exception e){
 			

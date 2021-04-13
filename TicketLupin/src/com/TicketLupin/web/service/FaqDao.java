@@ -11,17 +11,23 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class FaqDao {
 
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
+//	private Connection conn;
+//	private PreparedStatement pstmt;
+//	private ResultSet rs;
 	
-	public FaqDao(){
-		
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();		
-	}
+//	public FaqDao(){
+//		
+//		DBconn dbconn = new DBconn();
+//		this.conn = dbconn.getConnection();		
+//	}
 	
 	public int insertFaq(String ftitle, String ftype, String fcontent, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		
 		int value = 0;
 		
@@ -39,20 +45,25 @@ public class FaqDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;	
 	}
 	
 	public int modifyFaq(String ftitle, String ftype, String fcontent, int fidx) {
+
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int value = 0;
 		
@@ -69,20 +80,25 @@ public class FaqDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
 	}
 	
 	public int deleteFaq(int fidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int value = 0;
 		
@@ -91,25 +107,28 @@ public class FaqDao {
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, fidx);
-			
+			pstmt.setInt(1, fidx);	
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
 	}
 	
 	public List<FaqVo> getFaqList(int page, String type, String keyword){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		List<FaqVo> list = new ArrayList<FaqVo>();
 		
@@ -126,7 +145,7 @@ public class FaqDao {
 			pstmt.setInt(3, 1+(page-1)*10);
 			pstmt.setInt(4, page*10);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -144,15 +163,14 @@ public class FaqDao {
 				list.add(fv);
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return list;	
@@ -160,8 +178,12 @@ public class FaqDao {
 	
 	public FaqVo getFaqListOne(int fidx){
 		
-		FaqVo fv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		FaqVo fv = null;
 		
 		String sql = "SELECT * FROM FAQ WHERE FDELYN = 'N' AND FIDX = ?";
 		
@@ -186,21 +208,25 @@ public class FaqDao {
 				fv.setFdelyn(rs.getString("FDELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return fv;
 	}
 	
 	public int getFaqListCount(int page, String type, String keyword){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
 		
@@ -215,7 +241,7 @@ public class FaqDao {
 			pstmt.setString(1, "%"+keyword+"%");
 			pstmt.setString(2, "%"+type+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -223,15 +249,14 @@ public class FaqDao {
 							
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;

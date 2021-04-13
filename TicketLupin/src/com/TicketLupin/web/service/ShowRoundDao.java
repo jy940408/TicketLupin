@@ -11,15 +11,12 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class ShowRoundDao {
 
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	
-	public ShowRoundDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-	
 	public ShowRoundVo insertShowRound(ShowRoundVo srv) {
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ShowRoundVo result = null;
 		String sql = "INSERT INTO SHOWROUND(SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4) "
 				+ "VALUES(?, ?, ?, ?, ?, ?)";
@@ -36,6 +33,11 @@ public class ShowRoundDao {
 			pstmt.setString(6, srv.getSrround4());
 			int update = pstmt.executeUpdate();
 			System.out.println("ShowRoundDao 들어오는 것 확인");
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,20 +48,21 @@ public class ShowRoundDao {
 	
 	public ArrayList<ShowRoundVo> getShowRoundList(int idx) {
 		
-		ArrayList<ShowRoundVo> result = new ArrayList<>();
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		ArrayList<ShowRoundVo> result = new ArrayList<>();
 		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 "
 				+ "FROM SHOWROUND WHERE SIDX = ?";
 
-
-
-		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				int sridx = rs.getInt("SRIDX");
@@ -74,6 +77,10 @@ public class ShowRoundDao {
 				
 				result.add(srv);
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,8 +92,12 @@ public class ShowRoundDao {
 	
 	public ShowRoundVo getShowRoundDetail(int idx, String date){
 		
-		ShowRoundVo srv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		ShowRoundVo srv = null;
 		String sql = "SELECT SRIDX, SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4 "
 				+ "FROM SHOWROUND WHERE SRDATE = '" + date + "' AND SIDX = ?";
 
@@ -96,7 +107,7 @@ public class ShowRoundDao {
 			
 			pstmt.setInt(1, idx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 			
@@ -110,6 +121,10 @@ public class ShowRoundDao {
 			
 			srv = new ShowRoundVo(sridx, sidx, srdate, srround1, srround2, srround3, srround4);
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,15 +134,23 @@ public class ShowRoundDao {
 	}
 	
 	public int deleteShowRound(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int result = 0;
 		String sql = "DELETE FROM SHOWROUND WHERE SIDX = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, sidx);
-			
 			result = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

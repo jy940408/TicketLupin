@@ -55,9 +55,6 @@ public class FrontController extends HttpServlet{
 		}else if (hc.equals("Dibs")) {			
 			DibsController dibsc = new DibsController();
 			dibsc.doGet(request, response);
-		}else if (hc.equals("Coupon")) {			
-			CouponController couponc = new CouponController();
-			couponc.doGet(request, response);
 		}else if (hc.equals("Expect")) {			
 			ExpectController expectc = new ExpectController();
 			expectc.doGet(request, response);

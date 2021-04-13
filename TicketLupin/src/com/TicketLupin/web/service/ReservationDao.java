@@ -12,26 +12,20 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class ReservationDao {
 
-	Connection conn;
-	PreparedStatement pstmt;
-	ResultSet rs;
-	
-	public ReservationDao(){
-		
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();		
-	}
-	
 	//예매하기
 	public int insertReservationIdx(ReservationIdxVo riv) {
-		int value = 0;
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int value = 0;
 		String sql = "INSERT INTO RESERVATIONIDX(SIDX, MIDX, RIREGDATE, "
 				+ "SRDATE, SRROUND, RIBASIC, RIDISCOUNT, RIVAT, RIDELIVERY, "
 				+ "RIPAYMENT, RIDELYN, RIDELDATE) "
 				+ "VALUES(?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, 'N', NOW())";
 
-		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -47,6 +41,9 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,8 +55,12 @@ public class ReservationDao {
 	//내가 한 예매 중 가장 최근 인덱스 불러오기
 	public int getReservaionRecentIdx(int sidx, int midx) {
 		
-		int riv = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int riv = 0;
 		String sql = "SELECT MAX(RIIDX) RIIDX FROM RESERVATIONIDX WHERE SIDX = ? AND MIDX = ?";
 		
 		try {
@@ -68,12 +69,16 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			pstmt.setInt(2, midx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
 			riv = rs.getInt("RIIDX");
 			
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,8 +91,12 @@ public class ReservationDao {
 	//예매 좌석별로 예매 내역 추가하기
 	public int insertReservation(ReservationVo rv) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "INSERT INTO RESERVATION(SIDX, MIDX, RSEAT, " 
 				+ "RPRICE, RDISCOUNT, SRDATE, SRROUND, RREGDATE, RDELYN, "
 				+ "RPICK, RNAME, RTEL, REMAIL, RPAYMETHOD, RCARD, RQUOTA, RIIDX) "
@@ -117,6 +126,10 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
@@ -125,8 +138,12 @@ public class ReservationDao {
 		return value;
 	}
 	public ArrayList<ReservationShowVo> getReservationList(int idx, int page){
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
-
 		String sql = "SELECT SHOW1.STITLE, MYLIST.* FROM "
 				+ "(SELECT LISTNUM.* FROM "
 				+ "(SELECT RESERVATION.* FROM "
@@ -140,7 +157,7 @@ public class ReservationDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setInt(2, 15*(page-1));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -160,6 +177,10 @@ public class ReservationDao {
 				list.add(rsv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -171,8 +192,12 @@ public class ReservationDao {
 	
 	//마이티켓 예매목록 리스트 불러오기
 	public ArrayList<ReservationListVo> getReservationIdxList(int idx, int page){
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<ReservationListVo> list = new ArrayList<>();
-
 		String sql = "SELECT * FROM " + 
 				"(SELECT COMINFO.*, @ROWNUM:=@ROWNUM+1 NUM FROM " + 
 				"(SELECT MAININFO.*, SHOW1.STITLE FROM " + 
@@ -188,7 +213,7 @@ public class ReservationDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setInt(2, 15*(page-1));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -211,6 +236,10 @@ public class ReservationDao {
 				list.add(rlv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,8 +251,13 @@ public class ReservationDao {
 	
 	//예매 된 좌석 리스트 목록 만들기
 	public ArrayList<ReservationShowVo> getReservationSeatList(int sidx, String srdate, String srround){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
-
 		String sql = "SELECT @ROWNUM:=@ROWNUM+1 NUM, LISTNUM.RSEAT FROM "
 					+ "(SELECT RESERVATION.* FROM "
 					+ "RESERVATION WHERE SIDX = ? AND SRDATE = ? AND SRROUND = ? AND RDELYN = 'N' AND (@ROWNUM:=0)=0 "
@@ -234,7 +268,7 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			pstmt.setString(2, srdate);
 			pstmt.setString(3, srround);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -246,6 +280,10 @@ public class ReservationDao {
 				list.add(rsv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -257,6 +295,12 @@ public class ReservationDao {
 	
 	//예매 게시글 수
 	public int getReservationCount(int idx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int count = 0;
 		String sql = "SELECT COUNT(*) CNT FROM SHOW1 "
 						+ "INNER JOIN (SELECT * FROM "
@@ -267,13 +311,17 @@ public class ReservationDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 				count = rs.getInt("CNT");
 							
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -284,8 +332,13 @@ public class ReservationDao {
 	
 	//마이티켓 예매 취소 목록 리스트 불러오기
 	public ArrayList<ReservationListVo> getReservationIdxDelList(int idx, int page){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<ReservationListVo> list = new ArrayList<>();
-
 		String sql = "SELECT * FROM " + 
 				"(SELECT COMINFO.*, @ROWNUM:=@ROWNUM+1 NUM FROM " + 
 				"(SELECT MAININFO.*, SHOW1.STITLE FROM " + 
@@ -301,7 +354,7 @@ public class ReservationDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setInt(2, 15*(page-1));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -319,6 +372,10 @@ public class ReservationDao {
 				list.add(rlv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -330,6 +387,12 @@ public class ReservationDao {
 	
 	//예매취소 게시글 개수
 	public int getDelReservationCount(int idx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int count = 0;
 		String sql = "SELECT COUNT(*) CNT FROM "
 				+ "SHOW1 INNER JOIN "
@@ -341,13 +404,17 @@ public class ReservationDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 				count = rs.getInt("CNT");
 							
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -358,6 +425,12 @@ public class ReservationDao {
 	
 	//예매 내역 자세히 보기
 	public ArrayList<ReservationShowVo> getReservationDetail(int midx, int riidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		ArrayList<ReservationShowVo> list = new ArrayList<>();
 		String sql = "SELECT * FROM RESERVATIONIDX "
 				+ "INNER JOIN RESERVATION ON RESERVATIONIDX.RIIDX = RESERVATION.RIIDX "
@@ -370,7 +443,7 @@ public class ReservationDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
 			pstmt.setInt(2, riidx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 			
@@ -406,6 +479,10 @@ public class ReservationDao {
 				list.add(rsv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -417,6 +494,12 @@ public class ReservationDao {
 	
 	//예매 취소하기
 	public int deleteReservationIDX(int riidx, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = NOW() "
 				+ "WHERE RIIDX = ? AND MIDX = ?";
@@ -428,6 +511,10 @@ public class ReservationDao {
 			pstmt.setInt(2, midx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -437,6 +524,12 @@ public class ReservationDao {
 	}
 	
 	public int deleteReservation(int riidx, int midx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE RESERVATION SET RDELYN = 'Y' WHERE RIIDX = ? AND MIDX = ?";
 		
@@ -447,6 +540,10 @@ public class ReservationDao {
 			pstmt.setInt(2, midx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -457,6 +554,12 @@ public class ReservationDao {
 	
 	//날짜가 달라진 자리별 예매내역 삭제
 	public int deleteUpdateReservation1(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql ="UPDATE RESERVATION, "
 						+ "(SELECT R.RIDX FROM RESERVATION R INNER JOIN SHOW1 S "
@@ -474,6 +577,10 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -484,6 +591,12 @@ public class ReservationDao {
 	
 	//날짜가 달라진 예매내역 묶음 삭제
 	public int deleteUpdateReservationIDX1(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX, "
 				+ "(SELECT R.RIIDX FROM RESERVATIONIDX R INNER JOIN SHOW1 S "
@@ -501,6 +614,10 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -511,6 +628,12 @@ public class ReservationDao {
 	
 	//회차가 달라진 자리별 예매내역 삭제
 	public int deleteUpdateReservation2(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE RESERVATION, "
 				+ "(SELECT R.RIDX FROM RESERVATION R INNER JOIN SHOWROUND S "
@@ -531,6 +654,10 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -541,6 +668,12 @@ public class ReservationDao {
 	
 	//회차가 달라진 예매내역 묶음 삭제
 	public int deleteUpdateReservationIDX2(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX, "
 				+ "(SELECT R.RIIDX FROM RESERVATIONIDX R INNER JOIN SHOWROUND S "
@@ -561,6 +694,10 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -570,6 +707,11 @@ public class ReservationDao {
 	}
 	
 	public ArrayList<ReservationIdxVo> deleteUpdateReservationIDX2List(int sidx){
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		ArrayList<ReservationIdxVo> list = new ArrayList<ReservationIdxVo>();
 		String sql = "SELECT DELRES.RIIDX, DELRES.SIDX, DELRES.MIDX, DELRES.SRDATE, DELRES.SRROUND, DELRES.RIBASIC, "
@@ -602,7 +744,7 @@ public class ReservationDao {
 			
 			pstmt.setInt(1, sidx);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -627,6 +769,10 @@ public class ReservationDao {
 				list.add(rsv);
 				
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -636,6 +782,12 @@ public class ReservationDao {
 	}
 	
 	public int deleteCancelReservation(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
 		String sql = "UPDATE RESERVATION, "
 				+ "(SELECT * FROM RESERVATION WHERE SIDX = 1) SUM "
@@ -649,6 +801,10 @@ public class ReservationDao {
 			pstmt.setInt(1, sidx);
 			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -12,20 +12,14 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 public class NoticeDao {
 	
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-
-	public NoticeDao() {
-		
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-	
 	public int insertNotice(String ntitle, String ncontent, String ncategory, int midx) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "INSERT INTO NOTICE(NTITLE, NCONTENT, NCATEGORY, MIDX, NREGDATE, NDELYN)" + 
 					 "VALUES(?, ?, ?, ?, NOW(), 'N')";
 		
@@ -40,14 +34,14 @@ public class NoticeDao {
 			
 			value = pstmt.executeUpdate();	
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {			
 			
 			e.printStackTrace();
 			
-		}finally {
-
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 
 		return value;
@@ -55,8 +49,12 @@ public class NoticeDao {
 	
 	public int noticeModify(int nidx, String ntitle, String ncontent, String ncategory) {
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int value = 0;
-
 		String sql = "UPDATE NOTICE SET NTITLE = ?, NCONTENT = ?, NCATEGORY = ? WHERE NIDX = ?";
 		
 		try {
@@ -69,14 +67,14 @@ public class NoticeDao {
 			
 			value = pstmt.executeUpdate();
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-	
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
@@ -84,27 +82,28 @@ public class NoticeDao {
 	
 	public int noticeDelete(int nidx) {
 		
-		int value = 0;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		int value = 0;
 		String sql = "UPDATE NOTICE SET NDELYN = 'Y' WHERE NIDX = ?";
 		
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, nidx);
-			
 			value = pstmt.executeUpdate();
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return value;
@@ -112,10 +111,12 @@ public class NoticeDao {
 	
 	public List<NoticeVo> getNoticeList(int page, String keyword, String ncategory){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<NoticeVo> list = new ArrayList<NoticeVo>();
-		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
-		
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM BETWEEN ? AND ?";
 		
 		try {
@@ -127,7 +128,7 @@ public class NoticeDao {
 			pstmt.setInt(3, 1+(page-1)*10);
 			pstmt.setInt(4, page*10);
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 		
 			while(rs.next()) {
 				
@@ -148,15 +149,14 @@ public class NoticeDao {
 				
 			}
 		
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return list;
@@ -164,10 +164,12 @@ public class NoticeDao {
 	
 	
 	public NoticeVo getNoticeOne(int nidx) {
-		
-		NoticeVo nv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		NoticeVo nv = null;
 		String sql = "SELECT * FROM NOTICE WHERE NDELYN = 'N' AND NIDX = ?";
 		
 		try {
@@ -191,15 +193,14 @@ public class NoticeDao {
 				nv.setNdelyn(rs.getString("NDELYN"));			
 			}					
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return nv;
@@ -207,10 +208,12 @@ public class NoticeDao {
 	
 	public int getNoticeListCount(int page, String keyword, String ncategory){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int count = 0;
-		
-		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
-		
 		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, N.* FROM NOTICE N,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A";
 		
 		try {
@@ -220,22 +223,21 @@ public class NoticeDao {
 			pstmt.setString(1, "%"+keyword+"%");
 			pstmt.setString(2, "%"+ncategory+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 		
 		}catch(Exception e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;
@@ -243,11 +245,12 @@ public class NoticeDao {
 	
 	public NoticeVo getNoticeListOne(String keyword, String searchType, int num) {
 		
-		NoticeVo nv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
-		
+		NoticeVo nv = null;
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
@@ -274,15 +277,14 @@ public class NoticeDao {
 				nv.setNdelyn(rs.getString("NDELYN"));
 			}					
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return nv;
@@ -290,11 +292,12 @@ public class NoticeDao {
 	
 	public NoticeVo getNoticeListOnePrev(String keyword, String searchType, int num){
 		
-		NoticeVo nv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
-		
+		NoticeVo nv = null;
 		String sql = "SELECT A.* FROM(SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
@@ -321,15 +324,14 @@ public class NoticeDao {
 				nv.setNdelyn(rs.getString("NDELYN"));
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return nv;
@@ -337,11 +339,12 @@ public class NoticeDao {
 	
 	public NoticeVo getNoticeListOneNext(String keyword, String searchType, int num){
 		
-		NoticeVo nv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N) WHERE NUM = ?";
-		
+		NoticeVo nv = null;
 		String sql = "SELECT A.* FROM(SELECT @ROWNUM := @ROWNUM + 1 AS NUM, B.* FROM NOTICE B,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A WHERE NUM = ?";
 		
 		try {
@@ -368,26 +371,26 @@ public class NoticeDao {
 				nv.setNdelyn(rs.getString("NDELYN"));			
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
-		
 		return nv;
 	}
 	
 	public int getNoticeListCountAll(String keyword, String searchType){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		int count = 0;
-		
-		//String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) N)";
-		
 		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT @ROWNUM := @ROWNUM + 1 AS NUM, N.* FROM NOTICE N,(SELECT @ROWNUM := 0) TMP WHERE NTITLE LIKE ? AND NCATEGORY LIKE ? AND NDELYN = 'N' ORDER BY NREGDATE DESC) A";
 		
 		try {
@@ -397,23 +400,22 @@ public class NoticeDao {
 			pstmt.setString(1, "%"+keyword+"%");
 			pstmt.setString(2, "%"+searchType+"%");
 			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
 							
 			}
-		
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;

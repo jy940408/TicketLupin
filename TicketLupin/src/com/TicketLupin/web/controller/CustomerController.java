@@ -35,7 +35,7 @@ public class CustomerController extends HttpServlet{
 		String str = uri.substring(len);
 		System.out.println("str"+str);
 																	
-		// °øÁö»çÇ×
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		if(str.equals("/Customer/NoticeList.do")) {
 			
@@ -86,7 +86,6 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			NoticeDao nd = new NoticeDao();
-			
 			nd.insertNotice(ntitle, ncontent, ncategory, midx);
 			
 			response.sendRedirect("../Customer/NoticeList.do");	
@@ -159,13 +158,12 @@ public class CustomerController extends HttpServlet{
 			int nidx = Integer.parseInt(nidx_);
 			
 			NoticeDao nd = new NoticeDao();
-			
 			nd.noticeDelete(nidx);
 			
 			response.sendRedirect("../Customer/NoticeList.do");
 		}
 		
-		// ÀÌ¿ë¾È³»
+		// ï¿½Ì¿ï¿½È³ï¿½
 		
 		else if(str.equals("/Customer/Buyguide.do")) {
 			
@@ -181,27 +179,22 @@ public class CustomerController extends HttpServlet{
 			String keyword_ = request.getParameter("keyword");
 
 			int page = 1;
-			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
 			
 			String type = "";
-			
 			if(type_ != null && !type_.equals("")) {
 				type = type_;
 			}	
 			
 			String keyword = "";
-			
 			if(keyword_ != null && !keyword_.equals("")) {
 				keyword = keyword_;
 			}		
 			
 			FaqDao fd = new FaqDao();
-			
 			List<FaqVo> list = fd.getFaqList(page, type, keyword);
-					
 			int count = fd.getFaqListCount(page, type, keyword);
 			
 			request.setAttribute("keyword", keyword);
@@ -223,7 +216,6 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			FaqDao fd = new FaqDao();
-			
 			fd.insertFaq(ftitle, ftype, fcontent, midx);
 			
 			response.sendRedirect("../Customer/FaqList.do");
@@ -234,7 +226,6 @@ public class CustomerController extends HttpServlet{
 			int fidx_ = Integer.parseInt(fidx);
 			
 			FaqDao fd = new FaqDao();
-			
 			FaqVo fv = fd.getFaqListOne(fidx_);
 			
 			request.setAttribute("fv", fv);
@@ -250,7 +241,6 @@ public class CustomerController extends HttpServlet{
 			int fidx_ = Integer.parseInt(fidx);
 			
 			FaqDao fd = new FaqDao();
-			
 			fd.modifyFaq(ftitle, ftype, fcontent, fidx_);
 
 			response.sendRedirect("../Customer/FaqList.do");
@@ -261,14 +251,13 @@ public class CustomerController extends HttpServlet{
 			int fidx = Integer.parseInt(fidx_);
 			
 			FaqDao fd = new FaqDao();
-			
 			fd.deleteFaq(fidx);
 					
 			response.sendRedirect("../Customer/FaqList.do");
 			
 		}
 		
-		// ³ªÀÇ ¹®ÀÇ ³»¿ª
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		else if(str.equals("/Customer/QuestionList.do")) {
 			
@@ -277,19 +266,16 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			int page = 1;
-			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
 			
 			String state = "";
-			
 			if(state_ != null && !state_.equals("")) {
 				state = state_;
 			}		
 			
 			QuestionDao qd = new QuestionDao();		
-				
 			List<QuestionVo> list = qd.getQuestionList(state, page, midx);
 			int count = qd.getQuestionListCount(state, page, midx);
 			
@@ -322,7 +308,6 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			QuestionDao qd = new QuestionDao();
-			
 			QuestionVo qv = qd.getQuestionOne(qidx, midx);
 			
 			request.setAttribute("qv", qv);
@@ -343,13 +328,11 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			String state = "";
-			
 			if(state_ != null && !state_.equals("")) {
 				state = state_;
 			}	
 			
 			QuestionDao qd = new QuestionDao();
-			
 			qd.modifyQuestion(qtitle, qcontent, qtype, qidx, midx);
 			
 			response.sendRedirect("../Customer/QuestionView.do?num="+num+"&qidx="+qidx+"&state="+state);
@@ -364,25 +347,21 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			int page = 1;
-			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
 			
 			int qidx = 0;
-			
 			if(qidx_ != null && !qidx_.equals("")) {
 				qidx = Integer.parseInt(qidx_);
 			}
 			
 			String state = "";
-			
 			if(state_ != null && !state_.equals("")) {
 				state = state_;
 			}
 			
 			QuestionDao qd = new QuestionDao();
-			
 			QuestionVo qv = qd.getQuestionListOne(state, num, midx);
 			QuestionVo pqv = qd.getQuestionListOnePrev(state, num, midx);
 			QuestionVo nqv = qd.getQuestionListOneNext(state, num, midx);
@@ -407,32 +386,26 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 
 			int page = 1;
-			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
 			
 			int qidx = 0;
-			
 			if(qidx_ != null && !qidx_.equals("")) {
 				qidx = Integer.parseInt(qidx_);
 			}
 			
 			String state = "";
-			
 			if(state_ != null && !state_.equals("")) {
 				state = state_;
 			}
 			
 			QuestionDao qd = new QuestionDao();
 			AnswerDao ad = new AnswerDao();
-			
 			QuestionVo qv = qd.getQuestionListOne(state, num, midx);
 			QuestionVo pqv = qd.getQuestionListOnePrev(state, num, midx);
 			QuestionVo nqv = qd.getQuestionListOneNext(state, num, midx);
-			
 			AnswerVo av = ad.getAnswerListOne(qidx, midx);
-			
 			int count = qd.getQuestionListCount(state, page, midx);
 			
 			request.setAttribute("qv", qv);
@@ -452,48 +425,42 @@ public class CustomerController extends HttpServlet{
 			int midx = (Integer)request.getSession().getAttribute("midx");
 			
 			QuestionDao qd = new QuestionDao();
-			
 			qd.deleteQuestion(qidx, midx);
 			
 			response.sendRedirect("../Customer/QuestionList.do");		
 		}
 		
-		//¹®ÀÇ °ü¸®
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		else if(str.equals("/Customer/AnswerMain.do")) {
 			
-			String keyword_ = request.getParameter("keyword"); //°Ë»öÃ¢ Å°¿öµå
-			String searchType_ = request.getParameter("searchType"); //°Ë»ö À¯Çü
-			String type_ = request.getParameter("type"); //¹®ÀÇ À¯Çü
-			String state_ = request.getParameter("state"); //¹®ÀÇ ´äº¯¿©ºÎ
+			String keyword_ = request.getParameter("keyword"); //ï¿½Ë»ï¿½Ã¢ Å°ï¿½ï¿½ï¿½ï¿½
+			String searchType_ = request.getParameter("searchType"); //ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½
+			String type_ = request.getParameter("type"); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			String state_ = request.getParameter("state"); //ï¿½ï¿½ï¿½ï¿½ ï¿½äº¯ï¿½ï¿½ï¿½ï¿½
 			String page_ = request.getParameter("p");
 			
 			String keyword = "";
-			
 			if(keyword_ != null && !keyword_.equals("")) {
 				keyword = keyword_;
 			}
 			
 			String searchType = "";
-			
 			if(searchType_ != null && !searchType_.equals("")) {
 				searchType = searchType_;
 			}
 			
 			String type = "";
-			
 			if(type_ != null && !type_.equals("")) {
 				type = type_;
 			}
 			
 			String state = "";
-			
 			if(state_ != null && !state_.equals("")) {
 				state = state_;
 			}
 			
 			int page = 1;
-			
 			if(page_ != null && !page_.equals("")) {
 				page = Integer.parseInt(page_);
 			}
@@ -518,7 +485,6 @@ public class CustomerController extends HttpServlet{
 			int qidx = Integer.parseInt(qidx_);
 			
 			QuestionDao qd = new QuestionDao();
-			
 			QuestionVo qv = qd.getQuestionListOne2(qidx, midx);
 			
 			request.setAttribute("qv", qv);
@@ -534,7 +500,6 @@ public class CustomerController extends HttpServlet{
 			int midx = Integer.parseInt(midx_);
 			
 			AnswerDao ad = new AnswerDao();
-			
 			ad.insertAnswer(acontent, qidx, midx);
 			
 			response.sendRedirect("../Customer/AnswerView.do?midx="+midx+"&qidx="+qidx);
@@ -566,7 +531,6 @@ public class CustomerController extends HttpServlet{
 			int midx = Integer.parseInt(midx_);
 			
 			AnswerDao ad = new AnswerDao();
-			
 			ad.modifyAnswer(acontent, qidx, midx);
 			
 			response.sendRedirect("../Customer/AnswerView.do?midx="+midx+"&qidx="+qidx);
@@ -582,7 +546,6 @@ public class CustomerController extends HttpServlet{
 			System.out.println(midx);
 			
 			QuestionDao qd = new QuestionDao();
-			
 			qd.deleteQuestion(qidx, midx);
 			
 			response.sendRedirect("../Customer/AnswerMain.do");

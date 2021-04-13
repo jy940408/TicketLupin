@@ -11,15 +11,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 import com.TicketLupin.web.service.MyticketVo;
 
 public class MyticketDao {
-	private	Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	
-	public MyticketDao() {
-		DBconn dbconn = new DBconn();
-		this.conn = dbconn.getConnection();
-	}
-	
+
 	public List<ReservationShowVo> getReservationList(int midx){
 		
 		List<ReservationShowVo> list = new ArrayList<ReservationShowVo>();
@@ -28,9 +20,14 @@ public class MyticketDao {
 		
 		try {
 			
+			DBconn dbconn = new DBconn();
+			Connection conn = dbconn.getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -45,59 +42,58 @@ public class MyticketDao {
 				list.add(rsv);
 				
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(Exception e) {
 				
 			e.printStackTrace();
 				
-		}finally {
-				
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 			
 		return list;
 	}
 	
 	public int getReservationCount(int midx) {
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		int count = 0;
-		
 		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.RIREGDATE, B.SRDATE, C.STITLE FROM RESERVATIONIDX B, SHOW1 C, (SELECT @ROWNUM := 0) TMP WHERE B.SIDX = C.SIDX AND B.MIDX = ? ORDER BY B.SRDATE DESC) A";
 		
 		try {
 			
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, midx);
-			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 				count = rs.getInt("COUNT");
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
 			
 		}catch(SQLException e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-	
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return count;
 	}
 	
 	public MemberVo getName(int midx) {
-		
-		MemberVo mv = null;
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		MemberVo mv = null;
 		String sql = "SELECT MNAME FROM MEMBER WHERE MIDX = ?";
 		
 		try {
@@ -112,16 +108,15 @@ public class MyticketDao {
 				
 				mv.setMname(rs.getString("MNAME"));
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 			
 		}catch(Exception e){
 				
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return mv;
@@ -129,19 +124,19 @@ public class MyticketDao {
 	
 	public List<QuestionVo> getQuestionList(int midx){
 		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<QuestionVo> list = new ArrayList<QuestionVo>();
-		
-		//String sql = "SELECT NUM, QIDX, QTITLE, QSTATE, QREGDATE FROM (SELECT ROWNUM NUM, N.* FROM (SELECT QIDX, QTITLE, QSTATE, QREGDATE FROM QUESTION WHERE MIDX = ? ORDER BY QREGDATE DESC) N) WHERE NUM <= 5";
-		
 		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 NUM, B.QIDX, B.QTITLE, B.QSTATE, B.QREGDATE FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE MIDX = ? ORDER BY QREGDATE DESC) A WHERE NUM <= 5";
 		
 		try{
 			
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, midx);
-			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -156,15 +151,14 @@ public class MyticketDao {
 				list.add(qv);	
 			}
 			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
 		}catch(Exception e) {
 			
 			e.printStackTrace();
 			
-		}finally {
-			
-			if (rs != null) try { rs.close(); } catch(Exception e) {}
-			if (pstmt != null) try { rs.close(); } catch(Exception e) {}
-			if (conn != null) try { rs.close(); } catch(Exception e) {}
 		}
 		
 		return list;
