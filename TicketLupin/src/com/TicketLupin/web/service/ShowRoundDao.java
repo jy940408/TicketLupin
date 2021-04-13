@@ -15,7 +15,6 @@ public class ShowRoundDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		ShowRoundVo result = null;
 		String sql = "INSERT INTO SHOWROUND(SIDX, SRDATE, SRROUND1, SRROUND2, SRROUND3, SRROUND4) "
@@ -34,7 +33,6 @@ public class ShowRoundDao {
 			int update = pstmt.executeUpdate();
 			System.out.println("ShowRoundDao 들어오는 것 확인");
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -138,7 +136,6 @@ public class ShowRoundDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		String sql = "DELETE FROM SHOWROUND WHERE SIDX = ?";
@@ -148,7 +145,6 @@ public class ShowRoundDao {
 			pstmt.setInt(1, sidx);
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

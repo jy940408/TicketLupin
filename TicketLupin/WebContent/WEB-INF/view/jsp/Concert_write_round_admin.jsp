@@ -23,8 +23,6 @@
 					var nameArray = "";
 					$(".round").on("change", function(){
 						var nameArray = ($(this).attr("name")).split('_');
-						alert("i값: " + nameArray[1]);
-						alert("j값: " + nameArray[2]);
 						for(var i = 1 ; i < nameArray[2] ; i++){	
 							if($("input[name=date_"+ nameArray[1] + "_" + i + "]").val() == ""){
 								alert(i + "회차를 먼저 선택해주세요!");	

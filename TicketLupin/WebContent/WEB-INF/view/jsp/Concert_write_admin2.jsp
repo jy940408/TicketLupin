@@ -215,7 +215,7 @@
 							</tr>
 							<tr>
 								<th colspan="3" style="border:1px solid;">
-									테스트 사진
+									할인정보 사진
 								</th>
 								<td colspan="11" style="border:1px solid;">
 									<input type="file" class="file" name="image5" style="border:0px; font-size:14px;" required>

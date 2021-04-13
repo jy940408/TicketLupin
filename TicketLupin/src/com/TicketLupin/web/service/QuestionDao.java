@@ -18,7 +18,6 @@ public class QuestionDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "INSERT INTO QUESTION(QTITLE, QCONTENT, QTYPE, QSTATE, MIDX, QREGDATE, QDELYN)"
@@ -35,7 +34,6 @@ public class QuestionDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -53,7 +51,6 @@ public class QuestionDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE QUESTION SET QTITLE = ?, QCONTENT = ?, QTYPE = ? WHERE QIDX = ? AND MIDX = ?";
@@ -70,7 +67,6 @@ public class QuestionDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -88,7 +84,6 @@ public class QuestionDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE QUESTION SET QDELYN = 'Y' WHERE QIDX = ? AND MIDX = ?";
@@ -102,7 +97,6 @@ public class QuestionDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

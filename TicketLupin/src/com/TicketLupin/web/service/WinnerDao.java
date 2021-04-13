@@ -86,9 +86,7 @@ public class WinnerDao {
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setString(1, "%"+query+"%");
-			
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -158,7 +156,6 @@ public class WinnerDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		String sql = "INSERT INTO WINNER (ITITLE, ICONTENT, MIDX, IREGDATE, IHIT, IIMAGE, IFILES, IPUB, IGOOD, IDELYN, IOPENDATE, IENDDATE) "
@@ -178,7 +175,6 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -194,7 +190,6 @@ public class WinnerDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		String sql = "UPDATE WINNER SET ITITLE = ?, ICONTENT = ?, IIMAGE = ?, IPUB = ?, IOPENDATE = ?, IENDDATE = ? WHERE IIDX=?";
@@ -212,7 +207,6 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -228,7 +222,6 @@ public class WinnerDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		
@@ -241,7 +234,6 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -258,7 +250,6 @@ public class WinnerDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		WinnerVo wv = new WinnerVo();
@@ -272,7 +263,6 @@ public class WinnerDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

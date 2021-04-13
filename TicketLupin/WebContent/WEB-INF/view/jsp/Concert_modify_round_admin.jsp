@@ -17,6 +17,22 @@
 		<!-- core CSS -->
 		<link rel="stylesheet" href="../css/jquery.timepicker.css">
 		<link rel="stylesheet" href="../css/Concert_write_admin.css">
+		<script>
+				$(document).ready(function(){
+					var nameArray = "";
+					$(".round").on("change", function(){
+						var nameArray = ($(this).attr("name")).split('_');
+						for(var i = 1 ; i < nameArray[2] ; i++){	
+							if($("input[name=date_"+ nameArray[1] + "_" + i + "]").val() == ""){
+								alert(i + "회차를 먼저 선택해주세요!");	
+								$(this).val("");
+								return;
+								break;
+							}
+						}
+					})
+				});
+		</script>
 	</head>
 	<body>
 		<header>

@@ -83,12 +83,11 @@ public class MemberDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		int exec = 0;
 		
 		try {
 			String sql = "insert into member(mid, mpwd,  mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender, msignindate)"
-					+ "values(?,?,?,?,?,?, ?,?,?,?,?,?,?,now())";
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			pstmt.setString(2, mpwd);
@@ -106,7 +105,6 @@ public class MemberDao {
 			exec = pstmt.executeUpdate();
 			
 			//conn.commit();
-			rs.close();
 			pstmt.close();
 			conn.close();
 		}catch(Exception e) {
@@ -187,7 +185,6 @@ public class MemberDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "update member set mpwd=? where mid=? ";
@@ -199,7 +196,6 @@ public class MemberDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		}catch(SQLException e) {
@@ -440,7 +436,6 @@ public class MemberDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "update member set mname=?, mssn=?, mbirthmonth=?, mbirthday=?, mpostcode=?, maddress=?, mdetailaddress=?, mextraaddress=?, mgender=?, memail=?, mphone=?, mpwd=? where mid=?";
@@ -463,7 +458,6 @@ public class MemberDao {
 			pstmt.setString(13, mid);
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		}catch(SQLException e) {
@@ -479,7 +473,6 @@ public class MemberDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "update member set MSECESSIONYN = 'Y', MSECESSIONDATE = sysdate where mpwd = ?";
@@ -489,7 +482,6 @@ public class MemberDao {
 			pstmt.setString(1, mpwd);
 			value = pstmt.executeUpdate();
 				
-			rs.close();
 			pstmt.close();
 			conn.close();
 		}catch(SQLException e){

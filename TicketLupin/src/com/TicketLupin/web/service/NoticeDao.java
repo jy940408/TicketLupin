@@ -17,7 +17,6 @@ public class NoticeDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "INSERT INTO NOTICE(NTITLE, NCONTENT, NCATEGORY, MIDX, NREGDATE, NDELYN)" + 
@@ -34,7 +33,6 @@ public class NoticeDao {
 			
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -52,7 +50,6 @@ public class NoticeDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE NOTICE SET NTITLE = ?, NCONTENT = ?, NCATEGORY = ? WHERE NIDX = ?";
@@ -67,7 +64,6 @@ public class NoticeDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -85,7 +81,6 @@ public class NoticeDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE NOTICE SET NDELYN = 'Y' WHERE NIDX = ?";
@@ -96,7 +91,6 @@ public class NoticeDao {
 			pstmt.setInt(1, nidx);
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

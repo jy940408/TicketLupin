@@ -19,7 +19,6 @@ public class EventDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="insert into event(etitle, econtent, midx, efiles, estart, eend, ethumbnail, ecategory)" + 
@@ -37,7 +36,6 @@ public class EventDao {
 			pstmt.setString(8, ecategory);
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -106,7 +104,6 @@ public class EventDao {
 		ResultSet rs = null;
 		
 		int cnt = 0;
-		rs = null;
 		
 		String sql = "select count(*) as cnt  from event where edelyn='N' and etitle like ?";
 		
@@ -179,7 +176,6 @@ public class EventDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "update event set etitle=?, econtent=?, estart=?, eend=?, efiles=?, ethumbnail=?, ecategory=? where eidx=?";
@@ -199,7 +195,6 @@ public class EventDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		}catch(SQLException e) { 
@@ -271,6 +266,7 @@ public class EventDao {
 				ev.setEthumbnail(rs.getString("ethumbnail"));
 				list.add(ev);
 			}
+			
 			rs.close();
 			pstmt.close();
 			conn.close();

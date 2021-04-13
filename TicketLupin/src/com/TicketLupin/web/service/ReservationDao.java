@@ -18,7 +18,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "INSERT INTO RESERVATIONIDX(SIDX, MIDX, RIREGDATE, "
@@ -41,7 +40,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -94,7 +92,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "INSERT INTO RESERVATION(SIDX, MIDX, RSEAT, " 
@@ -126,7 +123,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -498,7 +494,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX SET RIDELYN = 'Y', RIDELDATE = NOW() "
@@ -512,7 +507,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -528,7 +522,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE RESERVATION SET RDELYN = 'Y' WHERE RIIDX = ? AND MIDX = ?";
@@ -541,7 +534,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -558,7 +550,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="UPDATE RESERVATION, "
@@ -573,12 +564,9 @@ public class ReservationDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, sidx);
-			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -595,7 +583,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX, "
@@ -615,7 +602,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -632,7 +618,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE RESERVATION, "
@@ -655,7 +640,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -672,7 +656,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE RESERVATIONIDX, "
@@ -690,12 +673,9 @@ public class ReservationDao {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, sidx);
-			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -786,7 +766,6 @@ public class ReservationDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "UPDATE RESERVATION, "
@@ -802,7 +781,6 @@ public class ReservationDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {

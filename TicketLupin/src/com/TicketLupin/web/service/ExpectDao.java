@@ -75,7 +75,6 @@ public class ExpectDao {
 			}
 		}
 		
-		
 		return elist;
 	}
 	
@@ -89,6 +88,7 @@ public class ExpectDao {
 		int count = 0;
 		String sql = "SELECT COUNT(C_IDX) COUNT FROM (SELECT * FROM C_COMMENT WHERE C_DEPTH=0 AND C_SORT=? AND SIDX=? AND C_DELYN='N')a";
 		try {
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, setting3);
 			pstmt.setInt(2, sidx);
@@ -116,7 +116,6 @@ public class ExpectDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="INSERT INTO C_COMMENT(ORIGIN_C_IDX,SIDX,EIDX,MIDX,C_CONTENT,C_REGDATE,C_DELYN,C_DEPTH,C_SORT)"+
@@ -131,7 +130,6 @@ public class ExpectDao {
 			pstmt.setString(4,sort);
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -151,7 +149,6 @@ public class ExpectDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="UPDATE C_COMMENT SET C_DELYN = 'Y' WHERE "+setting+"= ?"; 
@@ -162,7 +159,6 @@ public class ExpectDao {
 			pstmt.setInt(1, idx);
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -180,7 +176,6 @@ public class ExpectDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="INSERT INTO C_COMMENT(ORIGIN_C_IDX,SIDX,EIDX,MIDX,C_CONTENT,C_REGDATE,C_DELYN,C_DEPTH,C_SORT)"+
@@ -195,7 +190,6 @@ public class ExpectDao {
 			pstmt.setString(5,sort);
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -213,7 +207,6 @@ public class ExpectDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="UPDATE C_COMMENT SET C_CONTENT=?,C_REGDATE=now() WHERE C_IDX=? AND MIDX=?";
@@ -225,7 +218,6 @@ public class ExpectDao {
 			pstmt.setInt(3, midx);
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

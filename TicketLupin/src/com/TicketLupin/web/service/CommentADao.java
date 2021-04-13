@@ -108,7 +108,6 @@ public class CommentADao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value= 0;
 		String sql ="update c_comment set c_delyn = ? where c_idx = ? ";
@@ -120,7 +119,6 @@ public class CommentADao {
 			pstmt.setInt(2, c_idx);
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -138,7 +136,6 @@ public class CommentADao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value= 0;
 		String sql = "update  C_comment set c_delyn = 'Y'   where c_content like ?" ;   
@@ -148,7 +145,6 @@ public class CommentADao {
 			pstmt.setString(1, "%"+keyword+"%");
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -166,7 +162,6 @@ public class CommentADao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql ="INSERT INTO C_REPORT(MIDX,C_IDX,CRSORT,CRCONTENT,CRREGDATE,CRDELYN) VALUES(?,?,?,?,now(),'N')";
@@ -179,7 +174,6 @@ public class CommentADao {
 			pstmt.setString(4,etcval);
 			value = pstmt.executeUpdate();	
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

@@ -215,7 +215,6 @@ public class NewsDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
@@ -242,7 +241,6 @@ public class NewsDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -259,7 +257,6 @@ public class NewsDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		
@@ -272,7 +269,6 @@ public class NewsDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -289,7 +285,6 @@ public class NewsDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		//占싸듸옙占쏙옙, 타占쏙옙틀, 占썩본 占쏙옙占쏙옙, 占쏙옙占쏙옙琯占쏙옙占�, 占쏙옙毬占승�, 占쏙옙회占쏙옙, 占싱뱄옙占쏙옙, 첨占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占싣울옙 占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 타占쏙옙틀占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쌀곤옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙, 카占쌓곤옙
@@ -312,7 +307,6 @@ public class NewsDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -328,7 +322,6 @@ public class NewsDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		NewsVo nv = new NewsVo();
@@ -337,13 +330,9 @@ public class NewsDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
-			
 			pstmt.setInt(1, widx);
-			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

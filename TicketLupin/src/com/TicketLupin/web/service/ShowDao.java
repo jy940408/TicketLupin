@@ -29,7 +29,6 @@ public class ShowDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
@@ -59,7 +58,6 @@ public class ShowDao {
 			pstmt.setInt(16, sv.getSaprice());
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -75,7 +73,6 @@ public class ShowDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		//타占쏙옙틀, 占썲르, 占쌜쇽옙占쏙옙짜, 占쏙옙占쏙옙, 占싱뱄옙占쏙옙, 占쏙옙占쏙옙占쏙옙占쏙옙, 占쏙옙占승놂옙짜, 占쏙옙占쏙옙占쏙옙 占쏙옙짜, 占쏙옙占�, 회占쏙옙, 占쏙옙占쏙옙占싫�, 占쏙옙占싸몌옙占쌍쇽옙, 占쏙옙占쏙옙占쌍쇽옙, 占쏙옙占쌍쇽옙, 占쏙옙占쏙옙占쌓몌옙
@@ -103,7 +100,6 @@ public class ShowDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -377,7 +373,6 @@ public class ShowDao {
 		String sql = "SELECT COUNT(*) COUNT FROM SHOW1 INNER JOIN SHOW2 ON SHOW1.SIDX = SHOW2.SIDX " + 
 				"WHERE  STITLE LIKE ? AND SHOW1.SDELYN = 'N' ORDER BY SREGDATE DESC";
 
-		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
@@ -584,7 +579,6 @@ public class ShowDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		String sql = "UPDATE SHOW1 SET STITLE = ?, SGENRE = ?, SRATING = ?, SOPENDATE = ?, SENDDATE = ?, STICKETINGDATE = ?, "
@@ -614,7 +608,6 @@ public class ShowDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -631,7 +624,6 @@ public class ShowDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		String sql = "UPDATE SHOW2 SET SROUND = ?, SPRICE = ?, SNOTICE = ?, SDISCOUNT = ?, SINFO = ?, SCOMPANY = ?, " + 
@@ -659,7 +651,6 @@ public class ShowDao {
 			
 			result = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

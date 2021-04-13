@@ -13,7 +13,6 @@ public class GoodbadDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value= 0;
 		String sql="INSERT INTO C_LIKE(LIDX,MIDX,C_IDX,ORIGIN_C_IDX,LSORT) VALUES(LIDX_SEQ.NEXTVAL,?,?,?,?)";
@@ -26,7 +25,6 @@ public class GoodbadDao {
 			pstmt.setString(4, lsort);
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			

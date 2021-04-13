@@ -171,6 +171,8 @@ public class ShowController extends HttpServlet{
 					place.add("광주광역");
 					place.add("전라");
 					place.add("제주");
+					place.add("전북");
+					place.add("전남");
 				}
 			}
 			

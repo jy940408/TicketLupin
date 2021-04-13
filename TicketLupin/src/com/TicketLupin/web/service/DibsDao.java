@@ -16,7 +16,6 @@ public class DibsDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "INSERT INTO DIBS(SIDX, MIDX) VALUES(?, ?)";
@@ -29,7 +28,6 @@ public class DibsDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
@@ -83,7 +81,6 @@ public class DibsDao {
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		String sql = "DELETE FROM DIBS WHERE SIDX = ? AND MIDX = ?";
@@ -96,7 +93,6 @@ public class DibsDao {
 			
 			value = pstmt.executeUpdate();
 			
-			rs.close();
 			pstmt.close();
 			conn.close();
 			
