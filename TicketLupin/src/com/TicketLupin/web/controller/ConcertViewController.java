@@ -146,23 +146,24 @@ public class ConcertViewController extends HttpServlet{
 				month_ = "0" + month_;
 			}
 			
-			
+			ArrayList dateCheck = sd.dateCheck(sidx);
 			ArrayList roundCheck = new ArrayList();
 			for(int testDate = 1 ; testDate <= endDay ; testDate++) {
 				
 				String date_ = Integer.toString(testDate);
 				if((int)(Math.log10(testDate)+1) == 1) {
 					date_ = "0" + date_;
-				}	
-				
+				}
 				String comDate = year + "-" + (month_) + "-" + date_;
-				if(srd.getShowRoundDetail(sidx, comDate) != null && !srd.getShowRoundDetail(sidx, comDate).equals("") && srd.getShowRoundDetail(sidx, comDate).getSrround1() != null && !srd.getShowRoundDetail(sidx, comDate).getSrround1().equals("")) {
-					strRoundCheck = 1;
-					roundCheck.add(strRoundCheck);
-					System.out.println("예매 기간: " + srd.getShowRoundDetail(sidx, comDate));
-				}else {
-					strRoundCheck = 0;
-					roundCheck.add(strRoundCheck);
+				
+				for(int i = 0 ; i < dateCheck.size() ; i++) {
+					if(comDate.equals(dateCheck.get(i))) {
+						strRoundCheck = 1;
+						roundCheck.add(strRoundCheck);
+					}else {
+						strRoundCheck = 0;
+						roundCheck.add(strRoundCheck);
+					}
 				}
 			}
 			

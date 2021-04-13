@@ -693,9 +693,9 @@ public class ShowDao {
 			
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			
-			result = rs.getInt("CNT");
+			if(rs.next()) {
+				result = rs.getInt("CNT");
+			}
 			
 			rs.close();
 			pstmt.close();
@@ -744,6 +744,39 @@ public class ShowDao {
 			e.printStackTrace();
 		}
 		return round;
+	}
+	
+	public ArrayList dateCheck(int sidx) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		ArrayList date = new ArrayList<>();
+		String sql = "SELECT * FROM SHOWROUND WHERE SIDX = ? AND (SRROUND1 != '')";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sidx);
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				date.add(rs.getString("SRDATE"));
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+		
 	}
 	
 }
