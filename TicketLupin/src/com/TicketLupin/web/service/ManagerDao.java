@@ -19,9 +19,8 @@ public class ManagerDao {
 		ResultSet rs = null;
 		
 		List<ManagerVo> mlist = new ArrayList<ManagerVo>();
-		String sql ="select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( "+
-					"select @ROWNUM := @ROWNUM + 1 AS NO, midx, mid, mname,memail, date_format( msignindate,'%m-%d')as c_date from member A,(SELECT @ROWNUM := 0)B order by MIDX)AA, "+
-					"(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit 0,7 ";
+		String sql ="SELECT * FROM ( SELECT @ROWNUM := @ROWNUM + 1 AS NO, MIDX, MID, MNAME,MEMAIL, DATE_FORMAT( MSIGNINDATE,'%m-%d')AS C_DATE"+
+					" FROM MEMBER A,(SELECT @ROWNUM := 0)B  WHERE MSECESSIONYN ='N' ORDER BY MIDX)A ORDER BY NO DESC LIMIT 0,7";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -59,10 +58,9 @@ public class ManagerDao {
 		ResultSet rs = null;
 		
 		List<ManagerVo> plist = new ArrayList<ManagerVo>();
-		String sql = "select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( "+
-				"select @ROWNUM := @ROWNUM + 1 AS NO, c.stitle, b.mid, date_format( a.riregdate,'%m-%d')as c_date,a.ripayment, "+
-				"a.riidx from reservationidx a LEFT JOIN member b ON a.midx= b.midx LEFT JOIN show1 c ON a.sidx =c.sidx ,(SELECT @ROWNUM := 0)D order by a.riidx"+
-				")AA,(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit 0,7" ; 
+		String sql = " select * from( select @ROWNUM := @ROWNUM + 1 AS NO, c.stitle, b.mid, date_format( a.riregdate,'%m-%d')as c_date,a.ripayment, a.riidx" 
+				+" from reservationidx a LEFT JOIN member b ON a.midx= b.midx LEFT JOIN show1 c ON a.sidx =c.sidx ,(SELECT @ROWNUM := 0)D ,"
+				+"(SELECT @ROWNUM := 0) BB where a.ripayment is not null order by a.riidx )AA ORDER BY NO DESC limit 0,7" ; 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -101,9 +99,8 @@ public class ManagerDao {
 		ResultSet rs = null;
 		
 		List<ManagerVo> clist = new ArrayList<ManagerVo>();
-		String sql = "select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( " + 
-				"select @ROWNUM := @ROWNUM + 1 AS NO,  c_idx,  c_content, date_format(c_regdate,'%m-%d')as c_date from c_comment order by c_idx " + 
-				")AA,(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit 0,7 ";
+		String sql = "select * from(select @ROWNUM := @ROWNUM + 1 AS NO,  c_idx,  c_content, date_format(c_regdate,'%m-%d')as c_date "+
+					"from c_comment aa, (SELECT @ROWNUM := 0)bb  where c_delyn='N' order by c_idx)a order by no desc limit 0,7;";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();

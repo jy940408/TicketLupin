@@ -84,7 +84,7 @@
 		}
 		</style>
 	</head>
-	<body>
+	<body onresize="parent.resizeTo(540,530)" onload="parent.resizeTo(540,530)">
 		<div id=reportall>
 			<h2>신고사유</h2></p>
 			<h4>신고는 반대의견을 표시하는 기능이 아닙니다.<br>

@@ -59,7 +59,7 @@
 			
 			
 			function userList(sidx){
-				
+			
 				$.ajax({
 					url:"${pageContext.request.contextPath}/Manager/UserList.do",
 					type:"get",
@@ -69,46 +69,46 @@
 						
 						var output = "";
 						var output2 = "";
-						
-						$.each(data, function(key, value){
-							
-							if(key == 0){
-								if(value.count > 0){
-								output += " <tr>";
-								output += "		<td>"+value.num+"</td>";
-								output += "		<td><a href='UserBuyList.do?midx="+value.midx+"'>"+value.mname+"</a></td>";
-								output += "		<td><a href='UserBuyList.do?midx="+value.midx+"'>"+value.mid+"</a></td>";
-								output += "		<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
-								output += "	</tr>"; 
-								}else{
-									output += "";
-								}
-								
-							}else{
-								if(value.count > 0){
-									output2 += " 	<a href='?page="+value.prev+"&sidx="+value.sidx+"'> < &nbsp;&nbsp;</a>";
-									console.log(" value.startNum->"+ value.startNum);
-									console.log(" value.lastNum->"+ value.lastNum);
-									for(var i = value.startNum; i <= value.lastNum; i++){
-										output2 += "<a href='?page="+value.startNum+"&sidx="+value.sidx+"'>"+value.startNum+" &nbsp;&nbsp;</a>";
-									}
-									output2 += "	<a href='?page=" +value.next+ "&sidx=" +value.sidx+ "'> > </a>";
-								}else{
-									output2 += "";
-								}
-							}
-						});	
 					
-							$(".userList_").html(output);
-							$(".paging").html(output2);
+						
+						for(var i = 0 ; i < (Number)(data.length-1) ; i++){
+							output += " <tr>";
+							output += "		<td>"+data[i].num+"</td>";
+							output += "		<td><a href='UserBuyList.do?midx="+data[i].midx+"'>"+data[i].mname+"</a></td>";
+							output += "		<td><a href='UserBuyList.do?midx="+data[i].midx+"'>"+data[i].mid+"</a></td>";
+							output += "		<td><input type='hidden' value='"+data[i].sidx+"'><input type='hidden' value='"+data[i].midx+"'></td>";
+							output += "	</tr>"; 
+						}
+						
+						
+						if(data[0].count > 0){
+							output2 += " 	<a href='?page="+data[0].prev+"&sidx="+data[0].sidx+"'> < &nbsp;&nbsp;</a>";
+							
+							for(var i = data[0].startNum ; i <= data[0].lastNum; i++){
+								output2 += "<a href='?page="+data[0].startNum+"&sidx="+data[0].sidx+"'>"+ i +" &nbsp;&nbsp;</a>";
+							}
+							output2 += "	<a href='?page=" +data[0].next+ "&sidx=" +data[0].sidx+ "'> > </a>";
+						}else if(data[0].count == 0 || data[0].count ==  null){
+							output2 += "";
+						}
+						
+						$(".userList_").html(output);
+						$(".paging").html(output2);
+						
 					}
-				});
-			}
+						
+					});
+						
+				}
+						
+					
+			
+			
 			
 			function showdetail(){
 				var sidx = $(".sidx_").val();
 				
-				location.href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=" + sidx;
+				location.href="<%=request.getContextPath()%>/Manager/Concert_View.do?sidx=" + sidx;
 			}
 		</script>
 	</head>

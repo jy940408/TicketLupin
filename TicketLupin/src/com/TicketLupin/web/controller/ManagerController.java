@@ -207,58 +207,51 @@ public class ManagerController extends HttpServlet{
 	         
 	      }else if(str.equals("/Manager/UserList.do")) {
 	//ajax         
-	         HttpSession session = request.getSession();
-	         
-	         String sidx2 = request.getParameter("sidx");
-	         int sidx = Integer.parseInt(sidx2);
-	         
-	         String page2 = request.getParameter("page");
-	         if(page2 == null) page2 = "1";
-	         int page = Integer.parseInt(page2);
-	         
-	         JSONArray arr = new JSONArray();
-	         JSONObject obj = new JSONObject();
-	         
-	         AdminDao ad = new AdminDao();
-	         ArrayList<MemberVo> list = ad.getUserBuyList(sidx, page);
-	         int count = ad.getBuyListCount(sidx);
-	         
-	         request.setAttribute("count", count);
-	         request.setAttribute("list", list);
-	         
-	         System.out.println("count : "+count);
-	         System.out.println("sidx : "+ sidx);
-	         
-	         
-	         for(int i=0; i < list.size(); i++) {
-	            JSONObject jobj = new JSONObject();
-	            jobj.put("num", list.get(i).getNum());
-	            jobj.put("riidx", list.get(i).getRidx());
-	            jobj.put("mname", list.get(i).getMname());
-	            jobj.put("mid", list.get(i).getMid());
-	            jobj.put("sidx", list.get(i).getSidx());
-	            jobj.put("midx", list.get(i).getMidx());
-	            jobj.put("count", count);
-	            arr.add(jobj);
-	         }
-	         obj.put("list", arr);
-	         
-	         
-	         JSONObject jobjP = new JSONObject();
-	         jobjP.put("page", (page == 0)?1:page);
-	         jobjP.put("startNum", 1+(page-1)*10);
-	         jobjP.put("lastNum", Math.ceil(count/10.0));
-	         jobjP.put("next", page+1);   
-	         jobjP.put("prev", page-1);
-	         jobjP.put("sidx", sidx);
-	         jobjP.put("count", count);
-	         arr.add(jobjP);
-	         
-	         
-	         
-	         response.setContentType("application/x-json; charset=UTF-8");
-	         response.getWriter().print(arr);
-	         
+	    	  HttpSession session = request.getSession();
+	          
+	          String sidx2 = request.getParameter("sidx");
+	          int sidx = Integer.parseInt(sidx2);
+	          
+	          String page2 = request.getParameter("page");
+	          if(page2 == null) page2 = "1";
+	          int page = Integer.parseInt(page2);
+	          
+	          JSONArray arr = new JSONArray();
+	          JSONObject obj = new JSONObject();
+	          
+	          AdminDao ad = new AdminDao();
+	          ArrayList<MemberVo> list = ad.getUserBuyList(sidx, page);
+	          int count = ad.getBuyListCount(sidx);
+	          
+	          request.setAttribute("count", count);
+	          request.setAttribute("list", list);
+	          
+	          System.out.println("count : "+count);
+	          System.out.println("sidx : "+ sidx);
+	          
+	          
+	          for(int i=0; i < list.size(); i++) {
+	             JSONObject jobj = new JSONObject();
+	             jobj.put("num", list.get(i).getNum());
+	             jobj.put("riidx", list.get(i).getRidx());
+	             jobj.put("mname", list.get(i).getMname());
+	             jobj.put("mid", list.get(i).getMid());
+	             jobj.put("sidx", list.get(i).getSidx());
+	             jobj.put("midx", list.get(i).getMidx());
+	             jobj.put("count", count);
+	             jobj.put("page", (page == 0)?1:page);
+	             jobj.put("startNum", 1+(page-1)*10);
+	             jobj.put("lastNum", Math.ceil(count/10.0));
+	             jobj.put("next", page+1);   
+	             jobj.put("prev", page-1);
+	             jobj.put("sidx", sidx);
+	             arr.add(jobj);
+	          }
+	          obj.put("list", arr);
+	          
+	          response.setContentType("application/x-json; charset=UTF-8");
+	          response.getWriter().print(arr);
+	          
 	      
 	      }else if(str.equals("/ConcertView/ConcertView.do")) {
 	         

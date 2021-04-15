@@ -16,7 +16,7 @@ public class MyticketDao {
 		
 		List<ReservationShowVo> list = new ArrayList<ReservationShowVo>();
 		
-		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 NUM, B.RIREGDATE, B.SRDATE, B.SRROUND, C.STITLE FROM RESERVATIONIDX B, SHOW1 C, (SELECT @ROWNUM := 0) TMP WHERE B.SIDX = C.SIDX AND B.MIDX = ? ORDER BY B.RIREGDATE DESC) A WHERE NUM <= 5";
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 NUM, B.RIREGDATE, B.SRDATE, B.SRROUND, B.RIIDX, C.STITLE FROM RESERVATIONIDX B, SHOW1 C, (SELECT @ROWNUM := 0) TMP WHERE B.SIDX = C.SIDX AND B.MIDX = ? AND RIDELYN = 'N' ORDER BY B.RIREGDATE DESC) A WHERE NUM <= 5";
 		
 		try {
 			
@@ -38,6 +38,7 @@ public class MyticketDao {
 				rsv.setSrdate(rs.getString("SRDATE"));
 				rsv.setSrround(rs.getString("SRROUND"));
 				rsv.setStitle(rs.getString("STITLE"));
+				rsv.setRiidx(rs.getInt("RIIDX"));
 				
 				list.add(rsv);
 				
@@ -62,7 +63,7 @@ public class MyticketDao {
 		ResultSet rs = null;
 		
 		int count = 0;
-		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.RIREGDATE, B.SRDATE, C.STITLE FROM RESERVATIONIDX B, SHOW1 C, (SELECT @ROWNUM := 0) TMP WHERE B.SIDX = C.SIDX AND B.MIDX = ? ORDER BY B.SRDATE DESC) A";
+		String sql = "SELECT COUNT(NUM) COUNT FROM (SELECT (@ROWNUM := @ROWNUM + 1) AS NUM, B.RIREGDATE, B.SRDATE, C.STITLE FROM RESERVATIONIDX B, SHOW1 C, (SELECT @ROWNUM := 0) TMP WHERE B.SIDX = C.SIDX AND B.MIDX = ? AND RIDELYN = 'N' ORDER BY B.SRDATE DESC) A";
 		
 		try {
 			
@@ -130,7 +131,7 @@ public class MyticketDao {
 		ResultSet rs = null;
 		
 		List<QuestionVo> list = new ArrayList<QuestionVo>();
-		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 NUM, B.QIDX, B.QTITLE, B.QSTATE, B.QREGDATE FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE MIDX = ? ORDER BY QREGDATE DESC) A WHERE NUM <= 5";
+		String sql = "SELECT A.* FROM (SELECT @ROWNUM := @ROWNUM + 1 NUM, B.QIDX, B.QTITLE, B.QSTATE, B.QREGDATE FROM QUESTION B, (SELECT @ROWNUM := 0) TMP WHERE MIDX = ? AND QDELYN = 'N' ORDER BY QREGDATE DESC) A WHERE NUM <= 5";
 		
 		try{
 			
