@@ -154,12 +154,9 @@
 							</tr>
 							<tr class="notice_table1_view1">
 								<td colspan="4" style="border-bottom:1px solid #ebebeb">
-									<div class="box_view">
-										<p><pre style="font-size:14px;">${qv.qcontent}</pre></p>
-										<br/>
-										<br/>
-										<br/>
-									</div>
+									<pre style="font-size:14px; margin-left:15px; margin-right:10px; overflow: auto; white-space: pre-wrap;">${qv.qcontent}</pre>
+									<br/>
+									<br/>
 								</td>
 							</tr>
 							<form name="frm">
@@ -167,9 +164,7 @@
 									<td colspan="4" style="border-bottom:1px solid #ebebeb">
 										<input type="text" name="midx" value="${qv.midx}" style="display:none;">
 										<input type="text" name="qidx" value="${qv.qidx}" style="display:none;">
-										<div class="box_view">
-											<textarea name="acontent" class="content" onkeydown="resize(this)" onkeyup="resize(this)" style="width:99%; border:0px; font-size:15px; resize:none; overflow-x:hidden; max-height:300px;" placeholder="내용을 입력해주세요." autofocus>${av.acontent}</textarea>
-										</div>
+										<textarea name="acontent" class="content" onkeydown="resize(this)" onkeyup="resize(this)" style="width:99%; margin:14px; border:0px; font-size:14px; resize:none; overflow-x:hidden; max-height:300px;" placeholder="내용을 입력해주세요." autofocus>${av.acontent}</textarea>
 										<div class="modify">
 											<button class="modify_btn" onclick="answerModify(); return false;">
 												등록하기

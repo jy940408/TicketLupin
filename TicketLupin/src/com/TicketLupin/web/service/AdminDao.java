@@ -8,13 +8,18 @@ import com.TicketLupin.web.DBconn.DBconn;
 
 
 	public class AdminDao {
+
+	private Connection conn;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
+	
+	public AdminDao() {
+		DBconn dbconn = new DBconn();
+		this.conn = dbconn.getConnection();
+	}
+
 	
 	public ArrayList<Show1Vo> ShowSelectAll(String query) {
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		ArrayList<Show1Vo> alist = new ArrayList<Show1Vo>();
 		
@@ -40,10 +45,6 @@ import com.TicketLupin.web.DBconn.DBconn;
 				alist.add(sv);
 			}						
 			
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
 		} catch (SQLException e) {			
 			e.printStackTrace();
 			
@@ -54,42 +55,34 @@ import com.TicketLupin.web.DBconn.DBconn;
 	
 	
 	
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®	
+//°ø¿¬°ü¸® -> °¢ °ø¿¬ ¿¹¸ÅÇÑ È¸¿ø¸®½ºÆ®	
 	public ArrayList<MemberVo> getUserBuyList(int sidx, int page){
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		ArrayList<MemberVo> list = new ArrayList<MemberVo>();
 		
 		String sql = "select * from (select @rownum:=@rownum+1 num, A.* from "
-				+ "(select reservation.ridx, member.mname, member.mid, reservation.sidx, member.midx from member inner join reservation "
-				+ "on member.midx=reservation.midx, (SELECT @ROWNUM:=0) TMP where reservation.rdelyn = 'N' AND reservation.sidx=? order by midx desc) "
-				+ "A ) B LIMIT ?, ?";
+				+ "(select reservationidx.riidx, member.mname, member.mid, reservationidx.sidx, member.midx "
+				+ "from member inner join reservationidx on member.midx=reservationidx.midx, (select @rownum:=0) tmp "
+				+ "where reservationidx.sidx=? and reservationidx.ridelyn = 'N') A) B where num between ? and ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidx);
-			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(2, 1+(page-1)*10);
 			pstmt.setInt(3, page*10);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				MemberVo mv = new MemberVo();
 				
-				mv.setRidx(rs.getInt("ridx"));
+				mv.setNum(rs.getInt("num"));
+				mv.setRidx(rs.getInt("riidx"));
 				mv.setMname(rs.getString("mname"));
 				mv.setMid(rs.getString("mid"));
 				mv.setSidx(rs.getInt("sidx"));
 				mv.setMidx(rs.getInt("midx"));
 				list.add(mv);
 			}
-			
-			rs.close();
-			pstmt.close();
-			conn.close();
 			
 		}catch (SQLException e) {			
 			e.printStackTrace();
@@ -99,69 +92,84 @@ import com.TicketLupin.web.DBconn.DBconn;
 		return list;
 	}
 	
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½
+//°ø¿¬°ü¸® -> °¢ °ø¿¬ ¿¹¸Å È¸¿ø ¼ö
 	public int getBuyListCount(int sidx){
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int count = 0;
 		
-		String sql = "select count(*) count from "
-				+ "(select reservation.ridx, member.mname, member.mid, "
-				+ "reservation.sidx, member.midx from member inner join reservation "
-				+ "on member.midx=reservation.midx where reservation.sidx=? and reservation.rdelyn='N') count";
+		String sql = "select count(*) from (select reservationidx.riidx, member.mname, member.mid, "
+				+ "reservationidx.sidx, member.midx from member inner join reservationidx "
+				+ "on member.midx=reservationidx.midx where ridelyn='N' and reservationidx.sidx=?) count";
 		
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setInt(1, sidx);
-			rs = pstmt.executeQuery();
+			
+			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
-				count = rs.getInt("count");
+				count = rs.getInt("count(*)");
 							
 			}
 		
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
 		
 		return count;
 	}
+	
+	public Show1Vo getShowImg(int sidx) {
+		
+		Show1Vo s1v = new Show1Vo();
+		
+		String sql = "select show1.stitle, show2.stitleimage, show1.sidx from show1 inner join show2 on show1.sidx=show2.sidx where show1.sidx = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sidx);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				s1v = new Show1Vo();
+				s1v.setStitle(rs.getString("stitle"));
+				s1v.setStitleimage(rs.getString("stitleimage"));
+				s1v.setSidx(rs.getInt("sidx"));
+			}
+			
+		}catch(SQLException e ) {
+			e.printStackTrace();
+		}
+		return s1v;
+	}
 		
 	
 	public ArrayList<ReservationVo> UserReservationList(int midx, int page){
 		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
 		ArrayList<ReservationVo> alist = new ArrayList<>();
 		
-		String sql = "SELECT * FROM(SELECT @ROWNUM:=@ROWNUM+1 NUM, a.* FROM (SELECT R.RIDX, R.SRDATE, R.RREGDATE, S.STITLE, R.RSEAT, R.RPRICE " + 
-				" FROM RESERVATION R INNER JOIN SHOW1 S ON R.SIDX=S.SIDX, (SELECT @ROWNUM:=0) TMP WHERE R.MIDX=? ORDER BY R.RIDX DESC) A ) B LIMIT ?, ?";
+//		String sql = "SELECT * FROM (SELECT @ROWNUM:=@ROWNUM+1 NUM, A.* FROM (SELECT R.RIDX, R.SRDATE, R.RREGDATE, S.STITLE, R.RSEAT, R.RPRICE " + 
+//				" FROM RESERVATION R INNER JOIN SHOW1 S ON R.SIDX=S.SIDX, (SELECT @ROWNUM:=0) TMP "
+//				+ "WHERE RDELYN='N' AND R.MIDX=? ORDER BY R.RIDX DESC) A ) B WHERE NUM BETWEEN ? AND ?";
+		
+		String sql = "SELECT * FROM  RESERVATION R INNER JOIN SHOW1 S ON R.SIDX=S.SIDX WHERE RDELYN='N' AND R.MIDX=? ORDER BY R.RIDX DESC LIMIT ? , ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
-			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(2, 1+(page-1)*10);
 			pstmt.setInt(3, page*10);
-			rs = pstmt.executeQuery();
-
+			ResultSet rs = pstmt.executeQuery();
+			
+			
 			while(rs.next()) {
 				
 				ReservationVo rv = new ReservationVo();
 				
-				
+			
 				rv.setRidx(rs.getInt("ridx"));
 				rv.setSrdate(rs.getString("srdate"));
 				rv.setRregdate(rs.getDate("rregdate"));
@@ -172,24 +180,14 @@ import com.TicketLupin.web.DBconn.DBconn;
 				alist.add(rv);
 			}
 			
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
 		}catch(SQLException e) {
 			e.printStackTrace();
 			
 		}
-		
 		return alist;
 	}
 	
 	public int getUserBuyListCount(int midx){
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int count = 0;
 		
@@ -200,8 +198,10 @@ import com.TicketLupin.web.DBconn.DBconn;
 		try {
 		
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setInt(1, midx);
-			rs = pstmt.executeQuery();
+			
+			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				
@@ -209,10 +209,6 @@ import com.TicketLupin.web.DBconn.DBconn;
 							
 			}
 		
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}
@@ -221,11 +217,6 @@ import com.TicketLupin.web.DBconn.DBconn;
 	}
 	
 	public ArrayList<FaqVo> UserQnaList(int midx, int page){
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		ArrayList<FaqVo> alist = new ArrayList<FaqVo>();
 		
@@ -237,7 +228,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 			pstmt.setInt(1, midx);
 			pstmt.setInt(2, 1+(page-1)*0);
 			pstmt.setInt(3, page*10);
-			rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				FaqVo fv = new FaqVo();
@@ -249,40 +240,39 @@ import com.TicketLupin.web.DBconn.DBconn;
 				alist.add(fv);
 			}
 			
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
 		}catch(SQLException e) {
 			e.printStackTrace();
 			
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(rs != null) rs.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return alist;
 	}
 	
 	public ArrayList<CommentAVo> UserCommentList(int midx, int page){
 		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
 		ArrayList<CommentAVo> alist = new ArrayList<CommentAVo>();
 		
 		String sql = "select * from(select @rownum:=@rownum+1 num, A.* from "
 				+ "(SELECT C_IDX, C_SORT, C_CONTENT, C_REGDATE, midx FROM C_COMMENT, (SELECT @ROWNUM:=0) TMP WHERE MIDX=? and C_DELYN = 'N'  order by c_idx desc) "
-				+ "A) B LIMIT ?, ?";
+				+ "A) B where num between ? and ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, midx);
-			pstmt.setInt(2, 1+(page-1)*0);
+			pstmt.setInt(2, 1+(page-1)*10);
 			pstmt.setInt(3, page*10);
-			rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				CommentAVo cv = new CommentAVo();
+				cv.setNum(rs.getInt("num"));
 				cv.setC_idx(rs.getInt("c_idx"));
 				cv.setC_sort(rs.getString("c_sort"));
 				cv.setC_content(rs.getString("c_content"));
@@ -291,25 +281,23 @@ import com.TicketLupin.web.DBconn.DBconn;
 				
 				alist.add(cv);
 			}
-		
-			rs.close();
-			pstmt.close();
-			conn.close();
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 			
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(rs != null) rs.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return alist;
 	}
 	
 	public int getShowtitle(int sidx_, String stitle) {
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int value = 0;
 		
@@ -318,15 +306,11 @@ import com.TicketLupin.web.DBconn.DBconn;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidx_);
-			rs = pstmt.executeQuery();
 			
+			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				value = rs.getInt("value");
 			}
-			
-			rs.close();
-			pstmt.close();
-			conn.close();
 		}catch(SQLException e ) {
 			e.printStackTrace();
 		}
@@ -334,11 +318,6 @@ import com.TicketLupin.web.DBconn.DBconn;
 	}
 	
 	public int UserCommentDelete(int midx, int c_idx) {
-		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		int result = 0;
 		
@@ -349,12 +328,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 			
 			pstmt.setInt(1, midx);
 			pstmt.setInt(2, c_idx);
-			rs = pstmt.executeQuery();
-			
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
+			int rs = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -364,30 +338,19 @@ import com.TicketLupin.web.DBconn.DBconn;
 	
 	public int UserBuyDelete(int ridx) {
 		
-		DBconn dbconn = new DBconn();
-		Connection conn = dbconn.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
 		int result = 0;
 		
 		String sql ="update reservation set rdelyn = 'Y' where ridx = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setInt(1, ridx);
-			rs = pstmt.executeQuery();
-			
-			rs.close();
-			pstmt.close();
-			conn.close();
-			
+			int rs = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return result;
 	}
-	
-	
 }

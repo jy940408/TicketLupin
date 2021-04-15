@@ -4,13 +4,45 @@
     pageEncoding="UTF-8"%>
 <% 
 	MemberVo mv = (MemberVo)request.getAttribute("mv"); 
-	ArrayList<C_commentVo> alist = (ArrayList<C_commentVo>) request.getAttribute("alist");
+	ArrayList<CommentAVo> alist = (ArrayList<CommentAVo>) request.getAttribute("alist");
 %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>티켓루팡</title>
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Admin_user_comment_list.css">
+		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
+		<script>
+			function userList(c_idx, midx){
+				
+				
+				location.href="<%=request.getContextPath()%>/Manager/UserCommentDelete.do?midx="+midx+"&c_idx="+c_idx;
+			}
+			
+			
+			$(document).ready(function(){ 
+				$("button.deletebtn").click(function(){
+					var c_idx = $(this).next().val();
+					var midx = $(this).next().next().val();
+					var removeTarget = $(this).parent().parent();
+					//console.log( $(this).parent().parent());
+					alert("삭제합니다.");
+					
+					$.ajax({
+						type:"get",
+						url: "UserCommentDelete.do",
+						data: {"midx" : midx, "c_idx" : c_idx},
+						success : function(data){
+							console.log( removeTarget);
+							removeTarget.remove();
+						}
+						
+					});
+				});
+
+			});
+
+		</script>
 	</head>
 	<body>
 		<!--header-->
@@ -36,19 +68,39 @@
 						<th class="t3">날짜</th>
 						<th class="t1">삭제</th>
 					</tr>
+					<form nam="frm" class="table">
+				<% for(CommentAVo cv : alist){ %>
 					
-				<% for(C_commentVo cv : alist){ %>
-					
-					<tr>
-						<td><%=cv.getCidx() %></td>
-						<td><%=cv.getCccategory() %></td>
-						<td><a href="#"><%=cv.getCccontent()%></a></td>
-						<td><%=cv.getCcregdate() %></td>
-						<td><button>삭제</button></td>
+					<tr class="bbb">
+						<td><%=cv.getC_idx() %></td>
+						<td>
+							<%
+								String c_sort = (String)request.getAttribute("c_sort");
+								if(cv.getC_sort().equals("V")){
+							%>
+									이벤트
+							<%} else if(cv.getC_sort().equals("E")){ %>
+									기대
+							<%} else if(cv.getC_sort().equals("R")){ %>
+									리뷰
+							<%} else{ %>
+									문의
+							<%} %>
+						</td>
+						<td><a href="#"><%=cv.getC_content()%></a></td>
+						<td><%=cv.getC_regdate() %></td>
+						<td>
+							
+							<button type="button" class="deletebtn">
+								삭제
+							</button>
+							<input type="hidden" name="c_idx" value="<%=cv.getC_idx() %>">
+							<input type="hidden" name="m_idx" value="<%=cv.getMidx() %>">
+						</td>
 					</tr>
 					
 				<% } %>		
-					
+					</form>
 				</table>
 				<br>
 				<div id="num">

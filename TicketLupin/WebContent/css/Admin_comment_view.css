@@ -11,9 +11,10 @@
 		  line-height: 1.5;
 		  border-top: 1px solid #ccc;
 		  margin: 20px 10px;
+		  width:100%;
 		}
 		table.type05 th {
-		  width: 100px;
+		  width: 60px;
 		  padding: 10px;
 		  font-weight: bold;
 		  vertical-align: top;
@@ -21,7 +22,7 @@
 		  background: #efefef;
 		}
 		table.type05 td {
-		  width: 160px;
+		  width: 140px;
 		  padding: 10px;
 		  vertical-align: top;
 		  border-bottom: 1px solid #ccc;
@@ -88,20 +89,6 @@
 			width:320px;
 			height:50px;
 		}
-		#rainisback{
-			width: 20%;
-			padding: 15px 0 10px;
-			border: 0;
-			cursor: pointer;
-			color: #fff;
-			background-color: #a8a8a8;
-			font-size: 20px;
-			font-weight: 400;
-			font-family:"³ª´®½ºÄù¾î Regular";
-			position:absolute;
-			right:0;
-
-		}
 		.reportlist{
 		font-size: 14px;
 		}
@@ -140,7 +127,13 @@
 
 		}
 		#blank{
-		height:100px;
+		height:150px;
+		}
+		#contentlimit{
+		word-break:break-word;
+		width:100%;
+		height:auto;
+		
 		}
 				
 	/* 	input[type=button]{

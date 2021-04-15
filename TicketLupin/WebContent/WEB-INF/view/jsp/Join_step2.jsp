@@ -8,32 +8,87 @@
         <meta charset="UTF-8">
         <title>티켓루팡 : 회원가입</title>
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Login_FI_FP_Join__.css">
-        
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
+        
         	
-			function check(){
+
+			function check1(){
+				
+				var id = document.getElementById("id");
+				var pwd = document.getElementById("pswd1");
+				var userName = document.getElementById("name");
+				var yy = document.getElementById("yy");
+				var mm = document.getElementById("mm");
+				var dd = document.getElementById("dd");
+				var email = document.getElementById("email");
+				var mobile = document.getElementById("mobile");
+				
+				var idPattern = /[a-zA-Z0-9_-]{5,20}/;
+				var pwPattern = /[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{5,16}/;
+				var namePattern = /[a-zA-Z가-힣]/;
+				var yearPattern = /[0-9]{4}/;
+				var datePattern = /\d{1,2}/;
+				var emailPattern = /[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
+				var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/; 
+				
 				if (document.frm.mid.value == ""){
-					alert("아이디를 입력해주세요");
+					alert("아이디를 입력해주세요.");
 				  	document.frm.mid.focus();
 				  	return;
-				}else if (document.frm.mpwd.value ==""){
+				}else if(idPattern.test(id.value) == false) {
+			        alert("아이디를 다시 입력해주세요.");
+			        document.frm.mid.focus();
+			        return;
+			    }else if (document.frm.mpwd.value == ""){
 				  	alert("비밀번호를 입력해주세요");
 				  	document.frm.mpwd.focus();
+				  	return;
+			  	}else if(pwPattern.test(pwd.value)==false) {
+			        alert("6~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+			        document.frm.mpwd.focus();
+			        return;
+			    }else if (document.frm.mPwd2.value == ""){
+				  	alert("비밀번호 재확인을 입력해주세요.");
+				  	document.frm.mPwd2.focus();
 				  	return;
 			  	}else if (document.frm.mpwd.value != document.frm.mPwd2.value){
 				  	alert("비밀번호가 일치하지 않습니다.");
 				  	document.frm.mPwd2.focus();
 				  	return;
-			  	}else if (document.frm.mname.value ==""){
+			  	}else if (document.frm.mname.value == ""){
 				  	alert("이름을 입력해주세요.");
 				  	document.frm.mname.focus();
 				  	return;
-			  	}else if(document.frm.mssn.value == "" && document.frm.mbirhday.value == ""){
-			  		alert("생년월일을 입력해주세요.");
-			  		document.frm.mssn.focus();
+			  	}else if(namePattern.test(userName.value)==false || userName.value.indexOf(" ") > -1) {
+			        alert("한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)");
+			        document.frm.mname.focus();
+				  	return;
+			    }else if(yearPattern.test(yy.value)==false) {
+			        alert("태어난 년도 4자리를 정확하게 입력하세요.");
+			        document.frm.mssn.focus();
 			  		return;
-			  	}else if(document.frm.mpostcode.value == "" && document.frm.maddress.value == "" && document.frm.mdetailaddress == ""){
+			    }else if(Number(yy.value)<1800 || Number(yy.value) > 2021) {
+			        alert("태어난 년도 4자리를 정확하게 입력하세요.");
+			        document.frm.mssn.focus();
+			  		return;
+			    }else if(mm.value == "") {
+		            alert("태어난 월을 선택하세요.");
+		            document.frm.mbirthmonth.focus();
+		            return;
+		        }else if(dd.value == "") {
+		            alert("태어난 일(날짜) 2자리를 정확하게 입력하세요.");
+		            document.frm.mbirthday.focus();
+		            return;
+		        }else if(datePattern.test(dd.value)==false || Number(dd.value)<1 || Number(dd.value)>31) {
+			        alert("생년월일을 다시 확인해주세요.");
+			        document.frm.mbirthday.focus();
+		            return;
+			    }else if(document.frm.mgender == "") {
+		            alert("성별을 선택해주세요.");
+		            document.frm.mgender.focus();
+		            return;
+		        }else if(document.frm.mpostcode.value == "" && document.frm.maddress.value == "" && document.frm.mdetailaddress == ""){
 			  		alert("주소를 입력해주세요.");
 			  		document.frm.mdetailaddress.focus();
 			  		return;
@@ -41,7 +96,15 @@
 			  		alert("이메일을 입력해주세요.");
 			  		document.frm.memail.focus();
 			  		return;
-			  	}
+			  	}else if(emailPattern.test(email.value)==false) {
+			        alert("이메일을 다시 입력해주세요.");
+			       	document.frm.memail.focus();
+			       	return;
+			    }else if(isPhoneNum.test(mobile.value)==false) {
+			        alert("형식에 맞지 않는 번호입니다.");
+			        document.frm.mphone.focus();
+			       	return;
+			    }
 			  
 			  	alert("가입합니다.");
 			  	document.frm.action ="<%=request.getContextPath()%>/Member/MemberJoinAction.do";
@@ -49,7 +112,7 @@
 			  	document.frm.submit(); 
 			  	return;
 			} 
-			
+		
 			
 		</script>
     </head>
@@ -146,7 +209,7 @@
 	                        <div id="bir_mm">
 	                            <span class="box">
 	                                <select id="mm" class="sel" name="mbirthmonth">
-	                                    <option>월</option>
+	                                    <option value="">월</option>
 	                                    <option value="01">1</option>
 	                                    <option value="02">2</option>
 	                                    <option value="03">3</option>
@@ -179,7 +242,7 @@
 	                    <h3 class="join_title"><label for="gender">성별</label></h3>
 	                    <span class="box gender_code">
 	                        <select id="gender" class="sel" name="mgender">
-	                            <option>성별</option>
+	                            <option value="">성별</option>
 	                            <option value="M">남자</option>
 	                            <option value="F">여자</option>
 	                        </select>                            
@@ -274,7 +337,7 @@
 	
 	                <!-- JOIN BTN-->
 	                <div class="btn_area">
-	                    <button type="button" id="btnJoin" onclick="check();">
+	                    <button type="button" id="btnJoin" onclick="check1()">
 	                        <span>가입하기</span>
 	                    </button>
 	                </div>

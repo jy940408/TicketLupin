@@ -5,7 +5,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
 body, th, td, input, select, textarea, button {
 	font-size: 12px;
 	line-height: 1.5;
-	font-family: AppleSDGothicNeo-Regular, "µ¸¿ò",Dotum,"¸¼Àº °íµñ","Malgun Gothic","Apple Gothic",sans-serif;
+	font-family: AppleSDGothicNeo-Regular, "ï¿½ï¿½ï¿½ï¿½",Dotum,"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½","Malgun Gothic","Apple Gothic",sans-serif;
 	color: #666;
 	letter-spacing: -1px;
 }
@@ -81,7 +81,7 @@ div {
 .select_tit {
 	padding-bottom:6px;
 	font-weight:bold;
-	font-family:AppleSDGothicNeo-Regular, '¸¼Àº °íµñ','Malgun Gothic',sans-serif;
+	font-family:AppleSDGothicNeo-Regular, 'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½','Malgun Gothic',sans-serif;
 	font-size:16px;
 	color:#333;
 }
@@ -256,7 +256,7 @@ fieldset, img {
 }
 .btn_onestop .button .btnOne {
 	display: block;
-	width: 118px;
+	width: 236px;
 	height: 48px;
 	text-decoration: none;
 }
@@ -281,9 +281,7 @@ fieldset, img {
 
 
 .btn_onestop .button.btNext {
-	border-top: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+	border: 1px solid #ccc;
 	background: #fff;
 	text-align:center;
 }

@@ -58,9 +58,26 @@
 					form.submit();
 					alert('해당 댓글을 복구하였습니다.');
 				});
-			
-				
-			
+			/* -- */
+		
+				$(".checkedupdate").click(function(){
+					var checkBoxArr=[];
+					//checkBoxArr.push($("input[name=c_idx]:checked").val());
+					var flag = false;
+					var checkbox = $("input[name=c_idx]");
+					for(var i =0 ; i<checkbox.length; i++){
+						if(checkbox.eq(i).is(":checked")){
+							flag = true;
+							break;
+						}
+					}
+					if(!flag){
+						alert("선택하세요");
+					}
+					alert('전송하였습니다.');
+					document.forms['checkcomment'].submit();
+					
+				});
 			
 			});	
 
@@ -75,27 +92,27 @@
 			}
 		</script>
 	</head>
-	<body>
+		<body>
 		<header>
 			<div id="h_title">
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
 						<c:if test="${not empty sessionScope.mid}">
-							<li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="<%=request.getContextPath()%>/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
 						<c:if test="${empty sessionScope.mid}">
-							<li><a href="<%=request.getContextPath()%>/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
 						</c:if>
-							<li><a href="#">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br>
+							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
 					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
+					<input type="text" id="h_search" name="q" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
 			</div>
@@ -110,7 +127,7 @@
 				<a href="#" id="main_nav_event">이벤트</a>
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
-						<a href="${pageContext.request.contextPath}/Manager/Main.do" id="main_nav_myticket">관리자</a>
+						<a href="${pageContext.request.contextPath}/Manager/Main.do"" id="main_nav_myticket">관리자</a>
 					</c:when>
 					<c:otherwise>
 						<a href="#" id="main_nav_myticket">마이티켓</a>
@@ -182,9 +199,9 @@
 					<a href="?od=latest">최근순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 					<a href="?od=report">신고순</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 					<a href="?od=delete">삭제 댓글</a>
-					<button type="button" class="check_button check_delete body_button">선택 삭제</button>
+					<button type="button" class="check_button check_delete body_button checkedupdate">선택 삭제</button>
 				</div>
-				<div class="list_table">
+				<form name="checkcomment" method="post"action="CommentCheckUpdate.do">
 					<table class="table2">
 						<thead>
 							<tr>
@@ -264,6 +281,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					</form>
 					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
 					<c:set var="startNum" value="${page-(page-1)%5}"/>
 					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>

@@ -10,23 +10,40 @@
     </head>
     <script>
 	    function findPwd(){
+	    	var name = document.getElementById("name");
+	    	var id = document.getElementById("mid");
+	    	var email = document.getElementById("email");
+	    	
+	    	var namePattern = /^[a-zA-Z가-힣]/;
+	    	var idPattern = /^[a-zA-Z0-9_-]{5,20}/;
+	    	var emailPattern = /^[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
+	    		
 			if (document.frm.mname.value == ""){
-				alert("이름을 입력해주세요");
+				alert("이름을 입력해주세요.");
+			  	document.frm.mname.focus();
+			  	return;
+		  	}else if (namePattern.test(name.value) == false){
+			  	alert("이름을 다시 입력해주세요.");
 			  	document.frm.mname.focus();
 			  	return;
 		  	}else if (document.frm.mid.value ==""){
-			  	alert("아이디를 입력해주세요");
+			  	alert("아이디를 입력해주세요.");
+			  	document.frm.mid.focus();
+			  	return;
+		  	}else if (idPattern.test(id.value) == false){
+			  	alert("아이디 형식에 맞지 않습니다. 다시 입력해주세요.");
 			  	document.frm.mid.focus();
 			  	return;
 		  	}else if (document.frm.memail.value ==""){
 			  	alert("이메일을 입력해주세요");
 			  	document.frm.memail.focus();
 			  	return;
+		  	}else if (emailPattern.test(email.value) == false){
+			  	alert("이메일 형식에 맞지 않습니다. 다시 입력해주세요.");
+			  	document.frm.memail.focus();
+			  	return;
 		  	}
 			
-			
-			 
-			alert("전송");
 		  	document.frm.action ="<%=request.getContextPath()%>/Member/findPwdAction.do?mid="+mid;
 		  	document.frm.method = "GET";
 		  	document.frm.submit(); 
@@ -36,7 +53,7 @@
     <body>
         <!-- header -->
         <div id="header">
-            <a href="<%=request.getContextPath()%>/Main/MainPage.do" target="_blank" title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
+            <a href="<%=request.getContextPath()%>/Main/MainPage.do"  title="티켓루팡 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
         </div>
 		<br/>
 		<h2 align="center">비밀번호 찾기</h2>
@@ -72,26 +89,12 @@
                 <!-- EMAIL -->
                 <div>
                     <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
-                    <button type="button" id="btninzung">
-                        <span>인증</span>
-					</button>
+             
 					<span class="box int_email" id= "emailbox1" >
                         <input type="text" id="email" name="memail" class="int" maxlength="100" placeholder="이메일 입력">
                     </span>
                     <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span> 
                 </div>
-			
-
-                <!-- verify -->
-                <div>
-                    <h3 class="join_title"><label for="phoneNo">인증번호</label></h3>
-                    <span class="box int_mobile">
-                        <input type="text" id="verify" class="int" maxlength="6" placeholder="인증번호 입력">
-                    </span>
-                    <span class="error_next_box"></span>    
-                </div>
-
-				
 
                 <!-- JOIN BTN-->
                 <div class="btn_area">

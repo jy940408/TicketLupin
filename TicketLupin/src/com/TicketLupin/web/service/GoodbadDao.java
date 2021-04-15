@@ -15,7 +15,7 @@ public class GoodbadDao {
 		PreparedStatement pstmt = null;
 		
 		int value= 0;
-		String sql="INSERT INTO C_LIKE(LIDX,MIDX,C_IDX,ORIGIN_C_IDX,LSORT) VALUES(LIDX_SEQ.NEXTVAL,?,?,?,?)";
+		String sql="INSERT INTO C_LIKE(MIDX,C_IDX,ORIGIN_C_IDX,LSORT) VALUES(?,?,?,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

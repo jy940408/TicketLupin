@@ -27,6 +27,14 @@
 				  	alert("비밀번호를 입력해주세요.");
 				  	document.frm.mpwd.focus();
 				  	return;
+				}else if(document.frm.mbirthmonth.value == ""){
+					alert("생년월일을 입력해주세요.");
+					document.frm.mbirthmonth.focus();
+					return;
+				}else if(document.frm.mgender.value == ""){
+					alert("성별을 선택해주세요.");
+					document.frm.mgender.focus();
+					return;
 				}
 			  
 				alert("수정합니다!");
@@ -102,7 +110,7 @@
 	                        <div id="bir_mm">
 	                            <span class="box">
 	                                <select id="mm" class="sel" name="mbirthmonth" >
-	                                    <option value="<%=mv.getMbirthmonth()%>">월</option>
+	                                    <option value="">월</option>
 	                                    <option value="01">1</option>
 	                                    <option value="02">2</option>
 	                                    <option value="03">3</option>
@@ -135,7 +143,7 @@
 	                    <h3 class="join_title"><label for="gender">성별</label></h3>
 	                    <span class="box gender_code">
 	                        <select id="gender" class="sel" name="mgender">
-	                            <option value="<%=mv.getMgender()%>">성별</option>
+	                            <option value="">성별</option>
 	                            <option value="M">남자</option>
 	                            <option value="F">여자</option>
 	                        </select>                            

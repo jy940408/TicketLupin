@@ -140,7 +140,7 @@ public class ManagerDao {
 		
 		List<ManagerVo> qlist = new ArrayList<ManagerVo>();
 			String sql ="select * from(select @ROWNUM := @ROWNUM + 1 AS NUM, AA.* FROM ( " + 
-						"select @ROWNUM := @ROWNUM + 1 AS NO, a.qidx, a.qtype, A.qtitle,count(distinct b.qidx) as cnt " + 
+						"select @ROWNUM := @ROWNUM + 1 AS NO,a.midx, a.qidx, a.qtype, A.qtitle,count(distinct b.qidx) as cnt " + 
 						", date_format(a.qregdate,'%m-%d')as q_date from question a LEFT JOIN answer b ON a.qidx = b.qidx,(SELECT @ROWNUM := 0) C " + 
 						"group by  a.qidx, a.qtype,qtitle, a.qregdate order by a.Qidx " + 
 						")AA,(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a where num between 1 and 8";
@@ -158,6 +158,7 @@ public class ManagerDao {
 				mv.setQtype(rs.getString("qtype"));
 				mv.setQ_date(rs.getString("q_date"));
 				mv.setQidx(rs.getInt("qidx"));
+				mv.setMidx(rs.getInt("midx"));
 				qlist.add(mv);
 				}
 			
@@ -240,8 +241,7 @@ public class ManagerDao {
 		ResultSet rs = null;
 		
 		int count = 0;	
-		String sql ="select count(*) as count from(select qtitle, a.qidx, a.qregdate ,count(distinct b.qidx) as cnt from question a LEFT JOIN " + 
-					"answer b ON a.qidx = b.qidx group by qtitle, a.qidx, a.qregdate)n where cnt=0"; 
+		String sql ="select count(*)as count from c_report where crdelyn='N'";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();

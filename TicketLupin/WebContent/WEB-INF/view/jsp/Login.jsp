@@ -61,9 +61,8 @@
 	                        <label for="id">아이디</label>
 	                    </h3>
 	                    <span class="box int_id">
-		                        <input type="text" id="id" class="int" maxlength="20" name="mid">
-		               
-		                    </span>
+	                        <input type="text" id="id" class="int" maxlength="20" name="mid">
+	                    </span>
 	                    <span class="error_next_box"></span>
 	                </div>
 	
@@ -88,7 +87,7 @@
 				<br/>
 	
 				<h4 align="center"> 
-					<a href="<%=request.getContextPath()%>/Member/MemberIdCheck.do">아이디찾기</a> | 
+					<a href="<%=request.getContextPath()%>/Member/MemberIdCheck.do">아이디 찾기</a> | 
 					<a href="<%=request.getContextPath()%>/Member/MemberPwdCheck.do">비밀번호 찾기</a> | 
 					<a href="<%=request.getContextPath()%>/Member/MemberJoin.do">회원가입</a> 
 					

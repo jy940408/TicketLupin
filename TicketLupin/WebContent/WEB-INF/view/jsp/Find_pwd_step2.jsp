@@ -22,17 +22,31 @@
         
         <script type="text/javascript">
        		function pwdChange(){
+       			var pwd = document.getElementById("pswd1");
+       			var pwPattern = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{5,16}/;
+       			
        			if (document.frm.mpwd.value ==""){
 				  	alert("비밀번호를 입력해주세요");
 				  	document.frm.mpwd.focus();
 				  	return;
+				  	
+			  	}else if(pwPattern.test(pwd.value) == false){
+			  		alert("6~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+			  		document.frm.mpwd.focus();
+			  		return;
+			  		
+			  	}else if (document.frm.mpwd2.value == "" ){
+				  	alert("비밀번호 재확인을 입력해주세요.");
+				  	document.frm.mpwd2.focus();
+				  	return;
+				  	
 			  	}else if (document.frm.mpwd.value != document.frm.mpwd2.value){
 				  	alert("비밀번호가 일치하지 않습니다.");
 				  	document.frm.mpwd2.focus();
 				  	return;
 			  	}
 			  
-			  	alert("전송");
+			  	
 			  	document.frm.action ="<%=request.getContextPath()%>/Member/pwdChangeAction.do?mid=" +mid;
 			  	document.frm.method = "GET";
 			  	document.frm.submit(); 

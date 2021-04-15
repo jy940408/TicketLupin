@@ -140,22 +140,16 @@
 							</tr>
 							<tr class="notice_table1_view1">
 								<td colspan="4" style="border-bottom:1px solid #ebebeb">
-									<div class="box_view">
-										<p><pre style="font-size:14px;">${qv.qcontent}</pre></p>
-										<br/>
-										<br/>
-										<br/>
-									</div>
+									<p><pre style="font-size:14px; margin-left:15px; margin-right:10px; overflow: auto; white-space: pre-wrap;">${qv.qcontent}</pre></p>
+									<br/>
+									<br/>
 								</td>
 							</tr>
 							<tr class="notice_table1_view2">
 								<td colspan="4" style="border-bottom:1px solid #ebebeb">
-									<div class="box_view" style="height:100px">
-										<p><pre style="font-size:14px;">${av.acontent}</pre></p>
-										<br/>
-										<br/>
-										<br/>
-									</div>
+									<p><pre style="font-size:14px; margin-left:15px; margin-right:10px; overflow: auto; white-space: pre-wrap;">${av.acontent}</pre></p>
+									<br/>
+									<br/>
 								</td>
 							</tr>
 						</table>

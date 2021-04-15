@@ -2,8 +2,9 @@ package com.TicketLupin.web.service;
 
 import java.sql.Date;
 
-public class MemberVo extends ReservationVo{
+public class MemberVo extends ReservationIdxVo{
 	
+	private int num;
 	private int midx;
 	private String mid;
 	private String mname;
@@ -26,6 +27,12 @@ public class MemberVo extends ReservationVo{
 	private String mgender;
 	private String stitle;
 	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
 	public String getStitle() {
 		return stitle;
 	}

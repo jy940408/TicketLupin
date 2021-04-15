@@ -122,12 +122,12 @@
 									<div>예매내역</div>
 								</div>
 							</a>
-						</div>
+						</div>			
 					</div>
 					<div id="main_myticket_ticketing" style="margin-bottom:50px;">
 						<a href="../Myticket/MyticketReservation.do" class="main_myticket_title_set">최근 예매/취소</a>
 						<a href="../Myticket/MyticketReservation.do" class="main_myticket_more_set" style="font-size:14px;">더보기 ></a>
-						<table class="tb1" style="width:100%; margin-top:20px;">
+						<table class="tb1" style="width:100%; margin-top:20px; table-layout: fixed;">
 							<colgroup>
 								<col width="60%">
 								<col width="20%">
@@ -140,9 +140,7 @@
 							</tr>
 							<c:forEach var="rlist" items="${rlist}" begin="0" end="4" step="1">
 								<tr>
-									<td style="border-bottom:1px solid #dbdbdb; padding:10px;">
-										<a href="#">&nbsp;&nbsp;&nbsp;${rlist.stitle}</a>
-									</td>
+									<td style="border-bottom:1px solid #dbdbdb; padding:10px; overflow:hidden; white-space : nowrap; text-overflow: ellipsis;">&nbsp;&nbsp;&nbsp;${rlist.stitle}</td>
 									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${rlist.srdate}&nbsp;&nbsp;/&nbsp;&nbsp;${rlist.srround}</td>
 									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${rlist.rregdate}</td>
 								</tr>
@@ -152,7 +150,7 @@
 					<div id="main_myticket_ticketing" style="margin-bottom:50px;">
 						<a href="../Customer/QuestionList.do" class="main_myticket_title_set">최근 1:1문의</a>
 						<a href="../Customer/QuestionList.do" class="main_myticket_more_set" style="font-size:14px;">더보기 ></a>
-						<table class="tb2" style="width:100%; margin-top:20px;">
+						<table class="tb2" style="width:100%; margin-top:20px; table-layout: fixed;">
 							<colgroup>
 								<col width="10%">
 								<col width="70%">
@@ -166,7 +164,7 @@
 							<c:forEach var="qlist" items="${qlist}" begin="0" end="4" step="1">
 								<tr>
 									<td style="text-align:center; border-bottom:1px solid #dbdbdb; padding:10px;">${qlist.qstate}</td>
-									<td style="border-bottom:1px solid #dbdbdb; padding:10px;">
+									<td style="border-bottom:1px solid #dbdbdb; padding:10px; overflow:hidden; white-space : nowrap; text-overflow: ellipsis;">
 										<c:choose>
 											<c:when test="${qlist.qstate == '대기'}">
 												<a href="../Customer/QuestionView.do?num=${qlist.num}&qidx=${qlist.qidx}">&nbsp;&nbsp;&nbsp;${qlist.qtitle}</a>

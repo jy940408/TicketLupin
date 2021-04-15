@@ -99,16 +99,16 @@
 						<div id="main_myticket_member" class="main_myticket_member_set">
 							<img src="../icon/person.png" id="main_myticket_picture" class="main_myticket_member_all">
 							<div id="main_myticket_id_set" class="main_myticket_member_all">
-								<div id="main_myticket_id">${name}님 환영합니다.</div><br>
-								<a href="<%=request.getContextPath() %>/Member/MemberModifyForm.do?" class="main_myticket_button"><div class="main_myticekt_button_div">기본정보 관리</div></a>
+								<div id="main_myticket_id"><span id="managerid">${name}</span>님 환영합니다.</div><br>
+								<a href="javascript:void(0);"onclick="window.open('<%=request.getContextPath() %>/Member/MemberModifyForm.do','회원정보','width=670, height=700, menubar=no, status=no, toolbar=no, scrollbars=no'); "class="main_myticket_button"><div class="main_myticekt_button_div">기본정보 관리</div></a>
 							</div>
 						</div>
 						<div id="main_myticket_amount" class="main_myticket_member_set">
-							<a href="#" id="main_myticket_amount_number2_set">
-								<div class="main_myticket_amount_number">0</div><br>
+							<a href="<%=request.getContextPath() %>/Manager/comment.do" id="main_myticket_amount_number2_set">
+								<div class="main_myticket_amount_number">${rcount}</div><br>
 								<div>신고 내역</div>
 							</a>
-							<a href="" id="main_myticket_amount_number3_set">
+							<a href="<%=request.getContextPath() %>/Customer/AnswerMain.do" id="main_myticket_amount_number3_set">
 								<div class="main_myticket_amount_number"> ${count}</div><br>
 								<div>미답변 문의내역</div>
 							</a>
@@ -118,7 +118,7 @@
 						<div id="main_myticket_event">
 							<div class="main_myticket_sub_title_set">
 								<div class="main_myticket_title_set">회원 내역</div>
-								<a href="<%=request.getContextPath() %>/Manager/MemberList.do" class="main_myticket_more_set" >더보기 ></a>
+								<a href="<%=request.getContextPath() %>/Manager/MemberList.do" class="main_myticket_more_set more_set" >더보기 ></a>
 								<div id="main_myticket_event_list"class="divoverflow">
 									<table>
 										<c:if test="${empty mlist}">
@@ -142,7 +142,7 @@
 						</div>
 						<div id="main_myticket_question">
 							<div class="main_myticket_title_set">공연 결제 내역</div>
-							<a href="<%=request.getContextPath() %>/Manager/ConcertList.do" class="main_myticket_more_set">더보기 ></a>
+							<a href="<%=request.getContextPath() %>/Manager/ConcertList.do" class="main_myticket_more_set more_set">더보기 ></a>
 							<div id="main_myticket_question_list"class="divoverflow">
 								<table>
 									<c:if test="${empty plist}">
@@ -151,7 +151,7 @@
 									<c:if test="${!empty plist}">
 										<tr><th width="35" >no</th><th width="70">아이디</th><th width="130">공연명</th><th width="80">결제금액</th><th width="50">결제일</th></tr>
 										<c:forEach var="a" items="${plist}">
-											<tr style="cursor:pointer;" class="trtr" onClick="location.href='링크주소'">
+											<tr style="cursor:pointer;" class="trtr" onclick="window.open('<%=request.getContextPath() %>/Manager/UserBuyList.do?midx=${a.midx}')">
 												<td><div class="ellipsis">${a.no}</div></td>	
 												<td><div class="ellipsis">${a.mid}</div></td>
 												<td><div class="ellipsis">${a.stitle}</div></td>
@@ -167,7 +167,7 @@
 						<div id="main_myticket_event">
 							<div class="main_myticket_sub_title_set">
 								<div class="main_myticket_title_set">댓글 내역</div>
-								<a href="<%=request.getContextPath() %>/Manager/comment.do" class="main_myticket_more_set">더보기 ></a>
+								<a href="<%=request.getContextPath() %>/Manager/comment.do" class="main_myticket_more_set more_set">더보기 ></a>
 								<div id="main_myticket_event_list" class="divoverflow">
 									<table>
 										<c:if test="${empty clist}">
@@ -189,7 +189,7 @@
 						</div>
 						<div id="main_myticket_question">
 							<div class="main_myticket_title_set">문의 내역</div>
-							<a href="<%=request.getContextPath() %>/Customer/AnswerMain.do" class="main_myticket_more_set">더보기 ></a>
+							<a href="<%=request.getContextPath() %>/Customer/AnswerMain.do" class="main_myticket_more_set more_set">더보기 ></a>
 							<div id="main_myticket_question_list"class="divoverflow">
 								<table>
 									<c:if test="${empty qlist}">
@@ -198,7 +198,7 @@
 									<c:if test="${!empty qlist}">
 									<tr><th width="35">no</th><th width="230">문의 제목</th><th width="55">상태</th><th width="50">작성일</th></tr>
 									<c:forEach var="cc" items="${qlist}">
-										<tr style="cursor:pointer;" class="trtr" onClick="location.href='링크주소'">
+										<tr style="cursor:pointer;" class="trtr" onclick="window.open('<%=request.getContextPath() %>/Customer/AnswerView.do?midx=${cc.midx}&qidx=${cc.qidx}')">
 											<td><div class="ellipsis">${cc.no}</div></td>
 											<td><div class="ellipsis">${cc.qtitle}</div></td>
 											<td>미답변</td>

@@ -192,7 +192,7 @@ body{
 }
 #main_myticket_id{
 	padding:4px;
-	font-size:28px;
+	font-size:24px;
 	display:inline-block;
 }
 .main_myticket_button{
@@ -214,17 +214,20 @@ body{
 }
 #main_myticket_amount{
 	width:380px;
-	height:102px;
-	padding:24px 0;
+	height:100%;
 }
 #main_myticket_amount a{
 	display:inline-block;
-	width:180px;
+	width:49.3%;
 	text-align:center;
 	text-decoration:none;
 	color:black;
-	height:102px;
+	height:100%;
 }
+#main_myticket_amount a:hover{
+	background-color:#B2B2B2;
+}
+
 #main_myticket_amount a div{
 	display:inline-block;
 }
@@ -245,7 +248,7 @@ body{
 .main_myticket_amount_number{
 	font-size:30px;
 	font-weight:bold;
-	margin:18px 0;
+	margin: 40px 0 18px;
 }
 /*------------------------------------------------------------------------------------------------------------------------*/
 
@@ -268,6 +271,15 @@ body{
 	margin-top:17px;
 }
 .main_myticket_more_set{
+	text-decoration:none;
+	color:rgba(0,0,0,0.6);
+	font-size:13px;
+	float:right;
+}
+.more_set:hover{
+	font-weight:bold;
+}
+.more_set:active{
 	text-decoration:none;
 	color:rgba(0,0,0,0.6);
 	font-size:13px;
@@ -443,4 +455,9 @@ tr.trtr:hover{
 	text-align:center;
 	height:100%;
 	
+}
+#managerid{
+	text-decoration:none;
+	font-weight:bold;
+	font-size:30px;
 }

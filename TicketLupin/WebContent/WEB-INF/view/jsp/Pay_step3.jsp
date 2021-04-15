@@ -32,7 +32,6 @@
 						paymentSum = ${paymentAmount} + 2800;
 						$("#deliverySum").val(deliverySum);
 						$("#paymentSum").val(paymentSum);
-						alert(paymentSum);
 					}else{
 						$("#deliveryCost").html(0);
 						$("#paymentAmount").html((${paymentAmount}).toLocaleString());
@@ -40,7 +39,6 @@
 						paymentSum = ${paymentAmount};
 						$("#deliverySum").val(deliverySum);
 						$("#paymentSum").val(paymentSum);
-						alert(paymentSum);
 					}
 				});
 				
@@ -515,11 +513,6 @@
 							</ul>
 						</div>
 						<div class="btn_onestop">
-							<span class="button btWhite frt">
-								<a href="#" class="btnOne">
-									이전<em class="one_arr prav_ar">이전</em>
-								</a>
-							</span>
 							<span class="button btNext">
 								<div type="button" onclick="paymentSubmit()" class="btnOne">결제하기</div>
 							</span>

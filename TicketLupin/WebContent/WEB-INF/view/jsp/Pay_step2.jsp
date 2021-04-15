@@ -12,7 +12,6 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/pay_step2.css">
 		<script>
 		
-			alert("${detail.stitle}");
 			$(document).ready(function(){
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/				
@@ -671,11 +670,6 @@
 						</ul>
 					</div>
 					<div class="btn_onestop">
-						<span class="button btWhite frt">
-							<a href="#" class="btnOne">
-								이전<em class="one_arr prav_ar">이전</em>
-							</a>
-						</span>
 						<span class="button btNext">
 							<a><div type="button" class="btnOne" onclick="nextSubmit()">다음</a>
 						</span>

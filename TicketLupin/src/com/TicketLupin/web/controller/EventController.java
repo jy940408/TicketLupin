@@ -56,10 +56,14 @@ public class EventController extends HttpServlet{
 			List<EventVo> list = ed.eventbanner1();
 			List<EventVo> list2 = ed.eventbanner2();
 			
+			System.out.println("list size->"+alist.size());
+			System.out.println("totalcount->"+pm.getTotalCount());
+			
 			request.setAttribute("alist", alist);
 			request.setAttribute("list", list);
 			request.setAttribute("list2", list2);
 			request.setAttribute("pm", pm);
+			
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_list.jsp").forward(request, response);
 			
@@ -72,18 +76,25 @@ public class EventController extends HttpServlet{
 				eidx = Integer.parseInt(eidx2);
 			}
 			
+			
 			EventDao ed = new EventDao();
 			EventVo ev = ed.eventSelectOne(eidx);
+			
+			
 			
 			request.setAttribute("ev", ev);
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_view.jsp").forward(request, response);
+			
+			
+			
 			
 		}else if(str.equals("/Event/MyEvent.do")) {
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Myevent_list.jsp").forward(request, response);
 			
 		}else if(str.equals("/Event/EventWrite.do")) {
+			
 			
 			request.getRequestDispatcher("/WEB-INF/view/jsp/Event_write_admin.jsp").forward(request, response);
 		
@@ -112,7 +123,6 @@ public class EventController extends HttpServlet{
 			
 			EventDao ed = new EventDao();
 			ed.EventDelete(eidx);
-			
 			response.sendRedirect("../Event/EventMain.do");
 			
 		}else if(str.equals("/Event/EventWriteAction.do")) {
@@ -149,6 +159,7 @@ public class EventController extends HttpServlet{
 				eidx = Integer.parseInt(eidx2);
 			}
 			
+			
 			HttpSession session = request.getSession();
 			
 			int midx = 0;
@@ -166,6 +177,7 @@ public class EventController extends HttpServlet{
 			ev.setEthumbnail(originThumb);
 			ev.setEcategory(ecategory);
 			
+			
 			System.out.println("test->>>>>>>>>>"+ev.toString());
 			System.out.println("uploadPath : "+uploadPath);
 			
@@ -174,7 +186,9 @@ public class EventController extends HttpServlet{
 			
 			response.sendRedirect("../Event/EventMain.do");
 			
+			
 		}else if(str.equals("/Event/EventModifyAction.do")) {
+			
 			
 			String uploadPath = request.getSession().getServletContext().getRealPath("image");
 			int sizeLimit = 1024*1024*15;
@@ -194,6 +208,7 @@ public class EventController extends HttpServlet{
 			String eidx = multi.getParameter("eidx");
 			int eidx2 = Integer.parseInt(eidx);
 			
+			
 			Enumeration files = multi.getFileNames();
 			String file = (String)files.nextElement();
 			String file2 = (String)files.nextElement();
@@ -206,6 +221,7 @@ public class EventController extends HttpServlet{
 			
 			HttpSession session = request.getSession();
 			
+			
 			EventVo ev = new EventVo();
 			ev.setEcategory(ecategory);
 			ev.setEstart(estart);
@@ -217,6 +233,7 @@ public class EventController extends HttpServlet{
 			ev.setEidx(eidx2);
 			EventDao ed = new EventDao();
 			ed.EventModify(etitle, econtent, estart, eend, efiles, ethumbnail, ecategory, eidx2);
+			
 			
 			System.out.println("test->>>>>>>>>>"+ev.toString());
 			

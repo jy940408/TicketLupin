@@ -330,7 +330,7 @@ public class ConcertViewController extends HttpServlet{
 			System.out.println(list.get(2));
 			
 			for(int i = 0 ; i < list.size() ; i++) {
-				if(sd.soldoutCheck(comDate, (String)list.get(i), sidx) >= 1) {
+				if(sd.soldoutCheck(comDate, (String)list.get(i), sidx) >= 1104) {
 					if(((String)list.get(i)).equals(srv.getSrround1())) {
 						srv.setSrround1("SOLDOUT");
 					}else if(((String)list.get(i)).equals(srv.getSrround2())) {
@@ -367,7 +367,7 @@ public class ConcertViewController extends HttpServlet{
 			
 //==============================================================================================================================//				
 		}else if(str.equals("/ConcertView/Commentreport.do")){
-			request.getRequestDispatcher("/WEB-INF/view/jsp/comment_report.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/view/jsp/Comment_report.jsp").forward(request, response);
 	
 		}else if(str.equals("/ConcertView/Commentreportaction.do")){ 	
 		

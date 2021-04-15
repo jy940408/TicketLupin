@@ -1245,4 +1245,6 @@ textarea{
 	margin:0px 0px 8px;
 	
 }
-
+.hrefquestion:link{color:black; font-weight:bold;}
+.hrefquestion:hover{color:black;}
+.hrefquestion:visited{color:black;}

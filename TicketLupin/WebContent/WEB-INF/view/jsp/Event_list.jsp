@@ -10,7 +10,6 @@
 	List<EventVo> list = (List<EventVo>) request.getAttribute("list");
 	List<EventVo> list2 = (List<EventVo>) request.getAttribute("list2");
 	EventVo eventvo = new EventVo();
-
 %>
 
 <!DOCTYPE html>
@@ -20,7 +19,6 @@
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/Event_list.css">
 		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/Event_list.js"></script>
-		<script src="<%=request.getContextPath() %>/js/Nav_event.js"></script>
 	</head>
 	<body>
 		<header>
@@ -28,20 +26,22 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-						<c:if test="${not empty sessionScope.mid}">
-							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+							<c:if test="${not empty sessionScope.mid}">
+							 <li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							 <li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							</c:if>
+							<c:if test="${empty sessionScope.mid}">
+							 <li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							 <li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							</c:if>
+							 <li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							 <li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
 						<img src="../ads/musicalads.png" id="h_ads">
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="<%=request.getContextPath()%>/Main/MainPage.do">
+						<img src="../icon/lupinlogo.png" id="h_logo"/>
+					</a>
 					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
@@ -54,7 +54,7 @@
 				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
 				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
 				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
-				<a href="#" id="main_nav_event">이벤트</a>
+				<a href="${pageContext.request.contextPath}/Event/EventMain.do" id="main_nav_event">이벤트</a>
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
 						<a href="#" id="main_nav_myticket">관리자</a>
@@ -66,10 +66,13 @@
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
+		
+<!------------------------------------------------------------------------------------------------------------------------------------->			
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
-				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${pageContext.request.contextPath}/Event/EventList.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -77,24 +80,17 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/QnaList.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:when>
-							<c:otherwise>
-								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:otherwise>
-						</c:choose>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
@@ -206,55 +202,38 @@
 		  
 					<div id="main_event_page">
 						<div id="main_event_page_set">
+							<%if (pm.isPrev() == true) { %>
 							
-								<div class="main_event_page_button main_event_page_bn">
-									<div class="main_event_page_button_llgg">&lt;&lt;</div>
-								</div>
-								
-								<div class="main_event_page_button main_event_page_bn">
-									<%if (pm.isPrev() == true) { %>
-									<div class="main_event_page_button_lg">
-										<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=pm.getStartPage()-1%>
-										&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
-											&lt;
-										</a>
-									</div>
+								<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=pm.getStartPage()-1%>
+								&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+									&lt;
+								</a>
+							<% } %>
+							
+							<div class="main_event_page_bn">
+								<div class="main_event_page_button_page">
+									<% for (int i=pm.getStartPage(); i<=pm.getEndPage(); i++){ %>
+										<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=i%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+											<%=i%>
+										</a>	
 									<% } %>
 								</div>
+							</div>
+						
+							<%if (pm.isNext() && pm.getEndPage() > 0) { %>
 							
-							<a href="#">
-								<div class="main_event_page_bn">
-									<div class="main_event_page_button_page">
-										<% for (int i=pm.getStartPage(); i<=pm.getEndPage(); i++){ %>
-											<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=i%>&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>"><%=i%></a>	
-										<% } %>
-									</div>
-								</div>
-							</a>
+								<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=pm.getEndPage()+1%>
+								&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
+									&gt;
+								</a>
 							
-								<div class="main_event_page_button main_event_page_bn">
-									<%if (pm.isNext() && pm.getEndPage() >0) { %>
-									<div class="main_event_page_button_lg">
-										<a href="<%=request.getContextPath()%>/Event/EventMain.do?page=<%=pm.getEndPage()+1%>
-										&keyword=<%=pm.encoding(pm.getScri().getKeyword())%>">
-											&gt;
-										</a>
-									</div>
-									<% } %>
-								</div>
-								
-								<div class="main_event_page_button main_event_page_bn">
-									<div class="main_event_page_button_llgg">&gt;&gt;</div>
-								</div>
-							
+							<% } %>
 						</div>
 					</div>
-					
-	
 				</div>
 			</article>
 		</section>
-
+		
 <!------------------------------------------------------------------------------------------------------------------------------------->
 
 		<footer>

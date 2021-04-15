@@ -2,6 +2,7 @@ package com.TicketLupin.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -106,7 +107,8 @@ public class MemberController extends HttpServlet{
 				e.printStackTrace();
 			}
 			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
+			//request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);
+			response.sendRedirect("../Main/MainPage.do");
 		
 		}else if(str.equals("/Member/Member_Modify_PwdCheck.do")) {
 			
@@ -188,10 +190,11 @@ public class MemberController extends HttpServlet{
 			String mdetailaddress = request.getParameter("mdetailaddress");
 			String mextraaddress = request.getParameter("mextraaddress");
 			String mgender = request.getParameter("mgender");
-		
-			MemberDao md = new MemberDao();
-			md.insertMember(mid, mpwd, mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender);
+			String msignindate = request.getParameter("msignindate");
 			
+			
+			MemberDao md = new MemberDao();
+			md.insertMember(mid, mpwd, mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender, msignindate);
 			
 			response.sendRedirect(request.getContextPath()+"/");
 		
@@ -247,8 +250,8 @@ public class MemberController extends HttpServlet{
 			MemberDao md = new MemberDao();
 			int value = md.MemberModify(mid, mpwd, mname, mssn, mbirthmonth, mbirthday, mpostcode, maddress, mdetailaddress, mextraaddress, mgender, memail, mphone);
 			
-			System.out.println(mid);
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);		
+			
+			response.sendRedirect("../Main/MainPage.do");
 			
 		}else if(str.equals("/Member/UserDeleteAction.do")) {
 			
@@ -257,7 +260,7 @@ public class MemberController extends HttpServlet{
 			MemberDao md = new MemberDao();
 			md.userDelete(mpwd);
 			
-			request.getRequestDispatcher("/WEB-INF/view/jsp/Main.jsp").forward(request, response);		
+			response.sendRedirect("../Main/MainPage.do");	
 		}
 		
 	}

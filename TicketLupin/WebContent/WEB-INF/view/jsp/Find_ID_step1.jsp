@@ -9,17 +9,30 @@
     </head>
     <script>
 	    function findId(){
+	    	var name = document.getElementById("name");
+	    	var email = document.getElementById("email");
+	    	
+	    	var namePattern = /^[a-zA-Z가-힣]/;
+	    	var emailPattern = /^[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
+	    	
 			if (document.frm.mname.value == ""){
 				alert("이름을 입력해주세요");
+			  	document.frm.mname.focus();
+			  	return;
+		  	}else if (namePattern.test(name.value) == false){
+			  	alert("이름을 다시 입력해주세요.");
 			  	document.frm.mname.focus();
 			  	return;
 		  	}else if (document.frm.memail.value ==""){
 			  	alert("이메일을 입력해주세요");
 			  	document.frm.memail.focus();
 			  	return;
+		  	}else if (emailPattern.test(email.value) == false){
+			  	alert("이메일 형식에 맞지 않습니다. 다시 입력해주세요.");
+			  	document.frm.memail.focus();
+			  	return;
 		  	}
 			 
-			alert("전송");
 		  	document.frm.action ="<%=request.getContextPath()%>/Member/findIdAction.do";
 		  	document.frm.method = "POST";
 		  	document.frm.submit(); 
@@ -59,29 +72,14 @@
                 <!-- EMAIL -->
                 <div>
                     <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
-            <!--    
-            		<button type="button" id="btninzung">
-                        <span>인증</span>
-					</button>
-			-->
+           
 					<span class="box int_email" id= "emailbox1" >
                         <input type="text" id="email" class="int" maxlength="100" placeholder="이메일 입력" name="memail">
                     </span>
-                    <!-- 
+                  
                     <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span> 
-                    -->
+                   
                 </div>
-			
-
-                <!-- MOBILE 
-                <div>
-                    <h3 class="join_title"><label for="phoneNo">인증번호</label></h3>
-                    <span class="box int_mobile">
-                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="인증번호 입력">
-                    </span>
-                    <span class="error_next_box"></span>    
-                </div>
-				-->
 				
 
                 <!-- JOIN BTN-->

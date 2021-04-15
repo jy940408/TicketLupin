@@ -14,6 +14,7 @@ import util.DatabaseUtil;
 
 public class MemberDao {
 	
+	
 	public ArrayList memberLogin(String mid, String mpwd) {
 	      
 		DBconn dbconn = new DBconn();
@@ -35,10 +36,12 @@ public class MemberDao {
 	            value.add(rs.getInt("MIDX"));
 	            value.add(rs.getString("msecessionyn"));
 
-	         }   
-	         rs.close();
-			 pstmt.close();
-			 conn.close();
+	         }
+	         
+	        rs.close();
+			pstmt.close();
+			conn.close();
+	         
 	      }catch(Exception e) {
 	         e.printStackTrace();
 	      }
@@ -48,12 +51,12 @@ public class MemberDao {
 	   }
 	
 	public int LoginCnt(String mid, String mpwd) {
-		
+	      
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-	      
+		
 	      String sql = "SELECT count(*) as cnt FROM MEMBER WHERE MID = ? AND MPWD = ?";
 	      int value_ = 0;
 	      
@@ -66,9 +69,11 @@ public class MemberDao {
 	         if (rs.next()) {
 	        	 value_ = rs.getInt("cnt");
 	         }   
+	         
 	         rs.close();
 			pstmt.close();
 			conn.close();
+	         
 	      }catch(Exception e) {
 	         e.printStackTrace();
 	      }
@@ -78,35 +83,38 @@ public class MemberDao {
 	   }
 
 	
-	public int insertMember(String mid,  String mpwd, String mname, String maddress, String memail, String mphone, String mssn, String mbirthmonth, String mbirthday, String mpostcode, String mdetailaddress, String mextraaddress, String mgender) {
+	public int insertMember(String mid,  String mpwd, String mname, String maddress, String memail, String mphone, String mssn, String mbirthmonth, String mbirthday, String mpostcode, String mdetailaddress, String mextraaddress, String mgender, String msignindate) {
 		
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
+		
 		int exec = 0;
 		
 		try {
 			String sql = "insert into member(mid, mpwd,  mname, maddress, memail, mphone, mssn, mbirthmonth, mbirthday, mpostcode, mdetailaddress, mextraaddress, mgender, msignindate)"
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,now())";
+					+ "values(?,?,?,?,?,?, ?,?,?,?,?,?,?,now())";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mid);
-			pstmt.setString(2, mpwd);
-			pstmt.setString(3, mname);
-			pstmt.setString(4, maddress);
-			pstmt.setString(5, memail);
-			pstmt.setString(6, mphone);
-			pstmt.setString(7, mssn);
-			pstmt.setString(8, mbirthmonth);
-			pstmt.setString(9, mbirthday);
-			pstmt.setString(10, mpostcode);
-			pstmt.setString(11, mdetailaddress);
-			pstmt.setString(12, mextraaddress);
-			pstmt.setString(13, mgender);
+				pstmt.setString(1, mid);
+				pstmt.setString(2, mpwd);
+				pstmt.setString(3, mname);
+				pstmt.setString(4, maddress);
+				pstmt.setString(5, memail);
+				pstmt.setString(6, mphone);
+				pstmt.setString(7, mssn);
+				pstmt.setString(8, mbirthmonth);
+				pstmt.setString(9, mbirthday);
+				pstmt.setString(10, mpostcode);
+				pstmt.setString(11, mdetailaddress);
+				pstmt.setString(12, mextraaddress);
+				pstmt.setString(13, mgender);
 			exec = pstmt.executeUpdate();
 			
-			//conn.commit();
 			pstmt.close();
 			conn.close();
+			
+			//conn.commit();
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			
@@ -138,9 +146,11 @@ public class MemberDao {
 			while(rs.next()) {
 				mid = rs.getString("mid");
 			}
+			
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -176,7 +186,6 @@ public class MemberDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		
 		return mpwd;
 	}
 	
@@ -198,11 +207,11 @@ public class MemberDao {
 			
 			pstmt.close();
 			conn.close();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("value : "+value);
 		return value;
 		
 		
@@ -216,7 +225,6 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		MemberVo mv = null;
-		
 		String sql = "select * from member where mid = ? and mpwd = ?";
 		
 		try {
@@ -246,11 +254,11 @@ public class MemberDao {
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 			
 		}
-		
 		return mv;
 	}
 	
@@ -273,12 +281,11 @@ public class MemberDao {
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("error : "+e);
 		}
-		
-		System.out.println("��� : "+b);
 		return b;
 	}
 	
@@ -291,11 +298,10 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();
-		//수정해야됨		
 		String sql = "select * from (select @rownum:=@rownum+1 num, A.* from "
 				+ "(select * from member, (SELECT @ROWNUM:=0) TMP where mgrade='G' and msecessionyn='N' and "
 				+ "(mname like ? or mid like ?) order by midx asc) "
-				+ "A) B LIMIT ?, ?";
+				+ "A) B where num between ? and ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -307,6 +313,7 @@ public class MemberDao {
 			
 			while(rs.next()) {
 				MemberVo mv = new MemberVo();
+				mv.setNum(rs.getInt("num"));
 				mv.setMidx(rs.getInt("midx"));
 				mv.setMname(rs.getString("mname"));
 				mv.setMid(rs.getString("mid"));
@@ -315,15 +322,16 @@ public class MemberDao {
 				mv.setMsignindate(rs.getDate("msignindate"));
 				alist.add(mv);
 			}
+			
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		}catch(SQLException e) {
 				e.printStackTrace();
 				
 		}
-		
-		return alist;
+			return alist;
 	}
 	
 	
@@ -335,7 +343,6 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		int cnt = 0;
-		
 		String sql = "select count(*) as cnt from member where mgrade='G' and msecessionyn='N' and (mname like ? or mid like ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -346,9 +353,11 @@ public class MemberDao {
 			if (rs.next()) {
 			cnt = rs.getInt("cnt");
 			}			
+			
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
@@ -366,7 +375,6 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		MemberVo mv = null;
-		
 		String sql = "select * from member where midx=?";
 		
 		try {
@@ -425,6 +433,7 @@ public class MemberDao {
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -460,6 +469,7 @@ public class MemberDao {
 			
 			pstmt.close();
 			conn.close();
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -469,21 +479,22 @@ public class MemberDao {
 	
 	//본인이 탈퇴할 때
 	public int userDelete(String mpwd) {
-				
+					
 		DBconn dbconn = new DBconn();
 		Connection conn = dbconn.getConnection();
 		PreparedStatement pstmt = null;
 		
 		int value = 0;
-		String sql = "update member set MSECESSIONYN = 'Y', MSECESSIONDATE = sysdate where mpwd = ?";
+		String sql = "update member set MSECESSIONYN = 'Y', MSECESSIONDATE = NOW() where mpwd = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mpwd);
 			value = pstmt.executeUpdate();
-				
+			
 			pstmt.close();
 			conn.close();
+					
 		}catch(SQLException e){
 			e.printStackTrace();
 			
@@ -530,10 +541,12 @@ public class MemberDao {
 			rs.close();
 			pstmt.close();
 			conn.close();
+			
 		}catch(SQLException e){
 			e.printStackTrace();
 			
 		}
+		
 		return mv;
 	}
 	

@@ -661,7 +661,7 @@
 			var url ='<%=request.getContextPath() %>';
 			var url = url+"/ConcertView/Commentreport.do?c_idx="+c_idx;
             var name = "popup test";
-            var option = "width = 530, height = 500, top = 100, left = 200, location = no"
+            var option = "location = no"
             window.open(url, name, option);
             return;
 		}
@@ -1080,7 +1080,7 @@
 								ⓘ 티켓 매매 및 양도, 교환의 글은 사전 통보 없이 삭제될 수 있습니다.
 							</div>
 							<div id="main_concert_expect_notice_button">
-								<a href="#">
+								<a href="javascript:void(0);">
 									<div id="main_concert_expect_notice_butto_div">
 									게시판 운영규칙
 									</div>
@@ -1310,7 +1310,7 @@
 								ⓘ 티켓 매매 및 양도, 교환의 글은 사전 통보 없이 삭제될 수 있습니다.
 							</div>
 							<div id="main_concert_review_notice_button">
-								<a href="#">
+								<a href="javascript:void(0);">
 									<div id="main_concert_review_notice_butto_div">
 									게시판 운영규칙
 									</div>
@@ -1540,7 +1540,7 @@
 								Q&amp;A게시판은 모든 질문과 답변에 참여할 수 있는 공간입니다.<br>
 							</div>
 							<div id="main_concert_question_notice_ment_sub">
-								예매/배송 관련 문의사항은 고객센터>1:1문의 또는 FAQ나 이용안내를 이용해주세요.
+								예매/배송 관련 문의사항은 고객센터><a href="<%=request.getContextPath() %>/Customer/QuestionList.do"class="hrefquestion">1:1문의</a> 또는 <a href="<%=request.getContextPath() %>/Customer/FaqList.do" class="hrefquestion">FAQ</a>나 이용안내를 이용해주세요.
 							</div>
 						</div>
 					</div>

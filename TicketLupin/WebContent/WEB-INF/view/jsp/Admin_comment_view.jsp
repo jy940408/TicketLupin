@@ -7,15 +7,37 @@
 	<head>
 		<title></title>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/Admin_comment_view.css"> 
+		<script src="<%=request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 		<script type = "text/javascript">
+		$(document).ready(function(){
+			$(".checkedupdate").click(function(){
+				var checkBoxArr=[];
+				//checkBoxArr.push($("input[name=c_idx]:checked").val());
+				var flag = false;
+				var checkbox = $("input[name=c_idx]");
+				for(var i =0 ; i<checkbox.length; i++){
+					if(checkbox.eq(i).is(":checked")){
+						flag = true;
+						break;
+					}
+				}
+				if(!flag){
+					alert("선택하세요");
+				}
+				alert('전송하였습니다.');
+				document.forms['checkcomment'].submit();
+				
+			});
+	
+		});	
 		</script>
 	</head>
 	<body>
 	<div id="topBtn">
 		<div id="Btn">
-		<input type="button" value="창닫기" class="btn">
+		<input type="button" value="창닫기" class="btn" onclick="window.close();">
 		<c:if test="${!empty list}">
-		<input type="button" value="읽음" class="btn">
+		<input type="button" value="읽음" class="btn checkedupdate">
 		</c:if>
 		</div>
 	</div>
@@ -24,14 +46,17 @@
 		<div id="hh">
 			<table class="type05">
 			<tr>
-				<th>이름</th> <td>${test.mname}</td> <th>아이디</th> <td>${test.mid}</td>
+				<th>이름</th>
+				<td><a href="javascript:void(0);"  onclick="window.open('<%=request.getContextPath() %>/Manager/Memberinfo.do?midx=${test.midx}','회원정보','width=490, height=600, menubar=no, status=no, toolbar=no, scrollbars=no');">${test.mname}</a></td>
+				<th>아이디</th>
+				<td><a href="javascript:void(0);"  onclick="window.open('<%=request.getContextPath() %>/Manager/Memberinfo.do?midx=${test.midx}','회원정보','width=490, height=600, menubar=no, status=no, toolbar=no, scrollbars=no');">${test.mid}</a></td>
 			</tr>
 			<tr>
-				<th>게시글</th> <td>${test.title}</td><th>댓글 작성일</th> <td>${test.c_regdate}</td>
+				<th>게시글</th> <td><a href="javascript:void(0);" onclick="window.open('<%=request.getContextPath() %>/ConcertView/ConcertView.do?sidx=${test.sidx}')">${test.title}</a></td><th>작성일</th> <td>${test.c_regdate}</td>
 			</tr>
 			<tr >
 				<th colspan=1>댓글 내용</th>
-				<td colspan=3>${test.c_content}</td>
+				<td colspan=3><div id="contentlimit">${test.c_content}</div></td>
 			</tr>
 			</table>
 			<c:if test="${empty list}">
@@ -40,8 +65,9 @@
 			<c:if test="${!empty list}">
 			<h2>&nbsp; 신고 목록</h2>
 			<div class="reportlist">
+			<form name="checkcomment" method="post"action="ReportCheckUpdate.do">
 				<c:forEach var="rep" items="${list}">
-					&nbsp;&nbsp;<input type="checkbox">
+					&nbsp;&nbsp;<input type="checkbox" name="c_idx" value="${rep.cridx}">
 					<table class="type02">					
 						<tr>
 							<th class="t1" align="center">no</th><th class="t2">신고 분류</th><th class="t3">신고 날짜</th><th class="t3">신고 회원</th>
@@ -82,9 +108,9 @@
 						</c:choose>	
 					</table>
 				</c:forEach>
-				</c:if>
-				<br>
-				<div id="num">
+				</form>
+				</div>
+					<div id="num">
 					<c:set var="page" value="${(param.p == null)?1:param.p}"/>
 					<c:set var="startNum" value="${page-(page-1)%5}"/>
 					<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
@@ -123,11 +149,10 @@
 					&nbsp;
 					<a href="?p${lastNum}&q=">>></a>
 					</div>
-					
-				</div>
+					</div>
+				</c:if>
 			</div>
-			<div id="blank"></div>		
-		</div>
+		<div id="blank"></div>		
 		<!--footer-->
 
 	</body>

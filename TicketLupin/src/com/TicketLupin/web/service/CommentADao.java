@@ -21,9 +21,9 @@ public class CommentADao {
 		
 		List<CommentAVo> clist = new ArrayList<CommentAVo>();
 		String sql ="select * from(select @ROWNUM := @ROWNUM + 1 AS ROWNUM, AA.* FROM (select @ROWNUM := @ROWNUM + 1 AS no, a.* from "+
-					"(select count(distinct bb.c_idx) as rcnt, aa.* from(select a.*, b.mname, b.mid,c.stitle,d.etitle from c_comment a "+
+					"(select count(distinct bb.cridx) as rcnt, aa.* from(select a.*, b.mname, b.mid,c.stitle,d.etitle from c_comment a "+
 					"left join member b on a.midx=b.midx left join show1 c on a.sidx=c.sidx left join event d  on a.eidx=d.eidx "+
-					"where a.c_delyn = ? and "+setting+" like ?)aa left join C_REPORT bb  on aa.c_idx = bb. c_idx group by aa.c_idx, aa.origin_c_idx, aa.sidx, "+
+					"where a.c_delyn = ? and "+setting+" like ?)aa left join (SELECT * FROM C_REPORT WHERE CRDELYN='N')bb  on aa.c_idx = bb. c_idx group by aa.c_idx, aa.origin_c_idx, aa.sidx, "+
 					"aa.eidx, aa. midx,aa.c_content, aa.c_regdate, aa.c_delyn, aa.c_depth, aa.c_sort,aa.mname, aa.mid, aa.stitle,aa.etitle )a, "+
 					"(SELECT @ROWNUM := 0) B ORDER BY ? ASC)AA,(SELECT @ROWNUM := 0) BB ORDER BY no DESC)a limit ?,10";
 		try {
@@ -193,7 +193,7 @@ public class CommentADao {
 		
 		CommentAVo value = new CommentAVo();
 		
-		String sql = "select distinct a.c_idx, concat(c.stitle,d.etitle) as title,c.sidx,d.eidx,b.mid,a.c_regdate,a.c_content,b.mname " + 
+		String sql = "select distinct a.c_idx, concat(IFNULL(stitle ,''), IFNULL(etitle ,'')) as title,c.sidx,d.eidx,b.mid,a.c_regdate,a.c_content,b.mname,b.midx " + 
 					"from c_comment a LEFT JOIN member b ON a.midx = b.midx LEFT JOIN show1 c ON a.sidx=c.sidx LEFT JOIN event d ON a.eidx= d.eidx where a.c_idx = ?";
 		
 		try {
@@ -209,8 +209,8 @@ public class CommentADao {
 			value.setC_regdate(rs.getDate("c_regdate"));
 			value.setSidx(rs.getInt("sidx"));
 			value.setEidx(rs.getInt("eidx"));
+			value.setMidx(rs.getInt("midx"));
 			value.setC_content(rs.getString("c_content"));
-	
 			rs.close();
 			pstmt.close();
 			conn.close();
@@ -228,15 +228,14 @@ public class CommentADao {
 		ResultSet rs = null;
 		
 		List<CommentAVo> rlist = new ArrayList<CommentAVo>();
-		String sql = 	"select * from(select @ROWNUM := @ROWNUM + 1 AS ROWNUM, AA.* FROM (select @ROWNUM := @ROWNUM + 1 AS NUM, b. mid, a.* "+
-						"from c_report a, member b ,(SELECT @ROWNUM := 0)C where a.midx = b.midx and c_idx = ? order by a.cridx)AA,"+
-						"(SELECT @ROWNUM := 0) BB ORDER BY NUM DESC)a limit ?,?";      
+		String sql = 	"select * from(select @ROWNUM := @ROWNUM + 1 AS NO, AA.* FROM (select @ROWNUM := @ROWNUM + 1 AS NUM, b. mid, a.* "+
+						"from c_report a, member b ,(SELECT @ROWNUM := 0)C where a.midx = b.midx and c_idx = ? and crdelyn='N' order by a.cridx)AA,"+
+						"(SELECT @ROWNUM := 0) BB ORDER BY NO DESC)a limit ?,10";      
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, c_idx);
-			pstmt.setInt(2, 1+(page-1)*10);
-			pstmt.setInt(3, page*10);
+			pstmt.setInt(2, (page-1)*10);
 			
 			rs = pstmt.executeQuery();
 			
@@ -293,6 +292,56 @@ public class CommentADao {
 				e.printStackTrace();
 		}
 		return	count;
+	}
+	public int deleteCheckComment(String check) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		
+		int value= 0;
+		String sql ="update c_comment set c_delyn='Y' where c_idx in("+check+")";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			value = pstmt.executeUpdate();	
+			
+			pstmt.close();
+			conn.close();
+			
+			/* conn.commit(); */
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+
+		return value;
+	}
+	public int deleteCheckReport(String check) {
+		
+		DBconn dbconn = new DBconn();
+		Connection conn = dbconn.getConnection();
+		PreparedStatement pstmt = null;
+		
+		int value= 0;
+		String sql ="update c_report set crdelyn='Y' where cridx in("+check+")";
+		
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			value = pstmt.executeUpdate();	
+			
+			pstmt.close();
+			conn.close();
+			
+			/* conn.commit(); */
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+		}
+
+		return value;
 	}
 		
 

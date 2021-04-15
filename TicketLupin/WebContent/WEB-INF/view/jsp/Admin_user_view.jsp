@@ -21,7 +21,9 @@
 	<body>
 		<!-- header -->
 		<div id="header">
-            <a href="https://ticket.melon.com/main/index.htm" target="_blank" title="티켓루팡 회원가입 페이지 보러가기"><img src="../icon/lupinlogo.png" id="logo"></a>
+            <a href="<%=request.getContextPath()%>/Main/MainPage.do" title="티켓루팡 회원가입 페이지 보러가기">
+            	<img src="../icon/lupinlogo.png" id="logo">
+            </a>
         </div>
 		
 		<!--wrapper -->
@@ -65,13 +67,13 @@
 					<!-- JOIN BTN-->
 					<div class="btn_area">
 						
-						<button type="button" id="btnJoin2" onclick="location='<%=request.getContextPath()%>/Manager/UserBuyList.do?midx=<%=mv.getMidx()%>'">
+						<button type="button" id="btnJoin2" onclick="location.href='<%=request.getContextPath()%>/Manager/UserBuyList.do?midx=<%=mv.getMidx()%>'">
 							<span>예매내역</span>
 						</button>
-						<button type="button" id="btnJoin3" onclick="location='<%=request.getContextPath()%>/Manager/UserQnaList.do?midx=<%=mv.getMidx()%>'">
+						<button type="button" id="btnJoin3" onclick="location.href='<%=request.getContextPath()%>/Manager/UserQnaList.do?midx=<%=mv.getMidx()%>'">
 							<span>문의내역</span>
 						</button>
-						<button type="button" id="btnJoin4" onclick="location='<%=request.getContextPath()%>/Manager/UserCommentList.do?midx=<%=mv.getMidx()%>'">
+						<button type="button" id="btnJoin4" onclick="location.href='<%=request.getContextPath()%>/Manager/UserCommentList.do?midx=<%=mv.getMidx()%>'">
 							<span>댓글내역</span>
 						</button>
 					</div>

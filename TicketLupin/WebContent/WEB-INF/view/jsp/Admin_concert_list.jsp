@@ -1,5 +1,13 @@
+<%@page import="java.util.List"%>
+<%@page import="com.TicketLupin.web.service.Show1Vo"%>
+<%@page import="domain.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	List<Show1Vo> list2 = (List<Show1Vo>) request.getAttribute("list2");
+	Show1Vo sv = (Show1Vo) request.getAttribute("sv");
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,8 +24,8 @@
 					var sidx = $(this).find('.sidx').val();
 					var src_ = $(this).find('.clickposter').attr("src");
 					console.log(src_);
-					$("#imgview").attr("src",src_);
 					
+					$("#imgview").attr("src",src_);
 					$(".showname").html(text);
 					$(".sidx_").val(sidx);
 				});
@@ -25,24 +33,13 @@
 				$(".clickposter_").click(function(){
 					var src_ = $(this).attr("src");
 					$("#imgview").attr("src",src_);
-					
 				});
 				
-				/* $(".show_title_").click(function(){
-					var title = $(this).text();
-					var src_ = $('.clickposter').attr("src");
-					var sidx = $(".sidx").val();
-					
-					$(".showname").html(title);
-					$("#imgview").attr("src",src_);
-					$(".showname").html(title);
-				}); */
 				
 				$(".clickposter").click(function(){
 					var src_ = $(this).attr("src");
 					var title = $(this).next().val();
 					var sidx = $(".sidx").val();
-					
 					
 					$(".sidx_").val(sidx);
 					$(".showname").html(title);
@@ -58,15 +55,11 @@
 					$(".sidx_").val(sidx);
 				});
 				
-				
-//				$(".show_title").click(function(){
-//					var src_ = $(this).prev().childModes().find('.clickposter').attr('src');
-//					$("#imgview").attr("src",src_);
-//				});
 			});
 			
 			
 			function userList(sidx){
+				
 				$.ajax({
 					url:"${pageContext.request.contextPath}/Manager/UserList.do",
 					type:"get",
@@ -75,19 +68,39 @@
 					success:function(data){
 						
 						var output = "";
-							$.each(data, function(key, value){
-							 
-							  
-								output += "		<tr>";
-								output += "			<td>"+value.ridx+"</td>";
-								output += "			<td>"+value.mname+"</td>";
-								output += "			<td>"+value.mid+"</td>";
-								output += "			<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
-								output += "		</tr>"; 
-							  
-							});	
+						var output2 = "";
 						
+						$.each(data, function(key, value){
+							
+							if(key == 0){
+								if(value.count > 0){
+								output += " <tr>";
+								output += "		<td>"+value.num+"</td>";
+								output += "		<td><a href='UserBuyList.do?midx="+value.midx+"'>"+value.mname+"</a></td>";
+								output += "		<td><a href='UserBuyList.do?midx="+value.midx+"'>"+value.mid+"</a></td>";
+								output += "		<td><input type='hidden' value='"+value.sidx+"'><input type='hidden' value='"+value.midx+"'></td>";
+								output += "	</tr>"; 
+								}else{
+									output += "";
+								}
+								
+							}else{
+								if(value.count > 0){
+									output2 += " 	<a href='?page="+value.prev+"&sidx="+value.sidx+"'> < &nbsp;&nbsp;</a>";
+									console.log(" value.startNum->"+ value.startNum);
+									console.log(" value.lastNum->"+ value.lastNum);
+									for(var i = value.startNum; i <= value.lastNum; i++){
+										output2 += "<a href='?page="+value.startNum+"&sidx="+value.sidx+"'>"+value.startNum+" &nbsp;&nbsp;</a>";
+									}
+									output2 += "	<a href='?page=" +value.next+ "&sidx=" +value.sidx+ "'> > </a>";
+								}else{
+									output2 += "";
+								}
+							}
+						});	
+					
 							$(".userList_").html(output);
+							$(".paging").html(output2);
 					}
 				});
 			}
@@ -105,21 +118,25 @@
 				<div id="h_title_inner">
 					<span id="h_top_menu">
 						<ul id="h_top_menu_ul">
-						<c:if test="${not empty sessionScope.mid}">
-							<li><a href="${pageContext.request.contextPath}/Member/Member_Modify_PwdCheck.do?mid=${sessionScope.mid}">${sessionScope.mid }님 환영합니다!</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							<li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-						<c:if test="${empty sessionScope.mid}">
-							<li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-						</c:if>
-							<li><a href="${pageContext.request.contextPath}/Customer/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
-							<li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
+							<c:if test="${not empty sessionScope.mid}">
+							 <li>${sessionScope.mid }님 환영합니다!&nbsp;&nbsp;&nbsp;&nbsp;</li>
+							 <li><a href="${pageContext.request.contextPath}/Member/Memberlogout.do">로그아웃&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							</c:if>
+							<c:if test="${empty sessionScope.mid}">
+							 <li class="login"><a href="${pageContext.request.contextPath}/Member/MemberLogin.do">로그인&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							 <li><a href="${pageContext.request.contextPath}/Member/MemberJoin.do">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							</c:if>
+							 <li><a href="${pageContext.request.contextPath}/Notice/NoticeList.do">고객센터&nbsp;&nbsp;|&nbsp;&nbsp;</a></li>
+							 <li><a href="#">이용안내&nbsp;&nbsp;&nbsp;&nbsp;</a></li><br/>
 						</ul>
-						<img src="../ads/musicalads.png" id="h_ads">
+						<a href="<%=request.getContextPath()%>/Main/MainPage.do">
+							<img src="../ads/musicalads.png" id="h_ads" style="width:221px; height:40px; float:right;">
+						</a>
 					</span>
-					<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="text" id="h_search" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
+					<a href="<%=request.getContextPath() %>/Main/MainPage.do" id="main_nav_home">
+						<img src="../icon/lupinlogo.png" id="h_logo">&nbsp;&nbsp;&nbsp;&nbsp;
+					</a>
+					<input type="text" id="h_search" style="width:210px;" placeholder="뮤지컬 〈캣츠〉 40주년 내한공연 앙코르－서울（Musical CATS Encore">
 					<button type="submit" id="h_search_button"><img src="../icon/search.png" id="h_search_img"></button>
 				</div>
 			</div>
@@ -131,7 +148,7 @@
 				<a href="${pageContext.request.contextPath}/Show/ShowList.do" id="main_nav_concert">공연</a>
 				<a href="${pageContext.request.contextPath}/Show/RankingList.do" id="main_nav_ranking">랭킹</a>
 				<a href="${pageContext.request.contextPath}/News/NewsList.do" id="main_nav_news">티켓오픈소식</a>
-				<a href="#" id="main_nav_event">이벤트</a>
+				<a href="${pageContext.request.contextPath}/Event/EventMain.do" id="main_nav_event">이벤트</a>
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
 						<a href="#" id="main_nav_myticket">관리자</a>
@@ -143,10 +160,13 @@
 			</nav>
 		</div>
 		<hr id="nav_bar_bottom">
+		
+		
 		<div id="nav_menu_sub_event_div" class="main_nav_all">
 			<ul id="nav_menu_sub_event" style="margin:0px;">
 				<li><a href="${pageContext.request.contextPath}/Event/EventMain.do">전체 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 				<li><a href="${pageContext.request.contextPath}/Winner/WinnerList.do">당첨자 발표</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">참여 이벤트</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 			</ul>
 			<hr id="nav_bar_sub">
 		</div>
@@ -154,24 +174,17 @@
 			<ul id="nav_menu_sub_myticket" style="margin:0px;">
 				<c:choose>
 					<c:when test="${sessionScope.mgrade eq 'M' }">
+						<li><a href="${pageContext.request.contextPath}/Admin/AdminMain.do">관리자홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="${pageContext.request.contextPath}/Manager/MemberList.do">회원관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 						<li><a href="${pageContext.request.contextPath}/Manager/ConcertList.do">공연관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Manager/comment.do">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						<li><a href="${pageContext.request.contextPath}/Customer/AnswerMain.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">댓글관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Manager/QnaList.do">문의관리</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:when>
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${not empty sessionScope.mid}">
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Myticket/MyticketReservation.do">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:when>
-							<c:otherwise>
-								<li><a onclick="loginAlert()">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-								<li><a onclick="loginAlert()">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-							</c:otherwise>
-						</c:choose>
+						<li><a href="#">마이티켓 홈</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">예매확인/취소</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="${pageContext.request.contextPath}/Dibs/MyDibs.do">마이 찜</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+						<li><a href="#">할인쿠폰</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
@@ -207,7 +220,7 @@
 							<c:forEach var = "s" items ="${alist}">
 								<ul style="display:inline;">
 									<li class="hi">
-										<a href="#" class="li_img">
+										<a class="li_img">
 											<img onclick="userList(${s.sidx})" class="clickposter_" src="<%=request.getContextPath() %>/poster/${s.stitleimage}">
 										</a>
 										<input type="hidden" class="sidx" value="${s.sidx }">
@@ -222,23 +235,23 @@
 									<tr>
 										<th width="275px">공연명</th>
 										<th width="145px">공연일시</th>
-										<th width="159px">공연장소</th>
+										<th width="159px" colspan="2">공연장소</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="listBody">
 								
 								<c:forEach var = "s" items ="${alist}">
 									<tr>
 										<td class="td_" onclick="userList(${s.sidx})">
 											<div class="show_info">
 												<span class="show_poster">
-													<a href="#" onclick="userList(${s.sidx})" >
+													<a onclick="userList(${s.sidx})" >
 														<img class="clickposter" src="<%=request.getContextPath() %>/poster/${s.stitleimage}">
 														<input type="hidden" value="${s.stitle }" class="h_stitle">
 													</a>
 												</span>
 												<span class="show_title">
-													<a href="#" onclick="userList(${s.sidx})" class="show_title_">${s.stitle}</a>
+													<a onclick="userList(${s.sidx})" class="show_title_">${s.stitle}</a>
 												</span>
 												<input type="hidden" value="${s.sidx}" class="sidx">
 											</div>
@@ -249,7 +262,7 @@
 										<td>
 										 	${s.sdetailaddress}  ${s.sextraaddress }
 										</td>
-										<td></td>
+										<td  colspan="2"></td>
 									</tr>
 								</c:forEach>
 								
@@ -260,11 +273,22 @@
 					<div class="bigposter">
 						<div class="bigposter_">
 							<div id="p1">
+								
+							<% 	if(sv != null){
+									 %>	
 								<div style="border:0.5px solid gray; width:184px; height:255px; position:center;" >
-									<img id="imgview">
+									<img id="imgview" src="<%=request.getContextPath() %>/image/<%=sv.getStitleimage() %>">
+								</div>
+								<p class="showname" style="height:24px;"><%=sv.getStitle() %></p>
+								<input type="hidden" class="sidx_" value="<%=sv.getSidx()%>">
+							<% 		
+								}else{%>
+								<div style="border:0.5px solid gray; width:184px; height:255px; position:center;" >
+									<img id="imgview" >
 								</div>
 								<p class="showname" style="height:24px;"></p>
 								<input type="hidden" class="sidx_">
+							<%}	%>
 							</div>
 						</div>
 						<div class="posterbtn" style="padding-top:9px;">
@@ -290,19 +314,51 @@
 						<tbody class="userList_">
 							<c:forEach var = "m" items ="${list}">
 								<tr>
-									<td>${m.ridx}</td>
-									<td>${m.mname }</td>
-									<td>${m.mid }</td>
+									<td>${m.num}</td>
+									<td><a href="${pageContext.request.contextPath}/Manager/UserBuyList.do?midx=${m.midx}">${m.mname }</a></td>
+									<td><a href="${pageContext.request.contextPath}/Manager/UserBuyList.do?midx=${m.midx}">${m.mid }</a></td>
 									<td><input type="hidden" value="${m.sidx}"></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-					
+					<div class="paging">
+	<!--------------------------------------------------------------------------------------------------------------------->
+			
+			<c:set var="page" value="${(param.page == null)?1:param.page}"/>
+			<c:set var="startNum" value="${page-(page-1)%5}"/>
+			<c:set var="lastNum" value="${fn:substringBefore(Math.ceil(count/10),'.')}"/>
+			<c:set var="sidx" value="${param.sidx}"/>	
+	<!--------------------------------------------------------------------------------------------------------------------->
+						
+						<div id="main_winner_page">
+							<div id="main_winner_page_set">
+	<!--------------------------------------------------------------------------------------------------------------------->
+								<a href="?page=1&sidx=${sidx}">&lt; &nbsp;&nbsp;</a>	
+	<!--------------------------------------------------------------------------------------------------------------------->
+													
+								<c:forEach var="i" begin="0" end="4">
+									<c:if test="${(startNum+i) <= lastNum}">
+										<a style="color: ${(page==(startNum+i))?'black':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?page=${startNum+i}&sidx=${sidx}" >
+											${startNum+i} &nbsp;&nbsp;
+										</a>
+									</c:if>
+								</c:forEach>
+						
+	<!--------------------------------------------------------------------------------------------------------------------->
+								
+								<a href="?page=${lastNum }&sidx=${sidx}">&gt; &nbsp;&nbsp;</a>
+	<!--------------------------------------------------------------------------------------------------------------------->
+							</div>
+						</div>
+					</div>
 				</div>
 				<div style="height:200px;"></div>
 			</article>
 		</section>
+		
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------- -->
+
 		<footer>
 				<hr class="f_bar" id="f_bar_bottom">
 				<div id="f_last">

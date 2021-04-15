@@ -144,9 +144,7 @@
 							</tr>
 							<tr class="notice_table1_view" >
 								<td colspan="4" style="border-bottom:1px solid #ebebeb">
-									<div class="box_view" style="padding:20px 25px;">
-										<p><pre style="font-size:14px;">${nv.ncontent}</pre></p>
-									</div>
+									<p><pre style="font-size:14px; margin-left:15px; margin-right:10px; overflow: auto; white-space: pre-wrap;">${nv.ncontent}</pre></p>
 								</td>
 							</tr>
 						</table>

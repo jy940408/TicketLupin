@@ -153,19 +153,16 @@
 							</tr>
 							<tr class="notice_table1_view1">
 								<td colspan="4" style="border-bottom:1px solid #ebebeb">
-									<div class="box_view">
-										<p><pre style="font-size:14px;">${qv.qcontent}</pre></p>
-										<br/>
-										<br/>
-										<br/>
-										<div class="modify">
-											<button class="modify_btn" onclick="location.href='../Customer/QuestionModify.do?num=${qv.num}&qidx=${qv.qidx}&state=${state}'">
-												수정하기
-											</button>
-											<button class="remove_btn" onclick="deleteQuestion();">
-												삭제하기
-											</button>
-										</div>
+									<p><pre style="font-size:14px; margin-left:15px; margin-right:10px; overflow: auto; white-space: pre-wrap;">${qv.qcontent}</pre></p>
+									<br/>
+									<br/>
+									<div class="modify">
+										<button class="modify_btn" onclick="location.href='../Customer/QuestionModify.do?num=${qv.num}&qidx=${qv.qidx}&state=${state}'">
+											수정하기
+										</button>
+										<button class="remove_btn" onclick="deleteQuestion();">
+											삭제하기
+										</button>
 									</div>
 								</td>
 							</tr>
