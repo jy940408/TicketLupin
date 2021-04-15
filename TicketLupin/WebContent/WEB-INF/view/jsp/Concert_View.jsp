@@ -62,7 +62,7 @@
 				
 				output += "<div style='display:none;'>";
 				for(var j = 1 ; j <= 4 ; j++){
-					if(eval("data.srround" + j) != ''){
+					if(eval("data.srround" + j) != '' && eval("data.srround" + j) != null){
 						if(eval("data.srround" + j) != 'SOLDOUT'){
 							output += "	<input type='radio' name='round' id='round1' value='" + eval("data.srround" + j) + "'>";
 						}
@@ -70,8 +70,8 @@
 				}
 				output += "</div>";
 				for(var j = 1 ; j <= 4 ; j++){
-					if(eval("data.srround" + j) != ''){
-						if(eval("data.srround" + j) == 'SOLDOUT'){
+					if(eval("data.srround" + j) != '' && eval("data.srround" + j) != null){
+						if(eval("data.srround" + j) != 'SOLDOUT'){
 							output += "<label for='round1'><div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + j) + "</div></label><br>";
 						}else{
 							output += "<div class='round_all' tabindex='1' style='text-align:center; width:235px; padding:15px; font-size:20px;'>" + eval("data.srround" + j) + "</div><br>";

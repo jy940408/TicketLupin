@@ -147,6 +147,15 @@ public class ConcertViewController extends HttpServlet{
 			}
 			
 			ArrayList dateCheck = sd.dateCheck(sidx);
+			
+			
+			
+			System.out.println("dateCheck 확인: " + dateCheck);
+			
+			
+			
+			
+			
 			ArrayList roundCheck = new ArrayList();
 			for(int testDate = 1 ; testDate <= endDay ; testDate++) {
 				
@@ -156,18 +165,26 @@ public class ConcertViewController extends HttpServlet{
 				}
 				String comDate = year + "-" + (month_) + "-" + date_;
 				
+				System.out.println("comDate 확인: " + comDate);
+				
+				int j = 0;
 				for(int i = 0 ; i < dateCheck.size() ; i++) {
 					if(comDate.equals(dateCheck.get(i))) {
 						strRoundCheck = 1;
 						roundCheck.add(strRoundCheck);
-					}else {
-						strRoundCheck = 0;
-						roundCheck.add(strRoundCheck);
+						j = 1;
+						break;
 					}
 				}
+				
+				if(j == 0) {
+					roundCheck.add(j);
+				}
+				
 			}
 			
 			request.setAttribute("roundCheck", roundCheck);
+			
 			System.out.println(srv);
 			System.out.println("roundCheck: " + roundCheck);
 			

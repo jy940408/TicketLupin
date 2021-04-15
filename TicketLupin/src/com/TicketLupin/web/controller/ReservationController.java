@@ -39,9 +39,9 @@ public class ReservationController extends HttpServlet{
 		if(str.equals("/Reservation/ReservationStep1.do")) {
 			
 			String sidx_ = request.getParameter("sidx");
-			String year = request.getParameter("year"); //ÇöÀç ³âµµ
-			String strMonth = request.getParameter("month"); //ÇöÀç ¿ù, 0ºÎÅÍ ½ÃÀÛ, Áï 0ÀÌ 1¿ù
-			String strDate = request.getParameter("date"); //ÇöÀç ÀÏ, ÀÌ°Ç ¶Ç 1ºÎÅÍ ½ÃÀÛ, ¹ºÁþ°Å¸®¾ß ÀÌ°Ô Çò°¥¸®°Ô...
+			String year = request.getParameter("year"); //ï¿½ï¿½ï¿½ï¿½ ï¿½âµµ
+			String strMonth = request.getParameter("month"); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ 0ï¿½ï¿½ 1ï¿½ï¿½
+			String strDate = request.getParameter("date"); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½Ì°ï¿½ ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ò°¥¸ï¿½ï¿½ï¿½...
 			String round = request.getParameter("round");
 			System.out.println("year: " + year);
 			System.out.println("month: " + strMonth);
@@ -68,14 +68,14 @@ public class ReservationController extends HttpServlet{
 			if((int)(Math.log10(month_)+1) == 1) {
 				month = "0" + month;
 			}
-			System.out.println("´Þ Å×½ºÆ®: " + month);
+			System.out.println("ï¿½ï¿½ ï¿½×½ï¿½Æ®: " + month);
 			
 			String date = Integer.toString(date_);
 			if((int)(Math.log10(date_)+1) == 1) {
 				date = "0" + date_;
 			}
 			
-			//¿¹¸Å °ø¿¬ ³¯Â¥ ¿Ï¼ºÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ ï¿½Ï¼ï¿½ï¿½Ï±ï¿½
 			String comDate = year + "-" + (month) + "-" + date;
 			System.out.println("comDate: " + comDate);
 			
@@ -101,16 +101,16 @@ public class ReservationController extends HttpServlet{
 				sidx = Integer.parseInt(sidx_);
 			}
 			
-			System.out.println("ÁÂ¼®¸ñ·Ï ridx_: " + sidx_);
-			System.out.println("ÁÂ¼®¸ñ·Ï ridx: " + sidx);
-			System.out.println("ÁÂ¼®¸ñ·Ï srdate: " + srdate);
-			System.out.println("ÁÂ¼®¸ñ·Ï srround: " + srround);
+			System.out.println("ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ ridx_: " + sidx_);
+			System.out.println("ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ ridx: " + sidx);
+			System.out.println("ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ srdate: " + srdate);
+			System.out.println("ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ srround: " + srround);
 			
 			ReservationDao rd = new ReservationDao();
 			ArrayList<ReservationShowVo> list = rd.getReservationSeatList(sidx, srdate, srround);
 			
 			for(int i = 0 ; i < list.size() ; i++) {
-				System.out.println("ÁÂ¼® ¸ñ·Ï Å×½ºÆ®: " + list.get(i).getRseat());
+				System.out.println("ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®: " + list.get(i).getRseat());
 			}
 			
 			request.setAttribute("list", list);
@@ -142,7 +142,7 @@ public class ReservationController extends HttpServlet{
 			String[] seatGrade = new String[arraySeat.length];
 			String[] floor = new String[arraySeat.length];
 			
-			//¿¹¸Å ÁÂ¼® µî±Þ ¹× Ãþ¼ö ±¸ÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 			for(int i = 0 ; i < arraySeat.length ; i ++) {
 				if(Integer.parseInt(arraySeat[i].substring(0,2)) <= 6) {
 					seatGrade[i] = "VIP";
@@ -157,13 +157,13 @@ public class ReservationController extends HttpServlet{
 					seatGrade[i] = "A";
 					floor[i] = "3";
 				}
-				System.out.println("¾Õ ¼ýÀÚ Ãâ·Â Å×½ºÆ®: " + arraySeat[i].substring(0,2));
+				System.out.println("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®: " + arraySeat[i].substring(0,2));
 				System.out.println("arraySeat[" + i + "]: " + arraySeat[i]);
-				System.out.println("arraySeat[" + i + "] µî±Þ: " + seatGrade[i]);
-				System.out.println("arraySeat[" + i + "] Ãþ¼ö: " + floor[i]);
+				System.out.println("arraySeat[" + i + "] ï¿½ï¿½ï¿½: " + seatGrade[i]);
+				System.out.println("arraySeat[" + i + "] ï¿½ï¿½ï¿½ï¿½: " + floor[i]);
 			}
 			
-			// ¿¹¸Å ÁÂ¼® µî±Þ ¸ñ·Ï (Áßº¹ Á¦¿Ü) ±¸ÇÏ±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½Ï±ï¿½
 			ArrayList<String> gradeCategory = new ArrayList<>();
 			for(int i = 0 ; i < seatGrade.length ; i++) {
 				if(!gradeCategory.contains(seatGrade[i])) {
@@ -173,14 +173,14 @@ public class ReservationController extends HttpServlet{
 			System.out.println("gradeCategory: " + gradeCategory);
 			
 			
-			//HashMapÀ» ÀÌ¿ëÇÏ¿© ÁÂ¼® µî±Þ º° °³¼ö ¼¼±â
-			HashMap<String, Integer> gradeCount = new HashMap<String, Integer>(); //HashMap »ý¼º
+			//HashMapï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			HashMap<String, Integer> gradeCount = new HashMap<String, Integer>(); //HashMap ï¿½ï¿½ï¿½ï¿½
 			
-			for(int i = 0 ; i < seatGrade.length ; i++) { //seatGrade¸¸Å­ ¹Ýº¹
-				if(gradeCount.containsKey(seatGrade[i])) { //HashMap ³»ºÎ¿¡ ÀÌ¹Ì key°ªÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
-					gradeCount.put(seatGrade[i], gradeCount.get(seatGrade[i])+1); //key°¡ ÀÖ´Ù¸é ÇØ´ç value¿¡ 1 Ãß°¡
+			for(int i = 0 ; i < seatGrade.length ; i++) { //seatGradeï¿½ï¿½Å­ ï¿½Ýºï¿½
+				if(gradeCount.containsKey(seatGrade[i])) { //HashMap ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ì¹ï¿½ keyï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+					gradeCount.put(seatGrade[i], gradeCount.get(seatGrade[i])+1); //keyï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½Ø´ï¿½ valueï¿½ï¿½ 1 ï¿½ß°ï¿½
 				}else {
-					gradeCount.put(seatGrade[i], 1); //key°¡ ¾ø´Ù¸é key°ªÀ» »ý¼º ÈÄ 1·Î ÃÊ±âÈ­
+					gradeCount.put(seatGrade[i], 1); //keyï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ keyï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 1ï¿½ï¿½ ï¿½Ê±ï¿½È­
 				}
 			}
 			
@@ -198,9 +198,9 @@ public class ReservationController extends HttpServlet{
 			}
 			
 			System.out.println("gradeCount: " + gradeCount);
-			System.out.println("arraySeat Ã¹¹øÂ° È®ÀÎ: " + arraySeat[0]);
+			System.out.println("arraySeat Ã¹ï¿½ï¿½Â° È®ï¿½ï¿½: " + arraySeat[0]);
 			
-			//°¡°Ý ºÒ·¯¿À±â ¿ëµµ °ø¿¬ µðÅ×ÀÏ Ç×¸ñ °¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ëµµ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ShowDao sd = new ShowDao();
 			Show1Vo sv = new Show1Vo();
 			sv = sd.getShowDetail(sidx);
@@ -221,14 +221,14 @@ public class ReservationController extends HttpServlet{
 
 		}else if(str.equals("/Reservation/ReservationStep3.do")) {
 			
-			//ÁÂ¼® ¸ñ·Ï ¹Þ¾Æ¿À±â
+			//ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			ArrayList arraySeat = new ArrayList();
 			String[] arraySeat_ = request.getParameterValues("arraySeat");
 			for(int i = 0 ; i < arraySeat_.length ; i++) {
 				arraySeat.add(arraySeat_[i]);
 			}
 			
-			//ÇÒÀÎ ¸ñ·Ï ¹Þ¾Æ¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 			ArrayList discountParameter = new ArrayList();
 			String strDiscountParam = null;
 			for(int i = 1 ; i <= 4 ; i ++) {
@@ -245,7 +245,7 @@ public class ReservationController extends HttpServlet{
 			String priceSum_ = request.getParameter("priceSum");
 			String paymentAmount_ = request.getParameter("paymentAmount");
 			
-			System.out.println("priceSum_ Á¦´ë·Î ¹Þ´ÂÁö È®ÀÎ: " + priceSum_);
+			System.out.println("priceSum_ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½: " + priceSum_);
 			
 			int basicSum = 0;
 			if(basicSum_ != null && !basicSum_.equals("")) {
@@ -271,9 +271,9 @@ public class ReservationController extends HttpServlet{
 			if(paymentAmount_ != null && !paymentAmount_.equals("")) {
 				paymentAmount = Integer.parseInt(paymentAmount_);
 			}
-			System.out.println("basicSum Å×½ºÆ®: " + basicSum);
-			System.out.println("discountSum Å×½ºÆ®: " + discountSum);
-			System.out.println("priceSum Å×½ºÆ®: " + priceSum);
+			System.out.println("basicSum ï¿½×½ï¿½Æ®: " + basicSum);
+			System.out.println("discountSum ï¿½×½ï¿½Æ®: " + discountSum);
+			System.out.println("priceSum ï¿½×½ï¿½Æ®: " + priceSum);
 			
 			String sidx_ = request.getParameter("sidx");
 			String title = request.getParameter("title");
@@ -285,7 +285,7 @@ public class ReservationController extends HttpServlet{
 				sidx = Integer.parseInt(sidx_);
 			}
 			
-			System.out.println("ÇÔ µÇ´ÂÁö º¾½Ã´Ù: " + arraySeat);
+			System.out.println("ï¿½ï¿½ ï¿½Ç´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã´ï¿½: " + arraySeat);
 			System.out.println(discountParameter);
 			
 //==============================================================================================================================//
@@ -312,7 +312,7 @@ public class ReservationController extends HttpServlet{
 
 //==============================================================================================================================//
 
-			//°áÁ¦ ±Ý¾× °¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String basicSum_ = request.getParameter("basicSum");
 			String basicSumVAT_ = request.getParameter("basicSumVAT");
 			String discountSum_ = request.getParameter("discountSum");
@@ -321,13 +321,13 @@ public class ReservationController extends HttpServlet{
 			String deliverySum_ = request.getParameter("deliverySum");
 			String paymentSum_ = request.getParameter("paymentSum");
 			
-			System.out.println("basicSum_ È®ÀÎ: " + basicSum_);
-			System.out.println("basicSumVAT_ È®ÀÎ: " + basicSumVAT_);
-			System.out.println("discountSum_ È®ÀÎ: " + discountSum_);
-			System.out.println("discountSumVAT_ È®ÀÎ: " + discountSumVAT_);
-			System.out.println("priceSum_ È®ÀÎ: " + priceSum_);
-			System.out.println("deliverySum_ È®ÀÎ: " + deliverySum_);
-			System.out.println("paymentSum_ È®ÀÎ: " + paymentSum_);
+			System.out.println("basicSum_ È®ï¿½ï¿½: " + basicSum_);
+			System.out.println("basicSumVAT_ È®ï¿½ï¿½: " + basicSumVAT_);
+			System.out.println("discountSum_ È®ï¿½ï¿½: " + discountSum_);
+			System.out.println("discountSumVAT_ È®ï¿½ï¿½: " + discountSumVAT_);
+			System.out.println("priceSum_ È®ï¿½ï¿½: " + priceSum_);
+			System.out.println("deliverySum_ È®ï¿½ï¿½: " + deliverySum_);
+			System.out.println("paymentSum_ È®ï¿½ï¿½: " + paymentSum_);
 			
 			int basicSum = 0;
 			if(basicSum_ != null && !basicSum_.equals("")) {
@@ -359,7 +359,7 @@ public class ReservationController extends HttpServlet{
 			}
 //==============================================================================================================================//
 			
-			//°áÁ¦ Á¤º¸ °¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String pick_ = request.getParameter("pick");
 			String name = request.getParameter("name");
 			String tel1_ = request.getParameter("tel1");
@@ -371,88 +371,88 @@ public class ReservationController extends HttpServlet{
 			String cardCode = request.getParameter("cardCode");
 			String quota = request.getParameter("quota");
 			
-			System.out.println("¼ö·É¹æ¹ý: " + pick_);
-			System.out.println("¿¹¸ÅÀÚ ÀÌ¸§: " + name);
-			System.out.println("¹øÈ£: " + tel);
-			System.out.println("ÀÌ¸ÞÀÏ: " + email);
-			System.out.println("°áÁ¦¹æ¹ý: " + payMethodCode);
-			System.out.println("ÀºÇà ±¸ºÐ: " + cardCode);
-			System.out.println("ÇÒºÎ °³¿ù¼ö: " + quota);
+			System.out.println("ï¿½ï¿½ï¿½É¹ï¿½ï¿½: " + pick_);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½: " + name);
+			System.out.println("ï¿½ï¿½È£: " + tel);
+			System.out.println("ï¿½Ì¸ï¿½ï¿½ï¿½: " + email);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: " + payMethodCode);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: " + cardCode);
+			System.out.println("ï¿½Òºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: " + quota);
 			
 //==============================================================================================================================//
 
-			//ÄÚµå ¹Ù²ãÁÖ±â
+			//ï¿½Úµï¿½ ï¿½Ù²ï¿½ï¿½Ö±ï¿½
 			String pick = null;
 			if(pick_.equals("mobile")) {
-				pick = "¸ð¹ÙÀÏ Æ¼ÄÏ";
+				pick = "ëª¨ë°”ì¼ í‹°ì¼“";
 			}else if(pick_.equals("pickup")) {
-				pick = "ÇöÀå¼ö·É";
+				pick = "í˜„ìž¥ìˆ˜ë ¹";
 			}else if(pick_.equals("delivery")) {
-				pick = "¹è¼Û";
+				pick = "ë°°ì†¡";
 			}
 			
 			String payMethod = null;
 			if(payMethodCode.equals("credit")) {
-				payMethod = "½Å¿ëÄ«µå";
+				payMethod = "ì‹ ìš©ì¹´ë“œ";
 			}else if(payMethodCode.equals("bank")) {
-				payMethod = "¹«ÅëÀåÀÔ±Ý";
+				payMethod = "ë¬´í†µìž¥ìž…ê¸ˆ";
 			}else if(payMethodCode.equals("phone")) {
-				payMethod = "ÈÞ´ëÆù °áÁ¦";
+				payMethod = "íœ´ëŒ€í°ê²°ì œ";
 			}else if(payMethodCode.equals("kakaoM")) {
-				payMethod = "Ä«Ä«¿ÀÆäÀÌ ¸Ó´Ï";
+				payMethod = "ì¹´ì¹´ì˜¤íŽ˜ì´ ë¨¸ë‹ˆ";
 			}else if(payMethodCode.equals("kakaoP")) {
-				payMethod = "Ä«Ä«¿ÀÆäÀÌ Ä«µå";
+				payMethod = "ì¹´ì¹´ì˜¤íŽ˜ì´ ì¹´ë“œ";
 			}
 			
 			String card = null;
 			if(cardCode.equals("SAMSUNG")) {
-				card = "»ï¼ºÄ«µå";
+				card = "ì‚¼ì„±ì¹´ë“œ";
 			}else if(cardCode.equals("KB")) {
-				card = "KB±¹¹ÎÄ«µå";
+				card = "KBêµ­ë¯¼ì¹´ë“œ";
 			}else if(cardCode.equals("HYUNDAI")) {
-				card = "Çö´ëÄ«µå";
+				card = "í˜„ëŒ€ì¹´ë“œ";
 			}else if(cardCode.equals("BC")) {
-				card = "BCÄ«µå";
+				card = "BCì¹´ë“œ";
 			}else if(cardCode.equals("SHINHAN")) {
-				card = "½ÅÇÑÄ«µå";
+				card = "ì‹ í•œì¹´ë“œ";
 			}else if(cardCode.equals("NH")) {
-				card = "NH³óÇùÄ«µå";
+				card = "NHë†í˜‘ì¹´ë“œ";
 			}else if(cardCode.equals("NHMH")) {
-				card = "NH¹®È­´©¸®Ä«µå";
+				card = "NHë¬¸í™”ëˆ„ë¦¬ì¹´ë“œ";
 			}else if(cardCode.equals("HANA_SK")) {
-				card = "ÇÏ³ªÄ«µå";
+				card = "í•˜ë‚˜ì¹´ë“œ";
 			}else if(cardCode.equals("LOTTE")) {
-				card = "·Ôµ¥Ä«µå";
+				card = "ë¡¯ë°ì¹´ë“œ";
 			}else if(cardCode.equals("CITI")) {
-				card = "¾¾Æ¼Ä«µå";
+				card = "ì”¨í‹°ì¹´ë“œ";
 			}else if(cardCode.equals("KAKAOBANK")) {
-				card = "Ä«Ä«¿À¹ðÅ©Ä«µå";
+				card = "ì¹´ì¹´ì˜¤ë±…í¬ì¹´ë“œ";
 			}else if(cardCode.equals("BCKA")) {
-				card = "Ä«Ä«¿ÀÆäÀÌÄ«µå";
+				card = "ì¹´ì¹´ì˜¤íŽ˜ì´ì¹´ë“œ";
 			}else if(cardCode.equals("KBANK")) {
-				card = "ÄÉÀÌ¹ðÅ©Ä«µå";
+				card = "ì¼€ì´ë±…í¬ì¹´ë“œ";
 			}else if(cardCode.equals("WOORI")) {
-				card = "¿ì¸®Ä«µå";
+				card = "ìš°ë¦¬ì¹´ë“œ";
 			}else if(cardCode.equals("GWANGJU")) {
-				card = "±¤ÁÖÄ«µå";
+				card = "ê´‘ì£¼ì¹´ë“œ";
 			}else if(cardCode.equals("JEONBOOK")) {
-				card = "ÀüºÏÄ«µå";
+				card = "ì „ë¶ì¹´ë“œ";
 			}else if(cardCode.equals("SOOHYUP")) {
-				card = "¼öÇùÄ«µå";
+				card = "ìˆ˜í˜‘ì¹´ë“œ";
 			}else if(cardCode.equals("KDB")) {
-				card = "KDB»ê¾÷ÀºÇàÄ«µå";
+				card = "KDBì‚°ì—…ì€í–‰ì¹´ë“œ";
 			}else if(cardCode.equals("JEJU")) {
-				card = "Á¦ÁÖÄ«µå";
+				card = "ì œì£¼ì¹´ë“œ";
 			}
 //==============================================================================================================================//				
 			
-			//±âº» Á¤º¸ °¡Á®¿À±â
+			//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			
 			String title = request.getParameter("title");
 			String comDate = request.getParameter("comDate");
 			String round = request.getParameter("round");
 			
-			System.out.println("round È®ÀÎ: " + round);
+			System.out.println("round È®ï¿½ï¿½: " + round);
 			
 			String sidx_ = request.getParameter("sidx");
 			int sidx = 0;
@@ -465,23 +465,23 @@ public class ReservationController extends HttpServlet{
 			
 //==============================================================================================================================//				
 			
-			//ÇÒÀÎ Á¤º¸ °¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ArrayList discountParameter = new ArrayList();
 			String[] discountParameter_ = request.getParameterValues("discountParameter");
 			for(int i = 0 ; i < discountParameter_.length ; i++) {
 				discountParameter.add(discountParameter_[i]);
 			}
-			//ÁÂ¼® Á¤º¸ °¡Á®¿À±â
+			//ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			ArrayList arraySeat = new ArrayList();
 			String[] arraySeat_ = request.getParameterValues("arraySeat");
 			for(int i = 0 ; i < arraySeat_.length ; i++) {
 				arraySeat.add(arraySeat_[i]);
 			}
 			
-			System.out.println("¹è¿­ ¹Þ´ÂÁö È®ÀÎ: " + discountParameter);
-			System.out.println("¹è¿­ ¶Ç ¹Þ´ÂÁö È®ÀÎ: " + arraySeat);
+			System.out.println("ï¿½è¿­ ï¿½Þ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½: " + discountParameter);
+			System.out.println("ï¿½è¿­ ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½: " + arraySeat);
 			
-			//°¡°Ý ¼±ÅÃ Áß ¼±ÅÃ µÈ °ª¸¸ ³²±â°í ³ª¸ÓÁö ¾ø¾Ö±â, ¿©·¯¹ø ¼±ÅÃµÈ °ÍÀº ¹è¿­¿¡ °¹¼ö¸¸Å­ ´õ ½áÁÖ±â
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö±ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ ï¿½ï¿½ï¿½Ö±ï¿½
 			ArrayList discount = new ArrayList();
 			for(int i = 0 ; i < discountParameter.size() ; i++) {
 				String split_ = (String) discountParameter.get(i);
@@ -498,7 +498,7 @@ public class ReservationController extends HttpServlet{
 
 //==============================================================================================================================//		
 			
-			//µî±Þº°·Î ³ª´²ÁÖ±â
+			//ï¿½ï¿½Þºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			ArrayList vipDiscount = new ArrayList();
 			ArrayList rDiscount = new ArrayList();
 			ArrayList sDiscount = new ArrayList();
@@ -544,7 +544,7 @@ public class ReservationController extends HttpServlet{
 			System.out.println(discount);
 			System.out.println(arraySeat);
 //==============================================================================================================================//		
-			//±¸ºÐÇØ¼­ DB¿¡ Áý¾î³Ö±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			ReservationDao rd = new ReservationDao();
 			ReservationVo rv = new ReservationVo();
 			ReservationIdxVo riv = new ReservationIdxVo();
@@ -574,8 +574,8 @@ public class ReservationController extends HttpServlet{
 			rv.setRcard(card);
 			rv.setRquota(quota);
 			rv.setRiidx(riidx);
-			System.out.println("rv Å×½ºÆ®: " + rv);
-			System.out.println("Å×½ºÆ®: " + rv.getRseat());
+			System.out.println("rv ï¿½×½ï¿½Æ®: " + rv);
+			System.out.println("ï¿½×½ï¿½Æ®: " + rv.getRseat());
 			
 			if(vipDiscount != null) {
 				for(int i = 0 ; i < vipDiscount.size() ; i++) {
@@ -614,7 +614,7 @@ public class ReservationController extends HttpServlet{
 			reservationMail mail = new reservationMail();
 			mail.naverMailSend(title, arraySeat, sidx, comDate, round, name, tel, email, pick, payMethod, paymentSum, basicSum, discountSum, basicSumVAT + discountSumVAT, deliverySum);
 			
-			//ÆË¾÷Ã¢ Á¾·áÇØÁÖ±â
+			//ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 			PrintWriter pt = response.getWriter();
 			pt.write("<script>self.close();</script>");
 			pt.flush();
@@ -628,12 +628,12 @@ public class ReservationController extends HttpServlet{
 				riidx = Integer.parseInt(riidx_);
 			}
 			
-			System.out.println("deleteºÎºÐ ridx: " + riidx);
+			System.out.println("deleteï¿½Îºï¿½ ridx: " + riidx);
 			
 			HttpSession session = request.getSession();
 			int midx = (int)session.getAttribute("midx");
 			
-			System.out.println("deleteºÎºÐ midx: " + midx);
+			System.out.println("deleteï¿½Îºï¿½ midx: " + midx);
 			
 			ReservationDao rd = new ReservationDao();
 			rd.deleteReservationIDX(riidx, midx);

@@ -379,7 +379,7 @@
 													${l.sopendate } ~ ${l.senddate}
 												</div>
 												<div class="main_concert_musical_detail_place">
-													${l.sroadaddress}
+													${l.sdetailaddress}
 												</div>
 												<c:if test="${now >= l.sticketingdate and now <= l.senddate}">
 													<div class="main_concert_musical_detail_sold">
