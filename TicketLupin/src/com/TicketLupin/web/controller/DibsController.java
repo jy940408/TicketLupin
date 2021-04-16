@@ -131,8 +131,7 @@ public class DibsController extends HttpServlet{
 			dibsObj.put("list", dibsArray);
 			System.out.println("테스트: " + dibsObj.get("list"));
 			
-			response.setContentType("application/x-json; charset=UTF-8");
-			response.getWriter().print(dibsArray);
+			request.getRequestDispatcher("/Dibs/MyDibs.do?sidx=" + sidx + "&midx=" + midx).forward(request, response);
 			
 		}else if(str.equals("/Dibs/MyDibs.do")) {
 			

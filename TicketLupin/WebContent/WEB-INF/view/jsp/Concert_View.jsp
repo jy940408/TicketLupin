@@ -13,7 +13,7 @@
 	<script>
 	function insertDibs(){
 		
-		alert("보내기 시작");
+		alert("찜하기 목록에 추가되었습니다");
 	
 		$.ajax({
 			type:"get",
@@ -31,7 +31,7 @@
 	
 	function deleteDibs(){
 		
-		alert("삭제 시작");
+		alert("찜하기 목록에서 삭제되었습니다");
 		
 		$.ajax({
 			type:"get",

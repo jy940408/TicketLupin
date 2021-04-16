@@ -55,7 +55,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 	
 	
 	
-//°ø¿¬°ü¸® -> °¢ °ø¿¬ ¿¹¸ÅÇÑ È¸¿ø¸®½ºÆ®	
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®	
 	public ArrayList<MemberVo> getUserBuyList(int sidx, int page){
 		
 		ArrayList<MemberVo> list = new ArrayList<MemberVo>();
@@ -92,7 +92,7 @@ import com.TicketLupin.web.DBconn.DBconn;
 		return list;
 	}
 	
-//°ø¿¬°ü¸® -> °¢ °ø¿¬ ¿¹¸Å È¸¿ø ¼ö
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½
 	public int getBuyListCount(int sidx){
 		
 		int count = 0;
@@ -353,4 +353,41 @@ import com.TicketLupin.web.DBconn.DBconn;
 		
 		return result;
 	}
+	
+	
+	   public ArrayList<ReservationVo> UserReservationList2(int midx, int sidx){
+		      
+		      ArrayList<ReservationVo> alist = new ArrayList<>();
+		      
+		      String sql = "SELECT * FROM RESERVATION WHERE RDELYN='N' AND MIDX=? AND SIDX=? ORDER BY RIDX DESC";
+		      
+		      try {
+		         pstmt = conn.prepareStatement(sql);
+		         pstmt.setInt(1, midx);
+		         pstmt.setInt(2, sidx);
+		         ResultSet rs = pstmt.executeQuery();
+		         
+		         
+		         while(rs.next()) {
+		            
+		            ReservationVo rv = new ReservationVo();
+		         
+		            rv.setRidx(rs.getInt("ridx"));
+		            rv.setSrdate(rs.getString("srdate"));
+		            rv.setSrround(rs.getString("srround"));
+		            rv.setRseat(rs.getString("rseat"));
+		            rv.setRprice(rs.getInt("rprice"));
+		            rv.setRregdate(rs.getDate("rregdate"));
+		            
+		            alist.add(rv);
+		         }
+		         
+		      }catch(SQLException e) {
+		         e.printStackTrace();
+		         
+		      }
+		      return alist;
+		   }
+		   
+
 }

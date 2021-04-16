@@ -452,7 +452,28 @@ public class ManagerController extends HttpServlet{
 				ca.deleteCheckReport(checked3);
 				response.sendRedirect(referer);
 				
-			}		
+			}else if(str.equals("/Manager/UserBuyList2.do")) {
+		         
+		         String midx = request.getParameter("midx");
+		         int midx2 = Integer.parseInt(midx);
+		         
+		         String sidx = request.getParameter("sidx");
+		         int sidx2 = Integer.parseInt(sidx);
+		         
+		         MemberDao md = new MemberDao();
+		         MemberVo mv = md.memberSelectOne(midx2);
+		         
+		         AdminDao ad = new AdminDao();
+		         ArrayList<ReservationVo> alist = ad.UserReservationList2(midx2, sidx2);
+		         
+		         request.setAttribute("mv", mv);
+		         request.setAttribute("alist", alist);
+		         
+		         RequestDispatcher rqd = request.getRequestDispatcher("/WEB-INF/view/jsp/Admin_user_buy_list2.jsp");
+		         rqd.forward(request, response);
+		      
+		      }
+		
 		
 	};
 	

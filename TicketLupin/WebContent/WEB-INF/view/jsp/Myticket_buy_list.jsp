@@ -110,7 +110,7 @@
 				<div style="padding:30px;"></div>
 				<div class="warp_tap">
 					<div class="btns" style="margin-bottom:40px;">
-						<button class="btn_rsrv" type="button">예매확인</button>
+						<button class="btn_rsrv" type="button" style="background-color:#A6A6A6;">예매확인</button>
 						<button class="btn_cancel" type="button">예매취소</button>
 					</div>
 					<div class="box_list_date">

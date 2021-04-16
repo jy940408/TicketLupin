@@ -22,26 +22,24 @@
 					url:"${pageContext.request.contextPath}/Dibs/DibsDeleteMyPageAction.do",
 					data:{"sidx": sidx, "midx": "${sessionScope.midx}"},
 					success:function(data){
-						if(data.result == 0){
-							
+						
 							alert("찜한 목록이 삭제되었습니다!");
 							
 							var output="";
 							
-							
-							output += "<c:forEach var='l' items='${list}'>";
-							output += "	<tr>";
-							output += "		<td>${l.num}</td>";
-							output += "		<td class='td_'><a href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=${l.sidx}'>${l.stitle}</a></td>";
-							output += "		<td>${l.sopendate} ~ <br>${l.senddate}</td>";
-							output += "		<td id='dibsDeleteID'>";
-							output += "			<button type='button' value='cancel' class='td_button' onclick='dibsDelete()'>삭제</button>";
-							output += "		</td>";
-							output += "	</tr>";
-							output += "</c:forEach>";
+							for(var i = 0 ; i < data.length ; i++){
+								output += "	<tr>";
+								output += "		<td></td>";
+								output += "		<td class='td_'><a href='${pageContext.request.contextPath}/ConcertView/ConcertView.do?sidx=" + data[i].sidx + "'>" + data[i].stitle + "</a></td>";
+								output += "		<td>" + data[i].sopendate + " ~ <br>" + data[i].senddate + "</td>";
+								output += "		<td id='dibsDeleteID'>";
+								output += "			<button type='button' value='cancel' class='td_button' onclick='dibsDelete()'>삭제</button>";
+								output += "		</td>";
+								output += "	</tr>";
+							}
 							
 							$("#tbody").html(output);
-						}
+						
 					}
 				});
 				
@@ -154,11 +152,11 @@
 							<tbody id="tbody">
 								<c:forEach var="l" items="${list}">
 								<tr>
-									<td>${l.num}</td>
+									<td></td>
 									<td class="td_"><a href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=${l.sidx}">${l.stitle}</a></td>
 									<td>${l.sopendate} ~ <br>${l.senddate}</td>
 									<td id="dibsDeleteID">
-										<button type="button" value="cancel" class="td_button" onclick="dibsDelete(${l.sidx})">삭제</button>
+										<div style="width:50px; height:20px; background-color:#4C4C4C;"><a class="td_button" href="${pageContext.request.contextPath}/Dibs/DibsDeleteMyPageAction.do?sidx=${l.sidx}&midx=${sessionScope.midx}" onclick="alert('목록이 삭제되었습니다')">삭제</a></div>
 									</td>
 								</tr>
 								</c:forEach>
