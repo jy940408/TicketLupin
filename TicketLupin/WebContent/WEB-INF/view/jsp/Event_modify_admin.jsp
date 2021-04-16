@@ -69,7 +69,12 @@
 						<a href="${pageContext.request.contextPath}/Manager/Main.do" id="main_nav_myticket">관리자</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do" id="main_nav_myticket">마이 티켓</a>
+						<c:if test="${not empty sessionScope.mid}">
+							<a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do" id="main_nav_myticket">마이 티켓</a>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<a onclick="loginAlert()" id="main_nav_myticket">마이 티켓</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 			</nav>
@@ -180,7 +185,6 @@
 					</table>
 					</form>
 					<div class="modify">
-						<button class="remove_btn">제거하기</button>
 						<button class="modify_btn" onclick="regist();">수정</button>
 					</div>
 					<div class="list">

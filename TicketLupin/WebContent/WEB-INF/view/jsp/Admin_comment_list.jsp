@@ -74,7 +74,7 @@
 					if(!flag){
 						alert("선택하세요");
 					}
-					alert('전송하였습니다.');
+					alert('삭제하였습니다.');
 					document.forms['checkcomment'].submit();
 					
 				});
@@ -132,7 +132,12 @@
 						<a href="${pageContext.request.contextPath}/Manager/Main.do" id="main_nav_myticket">관리자</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do" id="main_nav_myticket">마이 티켓</a>
+						<c:if test="${not empty sessionScope.mid}">
+							<a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do" id="main_nav_myticket">마이 티켓</a>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<a onclick="loginAlert()" id="main_nav_myticket">마이 티켓</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 			</nav>
@@ -306,7 +311,7 @@
 						<c:if test ="${(startNum+i) <= lastNum}">
 							<a style="color: ${(page==(startNum+i))?'red':''}; font-weight:${(page==(startNum+i))?'bold':''};" href="?p=${startNum+i}&q=${param.q}" >${startNum+i}</a>					
 						</c:if>
-						&nbsp;&nbsp;
+					&nbsp;&nbsp;
 					</c:forEach>
 					<c:if test="${startNum+4<lastNum}">
 						<a href="?p=${startNum+5}&q=">

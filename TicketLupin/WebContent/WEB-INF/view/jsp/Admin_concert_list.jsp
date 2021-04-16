@@ -69,28 +69,36 @@
 						
 						var output = "";
 						var output2 = "";
-					
 						
-						for(var i = 0 ; i < (Number)(data.length-1) ; i++){
-		                     output += " <tr>";
-		                     output += "      <td>"+data[i].num+"</td>";
-		                     output += "      <td><a href='UserBuyList2.do?midx="+data[i].midx+"&sidx="+data[i].sidx+"'>"+data[i].mname+"</a></td>";
-		                     output += "      <td><a href='UserBuyList2.do?midx="+data[i].midx+"&sidx="+data[i].sidx+"'>"+data[i].mid+"</a></td>";
-		                     output += "      <td><input type='hidden' value='"+data[i].sidx+"'><input type='hidden' value='"+data[i].midx+"'></td>";
-		                     output += "   </tr>"; 
-		                  }   
-						
-						
-						if(data[0].count > 0){
-							output2 += " 	<a href='?page="+data[0].prev+"&sidx="+data[0].sidx+"'> < &nbsp;&nbsp;</a>";
-							
-							for(var i = data[0].startNum ; i <= data[0].lastNum; i++){
-								output2 += "<a href='?page="+data[0].startNum+"&sidx="+data[0].sidx+"'>"+ i +" &nbsp;&nbsp;</a>";
+						if(data.length != 0){
+							for(var i = 0 ; i < (Number)(data.length) ; i++){
+								output += " <tr>";
+								output += "		<td>"+data[i].riidx+"</td>";
+								output += "		<td><a href='UserBuyList2.do?midx="+data[i].midx+"&sidx="+data[i].sidx+"'>"+data[i].mname+"</a></td>";
+								output += "		<td><a href='UserBuyList2.do?midx="+data[i].midx+"&sidx="+data[i].sidx+"'>"+data[i].mid+"</a></td>";
+								output += "		<td><input type='hidden' value='"+data[i].sidx+"'><input type='hidden' value='"+data[i].midx+"'></td>";
+								output += "	</tr>"; 
 							}
-							output2 += "	<a href='?page=" +data[0].next+ "&sidx=" +data[0].sidx+ "'> > </a>";
-						}else if(data[0].count == 0 || data[0].count ==  null){
-							output2 += "";
+						}else{
+							output = "";
 						}
+						
+						
+						if(data.length != 0){
+							if(data[0].count > 0){
+								output2 += " 	<a href='?page="+data[0].prev+"&sidx="+data[0].sidx+"'> < &nbsp;&nbsp;</a>";
+								
+								for(var i = data[0].startNum ; i <= data[0].lastNum; i++){
+									output2 += "<a href='?page="+data[0].startNum+"&sidx="+data[0].sidx+"'>"+ i +" &nbsp;&nbsp;</a>";
+								}
+								output2 += "	<a href='?page=" +data[0].next+ "&sidx=" +data[0].sidx+ "'> > </a>";
+							}else if(data[0].count == 0 || data[0].count ==  null){
+								output2 += "";
+							}
+						}else{
+							output2="";
+						}
+						
 						
 						$(".userList_").html(output);
 						$(".paging").html(output2);
@@ -108,7 +116,7 @@
 			function showdetail(){
 				var sidx = $(".sidx_").val();
 				
-				location.href="<%=request.getContextPath()%>/Manager/Concert_View.do?sidx=" + sidx;
+				location.href="<%=request.getContextPath()%>/ConcertView/ConcertView.do?sidx=" + sidx;
 			}
 		</script>
 	</head>
@@ -152,7 +160,12 @@
 						<a href="${pageContext.request.contextPath}/Manager/Main.do" id="main_nav_myticket">관리자</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do" id="main_nav_myticket">마이 티켓</a>
+						<c:if test="${not empty sessionScope.mid}">
+							<a href="${pageContext.request.contextPath}/Myticket/MyticketMain.do" id="main_nav_myticket">마이 티켓</a>
+						</c:if>
+						<c:if test="${empty sessionScope.mid}">
+							<a onclick="loginAlert()" id="main_nav_myticket">마이 티켓</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 			</nav>
@@ -288,12 +301,12 @@
 								<div style="border:0.5px solid gray; width:184px; height:255px; position:center;" >
 									<img id="imgview" >
 								</div>
-								<p class="showname" style="height:24px;"></p>
+								<p class="showname" style="height:24px; margin-right:75px;"></p>
 								<input type="hidden" class="sidx_">
 							<%}	%>
 							</div>
 						</div>
-						<div class="posterbtn" style="padding-top:9px;">
+						<div class="posterbtn" style="padding-top:9px; margin-right:100px;">
 							<span><button onclick="showdetail()">바로가기</button></span>
 						</div>
 					</div>

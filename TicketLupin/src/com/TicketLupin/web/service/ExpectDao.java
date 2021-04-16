@@ -28,7 +28,7 @@ public class ExpectDao {
 					"(SELECT * FROM C_LIKE WHERE LSORT='B') CC on AA.ORIGIN_C_IDX = CC.ORIGIN_C_IDX left join (SELECT * FROM C_COMMENT WHERE "+
 					"C_DEPTH>0 AND C_DELYN='N') DD on AA.ORIGIN_C_IDX = DD.ORIGIN_C_IDX left join (SELECT * FROM C_LIKE WHERE LSORT='G') EE on "+
 					"AA.C_IDX = EE.C_IDX left join (SELECT * FROM C_LIKE WHERE LSORT='B') FF on AA.C_IDX = FF.C_IDX GROUP BY AA.C_IDX , AA.SIDX , "+
-					"AA.ORIGIN_C_IDX , AA.MIDX , AA.C_CONTENT , AA.C_REGDATE , AA.C_DELYN , AA.MID , AA.C_DEPTH ORDER BY "+setting+
+					"AA.ORIGIN_C_IDX , AA.MIDX , AA.C_CONTENT , AA.C_REGDATE , AA.C_DELYN , AA.MID , AA.C_DEPTH ORDER BY " + setting +
 					"ORIGIN_C_IDX DESC,  C_DEPTH  ASC, "+setting2+" C_IDX DESC)A, (SELECT @ROWNUM:=0) R)n limit ?,10" ;     
 			try {
 			pstmt = conn.prepareStatement(sql);

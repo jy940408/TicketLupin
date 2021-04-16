@@ -174,7 +174,11 @@
 				
 				var vipCount = 0;
 				for(var i = 0 ; i < 6 ; i++){
-					vipCount += Number($(".vip").eq(i).val());
+					if(isNaN(Number($(".vip").eq(j).val()))){
+						vipCount = 0;
+					}else{
+						vipCount += Number($(".vip").eq(j).val());	
+					}
 				}
 				
 				var rCount = 0;	
@@ -209,6 +213,7 @@
 					alert("티켓 가격을 모두 선택해주세요!");
 					return;
 				}else if (rCount != ${requestScope.gradeCount.R}){
+					alert("rCount: " + rCount);
 					alert("티켓 가격을 모두 선택해주세요!");
 					return;
 				}else if (sCount != ${requestScope.gradeCount.S}){

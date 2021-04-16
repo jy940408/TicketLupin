@@ -24,7 +24,7 @@
 				if(!flag){
 					alert("선택하세요");
 				}
-				alert('전송하였습니다.');
+				alert('삭제하였습니다.');
 				document.forms['checkcomment'].submit();
 				
 			});
